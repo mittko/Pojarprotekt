@@ -1,0 +1,13 @@
+1609765614447	Rename type 'addArtikulDialog'
+1609930138576	Rename type 'ExportToExcellWorker2'
+1609930170132	Rename type 'ExportToExcellWorker3'
+1609930220675	Rename type 'ExportToExcellWorker'
+1609930372986	Delete element
+1609935869239	Rename type 'ExportToExcell'
+1609935929034	Rename type 'ExportToExcellWorker'
+1610009276829	Rename type 'AddArtikulWorker'
+1610009336515	Rename package 'Calendar.CalendarRendere'
+1610009507382	Rename type 'UpdateArtikulWorker'
+1610009899130	Rename type 'UpdateArtikulQuantityWorker'
+1610107145602	Encapsulate field 'invoice'
+1610118962981	Rename type 'loadAllArtikulsFromInvoiceWorker'

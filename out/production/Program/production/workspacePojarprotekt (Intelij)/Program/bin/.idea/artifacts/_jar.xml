@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact name="Пожарпротект:jar">
+    <output-path>$PROJECT_DIR$/../../Pojarprotekt</output-path>
+    <root id="root">
+      <element id="archive" name="Пожарпротект.jar">
+        <element id="module-output" name="Пожарпротект" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/../derbyclient.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../itext-pdfa-5.5.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../itext-xtra-5.5.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../itextpdf-5.5.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../pdf-renderer-1.0.5.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/../jxl.jar" />
+    </root>
+  </artifact>
+</component>

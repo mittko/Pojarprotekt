@@ -1,0 +1,50 @@
+package Invoice.Worker;
+
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
+
+import db.Artikul.Artikuli_DB;
+
+public class UpdateArtikulQuantityWorker extends SwingWorker  {
+
+	private DefaultTableModel artikulModel;
+	
+	
+	public UpdateArtikulQuantityWorker(DefaultTableModel artikulModel) {
+		this.artikulModel = artikulModel;
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected Object doInBackground() throws Exception {
+		// TODO Auto-generated method stub
+		try {
+		//	if(SaveInDBDialog.WRITE_IN_INVOICE_SUCCESS) {
+				 for(int row = 0;row < artikulModel.getRowCount();row++) {
+				System.out.println(artikulModel.getValueAt(row, 0).toString()+ " " +  
+							 Integer.parseInt(artikulModel.getValueAt(row, 1).toString()));
+				
+					 Artikuli_DB.decreaseArtikul_Quantity(artikulModel.getValueAt(row, 0).toString(), 
+							 Integer.parseInt(artikulModel.getValueAt(row, 1).toString()));
+				//	 System.out.println(row+1);
+				}
+		//    }
+		} finally {
+			SwingUtilities.invokeLater(new Runnable() {
+	
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+				      artikulModel.setRowCount(0);
+				}
+				
+			});
+		}
+		return null;
+	}
+
+}

@@ -1,0 +1,345 @@
+package admin.SkladExtinguisher;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumnModel;
+
+import utility.EditableField;
+import utility.MainPanel;
+import utility.RedCaret;
+import utility.TooltipButton;
+import NewExtinguisher.NewExtinguisherWindow;
+import admin.SkladExtinguisher.Editors.TextCellEditors;
+import admin.SkladExtinguisher.Renderers.NewExtRenderer;
+
+public class Shop_SkladExtinuisher extends MainPanel {
+
+	private JPanel basePanel = null;
+	private JPanel northPanel = null;
+
+	private TooltipButton sellButton = null;
+
+	private JPanel centerPanel = null;
+
+	public DefaultTableModel skladExtinguisherModel = null;
+	public static JTable table = null;
+	private JScrollPane scrollPane = null;
+	private ArrayList<Object[]> data = null;
+	private EditableField searchField = null;
+
+	public Shop_SkladExtinuisher(final ArrayList<Object[]> data) {
+
+		this.data = data;
+
+		basePanel = new JPanel();
+		basePanel.setLayout(new BorderLayout());
+		basePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+		northPanel = new JPanel();// GradientPanel();
+		northPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+		sellButton = new TooltipButton("Магазин");
+
+		sellButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+		sellButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				// make input validate
+
+				for (int i = 0; i < skladExtinguisherModel.getRowCount(); i++) {
+					if ((Boolean) skladExtinguisherModel.getValueAt(i, 7) == true) {
+
+						TableCellEditor editor = table.getColumnModel()
+								.getColumn(6).getCellEditor();
+						editor.stopCellEditing();
+
+						int quantity = Integer.parseInt(skladExtinguisherModel
+								.getValueAt(i, 4).toString());
+
+						int toShop = 0;
+
+						try {
+							toShop = Integer.parseInt(skladExtinguisherModel
+									.getValueAt(i, 6).toString());
+						} catch (Exception ex) {
+							JOptionPane.showMessageDialog(null,
+									"Грешно въведено колечество! > " + (i + 1)
+											+ " ред");
+							return;
+						}
+						if (toShop > quantity || toShop == 0) {
+							JOptionPane.showMessageDialog(null,
+									"Грешно въведено колечество! > " + (i + 1)
+											+ " ред");
+							return;
+						}
+
+						// finally check if this extinguisher is entered
+						StringBuilder sb = new StringBuilder();
+						for (int s = 0; s < 4; s++) {
+							sb.append(skladExtinguisherModel.getValueAt(i, s));
+						}
+						if (checkIfAlreadyEntered(sb.toString())) {
+							JOptionPane.showMessageDialog(null,
+									"Този пожарогасител вече е въведен!");
+							return;
+						}
+
+						addToShop(i, toShop);
+
+						setExtinguisherQuantity(i, toShop); // get extinguisher
+															// quantity to
+															// update
+						// clear
+						skladExtinguisherModel.setValueAt("", i, 6);
+						skladExtinguisherModel.setValueAt(false, i, 7);
+					}
+				}
+
+				goodbyeCruelWorld();
+			}
+
+		});
+
+		centerPanel = new JPanel();
+
+		skladExtinguisherModel = new DefaultTableModel(new Object[] { "Вид",
+				"Маса", "Кат", "Марка", "Налични", "Цена", "Въведи", "v",
+				"Фактура", "Контрагент" }, 0) {
+
+			@Override
+			public Class getColumnClass(int column) {
+				if (column == 7) {
+					return Boolean.class;
+				} else {
+					return Object.class;
+				}
+			}
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				if (column <= 5) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		};
+
+		// init skladExtinguisherModel
+
+		for (int i = 0; i < data.size(); i++) {
+			skladExtinguisherModel.addRow(new Object[] { data.get(i)[0], // артикул
+					data.get(i)[1], // количество
+					data.get(i)[2], // м.ед
+					data.get(i)[3], // ед.цена
+					data.get(i)[4], // м.ед
+					data.get(i)[5], // ед.цена
+					"", // value to add
+					false, data.get(i)[7],// контрагент
+					data.get(i)[6] // фактура по доставка});
+					});
+
+		}
+
+		table = new JTable(skladExtinguisherModel);
+
+		JTextField helpField = new JTextField();
+		helpField.setCaret(new RedCaret());
+		table.getColumnModel().getColumn(6)
+				.setCellEditor(new TextCellEditors(helpField));
+
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent me) {
+				if (table.getSelectedColumn() == 7) {
+					Boolean isSelected = (Boolean) table.getValueAt(
+							table.getSelectedRow(), table.getSelectedColumn());
+					if (isSelected) {
+						table.editCellAt(table.getSelectedRow(), 6);
+
+						Component editor = table.getEditorComponent();
+						editor.requestFocusInWindow();
+					} else {
+						table.setValueAt("", table.getSelectedRow(), 6); // clear
+																			// content
+																			// in
+																			// cell
+					}
+				}
+			}
+		});
+
+		table.setDefaultRenderer(Object.class, new NewExtRenderer());
+		table.setRowHeight(MainPanel.getFontSize() + 15);
+		setColumnsWidth(table);
+
+		// JTable rowTable = new CommonResources.RowNumberTable(table); //****
+
+		scrollPane = new JScrollPane(table,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setPreferredSize(new Dimension((this.WIDTH - 20),
+				this.HEIGHT / 2));
+
+		// scrollPane.setRowHeaderView(rowTable); //****
+		// scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER,//****
+		// rowTable.getTableHeader());//****
+
+		centerPanel.add(scrollPane);
+
+		searchField = new EditableField("Търсене", 10) {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public Font getFont() {
+				return new Font(Font.MONOSPACED, Font.LAYOUT_NO_START_CONTEXT,
+						MainPanel.getFontSize() + 10);
+			}
+		};
+		// searchField.setPreferredSize(new Dimension(20,35));
+		searchField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent ke) {
+				skladExtinguisherModel.setRowCount(0);
+				for (int i = 0; i < data.size(); i++) {
+					String item = searchField.getText().toLowerCase();
+					String target = data.get(i)[0].toString().toLowerCase();
+					if ((item.length() > 0 && target.startsWith(item))
+							|| item.length() > 0 && target.contains(item))
+						skladExtinguisherModel.addRow(new Object[] {
+								data.get(i)[0], // артикул
+								data.get(i)[1], // количество
+								data.get(i)[2], // м.ед
+								data.get(i)[3], // ед.цена
+								data.get(i)[4], // м.ед
+								data.get(i)[5], // ед.цена
+								"", // value to add
+								false, data.get(i)[6],// фактура
+								data.get(i)[7] // контрагент});
+								});
+				}
+			}
+		});
+		northPanel.add(sellButton);
+		northPanel.add(searchField);
+
+		basePanel.add(northPanel, BorderLayout.NORTH);
+		basePanel.add(centerPanel, BorderLayout.CENTER);
+
+		this.add(basePanel);
+	}
+
+	private void addToShop(int index, int num) {
+		for (int i = 0; i < num; i++) {
+			Object[] obj = new Object[9];
+			obj[0] = skladExtinguisherModel.getValueAt(index, 0);
+			obj[1] = skladExtinguisherModel.getValueAt(index, 1);
+			obj[2] = "";
+			obj[3] = "";
+			obj[4] = skladExtinguisherModel.getValueAt(index, 2);
+			obj[5] = skladExtinguisherModel.getValueAt(index, 3);
+			obj[6] = skladExtinguisherModel.getValueAt(index, 5);
+			obj[7] = skladExtinguisherModel.getValueAt(index, 8);
+			obj[8] = skladExtinguisherModel.getValueAt(index, 9);
+			NewExtinguisherWindow.dftm.insertRow(0, obj);
+
+			NewExtinguisherWindow.addBarcodes(0);
+		}
+		// addBarcodes(num);
+	}
+
+	private void setColumnsWidth(JTable table) {
+		TableColumnModel tcm = table.getColumnModel();
+		tcm.getColumn(0).setPreferredWidth(this.WIDTH / 3);
+		tcm.getColumn(1).setPreferredWidth(50);
+		tcm.getColumn(2).setPreferredWidth(50);
+		tcm.getColumn(3).setPreferredWidth(90);
+		tcm.getColumn(4).setPreferredWidth(50);
+		tcm.getColumn(5).setPreferredWidth(50);
+		tcm.getColumn(6).setPreferredWidth(50);
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				JFrame jf = new JFrame();
+				MainFrame_SkladNewExtinguisher nep = new MainFrame_SkladNewExtinguisher(
+						"0000000000000");
+				jf.add(nep);
+				jf.pack();
+				jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				jf.setVisible(true);
+			}
+
+		});
+	}
+
+	private boolean checkIfAlreadyEntered(String extinguisher) {
+
+		for (int row = 0; row < NewExtinguisherWindow.dftm.getRowCount(); row++) {
+			StringBuilder sb = new StringBuilder();
+			sb.append(NewExtinguisherWindow.dftm.getValueAt(row, 0));
+			sb.append(NewExtinguisherWindow.dftm.getValueAt(row, 1));
+			sb.append(NewExtinguisherWindow.dftm.getValueAt(row, 4));
+			sb.append(NewExtinguisherWindow.dftm.getValueAt(row, 5));
+			if (sb.toString().equals(extinguisher)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void setExtinguisherQuantity(int index, int num) { // index of
+																// selected
+																// extinguisher
+		for (int i = 0; i < num; i++) {
+			Object[] obj = new Object[4];
+			obj[0] = skladExtinguisherModel.getValueAt(index, 0); // type
+			obj[1] = skladExtinguisherModel.getValueAt(index, 1); // wheight
+			obj[2] = skladExtinguisherModel.getValueAt(index, 2); // category
+			obj[3] = skladExtinguisherModel.getValueAt(index, 3); // brand
+
+			NewExtinguisherWindow.updateQuantityOfExtinguisherModel.insertRow(
+					0, obj);
+		}
+	}
+
+	private void goodbyeCruelWorld() {
+		JDialog jd = (JDialog) SwingUtilities
+				.getWindowAncestor(Shop_SkladExtinuisher.this);
+		jd.dispose();
+	}
+}
