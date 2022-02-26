@@ -24,15 +24,15 @@ public class GeneralTechnicalReviewDB extends MainPanel {
 			stat = connect.createStatement();
 			sql = "select client, type, wheight, T_O, P, HI, number, additional_data from "
 					+ PROTOKOL
-					+ " where (T_O not like 'не' and T_O between Date('"
+					+ " where (T_O <> 'не' and T_O between Date('" // previous -> not like
 					+ from
 					+ "') and Date('"
 					+ to
-					+ "') or P not like 'не' and P between Date('"
+					+ "') or P <> 'не' and P between Date('"
 					+ from
 					+ "') and Date('"
 					+ to
-					+ "') or  HI not like 'не' and HI between Date('"
+					+ "') or  HI <> 'не' and HI between Date('"
 					+ from
 					+ "') and Date('" + to + "') ) and (uptodate is null)";//
 

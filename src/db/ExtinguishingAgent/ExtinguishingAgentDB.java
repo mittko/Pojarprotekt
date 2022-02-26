@@ -207,10 +207,10 @@ public class ExtinguishingAgentDB {
                 new ExtinguishingAgentDB();
       //  extinguishingAgentDB.createExtinguishingTable();
         String[][] values = new String[][] {
-                {"прах","","",""},
-                {"вода","","",""},
-                {"вода и пяна","","",""},
-                {"CO2","","",""}
+                {"Прахов ABC","","","01.01.2023"},
+                {"Воден","","","01.01.2023"},
+                {"Водопенен","","","01.01.2023"},
+                {"CO2","","","01.01.2023"}
         };
         for (String[] value : values) {
             extinguishingAgentDB.init(MainPanel.EXTINGUISHING_AGENT_TABLE, value[0],

@@ -669,7 +669,7 @@ public class ReportDialog extends MainPanel {
 			break;
 		case PROTOKOL:
 			selectWhat = "select client, type, wheight, barcod, serial, category, brand,"
-					+ " T_O, P, HI, parts, value, number, person, date , kontragent, invoiceByKontragent, additional_data from ";
+					+ " T_O, P, HI, parts, value, number, person, date , kontragent, invoiceByKontragent, additional_data, uptodate from ";
 			break;
 		case BRACK:
 			selectWhat = "select * from ";
@@ -678,7 +678,7 @@ public class ReportDialog extends MainPanel {
 			break;
 		}
 
-		mainCommand1.append(selectWhat + dest); // "select * from "
+		mainCommand1.append(selectWhat).append(dest); // "select * from "
 
 		if (!clientCombo.getSelectedItem().equals("")) {
 			if (selectedCriterii == 0) {
@@ -686,8 +686,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("client = " + "'"
-					+ clientCombo.getSelectedItem() + "'");
+			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
 			selectedCriterii++;
 		}
 
@@ -700,7 +699,7 @@ public class ReportDialog extends MainPanel {
 			// this works !!! mainCommand1.append("substr(barcod,1,10) like " +
 			// "'"
 			// + so_field.getText() + "'");
-			mainCommand1.append("number = " + "'" + so_field.getText() + "'");
+			mainCommand1.append("number = " + "'").append(so_field.getText()).append("'");
 			No = so_field.getText();
 			selectedCriterii++;
 		}
@@ -712,7 +711,7 @@ public class ReportDialog extends MainPanel {
 				mainCommand1.append(" and ");
 			}
 			// if (dest.equals(PROTOKOL)) {
-			mainCommand1.append("number = " + "'" + prot_field.getText() + "'");
+			mainCommand1.append("number = " + "'").append(prot_field.getText()).append("'");
 			// }
 			No = prot_field.getText();
 			selectedCriterii++;
@@ -734,8 +733,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("wheight = " + "'"
-					+ wheightCombo.getSelectedItem() + "'");
+			mainCommand1.append("wheight = " + "'").append(wheightCombo.getSelectedItem()).append("'");
 			selectedCriterii++;
 		}
 		if (!catCombo.getSelectedItem().equals("")) {
@@ -744,8 +742,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("category = " + "'"
-					+ catCombo.getSelectedItem() + "'");
+			mainCommand1.append("category = " + "'").append(catCombo.getSelectedItem()).append("'");
 			selectedCriterii++;
 		}
 		if (!brandCombo.getSelectedItem().equals("")) {
@@ -754,8 +751,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("brand = " + "'" + brandCombo.getSelectedItem()
-					+ "'");
+			mainCommand1.append("brand = " + "'").append(brandCombo.getSelectedItem()).append("'");
 			selectedCriterii++;
 		}
 
@@ -767,21 +763,27 @@ public class ReportDialog extends MainPanel {
 			}
 			String selectedItem = doingCombo.getSelectedItem().toString();
 
-			if (selectedItem.equals("ÒΞ")) {
-				mainCommand1
-						.append("T_O not = 'νε' and P = 'νε' and HI = 'νε'");
-			} else if (selectedItem.equals("Ο")) {
-				mainCommand1
-						.append("P not = 'νε' and T_O = 'νε' and HI = 'νε'");
-			} else if (selectedItem.equals("ΥΘ")) {
-				mainCommand1
-						.append("HI not = 'νε' and T_O = 'νε' and P = 'νε'");
-			} else if (selectedItem.equals("ÒΞ,Ο")) {
-				mainCommand1
-						.append("T_O not = 'νε' and P not = 'νε' and HI = 'νε'");
-			} else if (selectedItem.equals("ÒΞ,Ο,ΥΘ")) {
-				mainCommand1
-						.append("T_O not = 'νε' and P not = 'νε' and HI not = 'νε'");
+			switch (selectedItem) {
+				case "ÒΞ":
+					mainCommand1
+							.append("T_O not = 'νε' and P = 'νε' and HI = 'νε'");
+					break;
+				case "Ο":
+					mainCommand1
+							.append("P not = 'νε' and T_O = 'νε' and HI = 'νε'");
+					break;
+				case "ΥΘ":
+					mainCommand1
+							.append("HI not = 'νε' and T_O = 'νε' and P = 'νε'");
+					break;
+				case "ÒΞ,Ο":
+					mainCommand1
+							.append("T_O not = 'νε' and P not = 'νε' and HI = 'νε'");
+					break;
+				case "ÒΞ,Ο,ΥΘ":
+					mainCommand1
+							.append("T_O not = 'νε' and P not = 'νε' and HI not = 'νε'");
+					break;
 			}
 
 			selectedCriterii++;
@@ -794,7 +796,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("serial = " + "'" + serial.getText() + "'");
+			mainCommand1.append("serial = " + "'").append(serial.getText()).append("'");
 			selectedCriterii++;
 			No = serial.getText();
 		} else if (!barcod.getText().isEmpty()) {
@@ -803,7 +805,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("barcod = " + "'" + barcod.getText() + "'");
+			mainCommand1.append("barcod = " + "'").append(barcod.getText()).append("'");
 			selectedCriterii++;
 			No = barcod.getText();
 		}
@@ -814,8 +816,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("date between " + "Date('" + fromDate.getText()
-					+ "')" + " and " + "Date('" + toDate.getText() + "')");
+			mainCommand1.append("date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
 			selectedCriterii++;
 		}
 
@@ -842,22 +843,17 @@ public class ReportDialog extends MainPanel {
 				+ " where AcquittanceParentDB.id = AcquittanceChildDB.id");
 
 		if (!clientCombo.getSelectedItem().equals("")) {
-			sb.append(" and AcquittanceParentDB.client = '"
-					+ clientCombo.getSelectedItem() + "'");
+			sb.append(" and AcquittanceParentDB.client = '").append(clientCombo.getSelectedItem()).append("'");
 		}
 		if (!acquittanceField.getText().isEmpty()) {
-			sb.append(" and AcquittanceParentDB.id = " + "'"
-					+ acquittanceField.getText() + "'");
+			sb.append(" and AcquittanceParentDB.id = " + "'").append(acquittanceField.getText()).append("'");
 		}
 		// add date
 		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			sb.append(" and AcquittanceParentDB.date between " + "Date('"
-					+ fromDate.getText() + "')" + " and " + "Date('"
-					+ toDate.getText() + "')");
+			sb.append(" and AcquittanceParentDB.date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
 		}
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and AcquittanceChildDB.artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			sb.append(" and AcquittanceChildDB.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 		}
 		sb.append(" order by CAST(date as DATE) desc");
 		return sb.toString();
@@ -869,22 +865,17 @@ public class ReportDialog extends MainPanel {
 				+ " where ProformParentDB.id = ProformChildDB2.id");
 
 		if (!clientCombo.getSelectedItem().equals("")) {
-			sb.append(" and ProformParentDB.client = '"
-					+ clientCombo.getSelectedItem() + "'");
+			sb.append(" and ProformParentDB.client = '").append(clientCombo.getSelectedItem()).append("'");
 		}
 		if (!fact_field.getText().isEmpty()) {
-			sb.append(" and ProformParentDB.id = " + "'" + fact_field.getText()
-					+ "'");
+			sb.append(" and ProformParentDB.id = " + "'").append(fact_field.getText()).append("'");
 		}
 		// add date
 		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			sb.append(" and ProformParentDB.date between " + "Date('"
-					+ fromDate.getText() + "')" + " and " + "Date('"
-					+ toDate.getText() + "')");
+			sb.append(" and ProformParentDB.date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
 		}
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and ProformChildDB2.make = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			sb.append(" and ProformChildDB2.make = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 		}
 		sb.append(" order by CAST(date as DATE) desc");
 		return sb.toString();
@@ -896,22 +887,17 @@ public class ReportDialog extends MainPanel {
 				+ " where InvoiceParentDB5.id = InvoiceChildDB7.id");
 
 		if (!clientCombo.getSelectedItem().equals("")) {
-			sb.append(" and InvoiceParentDB5.client = '"
-					+ clientCombo.getSelectedItem() + "'");
+			sb.append(" and InvoiceParentDB5.client = '").append(clientCombo.getSelectedItem()).append("'");
 		}
 		if (!fact_field.getText().isEmpty()) {
-			sb.append(" and InvoiceParentDB5.id = " + "'"
-					+ fact_field.getText() + "'");
+			sb.append(" and InvoiceParentDB5.id = " + "'").append(fact_field.getText()).append("'");
 		}
 		// add date
 		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			sb.append(" and InvoiceParentDB5.date between " + "Date('"
-					+ fromDate.getText() + "')" + " and " + "Date('"
-					+ toDate.getText() + "')");
+			sb.append(" and InvoiceParentDB5.date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
 		}
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and InvoiceChildDB7.artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			sb.append(" and InvoiceChildDB7.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 		}
 		sb.append(" order by CAST(date as DATE) desc");
 		return sb.toString();
@@ -930,17 +916,14 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("client = " + "'"
-					+ clientCombo.getSelectedItem() + "'");
+			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
 			selectedCriterii++;
 		}
 		if (!fact_field.getText().isEmpty()) {
 			if (selectedCriterii == 0) {
-				mainCommand1.append(" where invoice = " + "'"
-						+ fact_field.getText() + "'");
+				mainCommand1.append(" where invoice = " + "'").append(fact_field.getText()).append("'");
 			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and invoice = " + "'"
-						+ fact_field.getText() + "'");
+				mainCommand1.append(" and invoice = " + "'").append(fact_field.getText()).append("'");
 			}
 			selectedCriterii++;
 		}
@@ -950,8 +933,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			mainCommand1.append("artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 			selectedCriterii++;
 		}
 
@@ -961,8 +943,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("date between " + "Date('" + fromDate.getText()
-					+ "')" + " and " + "Date('" + toDate.getText() + "')");
+			mainCommand1.append("date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
 			selectedCriterii++;
 		}
 		 mainCommand1.append(" order by CAST(date as DATE) desc");
@@ -982,17 +963,14 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("client = " + "'"
-					+ clientCombo.getSelectedItem() + "'");
+			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
 			selectedCriterii++;
 		}
 		if (!fact_field.getText().isEmpty()) {
 			if (selectedCriterii == 0) {
-				mainCommand1.append(" where invoice = " + "'"
-						+ fact_field.getText() + "'");
+				mainCommand1.append(" where invoice = " + "'").append(fact_field.getText()).append("'");
 			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and invoice = " + "'"
-						+ fact_field.getText() + "'");
+				mainCommand1.append(" and invoice = " + "'").append(fact_field.getText()).append("'");
 			}
 			selectedCriterii++;
 		}
@@ -1002,9 +980,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("type = " + "'"
-					+ newExtinguishersComboBox.getSelectedItem().toString()
-					+ "'");
+			mainCommand1.append("type = " + "'").append(newExtinguishersComboBox.getSelectedItem().toString()).append("'");
 			selectedCriterii++;
 		}
 
@@ -1036,8 +1012,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("kontragent = " + "'"
-					+ clientCombo.getSelectedItem() + "'");
+			mainCommand1.append("kontragent = " + "'").append(clientCombo.getSelectedItem()).append("'");
 			selectedCriterii++;
 		}
 		if (!fact_field.getText().isEmpty()) {
@@ -1045,8 +1020,7 @@ public class ReportDialog extends MainPanel {
 				mainCommand1.append(" where invoiceByKontragent = " + "'"
 						+ fact_field.getText() + "'");
 			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and invoiceByKontragent = " + "'"
-						+ fact_field.getText() + "'");
+				mainCommand1.append(" and invoiceByKontragent = " + "'").append(fact_field.getText()).append("'");
 			}
 			selectedCriterii++;
 		}
@@ -1056,8 +1030,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			mainCommand1.append("artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 			selectedCriterii++;
 		}
 		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
@@ -1066,8 +1039,7 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("date between Date('" +
-					fromDate.getText() + "') and Date('" + toDate.getText() + "')");
+			mainCommand1.append("date between Date('").append(fromDate.getText()).append("') and Date('").append(toDate.getText()).append("')");
 			selectedCriterii++;
 		}
 		//mainCommand1.append(" order by CAST(date as DATE)");
@@ -1078,16 +1050,11 @@ public class ReportDialog extends MainPanel {
 
 	private String buildCommandForSales2FromTo(String from, String to) {
 		StringBuilder mainCommand1 = new StringBuilder();
-		mainCommand1
-				.append("select DeliveryArtikulsDB2.invoiceByKontragent, DeliveryArtikulsDB2.kontragent,"
-						+ " DeliveryArtikulsDB2.date, DeliveryArtikulsDB2.artikul, DeliveryArtikulsDB2.value from "
-						+ DELIVERY_ARTIKULS
-						+ " where DeliveryArtikulsDB2.date between "
-						+ "Date('"
-						+ from + "')" + " and " + "Date('" + to + "')");
+		mainCommand1.append("select DeliveryArtikulsDB2.invoiceByKontragent, DeliveryArtikulsDB2.kontragent," +
+				" DeliveryArtikulsDB2.date, DeliveryArtikulsDB2.artikul, DeliveryArtikulsDB2.value from " +
+				DELIVERY_ARTIKULS + " where DeliveryArtikulsDB2.date between " + "Date('").append(from).append("')").append(" and ").append("Date('").append(to).append("')");
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			mainCommand1.append(" and DeliveryArtikulsDB2.artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			mainCommand1.append(" and DeliveryArtikulsDB2.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 		}
 		return mainCommand1.toString();
 	}
@@ -1095,49 +1062,37 @@ public class ReportDialog extends MainPanel {
 	private String buildCommandForSalesFromTo(String from, String to) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("select InvoiceChildDB7.id, InvoiceChildDB7.client, InvoiceChildDB7.invoiceByKontragent, InvoiceChildDB7.kontragent,"
-				+ " InvoiceChildDB7.artikul, InvoiceChildDB7.med, InvoiceChildDB7.quantity,"
-				+ " InvoiceChildDB7.price, InvoiceParentDB5.date from "
-				+ INVOICE_CHILD
-				+ ","
-				+ INVOICE_PARENT
-				+ " where InvoiceParentDB5.id = InvoiceChildDB7.id"
-				+ " and InvoiceParentDB5.date between "
-				+ "Date('"
-				+ from
-				+ "')" + " and " + "Date('" + to + "')");
+				+ " InvoiceChildDB7.artikul, InvoiceChildDB7.med, InvoiceChildDB7.quantity," +
+				" InvoiceChildDB7.price, InvoiceParentDB5.date from " +
+				INVOICE_CHILD + "," + INVOICE_PARENT + " where InvoiceParentDB5.id = InvoiceChildDB7.id" +
+				" and InvoiceParentDB5.date between " + "Date('").append(from).append("')").append(" and ").append("Date('").append(to).append("')");
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and  InvoiceChildDB7.artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			sb.append(" and  InvoiceChildDB7.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 		}
 		return sb.toString();
 	}
 
 	private String buildCommandForDeliveryFromTo(String from, String to) {
 		StringBuilder mainCommand1 = new StringBuilder();
-		mainCommand1
-				.append("select DeliveryArtikulsDB2.artikul, DeliveryArtikulsDB2.quantity, DeliveryArtikulsDB2.value, DeliveryArtikulsDB2.date from "
-						+ DELIVERY_ARTIKULS
-						+ " where DeliveryArtikulsDB2.date between "
-						+ "Date('"
-						+ from + "')" + " and " + "Date('" + to + "')");
+		mainCommand1.append("select DeliveryArtikulsDB2.artikul, DeliveryArtikulsDB2.quantity, DeliveryArtikulsDB2.value, DeliveryArtikulsDB2.date from "
+				+ DELIVERY_ARTIKULS + " where DeliveryArtikulsDB2.date between "
+				+ "Date('").append(from).append("')").append(" and ").append("Date('").append(to).append("')");
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			mainCommand1.append(" and DeliveryArtikulsDB2.artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			mainCommand1.append(" and DeliveryArtikulsDB2.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 		}
 		return mainCommand1.toString();
 	}
 
 	private String buildCommandForInvoiceFromTo(String from, String to) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("select InvoiceChildDB7.artikul, InvoiceChildDB7.quantity,"
-				+ " InvoiceChildDB7.price, InvoiceParentDB5.date from "
-				+ INVOICE_CHILD + "," + INVOICE_PARENT
-				+ " where InvoiceParentDB5.id = InvoiceChildDB7.id"
-				+ " and InvoiceParentDB5.date between " + "Date('" + from
-				+ "')" + " and " + "Date('" + to + "')");
+		sb.append("select InvoiceChildDB7.artikul, InvoiceChildDB7.quantity," +
+				" InvoiceChildDB7.price, InvoiceParentDB5.date from " +
+				INVOICE_CHILD + "," + INVOICE_PARENT +
+				" where InvoiceParentDB5.id = InvoiceChildDB7.id" +
+				" and InvoiceParentDB5.date between " + "Date('")
+				.append(from).append("')").append(" and ").append("Date('").append(to).append("')");
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and  InvoiceChildDB7.artikul = " + "'"
-					+ artikulsComboBox.getSelectedItem().toString() + "'");
+			sb.append(" and  InvoiceChildDB7.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
 		}
 		return sb.toString();
 	}

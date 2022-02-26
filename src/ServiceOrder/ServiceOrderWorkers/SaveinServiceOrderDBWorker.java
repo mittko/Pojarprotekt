@@ -1,18 +1,13 @@
 package ServiceOrder.ServiceOrderWorkers;
 
-import generators.GenerateSO;
-import generators.NumGenerator;
-
-import java.awt.Cursor;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
 import ServiceOrder.ServiceOrder;
 import db.Common;
 import db.Protokol.ProtokolTable;
+import generators.GenerateSO;
+import generators.NumGenerator;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class SaveinServiceOrderDBWorker extends SwingWorker {
 	// private int result = 0;
@@ -75,7 +70,7 @@ public class SaveinServiceOrderDBWorker extends SwingWorker {
 
 					ProtokolTable
 							.setExtinguisherUpToDateWithBatch(ref.updateExtinguisher);
-					// delete this -> old protokols needed
+					// в първоначалната версия след презаверка пожарогасителите се триеха delete this -> old protokols needed
 					// MainTable.deleteExtinguisherWithBatch(MainTable.SERVICE,
 					// ref.updateExtinguisher);
 					// MainTable.deleteExtinguisherWithBatch(MainTable.PROTOKOL,

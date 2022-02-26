@@ -5,6 +5,7 @@ import Parts.ReasonsBrack;
 import Parts.Vodopenen;
 import Parts.Water;
 import WorkingBook.Renderers.MyTableRenderer;
+import WorkingBookWorkers.GetAgentFitWorker;
 import db.Common;
 import db.GetFromScanner;
 import mydate.MyGetDate;
@@ -36,7 +37,7 @@ public class WorkingBook extends MainPanel {
 	private TooltipButton penButton = null;
 
 	private BevelLabel HI_Label = null;
-
+    private BevelLabel FitAgentLabel = null;// годност на пожарогасително вещество
 	private JPanel centerCenter = null;
 
 	final static String DUST = "Прахов";
@@ -359,7 +360,7 @@ public class WorkingBook extends MainPanel {
                 }
 
                 // set value doings int table
-				  setNewDate(doing);
+				  setNewDate(doing, type);
              //   setNewDate2(comboDoings.getSelectedItem().toString(), tModel.getValueAt(0,1).toString());
                 penButton.setEnabled(true);
 			}
@@ -433,7 +434,7 @@ public class WorkingBook extends MainPanel {
 
 
 		int labelWidth = (int) (north.getPreferredSize().getWidth() * 0.4);
-		int labelHeight = (int) (north.getPreferredSize().getHeight() * 0.95);
+		int labelHeight = (int) (north.getPreferredSize().getHeight() * 0.4);
 		HI_Label = new BevelLabel();
 		HI_Label.setPreferredSize(new Dimension(labelWidth, labelHeight));
 		HI_Label.setTitle("ХИДРОСТАТИЧНО ИЗПИТВАНЕ : ");
@@ -441,13 +442,25 @@ public class WorkingBook extends MainPanel {
 		HI_Label.setForeground(Color.red);
 		HI_Label.setName("");
 
+		FitAgentLabel = new BevelLabel();
+		FitAgentLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
+		FitAgentLabel.setTitle("ГОДНОСТ НА ГАСИТЕЛНО ВЕЩЕСТВО : ");
+		// HI_Label.setAutoSizedIcon(HI_Label, setIcons(reportsImage));
+		FitAgentLabel.setForeground(Color.red);
+		FitAgentLabel.setName("");
+
         pane1.add(comboDoings);//attentionButton); // set reports
 
         pane1.add(jComboBox2); // set combo doing choice
 
 		pane1.add(penButton); // set db button
 
-		pane1.add(HI_Label); // set HI checker
+		JPanel helpPanel = new JPanel();
+		helpPanel.setLayout(new BorderLayout());
+		helpPanel.add(HI_Label, BorderLayout.NORTH);
+		helpPanel.add(FitAgentLabel,BorderLayout.SOUTH);
+
+		pane1.add(helpPanel); // set HI checker
 
 		north.add(pane1);
 
@@ -456,7 +469,8 @@ public class WorkingBook extends MainPanel {
 		center.setLayout(new BorderLayout());
 
 		Object[] titles = { "Клиент", "Вид", "Маса", "Баркод",
-				"Монтажен номер", "Категория", "Марка", "ТО", "П", "ХИ",
+				"Монтажен номер", "Категория", "Марка", "Техн. Обслужване",
+				"Презареждане", "Хидр. Изпитване",
 				"Реална маса", "Допълнителни данни" };
 
 		Object[][] rows = { // { "", "", "", "", "", "", "", "","","" },
@@ -565,17 +579,18 @@ public class WorkingBook extends MainPanel {
 				(int) (this.HEIGHT * 0.09)));// southHeight -100) );
 		// setSizeOfSouthPanel(centerCenter.getPreferredSize().height);
 
-		BevelLabel tehnikLabel = new BevelLabel(labelHeight);
+		int labHeight = (int) (north.getPreferredSize().getHeight() * 0.9);
+		BevelLabel tehnikLabel = new BevelLabel(labHeight);
 
 		tehnikLabel.setTitle("  Техник : ");
 		tehnikLabel.setName(personName);
 
-		clientLabel = new BevelLabel(labelHeight);
+		clientLabel = new BevelLabel(labHeight);
 
 		clientLabel.setTitle("  Клиент : ");
 		clientLabel.setName("");
 
-		BevelLabel dateLabel = new BevelLabel(labelHeight);
+		BevelLabel dateLabel = new BevelLabel(labHeight);
 
 		dateLabel.setTitle("  Дата :  ");
 		dateLabel.setName(MyGetDate.getReversedSystemDate());
@@ -732,8 +747,7 @@ public class WorkingBook extends MainPanel {
 								JOptionPane.WARNING_MESSAGE, null, new String[] { "Да", "Не" }, "default");
 						if (yes_no == 0) {
 							jdialog.dispose();
-						}
-						else {
+						} else {
 							jdialog.setDefaultCloseOperation(0);
 						}
 					}
@@ -985,7 +999,7 @@ public class WorkingBook extends MainPanel {
 		return true;
 	}
 
-	private void setNewDate(String item) {
+	private void setNewDate(String item, String agent/*type*/) {
 		// if there is HI from previous year but no chiosed HI date stay same
 		// if it is choised HI gets new date
 		if (!item.equals("Обслужване")) {
@@ -998,6 +1012,10 @@ public class WorkingBook extends MainPanel {
 				substract_HI_YEAR = HI_Label.getName();
 				// System.out.printf("hi %s\n" + substract_HI_YEAR);
 			}
+			String godnostNaPovarogasitelnoWeshtestwoo =
+					new GetAgentFitWorker(agent/*agent*/).doInBackground();
+			System.out.println("prezarevdane ! " + godnostNaPovarogasitelnoWeshtestwoo);
+
 			// item is from combo getSelectedItem();
 			switch (item) {
 				case ТО:

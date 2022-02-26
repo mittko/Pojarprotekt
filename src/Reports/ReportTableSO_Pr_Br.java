@@ -23,17 +23,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.TreeMap;
 
 public class ReportTableSO_Pr_Br extends MainPanel {
 
-	private JPanel northPanel = null;
-	private TooltipButton printerButton = null;
-	private TooltipButton excellButton = null;
-	private JLabel titleLabel = null;
-
-	private JPanel centerPanel = null;
 	private DefaultTableModel dftm = null;
 	private JTableX table = null;
 
@@ -43,10 +38,10 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 	public ReportTableSO_Pr_Br(ArrayList<Object[]> data, String destination) {
 		this.setLayout(new BorderLayout());
 
-		northPanel = new JPanel();// GradientPanel();
+		JPanel northPanel = new JPanel();// GradientPanel();
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
-		printerButton = new TooltipButton("Генерирай PDF документ");
+		TooltipButton printerButton = new TooltipButton("Генерирай PDF документ");
 
 		printerButton.addActionListener(new ActionListener() {
 
@@ -114,10 +109,10 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 			}
 
 		});
-		excellButton = new TooltipButton();
+		TooltipButton excellButton = new TooltipButton();
 		excellButton.setPreferredSize(new Dimension((int) (printerButton
 				.getPreferredSize().getWidth() * 0.3), (int) (printerButton
-				.getPreferredSize().getHeight() * 1.0)));
+				.getPreferredSize().getHeight())));
 		;
 		excellButton.setToolTipText(getHTML_Text("ЗАПИШИ В EXCEL"));
 		excellButton.setAutoSizedIcon(excellButton, new LoadIcon().setIcons(excellImage));
@@ -156,33 +151,39 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 
 		});
 
-		titleLabel = new JLabel();
+		JLabel titleLabel = new JLabel();
 
 		northPanel.add(printerButton);
 		northPanel.add(excellButton);
 
 		northPanel.add(titleLabel);
 
-		centerPanel = new JPanel();
+		JPanel centerPanel = new JPanel();
 
-		if (destination.equals(SERVICE)) {
-			titles = new String[] { "Клиент", "Вид", "Вместимост", "Баркод",
-					"Монтажен номер", "Категория", "Марка", "ТО", "П", "ХИ",
-					"Обработен", " \u2116 на Сервизна Поръчка",
-					"Издал Документа", "Дата на Сервизна Поръчка",
-					"Допълнителни данни" };// "Допълнителни данни"
+		switch (destination) {
+			case SERVICE:
+				titles = new String[]{"Клиент", "Вид", "Вместимост", "Баркод",
+						"Монтажен номер", "Категория", "Марка", "ТО", "П", "ХИ",
+						"Обработен", " \u2116 на Сервизна Поръчка",
+						"Издал Документа", "Дата на Сервизна Поръчка",
+						"Допълнителни данни"};// "Допълнителни данни"
 
-		} else if (destination.equals(PROTOKOL)) {
-			titles = new String[] { "Клиент", "Вид", "Маса", "Баркод",
-					"Монтажен номер", "Категория", "Марка", "ТО", "П", "ХИ",
-					"Резервни Части", "Цена", " \u2116 на Протокол", "Техник",
-					"Дата на издаване", "Контрагент", "Фактура по доставка",
-					"Допълнителни данни" };// "Допълнителни данни"
 
-		} else if (destination.equals(BRACK)) {
-			titles = new String[] { "Клиент", "Вид", "Маса", "Баркод",
-					"Монтажен номер", "Категория", "Марка", "Причини за Брак",
-					" \u2116 на Протокол за Брак", "Техник", "Дата на издаване" };
+				break;
+			case PROTOKOL:
+				titles = new String[]{"Клиент", "Вид", "Маса", "Баркод",
+						"Монтажен номер", "Категория", "Марка", "ТО", "П", "ХИ",
+						"Резервни Части", "Цена", " \u2116 на Протокол", "Техник",
+						"Дата на издаване", "Контрагент", "Фактура по доставка",
+						"Допълнителни данни", "Презаверен"};// "Допълнителни данни"
+
+
+				break;
+			case BRACK:
+				titles = new String[]{"Клиент", "Вид", "Маса", "Баркод",
+						"Монтажен номер", "Категория", "Марка", "Причини за Брак",
+						" \u2116 на Протокол за Брак", "Техник", "Дата на издаване"};
+				break;
 		}
 		dftm = new DefaultTableModel(titles, 0) {
 			/**
@@ -211,29 +212,39 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 		});
 
 		table.setRowHeight(MainPanel.getFontSize() + 15);
-		if (destination.equals(SERVICE)) {
-			table.setDefaultRenderer(Object.class, new ServiceTableRenderer());
-		} else if (destination.equals(PROTOKOL)) {
-			table.setDefaultRenderer(Object.class, new ProtokolTableRenderer());
-		} else if (destination.equals(BRACK)) {
-			table.setDefaultRenderer(Object.class,
-					new ProtokolBrackTableRenderer());
+		switch (destination) {
+			case SERVICE:
+				table.setDefaultRenderer(Object.class, new ServiceTableRenderer());
+				break;
+			case PROTOKOL:
+				table.setDefaultRenderer(Object.class, new ProtokolTableRenderer());
+				break;
+			case BRACK:
+				table.setDefaultRenderer(Object.class,
+						new ProtokolBrackTableRenderer());
+				break;
 		}
 
 		// RowEditorModel rem = new RowEditorModel();
 		// table.setRowEditorModel(rem);
-		for (int i = 0; i < data.size(); i++) {
+		int totalFireExtinguishers = 0;
+		for (Object[] datum : data) {
 			// Object[] obj = data.get(i);
 			Object[] newObj = new Object[titles.length];
 			for (int init = 0; init < newObj.length; init++) {
-				Object str = data.get(i)[init];
-				if (str == null) {
+				Object str = datum[init];
+				if(init == newObj.length - 1) { // column uptodate
+					if(str == null) {
+						str = "не";
+						totalFireExtinguishers++;
+					} else {
+						str = "да";
+					}
+				} else if (str == null) {
 					str = "";
 				}
 				newObj[init] = str;// obj[init];
-
 			}
-
 			dftm.addRow(newObj);
 			/*
 			 * for(int j = 0;j < titles.length;j++) {
@@ -242,6 +253,9 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 			 * MyComboBoxEditor(items)); } }
 			 */
 		}
+		Object[] rowForTotalFireExtinguishers = {"","","","","","","","","",""
+		,"","","","","","","","Общ брой пожарогасители: ",totalFireExtinguishers+""};
+        dftm.addRow(rowForTotalFireExtinguishers);
 
 		table.getTableHeader().setReorderingAllowed(false);
 		resizeColumnWidth(table);
@@ -318,9 +332,9 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 	// make map to create pdf service order
 	private TreeMap<Object, Integer> getSOMap(Integer[] selectedIndexes) {
 		TreeMap<Object, Integer> soMap = new TreeMap<Object, Integer>();
-		for (int row = 0; row < selectedIndexes.length; row++) {
-			String key = dftm.getValueAt(selectedIndexes[row], 1) + " "
-					+ table.getValueAt(selectedIndexes[row], 2);
+		for (Integer selectedIndex : selectedIndexes) {
+			String key = dftm.getValueAt(selectedIndex, 1) + " "
+					+ table.getValueAt(selectedIndex, 2);
 			Integer value = soMap.get(key);
 			if (value == null) {
 				value = 0;
@@ -335,17 +349,15 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 			Integer[] selectedIndexes) {
 		HashMap<String, ArrayList<Object>> all = new HashMap<String, ArrayList<Object>>();
 
-		for (int row = 0; row < selectedIndexes.length; row++) {
-			String[] reasons = dftm.getValueAt(selectedIndexes[row], 7)
+		for (Integer selectedIndex : selectedIndexes) {
+			String[] reasons = dftm.getValueAt(selectedIndex, 7)
 					.toString().split("[,]");
 			ArrayList<Object> val = new ArrayList<Object>();
-			for (String str : reasons) {
-				val.add(str);
-			}
-			all.put(dftm.getValueAt(selectedIndexes[row], 3).toString(), val); // index
-																				// ->
-																				// 3
-																				// (barcod)
+			Collections.addAll(val, reasons);
+			all.put(dftm.getValueAt(selectedIndex, 3).toString(), val); // index
+			// ->
+			// 3
+			// (barcod)
 			/*
 			 * for(String s : reasons) { s = s.trim(); if(!all.contains(s)) {
 			 * all.add(s); } }

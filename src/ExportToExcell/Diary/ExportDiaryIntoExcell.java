@@ -196,8 +196,8 @@ public class ExportDiaryIntoExcell {
 			// get invoice numbers
 			TreeSet<String> protokolNumbers = new TreeSet<String>();
 			// populate set with protokol numbers
-			for (int i = 0; i < extractedData.size(); i++) {
-				protokolNumbers.add(extractedData.get(i)[12].toString());
+			for (Object[] datum : extractedData) {
+				protokolNumbers.add(datum[12].toString());
 			}
 
 			GetInvoiceNumberFromProtokolWorker getInvoiceNumber = new GetInvoiceNumberFromProtokolWorker(
@@ -226,8 +226,8 @@ public class ExportDiaryIntoExcell {
 
 			// sheet.getSettings().setZoomFactor(100);
 
-			for (int i = 0; i < extractedData.size(); i++) {
-				String key = extractedData.get(i)[0].toString();
+			for (Object[] extractedDatum : extractedData) {
+				String key = extractedDatum[0].toString();
 				String city = "";
 				String tel = "";
 				// get city and telefon of client
@@ -450,16 +450,22 @@ public class ExportDiaryIntoExcell {
 
 				String technikName = extractedData.get(dataRow)[13].toString();
 				// System.out.println(technikName);
-				if (technikName.equals("Георги Ковачки")) {
-					sheet.addImage(getImage(tableRow, 18, imageInBytes1));
-				} else if (technikName.equals("Христо Георгин")) {
-					sheet.addImage(getImage(tableRow, 18, imageInBytes2));
-				} else if (technikName.equals("Георги Ильов")) {
-					sheet.addImage(getImage(tableRow, 18, imageInBytes3));
-				} else if (technikName.equals("Спас Ильов")) {
-					sheet.addImage(getImage(tableRow, 18, imageInBytes4));
-				} else {// ->Георги Ильов
-					sheet.addImage(getImage(tableRow, 18, imageInBytes3));
+				switch (technikName) {
+					case "Георги Ковачки":
+						sheet.addImage(getImage(tableRow, 18, imageInBytes1));
+						break;
+					case "Христо Георгин":
+						sheet.addImage(getImage(tableRow, 18, imageInBytes2));
+						break;
+					case "Георги Ильов":
+						sheet.addImage(getImage(tableRow, 18, imageInBytes3));
+						break;
+					case "Спас Ильов":
+						sheet.addImage(getImage(tableRow, 18, imageInBytes4));
+						break;
+					default: // ->Георги Ильов
+						sheet.addImage(getImage(tableRow, 18, imageInBytes3));
+						break;
 				}
 
 				currentHeight += sheet.getRowView(tableRow).getSize();
