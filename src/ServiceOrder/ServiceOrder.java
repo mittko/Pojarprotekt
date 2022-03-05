@@ -202,7 +202,7 @@ public class ServiceOrder extends MainPanel {
 
 		oldExtinguisher.add(enteredExtinguisher);
 
-		readBarcod = new EditableField("Баркод", 12);
+		readBarcod = new EditableField("баркод", 10);
 
 		readBarcod.setPreferredSize(new Dimension((int) (oldExtinguisher
 				.getPreferredSize().getWidth() * 0.2), (int) (oldExtinguisher
@@ -304,7 +304,7 @@ public class ServiceOrder extends MainPanel {
 			}
 		});
 
-		serialNumber = new EditableField("Монтажен Номер", 12);
+		serialNumber = new EditableField("сериен " + MainPanel.numeroSign, 8);
 		serialNumber.setPreferredSize(new Dimension((int) (oldExtinguisher
 				.getPreferredSize().getWidth() * 0.2), (int) (oldExtinguisher
 				.getPreferredSize().getHeight() * 0.7)));

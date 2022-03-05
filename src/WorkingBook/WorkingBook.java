@@ -26,9 +26,9 @@ import java.util.HashSet;
 
 public class WorkingBook extends MainPanel {
 
-	private EditableField readBarcod = null;
+	private final EditableField readBarcod;
 
-	private EditableField serialNumber = null;
+	private final EditableField serialNumber;
 
 	private JComboBox<Object> comboDoings = null;
 
@@ -37,7 +37,7 @@ public class WorkingBook extends MainPanel {
 	private TooltipButton penButton = null;
 
 	private BevelLabel HI_Label = null;
-    private BevelLabel FitAgentLabel = null;// годност на пожарогасително вещество
+	private BevelLabel fitAgentLabel = null;
 	private JPanel centerCenter = null;
 
 	final static String DUST = "Прахов";
@@ -50,13 +50,13 @@ public class WorkingBook extends MainPanel {
 
 	final static String CO2 = "CO2";
 
-	private Dust dust = null;
+	private final Dust dust;
 
-	private Water water = null;
+	private final Water water;
 
-	private Vodopenen vodopenen = null;
+	private final Vodopenen vodopenen;
 
-	private Parts.CO2 co2 = null;
+	private final Parts.CO2 co2;
 
 	public static DefaultTableModel tModel = null;
 
@@ -101,7 +101,7 @@ public class WorkingBook extends MainPanel {
 
 		currValues = new ArrayList<Object>(); // -> get parts and price
 
-		readBarcod = new EditableField("Баркод", 12);
+		readBarcod = new EditableField("баркод", 10);
 
 		readBarcod.setPreferredSize(new Dimension((int) (north
 				.getPreferredSize().getWidth() * 0.15), (int) (north
@@ -172,6 +172,7 @@ public class WorkingBook extends MainPanel {
 												tModel.setValueAt(
 														fromBarcod[10], 0, 11);
 
+												HI_Label.setForeground(fromBarcod[9].equals("не") ? Color.BLACK : Color.RED);
 												HI_Label.setName(fromBarcod[9]
 														.toString());
 
@@ -218,7 +219,7 @@ public class WorkingBook extends MainPanel {
 			}
 
 		});
-		serialNumber = new EditableField("Монтажен Номер", 13);
+		serialNumber = new EditableField("сериен " + MainPanel.numeroSign, 8);
 
 		serialNumber.addActionListener(new ActionListener() {
 
@@ -279,6 +280,7 @@ public class WorkingBook extends MainPanel {
 												tModel.setValueAt(
 														fromSerial[10], 0, 11);
 
+												HI_Label.setForeground(fromSerial[9].equals("не") ? Color.BLACK : Color.RED);
 												HI_Label.setName(fromSerial[9]
 														.toString());
 
@@ -369,8 +371,7 @@ public class WorkingBook extends MainPanel {
         final Object[] jComboBoxItems = {"носим","возим"};
         DefaultComboBoxModel<Object> defaultComboBoxModel = new DefaultComboBoxModel<Object>(jComboBoxItems);
         jComboBox2 = new JComboBox<>(defaultComboBoxModel);
-        jComboBox2.setPreferredSize(new Dimension((int) (north
-                .getPreferredSize().getWidth() * 0.12), (int) (north
+        jComboBox2.setPreferredSize(new Dimension((int) jComboBox2.getPreferredSize().getWidth(), (int) (north
                 .getPreferredSize().getHeight() * 0.7)));
 
 
@@ -439,15 +440,14 @@ public class WorkingBook extends MainPanel {
 		HI_Label.setPreferredSize(new Dimension(labelWidth, labelHeight));
 		HI_Label.setTitle("ХИДРОСТАТИЧНО ИЗПИТВАНЕ : ");
 		// HI_Label.setAutoSizedIcon(HI_Label, setIcons(reportsImage));
-		HI_Label.setForeground(Color.red);
 		HI_Label.setName("");
 
-		FitAgentLabel = new BevelLabel();
-		FitAgentLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
-		FitAgentLabel.setTitle("ГОДНОСТ НА ГАСИТЕЛНО ВЕЩЕСТВО : ");
+		// годност на пожарогасително вещество
+		fitAgentLabel = new BevelLabel();
+		fitAgentLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
+		fitAgentLabel.setTitle("ГОДНОСТ НА ГАСИТЕЛНО ВЕЩЕСТВО : ");
 		// HI_Label.setAutoSizedIcon(HI_Label, setIcons(reportsImage));
-		FitAgentLabel.setForeground(Color.red);
-		FitAgentLabel.setName("");
+		fitAgentLabel.setName("");
 
         pane1.add(comboDoings);//attentionButton); // set reports
 
@@ -458,7 +458,7 @@ public class WorkingBook extends MainPanel {
 		JPanel helpPanel = new JPanel();
 		helpPanel.setLayout(new BorderLayout());
 		helpPanel.add(HI_Label, BorderLayout.NORTH);
-		helpPanel.add(FitAgentLabel,BorderLayout.SOUTH);
+		helpPanel.add(fitAgentLabel,BorderLayout.SOUTH);
 
 		pane1.add(helpPanel); // set HI checker
 
@@ -640,8 +640,6 @@ public class WorkingBook extends MainPanel {
 		}
 		cl.show(centerCenter, command);
 
-		// setSizeOfSouthPanel(height);
-		//
 	}
 
 	private void clear() {
@@ -945,26 +943,6 @@ public class WorkingBook extends MainPanel {
 		}
 	}
 
-	public boolean tableIsEmpty() {
-		for (int row = 0; row < tModel.getRowCount(); row++) {
-			for (int col = 0; col < tModel.getColumnCount(); col++) {
-				if (!tModel.getValueAt(row, col).equals("")) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
-
-	/*
-	 * private void setSizeOfSouthPanel(int Heigth) {
-	 * center.setPreferredSize(new Dimension(this.WIDTH - 20, (int) (Heigth +
-	 * scroll.getPreferredSize().height)));
-	 * 
-	 * south.setPreferredSize(new Dimension(this.WIDTH - 20, this.HEIGHT -
-	 * center.getPreferredSize().height - north.getPreferredSize().height -
-	 * 70)); }
-	 */
 
 	private boolean checkClient(String client) {
 		if (View.dtm_Extinguisher.getRowCount() == 0
@@ -1014,8 +992,18 @@ public class WorkingBook extends MainPanel {
 			}
 			String godnostNaPovarogasitelnoWeshtestwoo =
 					new GetAgentFitWorker(agent/*agent*/).doInBackground();
-			System.out.println("prezarevdane ! " + godnostNaPovarogasitelnoWeshtestwoo);
+		   String urgentDays = MyGetDate.getUrgentDays(
+            		MyGetDate.getReversedSystemDate()
+			, godnostNaPovarogasitelnoWeshtestwoo);
+		    int daysAsInt = 0;
+            try {
+				daysAsInt = Integer.parseInt(urgentDays);
+			}catch (Exception e) {
+				System.out.println("wrong date in WorkingBook => daysAsInt");
+			}
+            fitAgentLabel.setForeground(daysAsInt <= 365 ? Color.red : Color.black);
 
+			fitAgentLabel.setName(godnostNaPovarogasitelnoWeshtestwoo);
 			// item is from combo getSelectedItem();
 			switch (item) {
 				case ТО:

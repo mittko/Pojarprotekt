@@ -1,13 +1,9 @@
 package utility;
 
-import java.awt.Dimension;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 public class BevelLabel extends JLabel {
 
@@ -15,6 +11,7 @@ public class BevelLabel extends JLabel {
 	private String name = null;
 	private float labelHeight = 0;// default
 
+	final Font newLabelFont=new Font(this.getFont().getName(),Font.ITALIC,this.getFont().getSize());
 	public BevelLabel(final float labelHeight) {
 		setText(getTitle());
 		this.labelHeight = labelHeight;
@@ -66,7 +63,8 @@ public class BevelLabel extends JLabel {
 	public void setName(String name) {
 		this.name = name;
 		this.setText(this.getTitle() + this.name);
-		this.setBorder(BorderFactory.createRaisedBevelBorder());
+	//	this.setBorder(BorderFactory.createRaisedBevelBorder());
+		this.setFont(newLabelFont);
 	}
 
 	public void setAutoSizedIcon(BevelLabel label, ImageIcon icon) {
