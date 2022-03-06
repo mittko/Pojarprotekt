@@ -10,11 +10,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="jxl" level="project" />
+    <orderEntry type="library" exported="" name="pdf-renderer-1.0.5" level="project" />
     <orderEntry type="library" exported="" name="derbyclient" level="project" />
     <orderEntry type="library" exported="" name="itext-pdfa-5.5.1" level="project" />
-<<<<<<< HEAD
-=======
-    <orderEntry type="library" exported="" name="pdf-renderer-1.0.5" level="project" />
->>>>>>> 7a8f807870c3455cd51fcc5e68fd890db275661a
   </component>
 </module>

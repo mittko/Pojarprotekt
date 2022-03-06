@@ -11,7 +11,6 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
-import jxl.Image;
 import mydate.MyGetDate;
 import utility.MainPanel;
 
