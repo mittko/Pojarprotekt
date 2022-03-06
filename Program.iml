@@ -9,10 +9,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jxl" level="project" />
-    <orderEntry type="library" name="itext-pdfa-5.5.1" level="project" />
-    <orderEntry type="library" name="itext-xtra-5.5.1" level="project" />
-    <orderEntry type="library" name="itextpdf-5.5.1" level="project" />
-    <orderEntry type="library" name="pdf-renderer-1.0.5" level="project" />
+    <orderEntry type="library" name="derbyclient" level="application" />
+    <orderEntry type="library" name="itext-pdfa-5.5.1" level="application" />
+    <orderEntry type="library" name="itext-xtra-5.5.1" level="application" />
+    <orderEntry type="library" name="itextpdf-5.5.1" level="application" />
+    <orderEntry type="library" name="jxl" level="application" />
+    <orderEntry type="library" name="pdf-renderer-1.0.5" level="application" />
   </component>
 </module>
