@@ -125,8 +125,9 @@ public class ReportTableSales2 extends MainPanel {
 		//		System.out.println(artikulSale.getArtikul() + " " + artikulSale.client + " " + artikulSale.invoice);
 		//	}
 			if (artikulSales != null && artikulSales.size() > 0) {
+				String invoice = artikulSales.get(0).getInvoice();
 				dftm.addRow(new Object[] {
-						"Фактура No:  " + artikulSales.get(0).getInvoice(),
+						(invoice.length() == 12 ? "Касов бон: " : "Фактура No:  ") + artikulSales.get(0).getInvoice(),
 						"Дата:  " + artikulSales.get(0).getDate(),
 						"Контрагент:  " + artikulSales.get(0).getClient(), "", "", "" });
 				for (ArtikulSale artikulSale : artikulSales) {
@@ -163,8 +164,6 @@ public class ReportTableSales2 extends MainPanel {
 		JScrollPane scrollPane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		// scrollPane.getVerticalScrollBar().setUI(new YourUI());
-		// scrollPane.getHorizontalScrollBar().setUI(new YourUI());
 		scrollPane.setPreferredSize(new Dimension(WIDTH - 50, HEIGHT - 70));
 
 		TooltipButton excellButton = new TooltipButton();

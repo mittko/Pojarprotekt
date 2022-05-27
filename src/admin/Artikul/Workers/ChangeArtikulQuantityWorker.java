@@ -1,11 +1,8 @@
 package admin.Artikul.Workers;
 
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
 import db.Artikul.Artikuli_DB;
+
+import javax.swing.*;
 
 public class ChangeArtikulQuantityWorker extends SwingWorker {
 
@@ -14,10 +11,11 @@ public class ChangeArtikulQuantityWorker extends SwingWorker {
 	private String kontragent = null;
 	private String invoiceByKontragent = null;
 	private int update = 0;
-	private JDialog jd = null;
-
-	public ChangeArtikulQuantityWorker(String artikul, String quantity,
+	private final JDialog jd = null;
+    private String dbTable;
+	public ChangeArtikulQuantityWorker(String dbTable,String artikul, String quantity,
 			String kontragent, String invoiceByKontragent) {
+		this.dbTable = dbTable;
 		this.artikul = artikul;
 		this.quantity = quantity;
 		this.kontragent = kontragent;
@@ -41,7 +39,7 @@ public class ChangeArtikulQuantityWorker extends SwingWorker {
 			// AvailableArtikulsTable.table.getValueAt(AvailableArtikulsTable.CURRENT_ROW,
 			// 1).toString(); // value;
 			update = // Artikuli_DB.increaseArtikulQuantity(artikul,Integer.parseInt(quantity));
-			Artikuli_DB.editArtikulQuantity(artikul, quantity, kontragent,
+			Artikuli_DB.editArtikulQuantity(dbTable,artikul, quantity, kontragent,
 					invoiceByKontragent);
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {

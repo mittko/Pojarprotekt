@@ -125,7 +125,6 @@ public class Common extends MainPanel {
 				Log.DB_Err.writeErros(e.toString());
 				DBException.DBExceptions("Грешка", e);
 				e.printStackTrace();
-				return update;
 			}
 		}
 	}
@@ -140,8 +139,8 @@ public class Common extends MainPanel {
 			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			connection.setAutoCommit(false);
 			ps = connection.prepareStatement(command);
-			for (int i = 0; i < barcodes.size(); i++) {
-				ps.setString(1, barcodes.get(i));
+			for (String barcode : barcodes) {
+				ps.setString(1, barcode);
 				ps.addBatch();
 			}
 			result = ps.executeBatch();
@@ -290,8 +289,8 @@ public class Common extends MainPanel {
 			}
 			int results[] = ps.executeBatch();
 			connect.commit();
-			for (int r = 0; r < results.length; r++) {
-				if (results[r] == 1) {
+			for (int result : results) {
+				if (result == 1) {
 					return true;
 				}
 			}
@@ -316,7 +315,7 @@ public class Common extends MainPanel {
 				Log.DB_Err.writeErros(e.toString());
 				DBException.DBExceptions("Грешка", e);
 				e.printStackTrace();
-				return false;
+
 			}
 		}
 
@@ -389,7 +388,6 @@ public class Common extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return null;
 			}
 		}
 		return result;
@@ -581,7 +579,7 @@ public class Common extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return update;
+
 			}
 		}
 	}

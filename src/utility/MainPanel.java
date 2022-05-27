@@ -149,6 +149,8 @@ public class MainPanel extends JPanel {
 	public static final String PARTS_PRICE = "PartsTableDB";
 	public static final String PARTS_QUANTITY = "PartsQuantityDB";
 	public static final String AVAILABLE_ARTIKULS = "ArtikulsDB";
+	public static final String GREY_AVAILABLE_ARTIKULS = "GreyArtikulsDB";
+	public static final String AVAILABLE_SERVICES = "ServiceDB";
 	public static final String DELIVERY_ARTIKULS = "DeliveryArtikulsDB2";
 	public static final String SELLS = "Продажби";// взима данни от няколко
 													// таблици
@@ -164,7 +166,7 @@ public class MainPanel extends JPanel {
 			BufferedImage.TYPE_INT_ARGB);
 	public static FontMetrics fm = null;
 
-	private static final String DOCUMENTS_PATH = System.getProperty("user.dir");
+	public static final String DOCUMENTS_PATH = System.getProperty("user.dir");
 	// public static final String STICKER_PATH = DOCUMENTS_PATH +"\\Stickers";
 	public static final String LOGO_PATH = DOCUMENTS_PATH
 			+ "\\Images\\logo5.png";
@@ -239,6 +241,7 @@ public class MainPanel extends JPanel {
 	public static final String stickerImage = "barcode2.png";
 	public static final String skladExtImage = "skladExt2.png";
 	public static final String artikuliImage = "artikuli2.png";
+	public static final String greyArtikuliImage = "grey_artikuli.png";
 	public static final String calendarImage = "calendar3.png";
 	public static final String acceptImage = "accept5.png";
 	public static final String yesImage = "accept5.png";
@@ -255,34 +258,6 @@ public class MainPanel extends JPanel {
 	public static final String numeroSign = "\u2116";
 
 
-	/*
-	 * private boolean setJavaIcon(String name) { // Constructs a BufferedImage
-	 * of one of the predefined image types.
-	 * 
-	 * BufferedImage bi = new BufferedImage(50,50, BufferedImage.TYPE_INT_RGB);
-	 * // Create a graphics which can be used to draw into the buffered image
-	 * Graphics2D g2d = bi.createGraphics();
-	 * 
-	 * // fill all the image with white g2d.setColor(Color.white);
-	 * g2d.fillRect(0, 0, 50,50);
-	 * 
-	 * // create a circle with black g2d.setColor(Color.black); g2d.fillOval(0,
-	 * 0, 50,50);
-	 * 
-	 * // create a string with yellow
-	 * 
-	 * g2d.setColor(Color.yellow); g2d.drawString(name, 20,20);
-	 * 
-	 * // Disposes of this graphics context and releases any system resources
-	 * that it is using. g2d.dispose();
-	 * 
-	 * File file = new File(System.getProperty("user.dir") +
-	 * "\\src\\Images\\JavaImages\\" + name +".png");
-	 * 
-	 * try { ImageIO.write(bi, "png", file); return true; } catch (IOException
-	 * e) { // TODO Auto-generated catch block e.printStackTrace(); } return
-	 * false; }
-	 */
 	@Override
 	public int getWidth() {
 		return this.WIDTH;

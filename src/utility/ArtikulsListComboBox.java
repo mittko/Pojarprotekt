@@ -1,12 +1,11 @@
 package utility;
 
+import db.Artikul.Artikuli_DB;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
-import javax.swing.*;
-
-import db.Artikul.Artikuli_DB;
 
 public class ArtikulsListComboBox extends JComboBox<String> implements ActionListener {
 	ArrayList<String> v = null;
@@ -18,8 +17,9 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 	private final String Paste = "Постави";
 	private final Font CURRENT_FONT =
 			new Font(Font.MONOSPACED, Font.PLAIN,MainPanel.getFontSize());
-
-	public ArtikulsListComboBox() {
+    private String dbTable;
+	public ArtikulsListComboBox(String dbTable) {
+		this.dbTable = dbTable;
 		v = new ArrayList<>();
 		init();
 		for (int i = 0; i < artikuls.size(); i++) {
@@ -190,7 +190,7 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 				}
 				JPanel panel = new JPanel();
 				ArtikulsListComboBox testing;
-				testing = new ArtikulsListComboBox();
+				testing = new ArtikulsListComboBox(MainPanel.AVAILABLE_ARTIKULS);
 				panel.add(testing);
 				JFrame frame = new JFrame();
 				frame.getContentPane().add(panel);
@@ -205,7 +205,7 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 	}
 
 	private void init() {
-		SWorker sw = new SWorker();
+		SWorker sw = new SWorker(dbTable);
 		try {
 			artikuls = sw.doInBackground();
 		} catch (Exception e1) {
@@ -215,7 +215,7 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 	}
 
 	public void refreshData() {
-		SWorker sw = new SWorker();
+		SWorker sw = new SWorker(dbTable);
 		try {
 			artikuls.clear();
 			v.clear();
@@ -234,16 +234,17 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 	static class SWorker extends SwingWorker {
 
 		ArrayList<String> art = null;
-
-		public SWorker() {
+        private String dbTable;
+		public SWorker(String dbTable) {
 			art = new ArrayList<String>();
+			this.dbTable = dbTable;
 		}
 
 		@SuppressWarnings("unchecked")
 		@Override
 		protected ArrayList<String> doInBackground() throws Exception {
 			// TODO Auto-generated method stub
-			art = Artikuli_DB.getArtikulsName();
+			art = Artikuli_DB.getArtikulsName(dbTable);
 			return art;
 		}
 

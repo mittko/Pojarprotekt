@@ -46,12 +46,12 @@ public class InvoiceParent_DB extends MainPanel {
 		}
 	}
 
-	public static int insertIntoInvoiceParent(String id, String protokol,
+	public static int insertIntoInvoiceParent(String dbTable, String id, String protokol,
 			String payment, String discount, String value, String client,
 			String saller, String date) {
 		Connection connect = null;
 		Statement stat = null;
-		String command = "insert into " + INVOICE_PARENT + " values ('" + id
+		String command = "insert into " + dbTable + " values ('" + id
 				+ "','" + payment + "','" + discount + "','" + value + "','"
 				+ client + "','" + saller + "','" + date + "','" + protokol
 				+ "')";

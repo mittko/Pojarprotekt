@@ -1,7 +1,7 @@
 package admin.SkladExtinguisher;
 
 import Document.TextFieldLimit;
-import ServiceOrder.ServiceModels.*;
+import office.ServiceModels.*;
 import admin.SkladExtinguisher.Workers.GetCurrentExtPriceWorker;
 import admin.SkladExtinguisher.Workers.ImportNewExtinguisherInDBWorker;
 import mydate.MyGetDate;

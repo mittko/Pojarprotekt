@@ -174,6 +174,7 @@ public class GeneralTechnicalReview extends MainPanel {
 
 		box.add(Box.createGlue());
 
+
 		calendarButton = new TooltipButton();
 		// calendarButton.setIcon(new LoadIcon().setIcons(calendarImage));
 		calendarButton
@@ -181,7 +182,7 @@ public class GeneralTechnicalReview extends MainPanel {
 		calendarButton.setPreferredSize(new Dimension((int) (box
 				.getPreferredSize().getWidth() * 0.045), (int) (box
 				.getPreferredSize().getHeight() * 0.8)));
-		;
+
 		calendarButton
 				.setAutoSizedIcon(calendarButton, new LoadIcon().setIcons(calendarImage));
 		// calendarButton.setBackground(Color.RED);
@@ -277,7 +278,6 @@ public class GeneralTechnicalReview extends MainPanel {
 			}
 
 		});
-
 		box.add(diaryButton);
 		box.add(new JLabel("     "));
 		box.add(calendarButton);

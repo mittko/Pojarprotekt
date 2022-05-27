@@ -42,7 +42,7 @@ public class AvailableArtikulsTable extends MainPanel {
 
 			@Override
 			public Font getFont() {
-				return new Font(Font.MONOSPACED, Font.LAYOUT_NO_START_CONTEXT,
+				return new Font(Font.MONOSPACED, Font.ITALIC,
 						MainPanel.getFontSize() + 10);
 			}
 		};
@@ -52,30 +52,9 @@ public class AvailableArtikulsTable extends MainPanel {
 				artikulTableModel.setRowCount(0);
 				CURRENT_ROW = -1;
 				String b = searchField.getText().toLowerCase();
-				// here may to optimize with binary search !!!
-				// but work only for startsWith(string) no with contains(string)
-				/*
-				 * if(b.length() > 0) { int left = 0; int right =
-				 * helpSearchFieldList.size(); int middle = (left + right) / 2;
-				 * 
-				 * while(left <= right) { Object[] obj =
-				 * helpSearchFieldList.get(middle); String a =
-				 * obj[0].toString().toLowerCase(); if(a.startsWith(b)) { break;
-				 * } else if(b.compareTo(a) < 0) { right = middle - 1; } else
-				 * if(b.compareTo(a) > 0) { left = middle + 1; } middle = (left
-				 * + right) / 2; }
-				 * 
-				 * for(int m = left;m <= right;m++) { Object[] o =
-				 * helpSearchFieldList.get(m); String c =
-				 * o[0].toString().toLowerCase(); if(c.startsWith(b)) {
-				 * artikulTableModel.addRow(o); } }
-				 * 
-				 * }
-				 */
-				if (b.length() > 0) {
-					for (int i = 0; i < helpSearchFieldList.size(); i++) {
-						Object[] obj = helpSearchFieldList.get(i);
 
+				if (b.length() > 0) {
+					for (Object[] obj : helpSearchFieldList) {
 						String a = obj[0].toString().toLowerCase();
 						if (a.startsWith(b)) {
 							artikulTableModel.addRow(obj);
@@ -110,37 +89,7 @@ public class AvailableArtikulsTable extends MainPanel {
 
 		});
 
-		/*
-		 * viewButton = new TooltipButton("Виж текуща цена");
-		 * 
-		 * viewButton.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) { // TODO
-		 * Auto-generated method stub if(artikulTableModel.getRowCount() == 0)
-		 * return;
-		 * 
-		 * if(CURRENT_ROW == -1) { JOptionPane.showMessageDialog(null,
-		 * "Не е избран пожарогасител !"); return; }
-		 * 
-		 * if(!table.getValueAt(CURRENT_ROW, 3).toString().isEmpty()) {
-		 * 
-		 * return; }
-		 * 
-		 * JDialog jd =
-		 * (JDialog)SwingUtilities.getWindowAncestor(ArtikulsMainFrame.this);
-		 * jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-		 * seeCurrentPriceOfArtikulWorker vw = new
-		 * seeCurrentPriceOfArtikulWorker( table.getValueAt(CURRENT_ROW,
-		 * 0).toString(), jd); try { String value = vw.doInBackground();
-		 * 
-		 * if(value != null) { table.setValueAt(value,CURRENT_ROW, 3); } } catch
-		 * (Exception e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); } }
-		 * 
-		 * });
-		 */
 
-		// private TooltipButton viewButton = null;
 		TooltipButton editPriceButton = new TooltipButton("Запази нова цена");
 		editPriceButton.addActionListener(new ActionListener() {
 
@@ -182,37 +131,6 @@ public class AvailableArtikulsTable extends MainPanel {
 				jd.setResizable(false);
 				jd.setTitle("Добави артикул с нова цена");
 				jd.Show();
-
-				// OLD SOLUTION
-				// if (artikulTableModel.getRowCount() == 0)
-				// return;
-				//
-				// if (CURRENT_ROW == -1) {
-				// JOptionPane.showMessageDialog(null,
-				// "Не е избран пожарогасител !");
-				// return;
-				// }
-				// if (table.getValueAt(CURRENT_ROW, 3).toString().isEmpty()) {
-				// JOptionPane.showMessageDialog(null,
-				// "Не е въведена стойност!");
-				// return;
-				// }
-				// int yes_no = JOptionPane.showOptionDialog(null,
-				// "Желаете ли да съхраните въведените данни?", "",
-				// JOptionPane.YES_NO_OPTION,
-				// JOptionPane.QUESTION_MESSAGE, null, new String[] {
-				// "Да", "Не" }, // this is the array
-				// "default");
-				// if (yes_no == 0) {
-				// JDialog jd = (JDialog) SwingUtilities
-				// .getWindowAncestor(AvailableArtikulsTable.this);
-				// jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				//
-				// ChangePriceOfArtikulWorker ew = new
-				// ChangePriceOfArtikulWorker(
-				// jd);
-				// ew.execute();
-				// }
 
 			}
 
@@ -299,6 +217,7 @@ public class AvailableArtikulsTable extends MainPanel {
 						"default");
 				if (yes_no == 0) {
 					DeleteArtikulWorker dw = new DeleteArtikulWorker(
+							AVAILABLE_ARTIKULS,
 							(JDialog) SwingUtilities
 									.getWindowAncestor(AvailableArtikulsTable.this),
 							item, kontragentItem, invoiceItem);
@@ -356,54 +275,110 @@ public class AvailableArtikulsTable extends MainPanel {
 			}
 
 		});
-		GridBagConstraints gbc1 = new GridBagConstraints();
-		gbc1.fill = GridBagConstraints.HORIZONTAL;
-		gbc1.gridx = 0;
-		gbc1.gridy = 0;
-		gbc1.gridwidth = 2;
-		gbc1.insets = new Insets(0, 0, 0, 0);
 
-		GridBagConstraints gbc6 = new GridBagConstraints();
-		gbc6.fill = GridBagConstraints.HORIZONTAL;
-		gbc6.gridx = 2;
-		gbc6.gridy = 0;
-		gbc6.gridwidth = 1;
-		gbc6.insets = new Insets(0, 0, 0, 0);
-		GridBagConstraints gbc2 = new GridBagConstraints();
-		gbc2.fill = GridBagConstraints.HORIZONTAL;
-		gbc2.gridx = 3;
-		gbc2.gridy = 0;
-		gbc2.gridwidth = 1;
-		gbc2.insets = new Insets(0, 0, 0, 0);
+		TooltipButton addArtikulGreyButton = new TooltipButton("Добави нов артикул");
+		addArtikulGreyButton.setVisible(MainPanel.ACCESS_MENU[ACCESS_ACQUITTANCE]);// !!!
+		addArtikulGreyButton.setForeground(Color.RED);
+		addArtikulGreyButton.addActionListener(new ActionListener() {
 
-		GridBagConstraints gbc3 = new GridBagConstraints();
-		gbc3.fill = GridBagConstraints.HORIZONTAL;
-		gbc3.gridx = 0;
-		gbc3.gridy = 1;
-		gbc3.gridwidth = 1;
-		gbc3.insets = new Insets(0, 0, 0, 0);
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
 
-		GridBagConstraints gbc4 = new GridBagConstraints();
-		gbc4.fill = GridBagConstraints.HORIZONTAL;
-		gbc4.gridx = 1;
-		gbc4.gridy = 1;
-		gbc4.gridwidth = 1;
-		gbc4.insets = new Insets(0, 0, 0, 0);
+				// int[] selectedToDelete = table.getSelectedRows();
+				String artikulItem = "";
+				String skladItem = "";
+				String medItem = "";
+				String valueItem = "";
+				String fakturaItem = "";
+				String kontragentItem = "";
+				String dateItem = "";
+				String operatorItem = "";
+				String percentProfitItem = "";
+					if (CURRENT_ROW >= 0) {
+					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
+					// skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
+					medItem = table.getValueAt(CURRENT_ROW, 2).toString();
+					valueItem = "0";
+					dateItem = MyGetDate.getReversedSystemDate();// table.getValueAt(CURRENT_ROW,
+					// 6).toString();
+					operatorItem = table.getValueAt(CURRENT_ROW, 7).toString();
+					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
+							.toString();
+				}
+				fakturaItem = "0000001";
+				kontragentItem = "ПОЖАРПРОТЕКТ ООД";
 
-		GridBagConstraints gbc5 = new GridBagConstraints();
-		gbc5.fill = GridBagConstraints.HORIZONTAL;
-		gbc5.gridx = 2;
-		gbc5.gridy = 1;
-		gbc5.gridwidth = 1;
-		gbc5.insets = new Insets(0, 0, 0, 0);
+				AddArtikulGreyDialog newArtikul = new AddArtikulGreyDialog(artikulItem,
+						skladItem, medItem, valueItem, fakturaItem,
+						kontragentItem, dateItem, operatorItem,
+						percentProfitItem);
+				JDialoger jd = new JDialoger();
+				jd.setContentPane(newArtikul);
+				jd.setResizable(false);
+				jd.setTitle("Други");
+				jd.Show();
+
+			}
+
+		});
+		GridBagConstraints gbc00 = new GridBagConstraints();
+		gbc00.fill = GridBagConstraints.HORIZONTAL;
+		gbc00.gridx = 0;
+		gbc00.gridy = 0;
+		gbc00.gridwidth = 2;
+		gbc00.insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints gbc20 = new GridBagConstraints();
+		gbc20.fill = GridBagConstraints.HORIZONTAL;
+		gbc20.gridx = 2;
+		gbc20.gridy = 0;
+		gbc20.gridwidth = 1;
+		gbc20.insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints gbc30 = new GridBagConstraints();
+		gbc30.fill = GridBagConstraints.HORIZONTAL;
+		gbc30.gridx = 3;
+		gbc30.gridy = 0;
+		gbc30.gridwidth = 1;
+		gbc30.insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints gbc01 = new GridBagConstraints();
+		gbc01.fill = GridBagConstraints.HORIZONTAL;
+		gbc01.gridx = 0;
+		gbc01.gridy = 1;
+		gbc01.gridwidth = 1;
+		gbc01.insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints gbc11 = new GridBagConstraints();
+		gbc11.fill = GridBagConstraints.HORIZONTAL;
+		gbc11.gridx = 1;
+		gbc11.gridy = 1;
+		gbc11.gridwidth = 1;
+		gbc11.insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints gbc21 = new GridBagConstraints();
+		gbc21.fill = GridBagConstraints.HORIZONTAL;
+		gbc21.gridx = 2;
+		gbc21.gridy = 1;
+		gbc21.gridwidth = 1;
+		gbc21.insets = new Insets(0, 0, 0, 0);
 
 
-		GridBagConstraints gbc8 = new GridBagConstraints();
-		gbc8.fill = GridBagConstraints.HORIZONTAL;
-		gbc8.gridx = 3;
-		gbc8.gridy = 1;
-		gbc8.gridwidth = 1;
-		gbc8.insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints gbc31 = new GridBagConstraints();
+		gbc31.fill = GridBagConstraints.HORIZONTAL;
+		gbc31.gridx = 3;
+		gbc31.gridy = 1;
+		gbc31.gridwidth = 1;
+		gbc31.insets = new Insets(0, 0, 0, 0);
+
+		GridBagConstraints gbc40 = new GridBagConstraints();
+		gbc40.fill = GridBagConstraints.HORIZONTAL;
+		gbc40.gridx = 4;
+		gbc40.gridy = 0;
+		gbc40.gridwidth = 1;
+		gbc40.insets = new Insets(0, 0, 0, 0);
 
 		TooltipButton editArtikulNameButton = new TooltipButton("Прейменувай артикул");
 		editArtikulNameButton.addActionListener(new ActionListener() {
@@ -424,14 +399,17 @@ public class AvailableArtikulsTable extends MainPanel {
 			}
 		});
 
-		northPanel.add(searchField,gbc1);
-		northPanel.add(loadButton,gbc2);
+		northPanel.add(searchField,gbc00);
+		northPanel.add(loadButton, gbc20);
+	//	northPanel.add(editArtikulNameButton, gbc30);
+		northPanel.add(editQuantityButton,gbc30);
 		// northPanel.add(viewButton);
-		northPanel.add(editQuantityButton,gbc3);
-		northPanel.add(editPriceButton,gbc4);
-		northPanel.add(deleteButton,gbc5);
-		northPanel.add(addArtikulButton, gbc6);
-		northPanel.add(editArtikulNameButton, gbc8);
+		northPanel.add(editPriceButton,gbc01);
+		northPanel.add(deleteButton,gbc11);
+		northPanel.add(addArtikulButton,gbc21);
+		northPanel.add(addArtikulGreyButton,gbc31);
+
+
 		JPanel centerPanel = new JPanel();
 
 		artikulTableModel = new DefaultTableModel(new String[] { "Артикули",
@@ -439,23 +417,12 @@ public class AvailableArtikulsTable extends MainPanel {
 				"Дата", "Оператор", "Процент Печалба" }, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				if (column == 1 || column == 3) {
-					return true;
-				}
-				return false;
+				return column == 1 || column == 3;
 			}
 		};
 
 		table = new JTable(artikulTableModel);
 
-		// sorting data
-		// TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
-		// table.getModel());
-		// table.setRowSorter(sorter);
-		// List<RowSorter.SortKey> sortKeys = new ArrayList<>(1);
-		// sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-		// sorter.setSortKeys(sortKeys);
-		//
 
 		table.setDefaultRenderer(Object.class, new ArtikulRenderer());
 		table.setRowHeight(MainPanel.getFontSize() + 15);
@@ -469,8 +436,6 @@ public class AvailableArtikulsTable extends MainPanel {
 		});
 		//
 		setColumnsWidth();
-		//
-		// JTable rowTable = new CommonResources.RowNumberTable(table); //****
 
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -479,12 +444,7 @@ public class AvailableArtikulsTable extends MainPanel {
 															// bar
 
 		scroll.setPreferredSize(new Dimension(this.WIDTH - 50, this.HEIGHT - 70));
-		// scroll.getVerticalScrollBar().setUI(new YourUI());
-		// scroll.getHorizontalScrollBar().setUI(new YourUI());
 
-		// scroll.setRowHeaderView(rowTable); //****
-		// scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER,//****
-		// rowTable.getTableHeader());//****
 
 		centerPanel.add(scroll);
 

@@ -1,43 +1,21 @@
 package invoicewindow;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-
+import invoice.InvoiceRenderer.CustomTableCellRenderer;
+import invoice.SaveInInvoiceDBDialog;
+import invoice.Sklad.SkladArtikulFrame;
+import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
+import invoice.worker.GetDiscountWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utility.*;
-import Invoice.SaveInDBDialog;
-import Invoice.InvoiceRenderer.CustomTableCellRenderer;
-import Invoice.Sklad.SkladArtikulFrame;
-import Invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
-import Invoice.worker.GetDiscountWorker;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ArtikulTab extends MainPanel {
 
@@ -198,18 +176,20 @@ public class ArtikulTab extends MainPanel {
 					return;
 				}
 
-				SaveInDBDialog save = new SaveInDBDialog("-",// here protokol
-																// number is not
-																// needed and is
-																// marked as -
-																// (without
-																// protokol)
+				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(INVOICE_PARENT,
+						INVOICE_CHILD,
+						"-",// here protokol
+						// number is not
+						// needed and is
+						// marked as -
+						// (without
+						// protokol)
 						clientCombo.getSelectedItem().toString(), paymentCombo
 								.getSelectedItem().toString(), discountField
 								.getText(), MyMath.round(getDanOsnova(), 2)
 								+ "", personName, MyGetDate
 								.getReversedSystemDate(), true, // invoice
-						true, // proform
+						false, // proform
 						true, // acquittance
 						dftm, null, // there is invoice num label
 						null, // there is no proform num label
@@ -395,7 +375,7 @@ public class ArtikulTab extends MainPanel {
 		 * (int)(southPanel.getPreferredSize().getWidth() * 0.3),
 		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
 		 */
-		sallerLabel.setTitle("Продавач : ");
+		sallerLabel.setTitle(Enums.Оператор.name() +  ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);

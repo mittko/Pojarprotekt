@@ -1,13 +1,9 @@
 package admin.Artikul.Workers;
 
-import java.awt.Cursor;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
 import db.Artikul.Artikuli_DB;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class UpdatePriceArtikulWorker extends SwingWorker {
 	private String artikul = null;
@@ -17,12 +13,13 @@ public class UpdatePriceArtikulWorker extends SwingWorker {
 	private String newPercentProfit = null;
 
 	private int updateIntoAvailableArtikuls = 0;
-	private int updateIntoDeliveryArtikuls = 0;
+	private final int updateIntoDeliveryArtikuls = 0;
 	private JDialog jd = null;
-
-	public UpdatePriceArtikulWorker(String artikul, String value,
+    private final String dbTable;
+	public UpdatePriceArtikulWorker(String dbTable,String artikul, String value,
 			String newPercentProfit, String kontragent,
 			String invoiceByKontragent, JDialog jd) {
+		this.dbTable = dbTable;
 		this.artikul = artikul;
 		this.value = value;
 		this.newPercentProfit = newPercentProfit;
@@ -37,7 +34,7 @@ public class UpdatePriceArtikulWorker extends SwingWorker {
 		try {
 
 			updateIntoAvailableArtikuls = Artikuli_DB
-					.updateArtikul_ValueInAvailable(artikul, value,
+					.updateArtikul_ValueInAvailable(dbTable,artikul, value,
 							newPercentProfit, kontragent, invoiceByKontragent);
 			// не е нужно да променяме стойностите в доставки , достатъчно е да
 			// се изчисли нова цена и нов процент печалба

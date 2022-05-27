@@ -4,18 +4,22 @@ import NewClient.NewClient;
 import NewClient.editClient.EditClientPanel;
 import NewExtinguisher.NewExtinguisherWindow;
 import Reports.ReportDialog;
-import ServiceOrder.ServiceOrder;
 import WorkingBook.Brack;
 import WorkingBook.StartWorkerTabbedPane;
 import WorkingBook.View;
+import acquittance.windows.AcquittanceFrame;
 import admin.AdminDialog;
 import db.Brack.BrackNumber;
 import db.Invoice.InvoiceNumber;
 import db.Protokol.ProtokolNumber;
+import declarations.DeclarationsDialog;
 import generators.GenerateSO;
+import invoiceservice.ServiceArtikulTab;
+import invoiceservice.ServiceInvoiceFrame;
 import invoicewindow.InvoiceFrame;
 import invoicewindow.SearchFromProformTab;
 import invoicewindow.SearchFromProtokolTab;
+import office.ServiceOrder;
 import run.JDialoger;
 import utility.MainPanel;
 
@@ -24,15 +28,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MainMenu extends MainPanel {
-
-	// private GridLayout grid = null;
-	private JButton serviceButton = null;
-	private JButton newExtinguisher_Button = null;
-	private JButton workingBook_Button = null;
-	private JButton invoiceButton = null;
-	private JButton reportsButton = null;
-	private JButton editClientButton = null;
-	private JButton newClientButton = null;
 
 	private final JPanel menu = new JPanel();
 
@@ -50,10 +45,28 @@ public class MainMenu extends MainPanel {
 
 		menu.setOpaque(false);
 
-		serviceButton = new JButton("СЕРВИЗНА ПОРЪЧКА");
+		// private GridLayout grid = null;
+		JButton antifireFacilities = new JButton("ПРОТИВОПОЖАРНИ СЪОРЪЖЕНИЯ");
 		// serviceButton.setPreferredSize(buttonSize);
 		// serviceButton.setEnabled(ACCESS_MENU[0]);
-		serviceButton.addActionListener(new ActionListener() {
+		antifireFacilities.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				DeclarationsDialog sp = new DeclarationsDialog();
+				JDialoger jDialog = new JDialoger();
+				jDialog.setTitle("ПРОТИВОПОЖАРНИ СЪОРЪЖЕНИЯ");
+				jDialog.setContentPane(sp);
+				jDialog.setResizable(false);
+				jDialog.Show();
+			}
+		});
+
+		JButton officeButton = new JButton("СЕРВИЗНА ПОРЪЧКА");
+		// serviceButton.setPreferredSize(buttonSize);
+		// serviceButton.setEnabled(ACCESS_MENU[0]);
+		officeButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -76,7 +89,7 @@ public class MainMenu extends MainPanel {
 				sw.execute();
 			}
 		});
-		newExtinguisher_Button = new JButton("НОВИ ПОЖАРОГАСИТЕЛИ");
+		JButton newExtinguisher_Button = new JButton("НОВИ ПОЖАРОГАСИТЕЛИ");
 		// newExtinguisher_Button.setPreferredSize(buttonSize);
 		// newExtinguisher_Button.setEnabled(ACCESS_MENU[4]);
 		newExtinguisher_Button.addActionListener(new ActionListener() {
@@ -107,7 +120,7 @@ public class MainMenu extends MainPanel {
 			}
 
 		});
-		workingBook_Button = new JButton("РАБОТНА КНИГА");
+		JButton workingBook_Button = new JButton("РАБОТНА КНИГА");
 		// workingBook_Button.setPreferredSize(buttonSize);
 		// workingBook_Button.setEnabled(ACCESS_MENU[1]);
 		workingBook_Button.addActionListener(new ActionListener() {
@@ -190,7 +203,7 @@ public class MainMenu extends MainPanel {
 
 		});
 
-		invoiceButton = new JButton("ФАКТУРИ");
+		JButton invoiceButton = new JButton("ФАКТУРИ");
 		// invoiceButton.setPreferredSize(buttonSize);
 		// invoiceButton.setEnabled(ACCESS_MENU[2]);
 		invoiceButton.addActionListener(new ActionListener() {
@@ -224,7 +237,35 @@ public class MainMenu extends MainPanel {
 
 		});
 
-		reportsButton = new JButton("СПРАВКИ");
+		JButton serviceButton = new JButton("УСЛУГИ");
+		serviceButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingWorker sw = new SwingWorker() {
+					private JFrame jf = (JFrame) SwingUtilities
+							.getWindowAncestor(MainMenu.this);
+					private String invoiceNumber = null;
+					private String proformNumber = null;
+
+					@Override
+					protected Object doInBackground() throws Exception {
+						// TODO Auto-generated method stub
+						try {
+							jf.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+							invoiceNumber = InvoiceNumber.getInvoiceNumber();
+							proformNumber = InvoiceNumber.getProformNumber();
+						} finally {
+							SwingUtilities.invokeLater(new RunServiceInvoice(
+									invoiceNumber, proformNumber, jf));
+						}
+						return null;
+					}
+
+				};
+				sw.execute();
+			}
+		});
+		JButton reportsButton = new JButton("СПРАВКИ");
 		// reportsButton.setPreferredSize(buttonSize);
 		// reportsButton.setEnabled(ACCESS_MENU[3]);
 		reportsButton.addActionListener(new ActionListener() {
@@ -241,7 +282,7 @@ public class MainMenu extends MainPanel {
 			}
 
 		});
-		editClientButton = new JButton("РЕДАКТИРАНЕ НА \n КЛИЕНТИ");
+		JButton editClientButton = new JButton("РЕДАКТИРАНЕ НА \n КЛИЕНТИ");
 		// editClientButton.setPreferredSize(buttonSize);
 		editClientButton.addActionListener(new ActionListener() {
 
@@ -257,7 +298,7 @@ public class MainMenu extends MainPanel {
 			}
 
 		});
-		newClientButton = new JButton("НОВ КЛИЕНТ");
+		JButton newClientButton = new JButton("НОВ КЛИЕНТ");
 		// newClientButton.setPreferredSize(buttonSize);
 		newClientButton.addActionListener(new ActionListener() {
 
@@ -273,8 +314,23 @@ public class MainMenu extends MainPanel {
 			}
 
 		});
+		JButton acquittanceButton = new JButton("СТОКОВИ РАЗПИСКИ");
+		//	acquittanceButton.setVisible(MainPanel.ACCESS_MENU[ACCESS_ACQUITTANCE]);
+		acquittanceButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				AcquittanceFrame acquittanceDialog = new AcquittanceFrame();
+				JDialoger jd = new JDialoger();
+				jd.setTitle("Стоковои разписки");
+				jd.setContentPane(acquittanceDialog);
+				jd.setResizable(false);
+				jd.Show();
+
+			}
+		});
 		int[] posX = { 0, 1 };
-		int[] posY = { 0, 1, 2, 3 };
+		int[] posY = { 0, 1, 2, 3, 5 };
 		GridBagConstraints[] gbc = new GridBagConstraints[posX.length
 				* posY.length];
 		int g = 0;
@@ -292,41 +348,44 @@ public class MainMenu extends MainPanel {
 			}
 		}
 
-		JButton[] menuButtons = { newClientButton, editClientButton,
-				serviceButton, workingBook_Button, invoiceButton,
-				reportsButton, newExtinguisher_Button };
+		JButton[] menuButtons = {newClientButton, editClientButton,
+				antifireFacilities, serviceButton,
+				officeButton, workingBook_Button, invoiceButton,
+				reportsButton, newExtinguisher_Button, acquittanceButton};
 
-		// stickerButton.setAutoSizedIcon(stickerButton,
-		// setIcons(stickerImage));
-		int nextPos = 0;
-		// !!! Нови Клиенти и реадктиране на клиенти си ги има по подразбиране
-		menu.add(menuButtons[0], gbc[nextPos]);
-		nextPos++;
-		menu.add(menuButtons[1], gbc[nextPos]);
-		nextPos++;
-		for (int i = 2; i < menuButtons.length; i++) {
-			if (ACCESS_MENU[i - 2]) {
-				menu.add(menuButtons[i], gbc[nextPos]);
-				nextPos++;
-			}
-		}
 		Dimension buttonSize = new Dimension(this.WIDTH / (ii + 1), this.HEIGHT
 				/ (jj + 3));
+		int nextPos = 0;
 		// !!! Нови Клиенти и реадктиране на клиенти си ги има по подразбиране
-		menuButtons[0].setPreferredSize(buttonSize);
-		menuButtons[1].setPreferredSize(buttonSize);
-		for (int i = 2; i < menuButtons.length; i++) {
-			if (ACCESS_MENU[i - 2]) {
+		for(nextPos = 0;nextPos < 4;nextPos++) {
+			menu.add(menuButtons[nextPos], gbc[nextPos]);
+			menuButtons[nextPos].setPreferredSize(buttonSize);
+		}
+		int[] access_array = new int[]{
+				ACCESS_SO,
+				ACCESS_WORKING_BOOK,
+				ACCESS_INVOICE,
+				ACCESS_REPORTS,
+				ACCESS_NEW_EXT,
+				ACCESS_ACQUITTANCE};
+		int GBD = nextPos;
+		for (int i = nextPos; i < menuButtons.length; i++) {
+			if (ACCESS_MENU[ access_array[i - nextPos] ]) {
+				menu.add(menuButtons[i], gbc[GBD]);
+				GBD++;
 				menuButtons[i].setPreferredSize(buttonSize);
 			}
 		}
+
+
+
 		JPanel noMinimizable = new JPanel();
 		noMinimizable.setOpaque(false);
 
 		Action someAction = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ACCESS_MENU[5] == false) {// HIDDEN_MENU IS ALLOWED !!!
+				if (!ACCESS_MENU[ACCESS_HIDDEN_MENU]) {// HIDDEN_MENU IS ALLOWED !!!
 					return;
 				}
 				AdminDialog sp = new AdminDialog();
@@ -513,10 +572,55 @@ public class MainMenu extends MainPanel {
 
 	}
 
-	/*
-	 * @Override public void paintComponent(Graphics g) {
-	 * super.paintComponent(g);
-	 * g.drawImage(background,0,0,this.WIDTH,this.HEIGHT,null); }
-	 */
+	class RunServiceInvoice implements Runnable {
 
+		private String invoiceNumber = null;
+		private String proformNumber = null;
+		private JFrame jf = null;
+
+		public RunServiceInvoice(String invoiceNumber, String proformNumber, JFrame jf) {
+			this.invoiceNumber = invoiceNumber;
+			this.proformNumber = proformNumber;
+			this.jf = jf;
+		}
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			jf.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			if (invoiceNumber != null) {
+				final ServiceInvoiceFrame serviceInvoiceFrame = new ServiceInvoiceFrame();
+				final JDialoger jDialog = new JDialoger();
+				jDialog.setTitle("Фактури / Проформи / Стокови разписки");
+				jDialog.setContentPane(serviceInvoiceFrame);
+				jDialog.setResizable(false);
+				jDialog.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent we) {
+						if (ServiceArtikulTab.dftm.getRowCount() > 0) {
+							int yes_no = JOptionPane
+									.showOptionDialog(
+											null,
+											"Наистина ли искате да затворите прозореца ?",
+											"ПОЖАРПРОТЕКТ",
+											JOptionPane.YES_NO_OPTION,
+											JOptionPane.QUESTION_MESSAGE, null,
+											new String[] { "Да", "Не" },
+											"default");
+							if (yes_no == 0) {
+								jDialog.dispose();
+							} else {
+								jDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+							}
+						} else {
+							jDialog.dispose();
+						}
+					}
+				});
+				jDialog.Show();
+			}
+
+		}
+
+	}
 }

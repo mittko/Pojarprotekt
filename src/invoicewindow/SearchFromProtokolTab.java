@@ -1,12 +1,22 @@
 package invoicewindow;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Point;
+import invoice.Fiskal.CreateBonFPrint;
+import invoice.InvoiceRenderer.CustomTableCellRenderer;
+import invoice.SaveInInvoiceDBDialog;
+import invoice.Sklad.SkladArtikulFrame;
+import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
+import invoice.worker.ProtokolSearchWorker;
+import invoice.worker.SellWithFiskalBonWorker;
+import NewClient.NewClient;
+import mydate.MyGetDate;
+import run.JDialoger;
+import utility.*;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,33 +24,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-
-import Invoice.Fiskal.CreateBonFPrint;
-import mydate.MyGetDate;
-import run.JDialoger;
-import utility.*;
-import Invoice.SaveInDBDialog;
 //import utility.CheckButtonArtikuli;
-import Invoice.InvoiceRenderer.CustomTableCellRenderer;
-import Invoice.Sklad.SkladArtikulFrame;
-import Invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
-import Invoice.worker.ProtokolSearchWorker;
-import Invoice.worker.SellWithFiskalBonWorker;
-import NewClient.NewClient;
 
 public class SearchFromProtokolTab extends MainPanel {
 
@@ -284,13 +268,14 @@ public class SearchFromProtokolTab extends MainPanel {
 					return;
 				}
 
-				SaveInDBDialog save = new SaveInDBDialog(protokolNumber,
+				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(INVOICE_PARENT,INVOICE_CHILD
+						,protokolNumber,
 						INVOICE_CURRENT_CLIENT, paymenCombo.getSelectedItem()
 								.toString(), discountField.getText(), MyMath
 								.round(getDanOsnova(), 2) + "", personName,
 						dateField.getText(),
 						true, // invoice
-						true, // proform
+						false, // proform
 						true, // acquittance
 						invoiceTableModel, invoiceNumberLabel, proformNumLabel,
 						null);
@@ -474,7 +459,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		 * (int)(southPanel.getPreferredSize().getWidth() * 0.25),
 		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
 		 */
-		sallerLabel.setTitle("Продавач : ");
+		sallerLabel.setTitle(Enums.Оператор.name() + ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel sumLabel = new BevelLabel(labelHeight);

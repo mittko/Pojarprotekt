@@ -4,7 +4,7 @@ import NewClient.NewClient;
 import NewExtinguisher.Renderers.NewExtingusherRenderer;
 import NewExtinguisher.SwingWorkers.PrintProtokolWorker;
 import NewExtinguisher.SwingWorkers.SaveInProtokolFromNewExtinguisherWorker;
-import NewExtinguisher.SwingWorkers.StickerPrinterWorkerOldVersion;
+import NewExtinguisher.SwingWorkers.StickerPrinterWorker;
 import admin.SkladExtinguisher.Shop_SkladExtinuisher;
 import admin.SkladExtinguisher.Workers.SeeAllNewExtinguisherWorker;
 import generators.BarcodGenerator;
@@ -120,16 +120,16 @@ public class NewExtinguisherWindow extends MainPanel {
 					JOptionPane.showMessageDialog(null, "Няма въведени данни!");
 					return;
 				}
-				final StickerPrinterWorkerOldVersion sp =
-						new StickerPrinterWorkerOldVersion(MainPanel.ТО,
-								NewExtinguisherWindow.dftm.getValueAt(NewExtinguisherWindow.this.CURRENT_ROW,
-										2).toString(), MyGetDate.getDateAfterToday(365));
-				sp.execute();
-//				StickerPrinterWorker sp = new StickerPrinterWorker(
-//						/*MainPanel.ТО,*/ dftm.getValueAt(CURRENT_ROW, 2)
-//								.toString(), MyGetDate.getDateAfterToday(365),
-//						"не","не", 1);
+//				final StickerPrinterWorkerOldVersion sp =
+//						new StickerPrinterWorkerOldVersion(MainPanel.ТО,
+//								NewExtinguisherWindow.dftm.getValueAt(NewExtinguisherWindow.this.CURRENT_ROW,
+//										2).toString(), MyGetDate.getDateAfterToday(365));
 //				sp.execute();
+				StickerPrinterWorker sp = new StickerPrinterWorker(
+						/*MainPanel.ТО,*/ dftm.getValueAt(CURRENT_ROW, 2)
+								.toString(), MyGetDate.getDateAfterToday(365),
+						"не","не", 1);
+				sp.execute();
 			}
 
 		});
@@ -367,10 +367,7 @@ public class NewExtinguisherWindow extends MainPanel {
 				"Контрагент", "Фактура по доставка", "Доп. данни" }, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				if (column == 3 || column == 9) {
-					return true;
-				}
-				return false;
+				return column == 3 || column == 9;
 			}
 		};
 		dftm.addTableModelListener(new TableModelListener() {
@@ -435,7 +432,7 @@ public class NewExtinguisherWindow extends MainPanel {
 		 * (int)(southPanel.getPreferredSize().getWidth() * 0.3),
 		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
 		 */
-		sallerLabel.setTitle(" Продавач : ");
+		sallerLabel.setTitle(Enums.Оператор.name() +  ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);

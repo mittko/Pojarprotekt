@@ -10,7 +10,6 @@ import generators.GenerateSO;
 import generators.NumGenerator;
 import generators.ProtokolGenerator;
 import mydate.MyGetDate;
-import utility.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -61,7 +60,7 @@ public class SaveInProtokolFromNewExtinguisherWorker extends SwingWorker {
 					"не", // HI
 					"", // parts
 					protokol_Number, // protokolNumber
-					MainPanel.personName, // person
+					"Георги Ильов",//MainPanel.personName, // person
 					MyGetDate.getReversedSystemDate());// date
 			for (int j : insertResult) {
 				if (j == 1) {

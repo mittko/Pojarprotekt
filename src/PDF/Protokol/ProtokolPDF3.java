@@ -36,10 +36,13 @@ public class ProtokolPDF3 extends PdfCreator {
 	private Image technikImage2;
 	private Image technikImage3;
 	private Image technikImage4;
-	private final Font font10 = getFontAndSize("arial", 10);
-	private final Font font9 = getFontAndSize("arial", 9);
-	private final Font font8 = getFontAndSize("arial", 8);
-	private final Font font7 = getFontAndSize("arial", 7);
+	private String arial = "arial";
+	private String arialbd = "arialbd";
+	private String italic = "italic";
+	private final Font font10 = getFontAndSize(arial, 10);
+	private final Font font9 = getFontAndSize(arial, 9);
+	private final Font font8 = getFontAndSize(arial, 8);
+	private final Font font7 = getFontAndSize(arial, 7);
 	public ProtokolPDF3() {
 	}
 
@@ -54,46 +57,46 @@ public class ProtokolPDF3 extends PdfCreator {
 			return false;
 		}
 
-		setText("Приложение \u2116 9 към чл. 31, ал. 5", X, Y, "arialbd", 10);// НАРЕДБА
+		setText("Приложение \u2116 9 към чл. 31, ал. 5", X, Y, arialbd, 10);// НАРЕДБА
 																				// 8121з-531,
-		setText("(Доп. - ДВ, бр. 33 от 2017 г.)", X + 40, Y - 15, "arial", 9);
+		setText("(Доп. - ДВ, бр. 33 от 2017 г.)", X + 40, Y - 15, arial, 9);
 		X = (document.right() - 50) / 2;
 		Y = Y - 30;
-		setText("ПРОТОКОЛ \u2116 " + protokolNumber, X, Y, "arialbd", 10);
+		setText("ПРОТОКОЛ \u2116 " + protokolNumber, X, Y, arialbd, 10);
 		X = 35;
 		Y = Y - 15;
 		setText("за предаване и приемане на пожарогасители, на които е извършено техническо обслужване, презареждане",
-				X, Y, "arialbd", 10);
+				X, Y, arialbd, 10);
 		X = (document.right() / 2) - 100;
 		Y = Y - 15;
 		setText("или хидростатично изпитване (в комбинация или поотделно)", X,
-				Y, "arialbd", 10);
+				Y, arialbd, 10);
 		X = 35;
 		Y = Y - 15;
 		setText("Днес, "
 				+ protokolDate
 				+ " в гр. Дупница, ръководителят (упълномощеният представител) "
-				+ "Петя Мертакчийска", X, Y, "arial", 9);
+				+ "Петя Мертакчийска", X, Y, arial, 9);
 		X = (document.right() / 2) - 20;
 		Y = Y - 15;
-		setText("(име, презиме, фамилия)", X, Y, "italic", 8);
+		setText("(име, презиме, фамилия)", X, Y, italic, 8);
 		X = 35;
 		Y = Y - 15;
 		setText("на " + "\"" + MainPanel.SALLER_NAME + "\""
 				+ ", адрес: гр./с. София " + MainPanel.SALLER_ADDRESS
-				+ ", обл. София-Град,", X, Y, "arial", 9);
+				+ ", обл. София-Град,", X, Y, arial, 9);
 		X = 35;
 		Y = Y - 15;
 		setText("ЕИК: " + MainPanel.SALLER_EIK + ", тел.: "
-				+ MainPanel.SALLER_PERSON_TELEFON, X, Y, "arial", 9);
+				+ MainPanel.SALLER_PERSON_TELEFON, X, Y, arial, 9);
 		X = 35;
 		Y = Y - 15;
 		setText("( наименование, адрес, единен идентификационен код (ЕИК) и телефон на организациата за обслужбане на пожарогасители)",
-				X, Y, "italic", 8);
+				X, Y, italic, 8);
 		X = 35;
 		Y = Y - 15;
 		setText("предаде на собственика (или негов представител) пожарогасителите , на които е извършено обслужване, както следва:",
-				X, Y, "arial", 9);
+				X, Y, arial, 9);
 		Y = Y - 10;
 
 		if (!setDynamicTable(X - 10, Y, dm, PARTS, clData, protokolNumber,
@@ -414,72 +417,89 @@ public class ProtokolPDF3 extends PdfCreator {
 				// set name of person
 				if (dm.getColumnCount() >= 13) {
 					// generira se ot spravki
-					String technikName = dm.getValueAt(row + startIndex, 13)
-							.toString();
-					PdfPCell cell13 = new PdfPCell(new Phrase(technikName, font7));
-
-					cell13.setHorizontalAlignment(Element.ALIGN_LEFT);
-					dynamicTable.addCell(cell13); //
+					String technikName = dm.getValueAt(row + startIndex, 13).toString();
 
 					switch (technikName) {
 						case "Георги Ковачки": {
-							PdfPCell cell = new PdfPCell(technikImage, true);
-							dynamicTable.addCell(cell); // column 10 подпис на лицето
-							// извършило обслужването
-							break;
-						}
-						case "Христо Георгин": {
-							PdfPCell cell = new PdfPCell(technikImage2, true);
-							dynamicTable.addCell(cell); // column 10 подпис на лицето
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName);
+
+							PdfPCell cellSign = new PdfPCell(technikImage, true);
+							dynamicTable.addCell(cellSign); // column 10 подпис на лицето
 							// извършило обслужването
 							break;
 						}
 						case "Георги Ильов": {
-							PdfPCell cell = new PdfPCell(technikImage3, true);
-							dynamicTable.addCell(cell);
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName);
+
+							PdfPCell cellSign = new PdfPCell(technikImage3, true);
+							dynamicTable.addCell(cellSign);
 							break;
 						}
 						case "Спас Ильов": {
-							PdfPCell cell = new PdfPCell(technikImage4, true);
-							dynamicTable.addCell(cell);
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName);
+
+							PdfPCell cellSign = new PdfPCell(technikImage4, true);
+							dynamicTable.addCell(cellSign);
 							break;
 						}
 						default:
-							dynamicTable.addCell("");
+							PdfPCell cellName = new PdfPCell(new Phrase("Георги Ильов", font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName);
+
+							PdfPCell cellSign = new PdfPCell(technikImage3, true);
+							dynamicTable.addCell(cellSign);
 							break;
 					}
 
-				} else {
-
-					// generira se na momenta
-					String[] person = MainPanel.personName.trim().split("[  ]+");
-					Phrase personName;
-					if (person.length > 1) {
-						personName = new Phrase(person[0] + "\n" + person[1], font7);
-					} else {
-						personName = new Phrase(person[0], font7);
-					}
-
-					PdfPCell cell13 = new PdfPCell(personName);
-
-					cell13.setHorizontalAlignment(Element.ALIGN_LEFT);
-					dynamicTable.addCell(cell13); // column 9 име на лицето
-					// извършило обслужване
+				    } else {
+				//	 generira se na momenta
 
 					String technikName = MainPanel.personName.trim();
 
-					if ("Георги Ковачки".equals(technikName)) {
-						PdfPCell cell = new PdfPCell(technikImage, true);
-						dynamicTable.addCell(cell); // column 10 подпис на лицето
-						// извършило обслужването
-					} else if ("Георги Ильов".equals(technikName)) {
-						PdfPCell cell = new PdfPCell(technikImage3, true);
-						dynamicTable.addCell(cell);
-					} else if ("Спас Ильов".equals(technikName)) {
-						PdfPCell cell = new PdfPCell(technikImage4, true);
-						dynamicTable.addCell(cell);
-					} else {
-						dynamicTable.addCell("");
+					switch (technikName) {
+						case "Георги Ковачки": {
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName); // column 9 име на лицето
+
+							PdfPCell cellSign = new PdfPCell(technikImage, true);
+							dynamicTable.addCell(cellSign); // column 10 подпис на лицето
+							// извършило обслужването
+							break;
+						}
+						case "Георги Ильов": {
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName); // column 9 име на лицето
+
+							PdfPCell cellSign = new PdfPCell(technikImage3, true);
+							dynamicTable.addCell(cellSign);
+							break;
+						}
+						case "Спас Ильов": {
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName); // column 9 име на лицето
+
+							PdfPCell cellSign = new PdfPCell(technikImage4, true);
+							dynamicTable.addCell(cellSign);
+							break;
+						}
+						default:
+							PdfPCell cellName = new PdfPCell(new Phrase("Георги Ильов", font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName); // column 9 име на лицето
+
+							PdfPCell cellSign = new PdfPCell(technikImage3, true);
+							dynamicTable.addCell(cellSign);
+							break;
 					}
 				}
 
@@ -497,7 +517,6 @@ public class ProtokolPDF3 extends PdfCreator {
 					dynamicTable.writeSelectedRows(0, -1, fromRows, toRows, x,
 							Y - 5, writer.getDirectContent());
 					if ((Y - 5) - sumOfRows < document.bottom()) {
-						System.out.println("BOTTOM FAK YOU 2");
 						document.newPage();
 						Y = document.top();
 						fromRows = toRows;
@@ -525,30 +544,35 @@ public class ProtokolPDF3 extends PdfCreator {
 			nextY += dynamicTable.getRowHeight(i);
 		}
 		float footY = Y - nextY;
-		setFootText(x, footY - 15, clData);
+		setFootText(numer, x, footY - 15, clData);
 		return true;
 	}
 
 
 
-	private void setFootText(float x, float y, String[] clData) {
-		float[] footX = new float[] { 30, 30, 30, 30, 30, 100, 350, 30, 38, 29,
+	private void setFootText(int total, float x, float y, String[] clData) {
+		float[] footX = new float[] { 30, 30, 30, 30, 30, 30, 100, 350, 30, 38, 29,
 				170, 170, 170, 300, 300, 420, 400, 400, 30, 30 };
-		float[] footY = new float[] { 5, 20, 35, 50, 85, 100, 100, 115, 130,
-				145, 115, 145, 160, 115, 130, 115, 145, 160, 175, 190 };
+//		float[] footY = new float[] { 5, 20, 35, 50, 85, 100, 100, 115, 130,
+//				145, 115, 145, 160, 115, 130, 115, 145, 160, 175, 190 };
+//		for (int s = 4; s < footY.length; s++) { // ???????
+//			footY[s] -= 20;
+//		}
+		float[] footY = new float[] { 5,  20, 35, 50, 65, 100, 115, 115, 130, 145,
+				160, 130, 160, 175, 130, 145, 130, 160, 175, 190, 205 };
 
-		for (int s = 4; s < footY.length; s++) { // ???????
+		for (int s = 5; s < footY.length; s++) {
 			footY[s] -= 20;
 		}
-
-		if (y - footY[0] <= document.bottom()) {
+		setText("Тотал " + total + " бр", footX[0],y - footY[0],arial,9);
+		if (y - footY[1] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
 		setText("Собственик на пожарогасителя/ите " + clData[0] + "  МОЛ: "
-				+ clData[4], footX[0], y - footY[0], "arial", 9);
+				+ clData[4], footX[1], y - footY[1], arial, 9);
 
-		if (y - footY[1] <= document.bottom()) {
+		if (y - footY[2] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
@@ -557,124 +581,124 @@ public class ProtokolPDF3 extends PdfCreator {
 				+ (!clData[3].equals("") ? (" " + clData[3]) : "") +
 				" Област: "
 				+ " тел: "
-				+ clData[1], footX[1], y - footY[1], "arial", 9);
-
-		if (y - footY[2] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("(наименование, адрес, и телефон на организацията/лицето, собственик на пожарогасителя/ите)",
-				footX[2], y - footY[2], "italic", 8);
+				+ clData[1], footX[2], y - footY[2], arial, 9);
 
 		if (y - footY[3] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, ",
-				footX[3], y - footY[3], "arial", 9);
+		setText("(наименование, адрес, и телефон на организацията/лицето, собственик на пожарогасителя/ите)",
+				footX[3], y - footY[3], italic, 8);
 
 		if (y - footY[4] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("и за собственика на пожарогасителя/ите.", footX[4], y
-				- footY[4], "arial", 9);
+		setText("Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, ",
+				footX[4], y - footY[4], arial, 9);
 
 		if (y - footY[5] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("      ПРЕДАЛ:", footX[5], y - footY[5], "arial", 10);
+		setText("и за собственика на пожарогасителя/ите.", footX[5], y
+				- footY[5], arial, 9);
 
 		if (y - footY[6] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("ПРИЕЛ: ", footX[6], y - footY[6], "arial", 10);
+		setText("      ПРЕДАЛ:", footX[6], y - footY[6], arial, 10);
 
 		if (y - footY[7] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("     (ръководител/упълномощен", footX[7], y - footY[7],
-				"italic", 9);
+		setText("ПРИЕЛ: ", footX[7], y - footY[7], arial, 10);
 
 		if (y - footY[8] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("Преставител на организацията, ", footX[8], y - footY[8],
-				"italic", 9);
+		setText("     (ръководител/упълномощен", footX[8], y - footY[8],
+				italic, 9);
 
 		if (y - footY[9] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("    извършила обслужването)", footX[9], y - footY[9],
-				"italic", 9);
+		setText("Преставител на организацията, ", footX[9], y - footY[9],
+				italic, 9);
 
 		if (y - footY[10] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("(подпис, печат)", footX[10], y - footY[10], "italic", 9);
+		setText("    извършила обслужването)", footX[10], y - footY[10],
+				italic, 9);
 
 		if (y - footY[11] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("Петя Мертакчийска", footX[11], y - footY[11], "italic", 9);
+		setText("(подпис, печат)", footX[11], y - footY[11], italic, 9);
 
 		if (y - footY[12] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("(име, фамилия)", footX[12], y - footY[12], "italic", 9);
+		setText("Петя Мертакчийска", footX[12], y - footY[12], italic, 9);
 
 		if (y - footY[13] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("( собственик/предста-", footX[13], y - footY[13], "italic", 9);
+		setText("(име, фамилия)", footX[13], y - footY[13], italic, 9);
 
 		if (y - footY[14] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("вител на собственика)", footX[14], y - footY[14], "italic", 9);
+		setText("( собственик/предста-", footX[14], y - footY[14], italic, 9);
 
 		if (y - footY[15] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("(подпис)", footX[15], y - footY[15], "italic", 9);
+		setText("вител на собственика)", footX[15], y - footY[15], italic, 9);
 
 		if (y - footY[16] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("" + clData[4] + " ,МОЛ ", footX[16], y - footY[16], "italic", 9);
+		setText("(подпис)", footX[16], y - footY[16], italic, 9);
 
 		if (y - footY[17] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("(име, фамилия, длъжност)", footX[17], y - footY[17], "italic",
-				9);
+		setText("" + clData[4] + " ,МОЛ ", footX[17], y - footY[17], italic, 9);
 
 		if (y - footY[18] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("Забележка: Протоколът се съхранява до времето за извършване на следващото техническо обслужване, презареждане",
-				footX[18], y - footY[18], "arial", 9);
+		setText("(име, фамилия, длъжност)", footX[18], y - footY[18], italic,
+				9);
 
 		if (y - footY[19] <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("или хидростатично изпитване на устойчивост на налягане.", footX[19], y - footY[19],
-				"arial", 9);
+		setText("Забележка: Протоколът се съхранява до времето за извършване на следващото техническо обслужване, презареждане",
+				footX[19], y - footY[19], arial, 9);
+
+		if (y - footY[20] <= document.bottom()) {
+			document.newPage();
+			y = document.top();
+		}
+		setText("или хидростатично изпитване на устойчивост на налягане.", footX[20], y - footY[20],
+				arial, 9);
 
 		// };
 

@@ -1,12 +1,13 @@
 package db.modify;
 
+import Exceptions.DBException;
+import db.Artikul.Artikuli_DB;
+import net.GetCurrentIP;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import net.GetCurrentIP;
-import Exceptions.DBException;
 
 public class AddColumn {
 
@@ -59,7 +60,7 @@ public class AddColumn {
 
 		// int alert2 = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS,
 		// "client");
-		// int modify = Artikuli_DB.modifyColumnWidth("client", 50);
+		 int modify = Artikuli_DB.modifyColumnWidth("client", 50);
 		// System.out.println(modify);
 		// int alert3 = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS,
 		// "date");

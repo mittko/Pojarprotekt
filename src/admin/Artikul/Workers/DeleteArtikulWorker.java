@@ -1,13 +1,9 @@
 package admin.Artikul.Workers;
 
-import java.awt.Cursor;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
 import db.Artikul.Artikuli_DB;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class DeleteArtikulWorker extends SwingWorker {
 
@@ -18,14 +14,15 @@ public class DeleteArtikulWorker extends SwingWorker {
 	private String item = null;
 	private String kontragent;
 	private String invoice;
-
+    private String dbTable;
 	public DeleteArtikulWorker(JDialog jd, int[] selectedToDelete) {
 		this.jd = jd;
 		this.selectedToDelete = selectedToDelete;
 	}
 
-	public DeleteArtikulWorker(JDialog jd, String item, String kontragent,
+	public DeleteArtikulWorker(String dbTable,JDialog jd, String item, String kontragent,
 			String invoice) {
+		this.dbTable = dbTable;
 		this.jd = jd;
 		this.item = item;
 		this.kontragent = kontragent;
@@ -39,7 +36,7 @@ public class DeleteArtikulWorker extends SwingWorker {
 
 			jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			// System.out.println(item);
-			delete = Artikuli_DB.deleteArtikulFromAvailbale(item, kontragent,
+			delete = Artikuli_DB.deleteArtikulFromAvailbale(dbTable,item, kontragent,
 					invoice);
 			delete2 = Artikuli_DB.deleteArtikulFromDelivery(item, kontragent,
 					invoice);

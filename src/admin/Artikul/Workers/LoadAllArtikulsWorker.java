@@ -1,15 +1,13 @@
 package admin.Artikul.Workers;
 
-import java.awt.Cursor;
-import java.util.ArrayList;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
 import admin.Artikul.AvailableArtikulsTable;
 import db.Artikul.Artikuli_DB;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+
+import static utility.MainPanel.AVAILABLE_ARTIKULS;
 
 public class LoadAllArtikulsWorker extends SwingWorker {
 	private JDialog jd = null;
@@ -24,13 +22,13 @@ public class LoadAllArtikulsWorker extends SwingWorker {
 		// TODO Auto-generated method stub
 		try {
 
-			data = Artikuli_DB.getAllAvailableArtikuls();
+			data = Artikuli_DB.getAllAvailableArtikuls(AVAILABLE_ARTIKULS);
 			AvailableArtikulsTable.helpSearchFieldList.clear();
-			for (int d = 0; d < data.size(); d++) {
-				Object[] obj = new Object[] { data.get(d)[0], data.get(d)[1],
-						data.get(d)[2], data.get(d)[3], data.get(d)[4],
-						data.get(d)[5], data.get(d)[6], data.get(d)[7],
-						data.get(d)[8] };
+			for (Object[] datum : data) {
+				Object[] obj = new Object[]{datum[0], datum[1],
+						datum[2], datum[3], datum[4],
+						datum[5], datum[6], datum[7],
+						datum[8]};
 				AvailableArtikulsTable.helpSearchFieldList.add(obj);
 			}
 

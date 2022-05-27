@@ -66,9 +66,9 @@ public class OnlyTabs extends MainPanel {
 		centerPanel.setLayout(new CardLayout());
 		centerPanel.setPreferredSize(new Dimension(this.WIDTH-20,this.HEIGHT-200));
 		
-	   searchProtokol = new SearchFromProtokolTab();
+	    searchProtokol = new SearchFromProtokolTab();
 		
-	  searchProform = new SearchFromProformTab();
+	    searchProform = new SearchFromProformTab();
 		
 		centerPanel.add(searchProtokol,protokolButton.getText());
 		centerPanel.add(searchProform,proformButton.getText());

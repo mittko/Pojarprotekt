@@ -350,7 +350,7 @@ public class ReportDialog extends MainPanel {
 		barcod = new EditableField("Баркод", 12);
 		barcod.setPreferredSize(fieldDimension);
 
-		artikulsComboBox = new ArtikulsListComboBox();
+		artikulsComboBox = new ArtikulsListComboBox(AVAILABLE_ARTIKULS);
 
 		newExtinguishersComboBox = new NewExtinguishersComboBox();
 

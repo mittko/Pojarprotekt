@@ -582,7 +582,7 @@ public class WorkingBook extends MainPanel {
 		int labHeight = (int) (north.getPreferredSize().getHeight() * 0.9);
 		BevelLabel tehnikLabel = new BevelLabel(labHeight);
 
-		tehnikLabel.setTitle("  Техник : ");
+		tehnikLabel.setTitle(Enums.Оператор.name() +  ": ");
 		tehnikLabel.setName(personName);
 
 		clientLabel = new BevelLabel(labHeight);
@@ -701,56 +701,56 @@ public class WorkingBook extends MainPanel {
 							// 9).toString().equals("не") ? true : false;
 
 			if (TO || P || HI) { // without HI ????
-//				final JDialoger jdialog = new JDialoger();
-//				StickerJDialog sjd = new StickerJDialog(jdialog, TO, P, HI,
-//						tModel.getValueAt(0,7).toString(),// Дата на следващо техническо обслужване
-//						tModel.getValueAt(0,8).toString(),// Дата на следващо презареждане
-//						tModel.getValueAt(0,9).toString(),// Дата на следващо Хидростатично изпитване
-//						tModel.getValueAt(0, 3).toString());
-//				jdialog.setContentPane(sjd);
-//				jdialog.addWindowListener(new WindowAdapter() {
-//					@Override
-//					public void windowClosing(WindowEvent we) {
-//						int yes_no = JOptionPane
-//								.showOptionDialog(
-//										null,
-//										"Желаете ли да затворите диалоговия прозорец ?",
-//										"", JOptionPane.YES_NO_OPTION,
-//										JOptionPane.QUESTION_MESSAGE, null,
-//										new String[] { "Да", "Не" }, // this is
-//																		// the
-//																		// array
-//										"default");
-//						if (yes_no == 0) {
-//							jdialog.dispose();
-//						} else {
-//							jdialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//						}
-//
-//					}
-//				});
-//				jdialog.Show();
-
-
 				final JDialoger jdialog = new JDialoger();
-				final StickerJDialogOldVersion sjd =
-						new StickerJDialogOldVersion(jdialog, TO, P, HI,
-								WorkingBook.tModel.getValueAt(0, 3).toString());
+				StickerJDialog sjd = new StickerJDialog(jdialog, TO, P, HI,
+						tModel.getValueAt(0,7).toString(),// Дата на следващо техническо обслужване
+						tModel.getValueAt(0,8).toString(),// Дата на следващо презареждане
+						tModel.getValueAt(0,9).toString(),// Дата на следващо Хидростатично изпитване
+						tModel.getValueAt(0, 3).toString());
 				jdialog.setContentPane(sjd);
 				jdialog.addWindowListener(new WindowAdapter() {
 					@Override
-					public void windowClosing(final WindowEvent we) {
-						final int yes_no = JOptionPane.showOptionDialog(null, "Желаете ли да затворите диалоговият прозорец ?",
-								"", JOptionPane.YES_NO_OPTION,
-								JOptionPane.WARNING_MESSAGE, null, new String[] { "Да", "Не" }, "default");
+					public void windowClosing(WindowEvent we) {
+						int yes_no = JOptionPane
+								.showOptionDialog(
+										null,
+										"Желаете ли да затворите диалоговия прозорец ?",
+										"", JOptionPane.YES_NO_OPTION,
+										JOptionPane.QUESTION_MESSAGE, null,
+										new String[] { "Да", "Не" }, // this is
+																		// the
+																		// array
+										"default");
 						if (yes_no == 0) {
 							jdialog.dispose();
 						} else {
-							jdialog.setDefaultCloseOperation(0);
+							jdialog.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 						}
+
 					}
 				});
 				jdialog.Show();
+
+
+//				final JDialoger jdialog = new JDialoger();
+//				final StickerJDialogOldVersion sjd =
+//						new StickerJDialogOldVersion(jdialog, TO, P, HI,
+//								WorkingBook.tModel.getValueAt(0, 3).toString());
+//				jdialog.setContentPane(sjd);
+//				jdialog.addWindowListener(new WindowAdapter() {
+//					@Override
+//					public void windowClosing(final WindowEvent we) {
+//						final int yes_no = JOptionPane.showOptionDialog(null, "Желаете ли да затворите диалоговият прозорец ?",
+//								"", JOptionPane.YES_NO_OPTION,
+//								JOptionPane.WARNING_MESSAGE, null, new String[] { "Да", "Не" }, "default");
+//						if (yes_no == 0) {
+//							jdialog.dispose();
+//						} else {
+//							jdialog.setDefaultCloseOperation(0);
+//						}
+//					}
+//				});
+//				jdialog.Show();
 			}
 
 		} else {

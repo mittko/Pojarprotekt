@@ -24,15 +24,15 @@ import java.util.TreeMap;
 public class NewExtinguisherProtokolPDF extends PdfCreator {
 
 	private final String target = MainPanel.PROTOKOL_PDF_PATH;
-	// private final String target =
-	// System.getProperty("user.home")+"/Desktop/";
 	private float X = 400;
 	private float Y = PageSize.A4.getHeight() - 25;
 	private Document document;
 	private PdfWriter writer;
 	private PdfContentByte content;
 	private Image technikImage;
-
+    private String arial = "arial";
+    private String italic = "italic";
+    private String arialbd = "arialbd";
 	public NewExtinguisherProtokolPDF() {
 	}
 
@@ -45,46 +45,46 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 			return false;
 		}
 
-		setText("Приложение \u2116 9 към чл. 31, ал. 5", X, Y, "arialbd", 10);// НАРЕДБА
+		setText("Приложение \u2116 9 към чл. 31, ал. 5", X, Y, arialbd, 10);// НАРЕДБА
 		// 8121з-531,
-		setText("(Доп. - ДВ, бр. 33 от 2017 г.)", X + 40, Y - 15, "arial", 9);
+		setText("(Доп. - ДВ, бр. 33 от 2017 г.)", X + 40, Y - 15, arial, 9);
 		X = (document.right() - 50) / 2;
 		Y = Y - 30;
-		setText("ПРОТОКОЛ \u2116 " + protokolNumber, X, Y, "arialbd", 10);
+		setText("ПРОТОКОЛ \u2116 " + protokolNumber, X, Y, arialbd, 10);
 		X = 35;
 		Y = Y - 15;
 		setText("за предаване и приемане на пожарогасители, на които е извършено техническо обслужване, презареждане",
-				X, Y, "arialbd", 10);
+				X, Y, arialbd, 10);
 		X = (document.right() / 2) - 100;
 		Y = Y - 15;
 		setText("или хидростатично изпитване (в комбинация или поотделно)", X,
-				Y, "arialbd", 10);
+				Y, arialbd, 10);
 		X = 35;
 		Y = Y - 15;
 		setText("Днес, "
 				+ MyGetDate.getReversedSystemDate()
 				+ " в гр. Дупница, ръководителят (упълномощеният представител) "
-				+ "Петя Мертакчийска", X, Y, "arial", 9);
+				+ "Петя Мертакчийска", X, Y, arial, 9);
 		X = (document.right() / 2) - 20;
 		Y = Y - 15;
-		setText("(име, презиме, фамилия)", X, Y, "italic", 8);
+		setText("(име, презиме, фамилия)", X, Y, italic, 8);
 		X = 35;
 		Y = Y - 15;
 		setText("на " + "\"" + MainPanel.SALLER_NAME + "\""
 				+ ", адрес: гр./с. София " + MainPanel.SALLER_ADDRESS
-				+ ", обл. София-Град,", X, Y, "arial", 9);
+				+ ", обл. София-Град,", X, Y, arial, 9);
 		X = 35;
 		Y = Y - 15;
 		setText("ЕИК: " + MainPanel.SALLER_EIK + ", тел.: "
-				+ MainPanel.SALLER_PERSON_TELEFON, X, Y, "arial", 9);
+				+ MainPanel.SALLER_PERSON_TELEFON, X, Y, arial, 9);
 		X = 35;
 		Y = Y - 15;
 		setText("( наименование, адрес, единен идентификационен код (ЕИК) и телефон на организациата за обслужбане на пожарогасители)",
-				X, Y, "italic", 8);
+				X, Y, italic, 8);
 		X = 35;
 		Y = Y - 15;
 		setText("предаде на собственика (или негов представител) пожарогасителите , на които е извършено обслужване, както следва:",
-				X, Y, "arial", 9);
+				X, Y, italic, 9);
 		Y = Y - 10;
 
 		if (!setDynamicTable(X - 10, Y, dm, PARTS, clData, protokolNumber,
@@ -104,56 +104,55 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 				MyGetDate.getTimeStamp(), 0, 0);
 	}
 
-	private void setFootText(float x, float y, String[] clData) {
-		float[] footX = new float[] { 30, 30, 30, 30, 30, 100, 350, 30, 38, 29,
+	private void setFootText(int total, float x, float y, String[] clData) {
+		float[] footX = new float[] {  30, 30, 30, 30, 30, 30, 100, 350, 30, 38, 29,
 				170, 170, 170, 300, 300, 420, 400, 400, 30, 30 };
-		float[] footY = new float[] { 5, 20, 35, 50, 85, 100, 100, 115, 130,
-				145, 115, 145, 160, 115, 130, 115, 145, 160, 175, 190 };
+		float[] footY = new float[] { 5,  20, 35, 50, 65, 100, 115, 115, 130, 145,
+				160, 130, 160, 175, 130, 145, 130, 160, 175, 190, 205 };
 
-		for (int s = 4; s < footY.length; s++) {
+		for (int s = 5; s < footY.length; s++) {
 			footY[s] -= 20;
 		}
-		// String[] text = new String[] {
+		setText("Тотал " + total + " бр", footX[0],y - footY[0],arial,9);
 		setText("Собственик на пожарогасителя/ите " + clData[0] + "  МОЛ: "
-				+ clData[4], footX[0], y - footY[0], "arial", 9);
+				+ clData[4], footX[1], y - footY[1], arial, 9);
 		setText("адрес: гр./с. "
 				+ (!clData[2].equals("") ? (" " + clData[2]) : "") + " "
 				+ (!clData[3].equals("") ? (" " + clData[3]) : "") + " тел: "
-				+ clData[1], footX[1], y - footY[1], "arial", 9);
+				+ clData[1], footX[2], y - footY[2], arial, 9);
 		setText("(наименование, адрес, и телефон на организацията/лицето, собственик на пожарогасителя/ите)",
-				footX[2], y - footY[2], "italic", 8);
+				footX[3], y - footY[3], italic, 8);
 		setText("Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, ",
-				footX[3], y - footY[3], "arial", 9);
-		setText("и за собственика на пожарогасителя/ите.", footX[4], y
-				- footY[4], "arial", 9);
-		setText("      ПРЕДАЛ:", footX[5], y - footY[5], "arial", 10);
-		setText("ПРИЕЛ: ", footX[6], y - footY[6], "arial", 10);
-		setText("     (ръководител/упълномощен", footX[7], y - footY[7],
-				"italic", 9);
-		setText("Преставител на организацията, ", footX[8], y - footY[8],
-				"italic", 9);
-		setText("    извършила обслужването)", footX[9], y - footY[9],
-				"italic", 9);
-		setText("(подпис, печат)", footX[10], y - footY[10], "italic", 9);
-		setText("Петя Мертакчийска", footX[11], y - footY[11], "italic", 9);
-		setText("(име, фамилия)", footX[12], y - footY[12], "italic", 9);
+				footX[4], y - footY[4], arial, 9);
+		setText("и за собственика на пожарогасителя/ите.", footX[5], y
+				- footY[5], arial, 9);
+		setText("      ПРЕДАЛ:", footX[6], y - footY[6], arial, 10);
+		setText("ПРИЕЛ: ", footX[7], y - footY[7], arial, 10);
+		setText("     (ръководител/упълномощен", footX[8], y - footY[8],
+				italic, 9);
+		setText("Преставител на организацията, ", footX[9], y - footY[9],
+				italic, 9);
+		setText("    извършила обслужването)", footX[10], y - footY[10],
+				italic, 9);
+		setText("(подпис, печат)", footX[11], y - footY[11], italic, 9);
+		setText("Петя Мертакчийска", footX[12], y - footY[12], italic, 9);
+		setText("(име, фамилия)", footX[13], y - footY[13], italic, 9);
 
-		setText("( собственик/предста-", footX[13], y - footY[13], "italic", 9);
-		setText("вител на собственика)", footX[14], y - footY[14], "italic", 9);
-		setText("(подпис)", footX[15], y - footY[15], "italic", 9);
-		setText(clData[4] + " ,МОЛ", footX[16], y - footY[16], "italic", 9);
-		setText("(име, фамилия, длъжност)", footX[17], y - footY[17], "italic",
+		setText("( собственик/предста-", footX[14], y - footY[14], italic, 9);
+		setText("вител на собственика)", footX[15], y - footY[15], italic, 9);
+		setText("(подпис)", footX[16], y - footY[16], italic, 9);
+		setText(clData[4] + " ,МОЛ", footX[17], y - footY[17], italic, 9);
+		setText("(име, фамилия, длъжност)", footX[18], y - footY[18], italic,
 				9);
 		setText("Забележка: Протоколът се съхранява до времето за извършване на следващото техническо обслужване, презареждане",
-				footX[18], y - footY[18], "arial", 9);
-		setText("или хидростатично изпитване.", footX[19], y - footY[19],
-				"arial", 9);
-		// };
+				footX[19], y - footY[19], arial, 9);
+		setText("или хидростатично изпитване.", footX[20], y - footY[20],
+				arial, 9);
 
 		boolean newPage = false;
 		for (int i = 0; i < footX.length; i++) {
 			if (y - footY[i] <= document.bottom()) {// + 30 ???? da probvam da
-													// razbera zashto
+				// razbera zashto
 				newPage = true;
 				document.newPage();
 				break;
@@ -171,9 +170,9 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 			String protokolNumber, int startIndex, int endIndex) {
 
 		PdfPTable dynamicTable = new PdfPTable(11);
-		Font font9 = getFontAndSize("arial", 9);
-		Font font8 = getFontAndSize("arial", 8);
-		Font font7 = getFontAndSize("arial", 7);
+		Font font9 = getFontAndSize(arial, 9);
+		Font font8 = getFontAndSize(arial, 8);
+		Font font7 = getFontAndSize(arial, 7);
 		PdfPCell n = new PdfPCell(new Phrase("\u2116\nпо\nред", font9));
 		n.setNoWrap(true);
 		PdfPCell mark = new PdfPCell(new Phrase("Идентификационна маркировкa" +
@@ -345,27 +344,6 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 
 			// постави номер на разрешителното
 
-
-//			// тука да питам ? За новите пожарогасители като че ли не трябва да се слага този компонент
-//			switch (type) {
-//				case MainPanel.type_Prah_BC:
-//				case MainPanel.type_Prah_ABC:
-//					nomerRazreshitelno = "Нов ABC";
-//					break;
-//				case MainPanel.type_Water:
-//					nomerRazreshitelno = "Нов Вода";
-//					break;
-//				case MainPanel.type_Water_Fame:
-//					nomerRazreshitelno = "Нов STHAMEX";
-//					break;
-//				case MainPanel.type_CO2:
-//					nomerRazreshitelno = "Нов CO2";
-//					break;
-//				default:
-//					nomerRazreshitelno = "";
-//					break;
-//			}
-			//
 			PdfPCell razreshitelnoCell = new PdfPCell(new Phrase(
 					nomerRazreshitelno, font7));
 			razreshitelnoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -383,9 +361,8 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 
 			dynamicTable.addCell(dateCell); // column 8 дата
 
-			String person[] = new String[] { "Георги", "Ильов" };// MainPanel.personName.trim().split("[  ]+");
-			PdfPCell personCell = new PdfPCell(new Phrase(person[0] + "\n"
-					+ person[1], font7));
+			//String person[] = new String[] { "Георги", "Ильов" };// MainPanel.personName.trim().split("[  ]+");
+			PdfPCell personCell = new PdfPCell(new Phrase("Георги\nИльов", font7));
 			personCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 			dynamicTable.addCell(personCell); // column 9 име на лицето
@@ -436,7 +413,7 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 			nextY += dynamicTable.getRowHeight(i);
 		}
 		float footY = dynamicNextTablePos - (nextY + 20);
-		setFootText(x, footY, clData);
+		setFootText(numer, x, footY, clData);
 		return true;
 	}
 
@@ -506,56 +483,4 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 		// System.out.println("done!");
 	}
 
-	// private void setFootText(float x, float y, String[] clData) {
-	// float[] footX = new float[] { 20, 20, 20, 20, 100, 350, 20, 11, 29,
-	// 170, 170, 170, 300, 300, 420, 300, 400, 20, 20 };
-	// float[] footY = new float[] { 5, 20, 40, 75, 90, 90, 105, 120, 135,
-	// 105, 135, 150, 105, 120, 105, 135, 150, 165, 180 };
-	//
-	// for (int s = 3; s < footY.length; s++) {
-	// footY[s] -= 20;
-	// }
-	// String[] text = new String[] {
-	// "Собственик на пожарогасителя/ите " + clData[0] + "  МОЛ: "
-	// + clData[4],
-	// " тел: "
-	// + clData[1]
-	// + " "
-	// + (!clData[2].equals("") ? ("     град " + clData[2])
-	// : "")
-	// + (!clData[3].equals("") ? ("      адрес " + clData[3])
-	// : ""),
-	// "Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, ",
-	// "и за собственика на пожарогасителя/ите.",
-	// "      Предал:",
-	// "",
-	// "     (ръководител/упълномощен",
-	// "Преставител на организацията, ",
-	// "    извършила обслужването)",
-	// "(подпис, печат)",
-	// MainPanel.personName,
-	// "(име, фамилия)",
-	//
-	// "( собственик/предста-",
-	// "вител на собственика)",
-	// "(подпис)",
-	// "Приел: " + clData[4] + " МОЛ",
-	// "(име, фамилия, длъжност)",
-	// "Забележка: Протоколът се съхранява до времето за извършване на следващото техническо обслужване,",
-	// "презареждане или хидростатично изпитване.", };
-	//
-	// for (int i = 0; i < footX.length; i++) {
-	// if (y - footY[i] <= document.bottom()) {
-	// document.newPage();
-	// y = 820;
-	// }
-	// if (i == 0) {
-	// setText(text[i], footX[i], y - footY[i], "arialbd", 10);
-	// } else if ((i >= 6 && i <= 16 && i != 10)) {
-	// setText(text[i], footX[i], y - footY[i], "italic", 9);
-	// } else {
-	// setText(text[i], footX[i], y - footY[i], "arial", 10);
-	// }
-	// }
-	// }
 }

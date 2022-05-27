@@ -41,13 +41,10 @@ public class PrintProtokolBrackWorker extends SwingWorker {
 			//PrintService ps = ChoisePrinterDialog.showPrinters();
 		// if(ps != null) {
 
-			System.out.println("1");
 		ArrayList<String> clientDetails =  ClientTable.getClientDetails(dftm.getValueAt(startIndex, 0).toString());
         String[] clientsData = new String[5];
 
-			System.out.println("2");
 			if (clientDetails == null) {
-
 				return false;
 			} else if (clientDetails.size() == 0) { // client can be deleted !!!!
 				clientsData[0] = dftm.getValueAt(startIndex, 0) + ""; // client
@@ -73,7 +70,6 @@ public class PrintProtokolBrackWorker extends SwingWorker {
 
 			}
 
-			System.out.println("3");
 	           timeStamp = MyGetDate.getTimeStamp();
 	           String[] helpers = {"a","b"};
 	           int[] copies = {1};
@@ -90,7 +86,6 @@ public class PrintProtokolBrackWorker extends SwingWorker {
 	        					 ps, copies[printing]);*/
 	           }
 
-			System.out.println("4");
 	   //      }
 	            
 		} finally {

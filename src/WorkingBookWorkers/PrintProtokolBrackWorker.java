@@ -54,7 +54,7 @@ public class PrintProtokolBrackWorker extends SwingWorker {
 					clientsData[2] = ""; // tel of client
 					clientsData[3] = ""; // tel of client
 					clientsData[4] = "";// םÿלא ÌÎË
-				} else if (clientDetails.size() == 3) {
+				} else if (clientDetails.size() == 4) {
 					clientsData[0] = clientDetails.get(0); // client
 					clientsData[1] = clientDetails.get(1); // tel of client
 					clientsData[2] = "";

@@ -326,6 +326,7 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 					return;
 				}
 				ChangeArtikulQuantityWorker quantityArtikulWorker = new ChangeArtikulQuantityWorker(
+						AVAILABLE_ARTIKULS,
 						artikul, newQuantity, kontragent, invoiceByKontragent);
 				quantityArtikulWorker.execute();
 

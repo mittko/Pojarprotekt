@@ -1,30 +1,20 @@
 package invoicewindow;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashSet;
-
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-
+import invoice.InvoiceRenderer.CustomTableCellRenderer;
+import invoice.SaveInInvoiceDBDialog;
+import invoice.worker.ProformSearchWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utility.*;
-import Invoice.SaveInDBDialog;
-import Invoice.InvoiceRenderer.CustomTableCellRenderer;
-import Invoice.worker.ProformSearchWorker;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashSet;
 
 public class SearchFromProformTab extends MainPanel {
 
@@ -152,7 +142,9 @@ public class SearchFromProformTab extends MainPanel {
 					JOptionPane.showMessageDialog(null, "Няма въведени данни!");
 					return;
 				}
-				SaveInDBDialog save = new SaveInDBDialog(PROTOKOL_NUMBER,
+
+				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(INVOICE_PARENT,INVOICE_CHILD,
+						PROTOKOL_NUMBER,
 						clientLabel.getName(), paymentLabel.getName(),
 						discountLabel.getName(), MyMath.round(
 								Double.parseDouble(sumField.getText()), 2)
@@ -258,7 +250,7 @@ public class SearchFromProformTab extends MainPanel {
 		 */
 
 		sallerLabel = new BevelLabel(labelHeight2);
-		sallerLabel.setTitle("Продавач : ");
+		sallerLabel.setTitle(Enums.Оператор.name() + ": ");
 		sallerLabel.setName("");
 		/*
 		 * sallerLabel.setPreferredSize(new Dimension(

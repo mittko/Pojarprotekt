@@ -129,7 +129,7 @@
         </java>
     </target>
     <target name="AutoSortRenderer (1)">
-        <java classname="Invoice.AutoSortRenderer" failonerror="true" fork="yes">
+        <java classname="invoice.AutoSortRenderer" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -174,7 +174,7 @@
         </java>
     </target>
     <target name="convertFromDoubleToText">
-        <java classname="Invoice.convertFromDoubleToText" failonerror="true" fork="yes">
+        <java classname="invoice.convertFromDoubleToText" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -189,7 +189,7 @@
         </java>
     </target>
     <target name="CustomTableCellRenderer (1)">
-        <java classname="Invoice.CustomTableCellRenderer" failonerror="true" fork="yes">
+        <java classname="invoice.CustomTableCellRenderer" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -259,7 +259,7 @@
         </java>
     </target>
     <target name="InvoiceNumber (1)">
-        <java classname="db.Invoice.InvoiceNumber" failonerror="true" fork="yes">
+        <java classname="db.invoice.InvoiceNumber" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -344,7 +344,7 @@
         </java>
     </target>
     <target name="MyInvoice2 (1)">
-        <java classname="Invoice.MyInvoice2" failonerror="true" fork="yes">
+        <java classname="invoice.MyInvoice2" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -354,12 +354,12 @@
         </java>
     </target>
     <target name="MyInvoice3">
-        <java classname="Invoice.MyInvoice3" failonerror="true" fork="yes">
+        <java classname="invoice.MyInvoice3" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="MyInvoiceDialog (1)">
-        <java classname="Invoice.MyInvoiceDialog" failonerror="true" fork="yes">
+        <java classname="invoice.MyInvoiceDialog" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -484,7 +484,7 @@
         </java>
     </target>
     <target name="SaveInAcquittanceWorker">
-        <java classname="Invoice.Worker.SaveInAcquittanceWorker" failonerror="true" fork="yes">
+        <java classname="invoice.Worker.SaveInAcquittanceWorker" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -503,13 +503,13 @@
             <classpath refid="Program.classpath"/>
         </java>
     </target>
-    <target name="ServiceOrder (1)">
-        <java classname="ServiceOrder.ServiceOrder" failonerror="true" fork="yes">
+    <target name="office (1)">
+        <java classname="office.ServiceOrder" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="SO_Table (1)">
-        <java classname="db.ServiceOrder.SO_Table" failonerror="true" fork="yes">
+        <java classname="db.office.SO_Table" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>

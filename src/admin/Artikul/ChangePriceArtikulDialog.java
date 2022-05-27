@@ -437,48 +437,18 @@ public class ChangePriceArtikulDialog extends MainPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				if (!checkUserInput(clientField.getText(),
-						deliveryValueField.getText(), invoiceField.getText(),
-						artikulsField.getText(), dateField.getText(),
-						personField.getText(), percentProfitField.getText())) {
-					return;
-				}
 
-				// if(
-				// isAvailable(artikulsComboBox.getEditor().getItem().toString()))
-				// {
-				// JDialog jd =
-				// (JDialog)SwingUtilities.getWindowAncestor(AddArtikulDialog.this);
-				// jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				// UpdateArtikulWorker increaseQuantity = new
-				// UpdateArtikulWorker(artikulsComboBox.getEditor().getItem().toString(),
-				// Integer.parseInt(skladField.getText()),
-				// jd);
-				// // da se zameni sys IncreaseArtikul
-				// increaseQuantity.execute();
-				// } else {
 
 				JDialog jd = (JDialog) SwingUtilities
 						.getWindowAncestor(ChangePriceArtikulDialog.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 				UpdatePriceArtikulWorker add = new UpdatePriceArtikulWorker(
+						AVAILABLE_ARTIKULS,
 						artikulsField.getText(), bigFinalValueField.getText(),
 						percentProfitField.getText(), clientField.getText(),
 						invoiceField.getText(), jd);
 				add.execute();
-
-				// System.out.printf("%s %s %s %s %s %s %s %s %s %s\n",
-				// clientComboBox.getSelectedItem().toString(),
-				// skladField.getText(),
-				// medField.getText(),
-				// oldValueField.getText(),
-				// currValueField.getText(),
-				// invoiceField.getText(),
-				// artikulsComboBox.getSelectedItem().toString(),
-				// dateField.getText(),
-				// personField.getText() ,
-				// percentProfitField.getText());
 
 			}
 
@@ -553,7 +523,7 @@ public class ChangePriceArtikulDialog extends MainPanel {
 			String invoiceNumber, String client, String date, String seller,
 			String percentProfitItem) {
 		if (artikulItem.equals("") || skladItem.equals("")
-				|| medItem.equals("") || oldValueItem.equals("")
+				 || oldValueItem.equals("")
 				|| currValueItem.equals("") || invoiceNumber.equals("")
 				|| client.equals("") || date.equals("") || seller.equals("")
 				|| percentProfitItem.equals("")) {

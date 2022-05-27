@@ -1,17 +1,13 @@
 package admin.Artikul.Workers;
 
-import java.awt.Cursor;
-
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-
+import db.Artikul.Artikuli_DB;
 import utility.ArtikulsListComboBox;
 import utility.ClientsListComboBox2;
 import utility.EditableField;
-import db.Artikul.Artikuli_DB;
+import utility.MainPanel;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class InsertArtikulWorker extends SwingWorker {
 	private String artikul = null;
@@ -25,7 +21,7 @@ public class InsertArtikulWorker extends SwingWorker {
 	private String seller = null;
 	private String percentProfit = null;
 
-	private int insertIntoAvailableArtikuls = 0;
+	private int insertIntoArtikuls = 0;
 	private int insertIntoDeliveryArtikuls = 0;
 
 	ClientsListComboBox2 clientsComboBox = null;
@@ -40,8 +36,8 @@ public class InsertArtikulWorker extends SwingWorker {
 	JTextField personField = null;
 	JTextField percentProfitField = null;
 	JDialog jd = null;
-
-	public InsertArtikulWorker(ClientsListComboBox2 clientsComboBox,
+    String dbTable;
+	public InsertArtikulWorker(String dbTable, ClientsListComboBox2 clientsComboBox,
 			ArtikulsListComboBox artikulsComboBox, JTextField skladField,
 			JTextField medField, JTextField previousValueField,
 			JTextField deliveryValueField, JTextField bigFinalValueField,
@@ -49,6 +45,7 @@ public class InsertArtikulWorker extends SwingWorker {
 			JTextField personField, JTextField percentProfitField, JDialog jd) {
 		super();
 
+		this.dbTable = dbTable;
 		this.clientsComboBox = clientsComboBox;
 		this.artikulsComboBox = artikulsComboBox;
 		this.skladField = skladField;
@@ -96,22 +93,25 @@ public class InsertArtikulWorker extends SwingWorker {
 	protected Object doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 		try {
-
-			insertIntoAvailableArtikuls = Artikuli_DB
-					.insertIntoAvailableArtikulTable(artikul,
+			System.out.println("артикул с фактура");
+			insertIntoArtikuls = Artikuli_DB
+					.insertIntoArtikulTable(dbTable,artikul,
 							quantity, // -> this is int
 							med, saleValue, invoiceNumber, client, date,
 							seller, percentProfit);
-
-			insertIntoDeliveryArtikuls = Artikuli_DB
-					.insertIntoDeliveryArtikulTable(
-							artikul,
-							quantity, // ->
-										// this
-										// is
-										// int
-							med, deliveryValue, client, invoiceNumber, date,
-							seller);
+            if(dbTable.equals(MainPanel.AVAILABLE_ARTIKULS)) {
+				insertIntoDeliveryArtikuls = Artikuli_DB
+						.insertIntoDeliveryArtikulTable(
+								artikul,
+								quantity, // ->
+								// this
+								// is
+								// int
+								med, deliveryValue, client, invoiceNumber, date,
+								seller);
+			} else {
+				System.out.println("артикул без фактура");
+			}
 
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -119,8 +119,7 @@ public class InsertArtikulWorker extends SwingWorker {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					if (insertIntoAvailableArtikuls > 0
-							&& insertIntoDeliveryArtikuls > 0) {
+					if (insertIntoArtikuls > 0) {
 						JOptionPane.showMessageDialog(null,
 								"Данните са записани успешно!");
 						clear();

@@ -1,14 +1,10 @@
 package db.Invoice;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import net.GetCurrentIP;
 import Exceptions.DBException;
+import net.GetCurrentIP;
 import utility.MainPanel;
+
+import java.sql.*;
 
 public class InvoiceChildDB extends MainPanel {
 
@@ -47,7 +43,7 @@ public class InvoiceChildDB extends MainPanel {
 		}
 	}
 
-	public static int insertIntoInvoiceChild(String id, String make,
+	public static int insertIntoInvoiceChild(String dbTable,String id, String make,
 			String med, String quantity, String price, String value,
 			String client, String kontragent, String invoiceByKontragent) {
 		Connection connect = null;
@@ -58,7 +54,7 @@ public class InvoiceChildDB extends MainPanel {
 		 * + "','" + make + "','" + med + "','" + quantity + "','" + price +
 		 * "','" + value + "','" + client + "')";
 		 */
-		String command = "insert into " + INVOICE_CHILD
+		String command = "insert into " + dbTable
 				+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		int insert = 0;

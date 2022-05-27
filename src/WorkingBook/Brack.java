@@ -25,10 +25,8 @@ import java.util.ArrayList;
 
 public class Brack extends MainPanel {
 	public static TooltipButton printServiceButton = null;
-	
-	private TooltipButton dbButton = null;
-	
-	private static String[] titles = 
+
+	private static final String[] titles =
 		{"Клиент","Вид","Маса","Баркод","Монтажен номер","Категория","Марка"};
 	
 	
@@ -42,27 +40,23 @@ public class Brack extends MainPanel {
 	
 	 private StringBuilder key = new StringBuilder();  // current exinguisher
 	
-	 private int SELECTED_ROW = 0;   // current user selected row
+	 private final int SELECTED_ROW = 0;   // current user selected row
 	
      public JTable t_Scrab = null;
+
+	public static JList<Object> reasonsList = null;
 	 
-	 private JList<Object> scrabList = null;
+	 private final boolean write_db = false; // is write to db done or not
 	 
-	 public static JList<Object> reasonsList = null;
-	 
-	 private boolean write_db = false; // is write to db done or not
-	 
-	 private String BRACK_NUMBER = null;
-	 
-	 private ProtokolGenerator pg = null;
-	 
-	 private final BrackNumber bn = new BrackNumber();
+	 private String BRACK_NUMBER;
+
+	private final BrackNumber bn = new BrackNumber();
 
 	 public static BevelLabel brackNumberLabel = null;
 	 
 	public Brack(String br_number) {
-		
-	  pg = new ProtokolGenerator();
+
+		ProtokolGenerator pg = new ProtokolGenerator();
 	  
       this.BRACK_NUMBER = br_number;
       
@@ -132,11 +126,9 @@ public class Brack extends MainPanel {
 			}
 
 		});
-		
-	
 
-	
-		dbButton = new TooltipButton();
+
+		TooltipButton dbButton = new TooltipButton();
 		
 		dbButton.setToolTipText(getHTML_Text("ЗАПИШИ В БАЗА ДАННИ"));
 		dbButton.setPreferredSize(new Dimension(
@@ -199,8 +191,8 @@ public class Brack extends MainPanel {
 	helpPanel.add(brackNumberLabel);
 	
 	northPanel.add(helpPanel,BorderLayout.NORTH);
-	 
-	scrabList = new JList<Object>();
+
+		JList<Object> scrabList = new JList<Object>();
 	 
 	 
 	 t_Scrab = new JTable(dtm_Scrab);

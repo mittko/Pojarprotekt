@@ -1,10 +1,8 @@
 package Reports.ReportsRenderers;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
 
 public class DeliveryTableRenderer extends DefaultTableCellRenderer {
 	private Color background = null;
@@ -19,9 +17,10 @@ public class DeliveryTableRenderer extends DefaultTableCellRenderer {
 		// TODO Auto-generated method stub
 		Component c = super.getTableCellRendererComponent(table, value,
 				isSelected, hasFocus, row, column);
-		if (value.toString().contains("Фактура No:  ")
-				|| value.toString().contains("Дата:  ")
-				|| value.toString().contains("Контрагент: ")) {
+		if (value.toString().contains("Фактура No")
+				|| value.toString().contains("Касов бон")
+				|| value.toString().contains("Дата")
+				|| value.toString().contains("Контрагент")) {
 			this.setForeground(Color.RED);
 		} else {
 			this.setForeground(Color.BLACK);

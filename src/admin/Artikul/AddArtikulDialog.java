@@ -114,7 +114,7 @@ public class AddArtikulDialog extends MainPanel {
 		rightPanel.setOpaque(false);
 		rightPanel.setLayout(new GridBagLayout());
 
-		artikulsComboBox = new ArtikulsListComboBox();
+		artikulsComboBox = new ArtikulsListComboBox(AVAILABLE_ARTIKULS);
 		artikulsComboBox.setSelectedItem(artikulItem);
 		// artikulsComboBox.addItemListener(new ItemListener() {
 		//
@@ -481,7 +481,7 @@ public class AddArtikulDialog extends MainPanel {
 						.getWindowAncestor(AddArtikulDialog.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				InsertArtikulWorker add = new InsertArtikulWorker(
+				InsertArtikulWorker add = new InsertArtikulWorker(MainPanel.AVAILABLE_ARTIKULS,
 						clientComboBox, artikulsComboBox, skladField, medField,
 						currValueField, deliveryValueField, bigFinalValueField,
 						invoiceField, dateField, personField,
