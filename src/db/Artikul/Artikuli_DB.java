@@ -124,39 +124,8 @@ public class Artikuli_DB extends MainPanel {
 	 }
 	 }
 
-	public static void createDeliveryArtikulDB() {
-		Connection connect = null;
-		Statement stat = null;
-		String command = "create table "
-				+ DELIVERY_ARTIKULS
-				+ " (artikul varchar(300),quantity int,"
-				+ "med varchar(20),value varchar(20),kontragent varchar(100),invoiceByKontragent varchar(20),"
-				+ "date varchar(20),operator varchar(20))";
 
-		try {
-			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
-			stat = connect.createStatement();
-			stat.execute(command);
-			System.out.println("table created succesfully!");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			DB_Err.writeErros(e.toString());
-			e.printStackTrace();
-		} finally {
-			try {
-				if (stat != null) {
-					stat.close();
-				}
-				if (connect != null) {
-					connect.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+
 
 	// public static int initArtikulTable(String table, String artikul,
 	// int quantity, String med, String value) {
@@ -266,26 +235,26 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	public static String getDeliveryValueForArtikul(String artikul
-	/* , String kontragent, String invoiceByKontragent */) {
+			/* , String kontragent, String invoiceByKontragent */) {
 		String value = "0";
 		double bestValue = 0;
 		Connection connect = null;
 		Statement stat = null;
 		String command = "select value from " + DELIVERY_ARTIKULS
 				+ " where artikul = '" + artikul + "' and quantity > 0"; /*
-																		 * and
-																		 * kontragent
-																		 * = '"
-																		 * +
-																		 * kontragent
-																		 * + "'"
-																		 * +
-																		 * " and invoiceByKontragent = '"
-																		 * +
-																		 * invoiceByKontragent
-																		 * + "'"
-																		 * ;
-																		 */
+		 * and
+		 * kontragent
+		 * = '"
+		 * +
+		 * kontragent
+		 * + "'"
+		 * +
+		 * " and invoiceByKontragent = '"
+		 * +
+		 * invoiceByKontragent
+		 * + "'"
+		 * ;
+		 */
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;
 		try {
@@ -438,7 +407,7 @@ public class Artikuli_DB extends MainPanel {
 		Connection connect = null;
 		Statement stat = null;
 		String command = "select artikul, quantity, med , value, client, invoice, date, operator, percentProfit from "
-				+ table + " order by CAST(date as DATE)";
+				+ table + " where quantity > 0 order by CAST(date as DATE)";
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;
 		ArrayList<Object[]> result = new ArrayList<Object[]>();
@@ -670,7 +639,7 @@ public class Artikuli_DB extends MainPanel {
 
 	// this method update artikuls quantity
 	public static int decreaseArtikul_Quantity(String dbTable, String artikul, String client,
-			String invoice, int i) {
+			String invoice, double i) {
 		Connection connect = null;
 		Statement stat = null;
 		PreparedStatement ps = null;

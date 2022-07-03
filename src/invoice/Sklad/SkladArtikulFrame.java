@@ -1,35 +1,16 @@
 package invoice.Sklad;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-
-import utility.*;
 import admin.Artikul.Workers.BiggestPriceForInvoiceWorker;
 import invoice.InvoiceEditors.TableCellEditors;
 import invoice.InvoiceRenderer.AutoSortRenderer;
+import utility.*;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class SkladArtikulFrame extends MainPanel {
 
@@ -206,8 +187,7 @@ public class SkladArtikulFrame extends MainPanel {
 				skladModel.setRowCount(0);
 				String b = moveScrollField.getText().toLowerCase();
 				if (b.length() > 0) {
-					for (int o = 0; o < DATA_LIST.size(); o++) {
-						Object[] obj = DATA_LIST.get(o);
+					for (Object[] obj : DATA_LIST) {
 						String a = obj[0].toString().toLowerCase();
 						if (a.startsWith(b) || a.contains(b)) {
 							skladModel.addRow(obj);
@@ -272,6 +252,7 @@ public class SkladArtikulFrame extends MainPanel {
 				}
 
 				double userQ = 0;
+
 				try {
 					userQ = Double.parseDouble(quantity);
 					double availableQ = Double.parseDouble(skladQuantity);
@@ -307,10 +288,10 @@ public class SkladArtikulFrame extends MainPanel {
 				String allSum = "";
 				try {
 					allSum = MyMath.round(
-							Integer.parseInt(quantity) * MyMath.round(val, 2),
+							Double.parseDouble(quantity) * MyMath.round(val, 2),
 							2) + "";
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "");
+					JOptionPane.showMessageDialog(null,"" + ex.getMessage());
 					return;
 				}
 

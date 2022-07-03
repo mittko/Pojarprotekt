@@ -22,7 +22,7 @@ public class SeeAllNewExtinguisherWorker extends SwingWorker {
 		ArrayList<Object[]> data = null;
 		try {
 			String command = "select * from "
-					+ MainPanel.NEW_EXTINGUISHERS + " order by CAST(date as DATE) desc";
+					+ MainPanel.NEW_EXTINGUISHERS + " where quantitiy > 0 order by CAST(date as DATE) desc";
 			data = NewExtinguishers_DB.getNewExtinguishers(command);
 
 		} finally {

@@ -1,19 +1,16 @@
 package Reports.ReportsWorkers;
 
-import java.awt.Cursor;
-import java.util.ArrayList;
-
-import javax.print.PrintService;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableModel;
-
 import PDF.Invoice.InvoicePDFFromReports;
 import PDF.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
+
+import javax.print.PrintService;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PrintInvoiceAndProformWorker extends SwingWorker {
 
@@ -73,10 +70,11 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 			int[] copies = { 1, 1 };
 			for (int i = 0; i < 2; i++) {
 				InvoicePDFFromReports pdf = new InvoicePDFFromReports();
+				DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
 				isCreated = pdf.createInvoicePDF(clientInfo, Number,
-						timeStamps[i], datePdf, payment, dftm, PATH + "\\"
-								+ TITLE + "-", TITLE, ДУБЛИКАТ[i], startIndex,
-						endIndex, saller);
+						timeStamps[i], datePdf, payment, mergedTableModel, PATH + "\\"
+								+ TITLE + "-", TITLE, ДУБЛИКАТ[i], 0,
+						mergedTableModel.getRowCount()/*endIndex*/, saller);
 
 				// update invoice number
 				if (isCreated) {
@@ -108,102 +106,44 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 		return null;
 
 	}
-
-	float width = 8.3f * 72f;// 595f
-	float height = 11.7f * 72f; // 842f
-	float tolerance = 1f;
-
-	/*
-	 * private void resize2(String inFile, String outFile) { Document document =
-	 * new Document(); document.open();
-	 * 
-	 * PdfReader reader = null; PdfStamper stamper = null; try { reader = new
-	 * PdfReader(inFile); stamper = new PdfStamper(reader, new
-	 * FileOutputStream(outFile)); } catch (IOException e1) { // TODO
-	 * Auto-generated catch block e1.printStackTrace(); } catch
-	 * (DocumentException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); }
-	 * 
-	 * int editingPage = 1;
-	 * 
-	 * PdfContentByte cb = stamper.getOverContent(editingPage); cb.rectangle(10,
-	 * 10, 550, 30); cb.setRGBColorFill(255, 255, 255); cb.fill();
-	 * 
-	 * // PdfContentByte cByte = stamper.getOverContent(editingPage); //
-	 * editFooterText(cByte); reader.selectPages(Integer.toString(editingPage));
-	 * 
-	 * Rectangle pageSize = reader.getPageSize(1); float heightSize =
-	 * Math.round(Utilities.pointsToInches(pageSize.getHeight())); float
-	 * widthSize = Math.round(Utilities.pointsToInches(pageSize.getWidth()));
-	 * System.out.println(widthSize + " ---- " + heightSize); //check page is A4
-	 * if(heightSize == 11.7f && widthSize == 8.3f){
-	 * System.out.println("isA4Sized = true"); } else {
-	 * System.out.println("isA4Sized = false"); } try { stamper.close(); } catch
-	 * (DocumentException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated
-	 * catch block e.printStackTrace(); } document.close(); }
-	 */
-	// private void resize(String path, String pdf) {
-	// PdfReader reader = null;
-	// try {
-	// reader = new PdfReader(path + pdf);
-	// } catch (IOException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// for (int i = 1; i <= reader.getNumberOfPages(); i++)
-	// {
-	// Rectangle cropBox = reader.getCropBox(i);
-	// float widthToAdd = width - cropBox.getWidth();
-	// float heightToAdd = height - cropBox.getHeight();
-	// if (Math.abs(widthToAdd) > tolerance || Math.abs(heightToAdd) >
-	// tolerance)
-	// {
-	// System.out.println("in loop");
-	// float[] newBoxValues = new float[] {
-	// cropBox.getLeft() - widthToAdd / 2,
-	// cropBox.getBottom() - heightToAdd / 2,
-	// cropBox.getRight() + widthToAdd / 2,
-	// cropBox.getTop() + heightToAdd / 2
-	// };
-	// PdfArray newBox = new PdfArray(newBoxValues);
-	//
-	// PdfDictionary pageDict = reader.getPageN(i);
-	// pageDict.put(PdfName.CROPBOX, newBox);
-	// pageDict.put(PdfName.MEDIABOX, newBox);
-	// }
-	// }
-	// //reader is a pdfReader instance and pageNumber is the page in the loop
-	// Rectangle pageSize = reader.getPageSize(1);
-	// float heightSize =
-	// Math.round(Utilities.pointsToInches(pageSize.getHeight()));
-	// float widthSize =
-	// Math.round(Utilities.pointsToInches(pageSize.getWidth()));
-	// System.out.println(widthSize + " ---- " + heightSize);
-	// //check page is A4
-	// if(heightSize == 11.7f && widthSize == 8.3f){
-	// System.out.println("isA4Sized = true");
-	// } else {
-	// System.out.println("isA4Sized = false");
-	// }
-	//
-	// PdfStamper stamper = null;
-	// try {
-	// stamper = new PdfStamper(reader, new FileOutputStream(path +
-	// "success.pdf"));
-	// stamper.close();
-	//
-	// } catch (FileNotFoundException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (DocumentException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// } catch (IOException e1) {
-	// // TODO Auto-generated catch block
-	// e1.printStackTrace();
-	// }
-	//
-	// }
+	private DefaultTableModel mergeArtikuls(DefaultTableModel dftm, int startIndex, int stop) {
+		HashMap<String, Integer> map = new HashMap<>();
+		DefaultTableModel mergedData = new DefaultTableModel();
+		mergedData.setColumnCount(15);
+		int artikulsRow = 0;
+		for(int i = 0;i < stop;i++) {
+			int position = i + startIndex;
+			String artikul = dftm.getValueAt(position, 9).toString();
+			if(!map.containsKey(artikul)) {
+				mergedData.addRow(new Object[]{
+						dftm.getValueAt(position,0),
+						dftm.getValueAt(position,1),
+						dftm.getValueAt(position,2),
+						dftm.getValueAt(position,3),
+						dftm.getValueAt(position,4),
+						dftm.getValueAt(position,5),
+						dftm.getValueAt(position,6),
+						dftm.getValueAt(position,7),
+						dftm.getValueAt(position,8),
+						dftm.getValueAt(position,9),
+						dftm.getValueAt(position,10),
+						dftm.getValueAt(position,11),
+						dftm.getValueAt(position,12),
+						dftm.getValueAt(position,13),
+						dftm.getValueAt(position,14)
+				});
+				map.put(artikul, artikulsRow++);
+			} else {
+				int savedPos = map.get(artikul);
+				int newQuantity = Integer.parseInt(dftm.getValueAt(position, 11).toString());
+				int savedQuantity = Integer.parseInt(mergedData.getValueAt(savedPos, 11).toString());
+				mergedData.setValueAt((savedQuantity + newQuantity)+"", savedPos, 11);
+				// в този метод се пресмята само общото к-во на артикулите
+				// но не се пресмята крайната стойност
+				// защото тя се смята в метода createInvoicePdf на класа InvoicePdfFromReports
+				//System.out.println(savedQuantity + newQuantity);
+			}
+		}
+		return mergedData;
+	}
 }

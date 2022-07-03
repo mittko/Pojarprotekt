@@ -19,13 +19,14 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class ReportTableAvailability extends MainPanel {
-
+	private final DecimalFormat format = new DecimalFormat("0.#");
 	public ReportTableAvailability(ArrayList<Object[]> deliveryBeforeFirstSelectedDate,
                                    ArrayList<Object[]> invoiceBeforeFirstSelectedDate,
                                    ArrayList<Object[]> deliveryBetweenSelectedDates,
@@ -119,7 +120,7 @@ public class ReportTableAvailability extends MainPanel {
 
 			String artikul = objects[0].toString();
 
-			int invoiceQuantity = Integer.parseInt(objects[1]
+			double invoiceQuantity = Double.parseDouble(objects[1]
 					.toString());
 			double invoicePrice = Double
 					.parseDouble(objects[2].toString()
@@ -171,7 +172,7 @@ public class ReportTableAvailability extends MainPanel {
 
 			String artikul = invoiceBetweenSelectedDate[0].toString();
 
-			int invoiceQuantity = Integer.parseInt(invoiceBetweenSelectedDate[1]
+			double invoiceQuantity = Double.parseDouble(invoiceBetweenSelectedDate[1]
 					.toString());
 			double invoiceValue = Double.parseDouble(invoiceBetweenSelectedDate[2]
 					.toString().replace(",", "."));
@@ -200,7 +201,7 @@ public class ReportTableAvailability extends MainPanel {
 		for (Map.Entry<String, Artikul> map : artikuls.entrySet()) {
 			Artikul art = map.getValue();
 			String artikul = map.getKey();// artikul
-			int availableQuantityBeforeFirstDate = art.deliveryQuantityBeforeFirstSelectedDate
+			double availableQuantityBeforeFirstDate = art.deliveryQuantityBeforeFirstSelectedDate
 					- art.sellQuantityBeforeFirstSelectedDate;// количество артикул //
 														// преди първ дата
 			double availablePriceBeforeFirstDate = art.deliveryPriceBeforeFirstSelectedDate;// or
@@ -245,13 +246,13 @@ public class ReportTableAvailability extends MainPanel {
 			double deliveryValuesAfterFirstDate = deliveryQuantityAfterFirstDate
 					* deliveryPriceAfterFirstDate;// обща
 
-			int sellQuantityAfterFirstDate = art.sellQuantityAfterFirstSelectedDate;
+			double sellQuantityAfterFirstDate = art.sellQuantityAfterFirstSelectedDate;
 			double sellArtikulPriceAfterFirstDate = art.sellPriceAfterFirstSelectedDate;
 			double sellArtikulValuesAfterFirstDate = sellQuantityAfterFirstDate
 					* sellArtikulPriceAfterFirstDate;// обша // стойност // на
 														// // продажби
 
-			int finlArtikulQuantityAfterFirstDate = availableQuantityBeforeFirstDate
+			double finlArtikulQuantityAfterFirstDate = availableQuantityBeforeFirstDate
 					+ (deliveryQuantityAfterFirstDate - sellQuantityAfterFirstDate);
 			double finalSellArtikulPriceAfterFirstDate = deliveryQuantityAfterFirstDate > 0 ? deliveryPriceAfterFirstDate
 					: availablePriceBeforeFirstDate;
@@ -260,16 +261,16 @@ public class ReportTableAvailability extends MainPanel {
 
 		//	if(finalSellArtikulValue >= 0) има бъг => продажбите са повече от доставките ???
 			dftm.addRow(new Object[] { artikul,
-					availableQuantityBeforeFirstDate,
+					format.format(availableQuantityBeforeFirstDate),
 					MyMath.round(availablePriceBeforeFirstDate, 2),
 					MyMath.round(availableArtikulValuesBeforeFirstDate, 2),
 					deliveryQuantityAfterFirstDate,
 					MyMath.round(deliveryPriceAfterFirstDate, 2),
 					MyMath.round(deliveryValuesAfterFirstDate, 2),
-					sellQuantityAfterFirstDate,
+					format.format(sellQuantityAfterFirstDate),
 					MyMath.round(sellArtikulPriceAfterFirstDate, 2),
 					MyMath.round(sellArtikulValuesAfterFirstDate, 2),
-					finlArtikulQuantityAfterFirstDate,
+					format.format(finlArtikulQuantityAfterFirstDate),
 					MyMath.round(finalSellArtikulPriceAfterFirstDate, 2),
 					MyMath.round(finalSellArtikulValue, 2) });
 		}
@@ -348,12 +349,12 @@ public class ReportTableAvailability extends MainPanel {
 	private class Artikul {
 		int deliveryQuantityBeforeFirstSelectedDate;
 		double deliveryPriceBeforeFirstSelectedDate;
-		int sellQuantityBeforeFirstSelectedDate;
+		double sellQuantityBeforeFirstSelectedDate;
 		double sellPriceBeforeFirstSelectedDate;
 
 		int deliveryQuantityAfterFirstSelectedDate;
 		double deliveryPriceAfterFirstSelectedDate;
-		int sellQuantityAfterFirstSelectedDate;
+		double sellQuantityAfterFirstSelectedDate;
 		double sellPriceAfterFirstSelectedDate;
 
 		private Date firstDeliveryBeforeSelectedDate = MyGetDate.getDateFromString(MyGetDate
@@ -364,11 +365,11 @@ public class ReportTableAvailability extends MainPanel {
 		public Artikul(
 				int deliveryQuantityBeforeFirstSelectedDate,
 				double deliveryPriceBeforeFirstSelectedDate,
-				int sellQuantityBeforeFirstSelectedDate,
+				double sellQuantityBeforeFirstSelectedDate,
 				double sellPriceBeforeFirstSelectedDate,
 				int deliveryQuantityAfterFirstSelectedDate,
 				double deliveryPriceAfterFirstSelectedDate,
-				int sellQuantityAfterFirstSelectedDate, double sellPriceAfterFirstSelectedDate) {
+				double sellQuantityAfterFirstSelectedDate, double sellPriceAfterFirstSelectedDate) {
 			super();
 
 			// this.deliveryDate =

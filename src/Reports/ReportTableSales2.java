@@ -15,12 +15,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ReportTableSales2 extends MainPanel {
-
+	private final DecimalFormat format = new DecimalFormat("0.#");
 	public ReportTableSales2(ArrayList<Object[]> invoices,
                              ArrayList<Object[]> delivery, final String title) {
 		JPanel childContainer = new JPanel();
@@ -68,7 +69,7 @@ public class ReportTableSales2 extends MainPanel {
 			String kontragent = objects[3].toString();
 			String artikul = objects[4].toString();
 			String med = objects[5].toString();
-			int quantity = Integer.parseInt(objects[6].toString());
+			double quantity = Double.parseDouble(objects[6].toString());
 			double price = Double.parseDouble(objects[7].toString());
 			String date = objects[8].toString();
 
@@ -132,7 +133,7 @@ public class ReportTableSales2 extends MainPanel {
 						"Контрагент:  " + artikulSales.get(0).getClient(), "", "", "" });
 				for (ArtikulSale artikulSale : artikulSales) {
 
-					int quantity = artikulSale.getQuantity();
+					double quantity = artikulSale.getQuantity();
 					double sellPrice = artikulSale.getSellPrice();
 					double deliveryPrice = artikulSale.getDeliveryPrice();
 					double remaining = MyMath.round(quantity
@@ -141,7 +142,8 @@ public class ReportTableSales2 extends MainPanel {
 					dftm.addRow(new Object[]{
 							"Артикул:  " + artikulSale.getArtikul(),
 							"Мярка:  " + artikulSale.getMed(),
-							"К-во :  " + quantity, "Прод. цена:  " + sellPrice,
+							"К-во :  " + format.format(quantity),
+							"Прод. цена:  " + sellPrice,
 							"Дост. цена " + deliveryPrice,
 							"Разлика:  " + remaining});
 
@@ -247,13 +249,13 @@ public class ReportTableSales2 extends MainPanel {
 		private final String kontragent;
 		private final String artikul;
 		private final String med;
-		private final int quantity;
+		private final double quantity;
 		private final double sellPrice;
 		private double deliveryPrice;
 		private final String date;
 
 		public ArtikulSale(String invoice, String client, String invoiceByKontragent,
-				String kontragent, String artikul, String med, int quantity,
+				String kontragent, String artikul, String med, double quantity,
 				double sellPrice, double deliveryPrice, String date) {
 			super();
 			this.invoice = invoice;
@@ -300,7 +302,7 @@ public class ReportTableSales2 extends MainPanel {
 			return med;
 		}
 
-		public int getQuantity() {
+		public double getQuantity() {
 			return quantity;
 		}
 

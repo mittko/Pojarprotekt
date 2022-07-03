@@ -1,21 +1,14 @@
 package Reports.ReportsModel;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Rectangle;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicTableHeaderUI;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 
@@ -24,7 +17,8 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 		Rectangle clipBounds = g.getClipBounds();
 		if (header.getColumnModel() == null)
 			return;
-		((GroupableTableHeader) header).setColumnMargin();
+		// ((GroupableTableHeader) header).setColumnMargin();
+		//  този ред увеличава ширината на горните хедъри което не е ОК
 		int column = 0;
 		Dimension size = header.getSize();
 		Rectangle cellRect = new Rectangle(0, 0, size.width, size.height);
@@ -56,7 +50,8 @@ public class GroupableTableHeaderUI extends BasicTableHeaderUI {
 					cellRect.y = groupHeight;
 				}
 			}
-			cellRect.width = aColumn.getWidth() + columnMargin;
+			// този ред със (+ columnMargin) увеличава ширината но долните хедъри което не е ОК
+			cellRect.width = aColumn.getWidth() ;//+ columnMargin;
 			if (cellRect.intersects(clipBounds)) {
 				paintCell(g, cellRect, column);
 			}

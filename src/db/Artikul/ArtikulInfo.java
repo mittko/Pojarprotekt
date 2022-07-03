@@ -1,14 +1,14 @@
 package db.Artikul;
 
+import Exceptions.JustExceptionDialog;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import Exceptions.JustExceptionDialog;
-
 public class ArtikulInfo implements Comparable<ArtikulInfo> {
 	private String artikulName;
-	private int quantity;
+	private double quantity;
 	private String kontragent;
 	private String invoiceByKontragent;
 	private String dateString;
@@ -19,7 +19,7 @@ public class ArtikulInfo implements Comparable<ArtikulInfo> {
 			String kontragent, String invoiceByKontragent, String dateString) {
 		super();
 		this.artikulName = artikulName;
-		this.quantity = Integer.parseInt(quantityStr);
+		this.quantity = Double.parseDouble(quantityStr);
 		this.invoiceByKontragent = invoiceByKontragent;
 		this.kontragent = kontragent;
 		this.dateString = dateString;
@@ -44,7 +44,7 @@ public class ArtikulInfo implements Comparable<ArtikulInfo> {
 		return artikulName;
 	}
 
-	public int getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 

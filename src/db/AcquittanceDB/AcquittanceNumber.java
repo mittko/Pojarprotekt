@@ -107,7 +107,7 @@ public class AcquittanceNumber extends MainPanel {
 		// TODO Auto-generated method stub
          AcquittanceNumber acq = new AcquittanceNumber();
      //    acq.setAcquittanceNumberTable();
-  //       updateAcquittanceNumber("0000000228");
+     //    updateAcquittanceNumber("0000002631");
          String acquittanceNumber = getAcquittanceNumber();
          System.out.println(acquittanceNumber);
 	}
