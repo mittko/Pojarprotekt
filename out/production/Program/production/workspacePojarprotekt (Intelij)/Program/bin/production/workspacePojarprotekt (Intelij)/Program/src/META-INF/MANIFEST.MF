@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: run.Main
-Class-Path: itext-pdfa-5.5.1.jar itextpdf-5.5.1.jar pdf-renderer-1.0.5.j
- ar derbyclient.jar itext-xtra-5.5.1.jar jxl.jar
-
