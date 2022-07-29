@@ -8,7 +8,6 @@ import admin.Parts.Quantity.PartsQuantityTable;
 import admin.SkladExtinguisher.MainFrame_SkladNewExtinguisher;
 import admin.Team.TeamTable;
 import admin.extinguishingagent.ExtinguishingAgentDialog;
-import admin.services.AvailableServicesTable;
 import run.JDialoger;
 import utility.MainPanel;
 
@@ -30,7 +29,6 @@ public class AdminDialog extends MainPanel implements ActionListener {
 	private final String WORK_PRICES = "Обслужване";
 	private final String NEW_EXTINGUISHER_PRICE = "Нови Пожарогасители";
 	private final String ARTIKUL_PRICE = "Наличност Артикули";
-	private final String SERVICE_PRICE = "Услуги";
 	private final String USERS = "Потребители";
 	private final String EXTINGUISHING_AGENT = "Гасително Вещество";
 
@@ -72,10 +70,7 @@ public class AdminDialog extends MainPanel implements ActionListener {
 		artikulRadioButton.setFont(getFONT());
 		artikulRadioButton.addActionListener(this);
 
-		JRadioButton serviceRadioButton = new JRadioButton(SERVICE_PRICE);
-		serviceRadioButton.setOpaque(false);
-		serviceRadioButton.setFont(getFONT());
-		serviceRadioButton.addActionListener(this);
+
 
 		JRadioButton usersRadioButton = new JRadioButton(USERS);
 		usersRadioButton.setOpaque(false);
@@ -94,7 +89,6 @@ public class AdminDialog extends MainPanel implements ActionListener {
 		bg.add(work_PriceRadioButton);
 		bg.add(new_ExtRadioButton);
 		bg.add(artikulRadioButton);
-		bg.add(serviceRadioButton);
 		bg.add(usersRadioButton);
         bg.add(extinguishingAgentButton);
 
@@ -169,15 +163,7 @@ public class AdminDialog extends MainPanel implements ActionListener {
 
 								break;
 							}
-							case SERVICE_PRICE: {
-								AvailableServicesTable servicesTable = new AvailableServicesTable();
-								JDialoger jDialog = new JDialoger();
-								jDialog.setContentPane(servicesTable);
-								jDialog.setResizable(false);
-								jDialog.setTitle("Услуги");
-								jDialog.Show();
-								break;
-							}
+
 							case USERS: {
 								TeamTable team = new TeamTable();
 								JDialoger jDialog = new JDialoger();
@@ -223,7 +209,6 @@ public class AdminDialog extends MainPanel implements ActionListener {
 		basePanel.add(editClientRadioButton);
 		basePanel.add(work_PriceRadioButton);
 		basePanel.add(artikulRadioButton);
-		basePanel.add(serviceRadioButton);
 		basePanel.add(new_ExtRadioButton);
 		basePanel.add(usersRadioButton);
 

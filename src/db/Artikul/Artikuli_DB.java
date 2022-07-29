@@ -967,28 +967,24 @@ public class Artikuli_DB extends MainPanel {
 		return max;
 	}
 
-	public static int insertIntoArtikulTable(String dbTable, String artikul,
-			int quantity, String med, String value, String invoiceNumber,
-			String client, String date, String seller, String percentProfit) {
+	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit, final String code) {
 		Connection connect = null;
 		Statement stat = null;
-		String command = "insert into " + dbTable
-				+ " values ('" + artikul + "'," + quantity + ",'" + med + "','"
-				+ value + "','" + invoiceNumber + "','" + client + "','" + date
-				+ "','" + seller + "','" + percentProfit + "')";
+		final String command = "insert into " + dbTable + " values ('" + artikul + "'," + quantity + ",'" + med + "','" + value + "','" + invoiceNumber + "','" + client + "','" + date + "','" + seller + "','" + percentProfit + "','" + code + "')";
 		int insert = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			stat = connect.createStatement();
 			insert = stat.executeUpdate(command);
 			return insert;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+		}
+		catch (SQLException e) {
+			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(command);
 			e.printStackTrace();
 			return insert;
-		} finally {
+		}
+		finally {
 			try {
 				if (stat != null) {
 					stat.close();
@@ -996,11 +992,11 @@ public class Artikuli_DB extends MainPanel {
 				if (connect != null) {
 					connect.close();
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				DB_Err.writeErros(e.toString());
-				e.printStackTrace();
+			}
+			catch (SQLException e2) {
+				DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e2);
+				DB_Err.writeErros(e2.toString());
+				e2.printStackTrace();
 				return insert;
 			}
 		}

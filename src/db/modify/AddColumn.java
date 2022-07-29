@@ -3,6 +3,7 @@ package db.modify;
 import Exceptions.DBException;
 import db.Artikul.Artikuli_DB;
 import net.GetCurrentIP;
+import utility.MainPanel;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -50,7 +51,9 @@ public class AddColumn {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AddColumn alertTable = new AddColumn();
-		// int result = alertTable.addColumn(MainPanel.TEAM, "Acquittance");
+		 int result = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS, "code",20);
+
+		 int result2 = InitColumnsTable.updateAnyColumnValue(MainPanel.AVAILABLE_ARTIKULS,"code","1");
 		// System.out.println("result = " + result);
 
 		// Member.updateAllColumnValues("Acquittance", "yes");
@@ -60,7 +63,7 @@ public class AddColumn {
 
 		// int alert2 = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS,
 		// "client");
-		 int modify = Artikuli_DB.modifyColumnWidth("client", 50);
+		// int modify = Artikuli_DB.modifyColumnWidth("client", 50);
 		// System.out.println(modify);
 		// int alert3 = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS,
 		// "date");

@@ -1,67 +1,91 @@
+
+
+// 
+// Decompiled by Procyon v0.5.36
+// 
+
 package admin.Artikul.Workers;
 
+import javax.swing.SwingUtilities;
+import java.awt.Cursor;
+import java.awt.Component;
+import javax.swing.JOptionPane;
+
 import db.Artikul.Artikuli_DB;
+import javax.swing.JDialog;
+import utility.EditableField;
+import javax.swing.JTextField;
 import utility.ArtikulsListComboBox;
 import utility.ClientsListComboBox2;
-import utility.EditableField;
-import utility.MainPanel;
+import javax.swing.SwingWorker;
 
-import javax.swing.*;
-import java.awt.*;
-
-public class InsertArtikulWorker extends SwingWorker {
-	private String artikul = null;
-	private int quantity = 0;
-	private String med = null;
+public class InsertArtikulWorker extends SwingWorker
+{
+	private String artikul;
+	private int quantity;
+	private String med;
 	private String deliveryValue;
-	private String saleValue = null;
-	private String invoiceNumber = null;
-	private String client = null;
+	private String saleValue;
+	private String invoiceNumber;
+	private String client;
 	private String date;
-	private String seller = null;
-	private String percentProfit = null;
+	private String seller;
+	private String percentProfit;
+	private int insertIntoArtikuls;
+	private int insertIntoDeliveryArtikuls;
+	ClientsListComboBox2 clientsComboBox;
+	ArtikulsListComboBox artikulsComboBox;
+	JTextField skladField;
+	JTextField medField;
+	JTextField deliveryValueField;
+	JTextField bigFinalValueField;
+	EditableField invoiceField;
+	JTextField dateField;
+	JTextField personField;
+	JTextField percentProfitField;
+	JTextField artikulCodeField;
+	JDialog jd;
+	String dbTable;
+	String code;
 
-	private int insertIntoArtikuls = 0;
-	private int insertIntoDeliveryArtikuls = 0;
-
-	ClientsListComboBox2 clientsComboBox = null;
-	ArtikulsListComboBox artikulsComboBox = null;
-	JTextField skladField = null;
-	JTextField medField = null;
-	JTextField previousValueField = null;
-	JTextField deliveryValueField = null;
-	JTextField bigFinalValueField = null;
-	EditableField invoiceField = null;
-	JTextField dateField = null;
-	JTextField personField = null;
-	JTextField percentProfitField = null;
-	JDialog jd = null;
-    String dbTable;
-	public InsertArtikulWorker(String dbTable, ClientsListComboBox2 clientsComboBox,
-			ArtikulsListComboBox artikulsComboBox, JTextField skladField,
-			JTextField medField, JTextField previousValueField,
-			JTextField deliveryValueField, JTextField bigFinalValueField,
-			EditableField invoiceField, JTextField dateField,
-			JTextField personField, JTextField percentProfitField, JDialog jd) {
-		super();
-
+	public InsertArtikulWorker(final String dbTable, final ClientsListComboBox2 clientsComboBox, final ArtikulsListComboBox artikulsComboBox, final JTextField skladField, final JTextField medField, final JTextField deliveryValueField, final JTextField bigFinalValueField, final EditableField invoiceField, final JTextField dateField, final JTextField personField, final JTextField percentProfitField, final JTextField artikulCodeField, final JDialog jd) {
+		this.artikul = null;
+		this.quantity = 0;
+		this.med = null;
+		this.saleValue = null;
+		this.invoiceNumber = null;
+		this.client = null;
+		this.seller = null;
+		this.percentProfit = null;
+		this.insertIntoArtikuls = 0;
+		this.insertIntoDeliveryArtikuls = 0;
+		this.clientsComboBox = null;
+		this.artikulsComboBox = null;
+		this.skladField = null;
+		this.medField = null;
+		this.deliveryValueField = null;
+		this.bigFinalValueField = null;
+		this.invoiceField = null;
+		this.dateField = null;
+		this.personField = null;
+		this.percentProfitField = null;
+		this.jd = null;
 		this.dbTable = dbTable;
 		this.clientsComboBox = clientsComboBox;
 		this.artikulsComboBox = artikulsComboBox;
 		this.skladField = skladField;
 		this.medField = medField;
-		this.previousValueField = previousValueField;
 		this.deliveryValueField = deliveryValueField;
 		this.bigFinalValueField = bigFinalValueField;
 		this.invoiceField = invoiceField;
 		this.dateField = dateField;
 		this.personField = personField;
 		this.percentProfitField = percentProfitField;
+		this.artikulCodeField = artikulCodeField;
 		this.jd = jd;
-
-		this.artikul = this.artikulsComboBox.getEditor().getItem().toString();
-		this.quantity = Integer.parseInt(this.skladField.getText());
-		this.med = this.medField.getText();
+		this.artikul = artikulsComboBox.getEditor().getItem().toString();
+		this.quantity = Integer.parseInt(skladField.getText());
+		this.med = medField.getText();
 		this.deliveryValue = this.deliveryValueField.getText();
 		this.saleValue = this.bigFinalValueField.getText();
 		this.invoiceNumber = this.invoiceField.getText();
@@ -69,13 +93,32 @@ public class InsertArtikulWorker extends SwingWorker {
 		this.date = this.dateField.getText();
 		this.seller = this.personField.getText();
 		this.percentProfit = this.percentProfitField.getText();
+		this.code = artikulCodeField.getText();
 		this.jd = jd;
 	}
 
-	public InsertArtikulWorker(String artikul, int quantity, String med,
-			String deliveryValue, String saleValue, String invoiceNumber,
-			String client, String date, String seller, String percentProfit,
-			JDialog jd) {
+	public InsertArtikulWorker(final String artikul, final int quantity, final String med, final String deliveryValue, final String saleValue, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit, final JDialog jd) {
+		this.artikul = null;
+		this.quantity = 0;
+		this.med = null;
+		this.saleValue = null;
+		this.invoiceNumber = null;
+		this.client = null;
+		this.seller = null;
+		this.percentProfit = null;
+		this.insertIntoArtikuls = 0;
+		this.insertIntoDeliveryArtikuls = 0;
+		this.clientsComboBox = null;
+		this.artikulsComboBox = null;
+		this.skladField = null;
+		this.medField = null;
+		this.deliveryValueField = null;
+		this.bigFinalValueField = null;
+		this.invoiceField = null;
+		this.dateField = null;
+		this.personField = null;
+		this.percentProfitField = null;
+		this.jd = null;
 		this.artikul = artikul;
 		this.quantity = quantity;
 		this.med = med;
@@ -91,42 +134,23 @@ public class InsertArtikulWorker extends SwingWorker {
 
 	@Override
 	protected Object doInBackground() throws Exception {
-		// TODO Auto-generated method stub
 		try {
-			System.out.println("артикул с фактура");
-			insertIntoArtikuls = Artikuli_DB
-					.insertIntoArtikulTable(dbTable,artikul,
-							quantity, // -> this is int
-							med, saleValue, invoiceNumber, client, date,
-							seller, percentProfit);
-            if(dbTable.equals(MainPanel.AVAILABLE_ARTIKULS)) {
-				insertIntoDeliveryArtikuls = Artikuli_DB
-						.insertIntoDeliveryArtikulTable(
-								artikul,
-								quantity, // ->
-								// this
-								// is
-								// int
-								med, deliveryValue, client, invoiceNumber, date,
-								seller);
-			} else {
-				System.out.println("артикул без фактура");
+			this.insertIntoArtikuls = Artikuli_DB.insertIntoArtikulTable(this.dbTable, this.artikul, this.quantity, this.med, this.saleValue, this.invoiceNumber, this.client, this.date, this.seller, this.percentProfit, this.code);
+			if (this.dbTable.equals("ArtikulsDB")) {
+				this.insertIntoDeliveryArtikuls = Artikuli_DB.insertIntoDeliveryArtikulTable(this.artikul, this.quantity, this.med, this.deliveryValue, this.client, this.invoiceNumber, this.date, this.seller);
 			}
-
-		} finally {
+		}
+		finally {
 			SwingUtilities.invokeLater(new Runnable() {
-
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
-					if (insertIntoArtikuls > 0) {
+					if (InsertArtikulWorker.this.insertIntoArtikuls > 0) {
 						JOptionPane.showMessageDialog(null,
-								"Данните са записани успешно!");
-						clear();
+								"Error from InsertArtikulWorker!");
+						InsertArtikulWorker.this.clear();
 					}
-					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					InsertArtikulWorker.this.jd.setCursor(new Cursor(0));
 				}
-
 			});
 		}
 		return null;
@@ -135,13 +159,10 @@ public class InsertArtikulWorker extends SwingWorker {
 	void clear() {
 		this.artikulsComboBox.getEditor().setItem("");
 		this.skladField.setText("");
-	//	this.medField.setText("");
-		this.previousValueField.setText("");
 		this.deliveryValueField.setText("");
 		this.bigFinalValueField.setText("");
-	//	this.invoiceField.setText("");
-	//	this.dateField.setText("");
-	//	this.personField.setText("");
 		this.percentProfitField.setText("");
+		this.artikulCodeField.setText("");
 	}
 }
+

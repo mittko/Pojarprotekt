@@ -296,14 +296,14 @@ public class AvailableArtikulsTable extends MainPanel {
 				String operatorItem = "";
 				String percentProfitItem = "";
 					if (CURRENT_ROW >= 0) {
-					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
+					artikulItem = table.getValueAt(CURRENT_ROW, 1).toString();
 					// skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
-					medItem = table.getValueAt(CURRENT_ROW, 2).toString();
+					medItem = table.getValueAt(CURRENT_ROW, 3).toString();
 					valueItem = "0";
 					dateItem = MyGetDate.getReversedSystemDate();// table.getValueAt(CURRENT_ROW,
 					// 6).toString();
-					operatorItem = table.getValueAt(CURRENT_ROW, 7).toString();
-					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
+					operatorItem = table.getValueAt(CURRENT_ROW, 8).toString();
+					percentProfitItem = table.getValueAt(CURRENT_ROW, 9)
 							.toString();
 				}
 				fakturaItem = "0000001";
@@ -412,7 +412,7 @@ public class AvailableArtikulsTable extends MainPanel {
 
 		JPanel centerPanel = new JPanel();
 
-		artikulTableModel = new DefaultTableModel(new String[] { "Артикули",
+		artikulTableModel = new DefaultTableModel(new String[] { "Код","Артикули",
 				"Налични", "Мерна Ед", "Ед. Цена", "Фактура", "Контрагент",
 				"Дата", "Оператор", "Процент Печалба" }, 0) {
 			@Override
@@ -473,15 +473,16 @@ public class AvailableArtikulsTable extends MainPanel {
 	}
 
 	private void setColumnsWidth() {
-		table.getColumnModel().getColumn(0).setPreferredWidth(this.WIDTH / 3);
-		table.getColumnModel().getColumn(1).setPreferredWidth(this.WIDTH / 20);
+		table.getColumnModel().getColumn(0).setPreferredWidth(this.WIDTH / 20);
+		table.getColumnModel().getColumn(1).setPreferredWidth(this.WIDTH / 3);
 		table.getColumnModel().getColumn(2).setPreferredWidth(this.WIDTH / 20);
 		table.getColumnModel().getColumn(3).setPreferredWidth(this.WIDTH / 20);
-		table.getColumnModel().getColumn(4).setPreferredWidth(this.WIDTH / 10);
-		table.getColumnModel().getColumn(5).setPreferredWidth(this.WIDTH / 5);
-		table.getColumnModel().getColumn(6).setPreferredWidth(this.WIDTH / 10);
+		table.getColumnModel().getColumn(4).setPreferredWidth(this.WIDTH / 20);
+		table.getColumnModel().getColumn(5).setPreferredWidth(this.WIDTH / 10);
+		table.getColumnModel().getColumn(6).setPreferredWidth(this.WIDTH / 5);
 		table.getColumnModel().getColumn(7).setPreferredWidth(this.WIDTH / 10);
-		table.getColumnModel().getColumn(8).setPreferredWidth(this.WIDTH / 20);
+		table.getColumnModel().getColumn(8).setPreferredWidth(this.WIDTH / 10);
+		table.getColumnModel().getColumn(9).setPreferredWidth(this.WIDTH / 20);
 
 	}
 

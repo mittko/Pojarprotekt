@@ -14,8 +14,6 @@ import db.Invoice.InvoiceNumber;
 import db.Protokol.ProtokolNumber;
 import declarations.DeclarationsDialog;
 import generators.GenerateSO;
-import invoiceservice.ServiceArtikulTab;
-import invoiceservice.ServiceInvoiceFrame;
 import invoicewindow.InvoiceFrame;
 import invoicewindow.SearchFromProformTab;
 import invoicewindow.SearchFromProtokolTab;
@@ -237,34 +235,7 @@ public class MainMenu extends MainPanel {
 
 		});
 
-		JButton serviceButton = new JButton("УСЛУГИ");
-		serviceButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SwingWorker sw = new SwingWorker() {
-					private JFrame jf = (JFrame) SwingUtilities
-							.getWindowAncestor(MainMenu.this);
-					private String invoiceNumber = null;
-					private String proformNumber = null;
 
-					@Override
-					protected Object doInBackground() throws Exception {
-						// TODO Auto-generated method stub
-						try {
-							jf.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-							invoiceNumber = InvoiceNumber.getInvoiceNumber();
-							proformNumber = InvoiceNumber.getProformNumber();
-						} finally {
-							SwingUtilities.invokeLater(new RunServiceInvoice(
-									invoiceNumber, proformNumber, jf));
-						}
-						return null;
-					}
-
-				};
-				sw.execute();
-			}
-		});
 		JButton reportsButton = new JButton("СПРАВКИ");
 		// reportsButton.setPreferredSize(buttonSize);
 		// reportsButton.setEnabled(ACCESS_MENU[3]);
@@ -349,7 +320,7 @@ public class MainMenu extends MainPanel {
 		}
 
 		JButton[] menuButtons = {newClientButton, editClientButton,
-				antifireFacilities, serviceButton,
+				antifireFacilities,
 				officeButton, workingBook_Button, invoiceButton,
 				reportsButton, newExtinguisher_Button, acquittanceButton};
 
@@ -357,7 +328,7 @@ public class MainMenu extends MainPanel {
 				/ (jj + 3));
 		int nextPos = 0;
 		// !!! Нови Клиенти и реадктиране на клиенти си ги има по подразбиране
-		for(nextPos = 0;nextPos < 4;nextPos++) {
+		for(nextPos = 0;nextPos < 3;nextPos++) {
 			menu.add(menuButtons[nextPos], gbc[nextPos]);
 			menuButtons[nextPos].setPreferredSize(buttonSize);
 		}
@@ -572,55 +543,4 @@ public class MainMenu extends MainPanel {
 
 	}
 
-	class RunServiceInvoice implements Runnable {
-
-		private String invoiceNumber = null;
-		private String proformNumber = null;
-		private JFrame jf = null;
-
-		public RunServiceInvoice(String invoiceNumber, String proformNumber, JFrame jf) {
-			this.invoiceNumber = invoiceNumber;
-			this.proformNumber = proformNumber;
-			this.jf = jf;
-		}
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			jf.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			if (invoiceNumber != null) {
-				final ServiceInvoiceFrame serviceInvoiceFrame = new ServiceInvoiceFrame();
-				final JDialoger jDialog = new JDialoger();
-				jDialog.setTitle("Фактури / Проформи / Стокови разписки");
-				jDialog.setContentPane(serviceInvoiceFrame);
-				jDialog.setResizable(false);
-				jDialog.addWindowListener(new WindowAdapter() {
-					@Override
-					public void windowClosing(WindowEvent we) {
-						if (ServiceArtikulTab.dftm.getRowCount() > 0) {
-							int yes_no = JOptionPane
-									.showOptionDialog(
-											null,
-											"Наистина ли искате да затворите прозореца ?",
-											"ПОЖАРПРОТЕКТ",
-											JOptionPane.YES_NO_OPTION,
-											JOptionPane.QUESTION_MESSAGE, null,
-											new String[] { "Да", "Не" },
-											"default");
-							if (yes_no == 0) {
-								jDialog.dispose();
-							} else {
-								jDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-							}
-						} else {
-							jDialog.dispose();
-						}
-					}
-				});
-				jDialog.Show();
-			}
-
-		}
-
-	}
 }

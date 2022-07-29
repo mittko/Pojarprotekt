@@ -517,8 +517,8 @@ public class ReportDialog extends MainPanel {
 							case DELIVERY_ARTIKULS: {
 								String command =
 										buildCommandForDeliveryArtikuls();
-								ArrayList<Object[]> getDelivery = ReportRequest
-										.getReports(command);
+								ArrayList<Object[]> getDelivery = ReportRequest.getReportsForDelivery
+										(command, 1);
 								EDTDelivery edt = new EDTDelivery(getDelivery,
 										jDialog, "Справка Доставки "
 										+ fromDate.getText() + " - "
@@ -532,11 +532,11 @@ public class ReportDialog extends MainPanel {
 								String from = fromDate.getText();
 								String to = toDate.getText();
 								ArrayList<Object[]> getDelivery = ReportRequest
-										.getReports(buildCommandForSales2FromTo(
-												"01.06.2016", to));
+										.getReportsForSales(buildCommandForSales2FromTo(
+												"01.06.2016", to),4);
 								ArrayList<Object[]> getInvoice = ReportRequest
-										.getReports(buildCommandForSalesFromTo(
-												from, to));
+										.getReportsForSales(buildCommandForSalesFromTo(
+												from, to), 5);
 
 								EDTSales edt = new EDTSales(getInvoice,
 										getDelivery, jDialog, "Справка Продажби "
@@ -562,18 +562,18 @@ public class ReportDialog extends MainPanel {
 								// System.out.printf("%s %s\n", from, to);
 								// System.out.printf("%s %s\n", from2, to);
 								ArrayList<Object[]> deliveryBeforeFirstSelectedDate = ReportRequest
-										.getReports(buildCommandForDeliveryFromTo(
-												"01.06.2016", oneDayBeforeForm));
+										.getReportsForAvailability(buildCommandForDeliveryFromTo(
+												"01.06.2016", oneDayBeforeForm), 1);
 								ArrayList<Object[]> invoiceBeforeFirstSelectedDate = ReportRequest
-										.getReports(buildCommandForInvoiceFromTo(
-												"01.06.2016", oneDayBeforeForm));
+										.getReportsForAvailability(buildCommandForInvoiceFromTo(
+												"01.06.2016", oneDayBeforeForm), 1);
 
 								ArrayList<Object[]> deliveryBetweenSelectedDates = ReportRequest
-										.getReports(buildCommandForDeliveryFromTo(
-												from, to));
+										.getReportsForAvailability(buildCommandForDeliveryFromTo(
+												from, to), 1);
 								ArrayList<Object[]> invoiceBetweenSelectedDates = ReportRequest
-										.getReports(buildCommandForInvoiceFromTo(
-												from, to));
+										.getReportsForAvailability(buildCommandForInvoiceFromTo(
+												from, to), 1);
 								EDTAvailability edt = new EDTAvailability(
 										deliveryBeforeFirstSelectedDate, invoiceBeforeFirstSelectedDate,
 										deliveryBetweenSelectedDates, invoiceBetweenSelectedDates, from, to,

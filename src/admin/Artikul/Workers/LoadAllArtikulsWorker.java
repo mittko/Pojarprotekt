@@ -25,7 +25,7 @@ public class LoadAllArtikulsWorker extends SwingWorker {
 			data = Artikuli_DB.getAllAvailableArtikuls(AVAILABLE_ARTIKULS);
 			AvailableArtikulsTable.helpSearchFieldList.clear();
 			for (Object[] datum : data) {
-				Object[] obj = new Object[]{datum[0], datum[1],
+				Object[] obj = new Object[]{datum[9],datum[0], datum[1],
 						datum[2], datum[3], datum[4],
 						datum[5], datum[6], datum[7],
 						datum[8]};
@@ -62,21 +62,24 @@ public class LoadAllArtikulsWorker extends SwingWorker {
 
 						// try to optimize to split painting of parts
 
-						for (int d = 0; d < data.size(); d++) { // d <
-																// data.size()
+						for (Object[] datum : data) { // d <
+							// data.size()
 
-							Object[] obj = new Object[] { data.get(d)[0],
-									data.get(d)[1], data.get(d)[2],
-									data.get(d)[3], data.get(d)[4],
-									data.get(d)[5], data.get(d)[6],
-									data.get(d)[7], data.get(d)[8] };
+							Object[] obj = new Object[]{
+									datum[9],
+									datum[0],
+									datum[1], datum[2],
+									datum[3], datum[4],
+									datum[5], datum[6],
+									datum[7], datum[8]};
 							/*
 							 * ps.println(data.get(d)[0] + "      " +
 							 * data.get(d)[1] + " " + data.get(d)[2] +
 							 * "          Цена  " + data.get(d)[3]); ps.println(
 							 * "--------------------------------------------------------------------------------------------"
 							 * );
-							 */AvailableArtikulsTable.artikulTableModel
+							 */
+							AvailableArtikulsTable.artikulTableModel
 									.addRow(obj);
 							// ArtikulsMainFrame.helpSearchFieldList.add(obj);
 						}
