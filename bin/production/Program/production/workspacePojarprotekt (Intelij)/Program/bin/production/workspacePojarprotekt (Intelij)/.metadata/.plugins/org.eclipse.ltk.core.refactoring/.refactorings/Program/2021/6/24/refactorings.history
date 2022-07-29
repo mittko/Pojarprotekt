@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;PDF.Protokol.SO_Protokol2815&apos; to &apos;NewExtinguisherProtokolPDF&apos;&#x0D;&#x0A;- Original project: &apos;Program&apos;&#x0D;&#x0A;- Original element: &apos;PDF.Protokol.SO_Protokol2815&apos;&#x0D;&#x0A;- Renamed element: &apos;PDF.Protokol.NewExtinguisherProtokolPDF&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Rename similarly named elements&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;SO_Protokol2815&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;PDF.Protokol{SO_Protokol2815.java[SO_Protokol2815" matchStrategy="1" name="NewExtinguisherProtokolPDF" qualified="false" references="true" similarDeclarations="true" stamp="1623486596329" textual="false" version="1.0"/>
+</session>

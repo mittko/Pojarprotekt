@@ -1,0 +1,67 @@
+package db.modify;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import net.getCurrentIP;
+import Exceptions.DBException;
+
+public class AddColumn {
+
+	public AddColumn() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int addColumn(String table, String columnName) {
+		Connection connect = null;
+		Statement stat = null;
+		int result = -1;
+		String command = "ALTER TABLE " + table + " ADD COLUMN " + columnName
+				+ " VARCHAR(10)";
+		try {
+			connect = DriverManager.getConnection(getCurrentIP.DB_PATH);
+			stat = connect.createStatement();
+			result = stat.executeUpdate(command);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				Log.DB_Err.writeErros(e.toString());
+				DBException.DBExceptions("Грешка", e);
+				e.printStackTrace();
+
+			}
+		}
+		return result;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		AddColumn alertTable = new AddColumn();
+		// to add in artikuls => invoice, client, date, operator, percentProfit,
+		// ?
+		// int alert = alertTable.addColumn(MainPanel.ARTIKULS,
+		// "percentProfit");
+		// System.out.println(alert);
+
+		// int alert = alertTable.addColumn(MainPanel.INVOICE_CHILD,
+		// "kontragent");
+		// System.out.println("alert = " + alert);
+
+		// int alert2 = alertTable.addColumn(MainTable.INVOICE_CHILD,
+		// "invoiceByKontragent");
+		// System.out.println("alert2 = " + alert2);
+	}
+
+}

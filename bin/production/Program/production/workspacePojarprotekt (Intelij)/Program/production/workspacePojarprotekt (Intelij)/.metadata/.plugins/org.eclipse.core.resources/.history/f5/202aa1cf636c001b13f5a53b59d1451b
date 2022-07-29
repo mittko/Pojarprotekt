@@ -1,0 +1,159 @@
+package Reports;
+
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+
+import run.JustFrame;
+import utility.MainPanel;
+import utility.TooltipButton;
+import utility.YourUI;
+import Reports.ReportsRenderers.AvailabilityTableRenderer;
+import Reports.ReportsWorkers.ExportToExcellWorkerDelivery;
+
+public class ReportTableAvailability extends MainPanel {
+
+	public ReportTableAvailability(ArrayList<Object[]> data, String from,
+			String to, final String title) {
+
+		JPanel childContainer = new JPanel();
+		JPanel northPanel = new JPanel();
+		childContainer.setLayout(new BorderLayout());
+
+		JLabel titleLabel = new JLabel(title);
+		String[] columns = new String[] { "1", "2", "3", "4", "5", "6", "7",
+				"8", "9", "10" };
+		final DefaultTableModel dftm = new DefaultTableModel(columns, 0);
+		final JTable table = new JTable(dftm);
+		table.setDefaultRenderer(Object.class, new AvailabilityTableRenderer());
+
+		Object[] headObject = new Object[] { "Артикул: ",
+				"Наличност към " + from, "", "", "Доставки", "", "",
+				"Продажби", "", "", "Наличност до " + to, "", "" };
+		dftm.addRow(headObject);
+		for (int i = 0; i < data.size(); i++) {
+
+			String date = data.get(i)[3].toString();
+			int compare = MainPanel.compareStringsInReverseOrder(date, from);
+			System.out.println(compare + " from -> " + from + " ->" + to);
+			// int availableQuantity = 0;
+			// double availableValue = 0;
+			//
+			// int sellQuantity = 0;
+			// double sellValue = 0;
+			//
+			// try {
+			// availableQuantity = Integer.parseInt(data.get(i)[1].toString());
+			// } catch (Exception e) {
+			// availableQuantity = 0;
+			// }
+			// try {
+			// availableValue = Double.parseDouble(data.get(i)[2].toString()
+			// .replace(",", "."));
+			// } catch (Exception e) {
+			// availableValue = 0;
+			// }
+			//
+			// try {
+			// sellQuantity = Integer.parseInt(data.get(i)[4].toString());
+			// } catch (Exception e) {
+			// sellQuantity = 0;
+			// }
+			// try {
+			// sellValue = Double.parseDouble(data.get(i)[5].toString()
+			// .replace(",", "."));
+			// } catch (Exception e) {
+			// sellValue = 0;
+			// }
+			//
+			// int remainingQuantity = availableQuantity - sellQuantity;
+			//
+			// Object[] obj = new Object[] { data.get(i)[0],
+			// "Брой: " + availableQuantity, "Ед.цена: " + availableValue,
+			// "Ст-ст: " + (availableQuantity * availableValue),
+			// "Брой: " + sellQuantity, "Ед.цена: " + sellValue,
+			// "Ст-ст: " + (sellQuantity * sellValue),
+			// "Брой " + remainingQuantity, "Ед-цена " + availableValue,
+			// "Ст-ст " + (remainingQuantity * availableValue) };
+			// dftm.addRow(obj);
+		}
+
+		setColumnSize(table);
+		table.setRowHeight(MainPanel.getFontSize() + 15);
+
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JScrollPane scrollPane = new JScrollPane(table,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.getVerticalScrollBar().setUI(new YourUI());
+		scrollPane.getHorizontalScrollBar().setUI(new YourUI());
+		scrollPane.setPreferredSize(new Dimension(WIDTH, HEIGHT - 50));
+
+		TooltipButton excellButton = new TooltipButton();
+		excellButton.setPreferredSize(new Dimension(50, 50));
+		excellButton.setToolTipText(getHTML_Text("ЗАПИШИ В EXCEL"));
+		excellButton.setAutoSizedIcon(excellButton, setIcons(excellImage));
+		excellButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JDialog jd = (JDialog) SwingUtilities
+						.getWindowAncestor(ReportTableAvailability.this);
+				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+				ExportToExcellWorkerDelivery excellWorker = new ExportToExcellWorkerDelivery(
+						table, dftm, title + ".xls", jd);
+				excellWorker.execute();
+			}
+
+		});
+		northPanel.add(titleLabel);
+		northPanel.add(excellButton);
+		childContainer.add(northPanel, BorderLayout.NORTH);
+		childContainer.add(scrollPane, BorderLayout.CENTER);
+
+		this.add(childContainer);
+	}
+
+	private void setColumnSize(JTable table) {
+		table.getColumnModel().getColumn(0).setPreferredWidth(400);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(150);
+		table.getColumnModel().getColumn(3).setPreferredWidth(150);
+		table.getColumnModel().getColumn(4).setPreferredWidth(100);
+		table.getColumnModel().getColumn(5).setPreferredWidth(150);
+		table.getColumnModel().getColumn(6).setPreferredWidth(150);
+		table.getColumnModel().getColumn(7).setPreferredWidth(100);
+		table.getColumnModel().getColumn(8).setPreferredWidth(150);
+		table.getColumnModel().getColumn(9).setPreferredWidth(150);
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				ReportTableAvailability r = new ReportTableAvailability(null,
+						"01.06.2016", "11.02.2021", "Справка Доставки");
+				JustFrame f = new JustFrame(r);
+				f.setTitle("Справки");
+				f.pack();
+			}
+
+		});
+	}
+
+}

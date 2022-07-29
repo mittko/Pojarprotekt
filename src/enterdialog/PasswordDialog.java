@@ -291,7 +291,7 @@ public class PasswordDialog extends MainPanel {
 				SALLER_IBAN = sallerData.get(10);
 
 
-				WorkingBook.TO_PRICE = WorkPriceDB.getWorkValue(рн);
+				WorkingBook.TO_PRICE = WorkPriceDB.getWorkValue(MainPanel.рн);
 
 				WorkingBook.HI_PRICE = WorkPriceDB.getWorkValue(ух);
 

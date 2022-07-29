@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="Java%20uses%20RXTX%20for%20serial%20port%20communication_files/application.css">
+    <title>Java uses RXTX for serial port communication</title>
+    <meta name="keywords" content="Session,ascii,Java,Windows">
+    <meta name="description" content=" About RXTX RXTX is an open source java class library that provides serial and parallel port communication. The files published by this project follow LGPL protocol. RXTX project provides compatibility under windows, Linux, Mac OS X, and Solaris Operating Systems javax.comm The implementation oUTF-8...">
+</head>
+<body>
+<div class="container header">
+    <div class="header_logo">
+        <h1><a href="https://programmer.ink/">Programmer Think</a></h1>
+        <p>Where programmers share thinking</p>
+    </div>
+    <ul class="header_menu">
+        <li>
+            <a href="https://programmer.ink/">Home</a>
+        </li>
+        <li>
+            <a href="https://programmer.ink/think/">Thinking</a>
+        </li>
+        <li>
+            <a href="https://programmer.ink/topic/">Topic</a>
+        </li>
+    </ul>
+</div>
+
+    <div class="container body">
+        <div class="content">
+            <h1 class="blog-title">Java uses RXTX for serial port communication</h1>
+    <p class="blog-user-date">Posted by <b>nightowl</b> on <i>Fri, 12 Jun 2020 11:01:05 +0200</i></p>
+    <div class="blog-content">
+        <div>
+                                            <h3>About RXTX</h3>
+
+<p>RXTX is an open source java class library that provides serial and 
+parallel port communication. The files published by this project follow 
+LGPL protocol.<br>
+RXTX project provides compatibility under windows, Linux, Mac OS X, and 
+Solaris Operating Systems javax.comm The implementation of the serial 
+communication package API provides quite convenient for other developers
+ to develop serial applications under such systems.<br>
+The use of RXTX is similar to that provided by sun comm.jar Basically 
+the same, the most obvious difference in programming is that the package
+ name to be included is javax.comm . changed to gnu.io .</p>
+
+<p>The core of rxtx API is the abstract CommPort class (used to describe
+ an abstract class of ports supported by the underlying system, which 
+contains some high-level IO control methods, which are common to all 
+different communication ports) and its two subclasses: SerialPort class 
+and parallelport class. Among them, the SerialPort class is used for 
+serial port communication, and the parallelport class is used for 
+parallel port communication. The CommPort class also provides regular 
+communication modes and methods, such as getInputStream() method and 
+getOutputStream() method, which are dedicated to communicating with 
+devices on the port.<br>
+However, the constructor of these classes is intentionally set to 
+non-public. Therefore, objects cannot be constructed directly, but first
+ through static CommPortIdentifer.getPortIdentifiers() get the port 
+list, select the required port from the port list, and call the Open() 
+method of the CommPortIdentifier object, so you can get a CommPort 
+object. Of course, the type of CommPort object should also be converted 
+to a non Abstract subclass, indicating that it is a specific 
+communication device. This subclass can be one of SerialPort class and 
+parallelport class. Next, we will introduce CommPortIdentifier class and
+ serial port class in detail.</p>
+
+<div><pre>Interface
+ 
+CommDriver part of the loadable device driver interface
+ 
+CommPortOwnershipListener passes ownership events of various communication ports
+ 
+ParallelPortEventListener passing parallel port events
+ 
+SerialPortEventListener passing serial port events
+ 
+class
+ 
+CommPort communication port
+ 
+CommPortIdentifier communication port management
+ 
+ParallelPort parallel communication port
+ 
+ParallelPortEvent
+ 
+Serial port RS-232 serial communication port
+ 
+SerialPortEvent serial port event
+ 
+Abnormal class
+ 
+NoSuchPortException thrown when the driver cannot find the specified port
+ 
+PortInUseException thrown when the specified port is in use
+ 
+Unsupported commoperationexception driver does not allow throw on specified operation
+ 
+CommPortIdentifier class
+ 
+This class is mainly used to manage and set the communication port. It is the core class for access control of the port. It mainly includes the following methods:
+ 
+addPortName(String,int, CommDriver) add port name to port list
+ 
+addPortOwnershipListener(CommPortOwnershipListener) add a listener owned by the port
+ 
+removePortOwnershipListener(CommPortOwnershipListener) remove the listener owned by the port
+ 
+getCurrentOwner() gets the object or application that currently owns the port
+ 
+getName() gets the port name
+ 
+getPortIdentifier(CommPort) gets the CommPortIdentifier type object of the specified open port
+ 
+getPortIdentifier(String) gets the CommPortIdentifier type object of the port named by the parameter
+ 
+getPortIdentifiers() gets the list of ports in the system
+ 
+getPortType() gets the type of port
+ 
+isCurrentlyOwned() determines whether the current port is occupied
+ 
+open(FileDescriptor) open the port with the type described in the file
+ 
+open(String,int) open port, two parameters: program name, delay time (milliseconds)
+ 
+SerialPort class
+ 
+This class is used to describe the bottom interface of an RS-232 serial communication port, which defines the minimum set of functions required for serial communication. Through it, the user can read, write and set the serial port directly.
+ 
+Description of static member variables of serial port parameters in SerialPort class:
+ 
+DATABITS_5 data bit is 5
+ 
+DATABITS_6 data bit is 6
+ 
+DATABITS_7 data bit is 7
+ 
+DATABITS_8 data bit is 8
+ 
+PARITY_NONE space check
+ 
+PARITY_ODD test of odd
+ 
+PARITY_EVEN even test
+ 
+PARITY_MARK inspection
+ 
+PARITY_SPACE no inspection
+ 
+STOPBITS_1 stop bit is 1
+ 
+STOPBITS_2 stop bit is 2
+ 
+STOPBITS_1_5 stop bit is 1.5
+ 
+ 
+ 
+Method description of serial port parameters in SerialPort class:
+ 
+getBaudRate() to get the baud rate
+ 
+getParity() gets the inspection type
+ 
+getDataBits() gets the number of data bits
+ 
+getStopBits() gets stop bits
+ 
+setSerialPortParams(int,int, int, int) set the serial port parameters as (baud rate, data bit, stop bit, parity check)
+ 
+Description of static member variables of events in SerialPort class:
+ 
+BI Break interrupt
+ 
+FE Framing error
+ 
+CD Carrier detect carrier sense
+ 
+OE overflow error
+ 
+CTS Clear to send
+ 
+PE Parity error parity error
+ 
+DSR Data set ready
+ 
+RI Ring indicator ring detection
+ 
+DATA_AVAILABLE data in the available serial port
+ 
+OUTPUT_BUFFER_EMPTY output buffer cleared
+ 
+ 
+ 
+Method description of events in SerialPort class:
+ 
+Is there carrier in isCD()
+ 
+Is isCTS() cleared for transfer
+ 
+Is isDSR() data ready
+ 
+Is isDTR() data side ready
+ 
+Whether isRI() rings
+ 
+Whether isRTS() requires delivery
+ 
+addEventListener(SerialPortEventListener) adds a serial port event listener to the SerialPort object
+ 
+removeEventListener() removes the serial event listener from the SerialPort object
+ 
+notifyOnBreakInterrupt(boolean) set interrupt event true valid, false invalid
+ 
+notifyOnCarrierDetect(boolean) set carrier listening event true valid, false invalid
+ 
+notifyOnCTS(boolean) setting clear send event true valid, false invalid
+ 
+notifyOnDataAvailable(boolean) set the event that the serial port has data true valid, false invalid
+ 
+notifyOnDSR(boolean) setting data ready event true is valid, false is invalid
+ 
+Notifyonframeingerror (Boolean) setting error event true valid, false invalid
+ 
+notifyOnOutputEmpty(boolean) set send buffer to null event true valid, false invalid
+ 
+Notifyonpartityerror (Boolean) setting parity error event true valid, false invalid
+ 
+notifyOnRingIndicator(boolean) setting the ring detection event true is valid, false is invalid
+ 
+getEventType() gets that the return value of the event type occurred is int
+ 
+sendBreak(int) sets the time of the interrupt process. The parameter is the millisecond value
+ 
+setRTS(boolean) sets or clears the RTS bit
+ 
+setDTR(boolean) sets or clears the DTR bit
+ 
+Other common methods in SerialPort:
+ 
+close() close the serial port
+ 
+getOutputStream() gets an output stream of type OutputStream
+ 
+getInputStream() gets the input stream of InputStream type
+
+</pre></div>
+
+<h3>preparation</h3>
+
+<ul>
+<li>RXTX package: rxtx-2.2pre2-bins.zip</li>
+	<li>Serial virtual tool: vspd.exe</li>
+	<li>Serial debugging tool: amcktszs_v2.4.0.0.exe</li>
+</ul>
+<h3>Install RXTX package</h3>
+
+<p>Unzip rxtx-2.2pre2-bins.zip , will RXTXcomm.jar Add to the project 
+dependency library, corresponding to the rxtxSerial.dll and 
+rxtxParallel.dll Put the file in the bin directory of jdk</p>
+
+<p>&nbsp;</p>
+
+<div><pre>Precondition: maven has been added to the environment variable
+mvn install:install-file -DgroupId=gnu.io -DartifactId=RXTXcomm -Dversion=1.0 -Dpackaging=jar -Dfile=E:\Work\Yotrio\libs\RXTXcomm.jar
+</pre></div>
+
+<h3>Tool to create a pair of virtual serial ports</h3>
+
+<p><img src="Java%20uses%20RXTX%20for%20serial%20port%20communication_files/66b7f5893a9d3e194fd061dc3e2b0b72.jpg" alt=""></p>
+
+<p>Image.png</p>
+
+<h3>Open the serial port debugging tool and configure the serial port parameters</h3>
+
+<p><img src="Java%20uses%20RXTX%20for%20serial%20port%20communication_files/4aabd31d062fecae5e7f499084d9c40e.jpg" alt=""></p>
+
+<p>Image [2].png</p>
+
+<h3>Sample Demo</h3>
+
+<p>Package serial port reading and writing tool class</p>
+
+<p>&nbsp;</p>
+
+<blockquote><pre>/**
+ * Module name: projects parent com.yotrio.common
+ * Function Description: serial port service class, which provides services such as opening and closing serial port, reading and sending serial port data (single design mode is adopted)
+ * &lt;br&gt;
+ * Developer: Wangyq
+ * Creation time: 10:05, September 20, 2018
+ * System version: 1.0.0
+ **/
+
+public class SerialPortUtil {
+
+    private static SerialPortUtil serialPortUtil = null;
+
+    static {
+        //Initializes a SerialTool object when the class is loaded by ClassLoader
+        if (serialPortUtil == null) {
+            serialPortUtil = new SerialPortUtil();
+        }
+    }
+
+    //Privatize the constructor of the SerialTool class. No other classes are allowed to generate SerialTool objects
+    private SerialPortUtil() {
+    }
+
+    /**
+     * Get the SerialTool object that provides the service
+     *
+     * @return serialPortUtil
+     */
+    public static SerialPortUtil getSerialPortUtil() {
+        if (serialPortUtil == null) {
+            serialPortUtil = new SerialPortUtil();
+        }
+        return serialPortUtil;
+    }
+
+
+    /**
+     * Find all available ports
+     *
+     * @return List of available port names
+     */
+    public static final ArrayList&lt;String&gt; findPort() {
+        //Obtain all currently available serial ports
+        Enumeration&lt;CommPortIdentifier&gt; portList = CommPortIdentifier.getPortIdentifiers();
+
+        ArrayList&lt;String&gt; portNameList = new ArrayList&lt;&gt;();
+
+        //Add the available serial port name to the List and return the List
+        while (portList.hasMoreElements()) {
+            String portName = portList.nextElement().getName();
+            portNameList.add(portName);
+        }
+
+        return portNameList;
+    }
+
+    /**
+     * Open serial port
+     *
+     * @param portName Port name
+     * @param baudrate Baud rate
+     * @param databits Data bits
+     * @param parity   Parity bit
+     * @param stopbits Stop bit
+     * @return Serial port object
+     * @throws SerialPortParameterFailure Failed to set serial port parameters
+     * @throws NotASerialPort             Port pointing device is not of serial port type
+     * @throws NoSuchPort                 There is no serial device corresponding to this port
+     * @throws PortInUse                  Port occupied
+     */
+    public static final SerialPort openPort(String portName, int baudrate, int databits, int parity, int stopbits) throws SerialPortParameterFailure, NotASerialPort, NoSuchPort, PortInUse {
+
+        try {
+            //Identify ports by port name
+            CommPortIdentifier portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
+
+            //Open the port and give the port name and a timeout
+            CommPort commPort = portIdentifier.open(portName, 2000);
+
+            //Judge whether it is serial port
+            if (commPort instanceof SerialPort) {
+
+                SerialPort serialPort = (SerialPort) commPort;
+                try {
+                    //Set the baud rate and other parameters of the serial port
+                    serialPort.setSerialPortParams(baudrate, databits, stopbits, parity);
+                } catch (UnsupportedCommOperationException e) {
+                    throw new SerialPortParameterFailure();
+                }
+
+                //System.out.println("Open " + portName + " sucessfully !");
+                return serialPort;
+            } else {
+                //Not serial
+                throw new NotASerialPort();
+            }
+        } catch (NoSuchPortException e1) {
+            throw new NoSuchPort();
+        } catch (PortInUseException e2) {
+            throw new PortInUse();
+        }
+    }
+
+    /**
+     * Close the serial port
+     *
+     * @param serialPort Serial port object to be closed
+     */
+    public static void closePort(SerialPort serialPort) {
+        if (serialPort != null) {
+            serialPort.close();
+            serialPort = null;
+        }
+    }
+
+    /**
+     * Send data to serial port
+     *
+     * @param serialPort Serial port object
+     * @param order      Data to be sent
+     * @throws SendDataToSerialPortFailure        Sending data to serial port failed
+     * @throws SerialPortOutputStreamCloseFailure Error closing output stream of serial port object
+     */
+    public static void sendToPort(SerialPort serialPort, byte[] order) throws SendDataToSerialPortFailure, SerialPortOutputStreamCloseFailure {
+        OutputStream out = null;
+        try {
+            out = serialPort.getOutputStream();
+            out.write(order);
+            out.flush();
+        } catch (IOException e) {
+            throw new SendDataToSerialPortFailure();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                    out = null;
+                }
+            } catch (IOException e) {
+                throw new SerialPortOutputStreamCloseFailure();
+            }
+        }
+    }
+
+    /**
+     * Read data from serial port
+     *
+     * @param serialPort SerialPort object for which the connection is currently established
+     * @return Data read
+     * @throws ReadDataFromSerialPortFailure     Error reading data from serial port
+     * @throws SerialPortInputStreamCloseFailure Error closing serial object input stream
+     */
+    public static byte[] readFromPort(SerialPort serialPort) throws ReadDataFromSerialPortFailure, SerialPortInputStreamCloseFailure {
+
+        InputStream in = null;
+        byte[] bytes = null;
+
+        try {
+            in = serialPort.getInputStream();
+            int bufflenth = in.available();        //Get the data length in the buffer
+
+            while (bufflenth != 0) {
+                bytes = new byte[bufflenth];    //Initialize byte array as the length of data in buffer
+                in.read(bytes);
+                bufflenth = in.available();
+            }
+        } catch (IOException e) {
+            throw new ReadDataFromSerialPortFailure();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                    in = null;
+                }
+            } catch (IOException e) {
+                throw new SerialPortInputStreamCloseFailure();
+            }
+        }
+
+        return bytes;
+
+    }
+
+    /**
+     * Add listener
+     *
+     * @param port     Serial port object
+     * @param listener Serial port monitor
+     * @throws TooManyListeners Too many listening class objects
+     */
+    public static void addListener(SerialPort port, SerialPortEventListener listener) throws TooManyListeners {
+
+        try {
+            //Add monitor to serial port
+            port.addEventListener(listener);
+            //Set to wake up listening receiving thread when data arrives
+            port.notifyOnDataAvailable(true);
+            //Set to wake up interrupt thread when communication is interrupted
+            port.notifyOnBreakInterrupt(true);
+        } catch (TooManyListenersException e) {
+            throw new TooManyListeners();
+        }
+    }
+
+    /**
+     * Delete listener
+     *
+     * @param port     Serial port object
+     * @param listener Serial port monitor
+     * @throws TooManyListeners Too many listening class objects
+     */
+    public static void removeListener(SerialPort port, SerialPortEventListener listener) {
+        //Delete serial listener
+        port.removeEventListener();
+    }
+
+}
+</pre></blockquote>
+
+<p>Integrate websocket to get and push to the front page for real-time display</p>
+
+<p>&nbsp;</p>
+
+<blockquote><pre>@ServerEndpoint(value = "/websocket") //Accept websocket request path
+@Component
+public class PoundWebSocket {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    /**
+     * Save all online socket connections
+     */
+    private static Map&lt;String, PoundWebSocket&gt; webSocketMap = new LinkedHashMap&lt;&gt;();
+
+    /**
+     * Record the current number of Online
+     */
+    private static int count = 0;
+
+    /**
+     * Current connection (each websocket connection will create a MyWebSocket instance
+     */
+    private Session session;
+
+    /**
+     * Creating a listening serial port
+     */
+    private static SerialPort serialPort = null;
+
+    /**
+     * Create listener
+     */
+    private static SerialPortEventListener serialPortEventListener = null;
+
+    /**
+     * Monitor serial port
+     */
+    private static String PORT_NAME;
+
+    /**
+     * Monitor serial port baud rate
+     */
+    private static int BAUD_RATE;
+
+    /**
+     * Data bits
+     */
+    private static int DATA_BITS;
+
+    /**
+     * Stop bit
+     */
+    private static int STOP_BITS;
+
+    /**
+     * Parity bit
+     */
+    private static int PARITY;
+
+    /**
+     * Model of Weighbridge
+     */
+    private static String MODEL;
+
+    private static IPoundInfoService poundInfoService;
+
+    private static ApplicationContext applicationContext;
+
+    public static void setApplicationContext(ApplicationContext applicationContext) {
+        PoundWebSocket.applicationContext = applicationContext;
+    }
+
+    private static StringBuffer stringBuffer = new StringBuffer();
+
+    /**
+     * Handle connection establishment
+     *
+     * @param session
+     */
+    @OnOpen
+    public void onOpen(Session session) {
+        if (poundInfoService == null) {
+            poundInfoService = applicationContext.getBean(IPoundInfoService.class);
+        }
+        //Get weighbridge information
+        PoundInfo poundInfo = poundInfoService.findOne();
+        PORT_NAME = poundInfo.getSerialPort();
+        BAUD_RATE = poundInfo.getBaudRate();
+        MODEL = poundInfo.getModel();
+        DATA_BITS = poundInfo.getDataBits() != null ? poundInfo.getDataBits() : SerialPort.DATABITS_8;
+        STOP_BITS = poundInfo.getStopBits() != null ? poundInfo.getStopBits() : SerialPort.STOPBITS_1;
+        PARITY = poundInfo.getParity() != null ? poundInfo.getParity() : SerialPort.PARITY_NONE;
+
+        this.session = session;
+        webSocketMap.put(session.getId(), this);
+        addCount();
+//        logger.info("new connection join: {}", session.getId());
+        try {
+            //Make sure that the serial port has been closed. If not, it will fail to listen to the serial port again
+            if (serialPort != null) {
+                SerialPortUtil.closePort(serialPort);
+                serialPort = null;
+            }
+            //Create serial port COM5 bit serial port name 9600 baud rate
+            if (serialPort == null &amp;&amp; StringUtils.isNotEmpty(PORT_NAME) &amp;&amp; StringUtils.isNotEmpty(MODEL)) {
+                serialPort = SerialPortUtil.openPort(PORT_NAME, BAUD_RATE, DATA_BITS, PARITY, STOP_BITS);
+//                logger.info("create serial port: {}", serialPort);
+                //Set serial monitoring
+                SerialPortUtil.addListener(serialPort, new SerialPortEventListener() {
+
+                    @Override
+                    public void serialEvent(SerialPortEvent serialPortEvent) {
+                        if (serialPortEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+                            try {
+                                //Read serial data
+                                byte[] bytes = SerialPortUtil.readFromPort(serialPort);
+
+                                //Parse string by model
+                                switch (MODEL) {
+                                    case PoundConstant.MODEL_XK_3190:
+                                        parsingString1(bytes);
+                                        break;
+                                    case PoundConstant.MODEL_XK_3190_10:
+                                        parsingString2(bytes);
+                                        break;
+                                    case PoundConstant.MODEL_D_2008:
+                                        parsingString1(bytes);
+                                        break;
+                                    case PoundConstant.MODEL_DK_3230_D_6:
+                                        parsingString3(bytes);
+                                        break;
+                                    case PoundConstant.MODEL_D_2009_F:
+                                        parsingString4(bytes);
+                                        break;
+                                    default:
+                                        String value = String.valueOf(Integer.valueOf(new String(bytes, "GB2312")) - RandomUtil.randomInt(1000, 10000));
+                                        sendMessageToAll(value);
+                                }
+
+//                                System.out.println("received data:" + new string (bytes, "GB2312") + "---" + new date());
+
+                            } catch (ReadDataFromSerialPortFailure readDataFromSerialPortFailure) {
+                                logger.error(readDataFromSerialPortFailure.toString());
+                            } catch (SerialPortInputStreamCloseFailure serialPortInputStreamCloseFailure) {
+                                logger.error(serialPortInputStreamCloseFailure.toString());
+                            } catch (UnsupportedEncodingException e) {
+                                logger.error(e.toString());
+                            } catch (IOException e) {
+                                logger.error(e.toString());
+                            }
+                        }
+                    }
+                });
+            }
+        } catch (SerialPortParameterFailure serialPortParameterFailure) {
+            logger.error(serialPortParameterFailure.toString());
+        } catch (NotASerialPort notASerialPort) {
+            logger.error(notASerialPort.toString());
+        } catch (NoSuchPort noSuchPort) {
+            logger.error(noSuchPort.toString());
+        } catch (PortInUse portInUse) {
+            logger.error(portInUse.toString());
+        } catch (TooManyListeners tooManyListeners) {
+            logger.error(tooManyListeners.toString());
+        }
+    }
+
+    /**
+     * Parse string method 1
+     *
+     * @param bytes Bytecode obtained
+     */
+    private void parsingString1(byte[] bytes) {
+        StringBuffer sb = new StringBuffer();
+        //Convert ASCII code to string
+        for (int i = 0; i &lt; bytes.length; i++) {
+            sb.append((char) Integer.parseInt(String.valueOf(bytes[i])));
+        }
+
+        //Parse string
+        String[] strs = sb.toString().trim().split("\\+");
+        int weight = 0;
+        for (int j = 0; j &lt; strs.length; j++) {
+            if (strs[j].trim().length() &gt;= 6) {
+                weight = Integer.parseInt(strs[j].trim().substring(0, 6));
+                //send data
+                sendMessageToAll(String.valueOf(weight));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Parse string method 2
+     *
+     * @param bytes Bytecode obtained
+     */
+    private void parsingString2(byte[] bytes) {
+        StringBuffer sb = new StringBuffer();
+        //Convert ASCII to string
+        for (int i = 0; i &lt; bytes.length; i++) {
+            sb.append((char) Integer.parseInt(String.valueOf(bytes[i])));
+        }
+        //Parse string
+        String[] strs = sb.toString().trim().split("\\+");
+        double weight = 0;
+        for (int j = 0; j &lt; strs.length; j++) {
+            if (strs[j].trim().length() &gt;= 6) {
+                weight = Double.parseDouble(strs[j].trim().substring(0, 6)) / 10;
+                //send data
+                sendMessageToAll(String.valueOf(weight));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Parse string method 3
+     *
+     * @param bytes Bytecode obtained
+     */
+    private void parsingString3(byte[] bytes) {
+        StringBuffer sb = new StringBuffer();
+        //Convert ASCII code to string
+        for (int i = 0; i &lt; bytes.length; i++) {
+            sb.append((char) Integer.parseInt(String.valueOf(bytes[i])));
+        }
+
+//        logger.info("sb:" + sb.toString());
+        sb.reverse();
+
+        //Parse string
+        String[] strs = sb.toString().trim().split("\\=");
+        double weight = 0;
+        for (int j = 0; j &lt; strs.length; j++) {
+            if (strs[j].trim().length() &gt;= 6) {
+                weight = Double.parseDouble(strs[j].trim());
+                //send data
+                sendMessageToAll(String.valueOf(weight));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Parse string method 3
+     *
+     * @param bytes Bytecode obtained
+     */
+    private void parsingString4(byte[] bytes) {
+        StringBuffer sb = new StringBuffer();
+        //Convert ASCII code to string
+        for (int i = 0; i &lt; bytes.length; i++) {
+            sb.append((char) Integer.parseInt(String.valueOf(bytes[i])));
+        }
+
+//        logger.info("sb:" + sb.reverse());
+        //String inversion
+        sb.reverse();
+
+        //Parse string
+        String[] strs = sb.toString().trim().split("\\=");
+        int weight = 0;
+        for (int j = 0; j &lt; strs.length; j++) {
+            if (strs[j].trim().length() &gt;= 6) {
+                weight = Integer.parseInt(strs[j].trim().substring(0, 6));
+                //send data
+                sendMessageToAll(String.valueOf(weight));
+                break;
+            }
+        }
+    }
+
+    /**
+     * Accept message
+     *
+     * @param message
+     * @param session
+     */
+    @OnMessage
+    public void onMessage(String message, Session session) {
+        logger.info("Client received{}Message:{}", session.getId(), message);
+        try {
+            this.sendMessage(message);
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+    }
+
+    /**
+     * Handling errors
+     *
+     * @param error
+     * @param session
+     */
+    @OnError
+    public void onError(Throwable error, Session session) {
+        logger.info("An error occurred{},{}", session.getId(), error.getMessage());
+    }
+
+    /**
+     * Process connection closure
+     */
+    @OnClose
+    public void onClose() {
+        webSocketMap.remove(this.session.getId());
+        reduceCount();
+        logger.info("Connection closed:{}", this.session.getId());
+
+        //Close the serial port after the connection is closed, and listen to the serial port again the next time the connection is opened
+        if (serialPort != null) {
+            SerialPortUtil.closePort(serialPort);
+            serialPort = null;
+        }
+    }
+
+    /**
+     * Mass message
+     *
+     * @param message
+     */
+    public void sendMessageToAll(String message) {
+        for (int i = 0; i &lt; webSocketMap.size(); i++) {
+            try {
+//                logger.info("session:id=" + session.getId());
+                this.session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                logger.error(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * send message
+     *
+     * @param message
+     * @throws IOException
+     */
+    public void sendMessage(String message) throws IOException {
+//        logger.info("session:id=" + session.getId());
+        this.session.getBasicRemote().sendText(message);
+    }
+
+    //Broadcast message
+    public static void broadcast() {
+        PoundWebSocket.webSocketMap.forEach((k, v) -&gt; {
+            try {
+                v.sendMessage("This is a test broadcast");
+            } catch (Exception e) {
+            }
+        });
+    }
+
+    //Get the number of online connections
+    public static int getCount() {
+        return count;
+    }
+
+    //Operation count, use synchronized to ensure thread safety
+    public static synchronized void addCount() {
+        PoundWebSocket.count++;
+    }
+
+    public static synchronized void reduceCount() {
+        PoundWebSocket.count--;
+    }
+}</pre></blockquote>
+
+<p><br><br>
+Author: brother xiaotudou<br>
+Link:<br>
+&nbsp;</p>
+                                    </div>
+    </div>
+        <p class="blog-tags">Topics:
+            <a href="https://programmer.ink/topic/session">Session</a>
+            <a href="https://programmer.ink/topic/ascii">ascii</a>
+            <a href="https://programmer.ink/topic/java">Java</a>
+            <a href="https://programmer.ink/topic/windows">Windows</a>
+        </p>
+            </div><!--
+        --><div class="sidebar">
+        <h3>Hot Topics</h3>
+<ul class="hot-tags">
+        <li><a href="https://programmer.ink/topic/java">Java</a> - 2643</li>
+        <li><a href="https://programmer.ink/topic/database">Database</a> - 1011</li>
+        <li><a href="https://programmer.ink/topic/python">Python</a> - 963</li>
+        <li><a href="https://programmer.ink/topic/programming">Programming</a> - 871</li>
+        <li><a href="https://programmer.ink/topic/attribute">Attribute</a> - 864</li>
+        <li><a href="https://programmer.ink/topic/javascript">Javascript</a> - 848</li>
+        <li><a href="https://programmer.ink/topic/spring">Spring</a> - 827</li>
+        <li><a href="https://programmer.ink/topic/android">Android</a> - 712</li>
+        <li><a href="https://programmer.ink/topic/xml">xml</a> - 702</li>
+        <li><a href="https://programmer.ink/topic/less">less</a> - 692</li>
+        <li><a href="https://programmer.ink/topic/linux">Linux</a> - 685</li>
+        <li><a href="https://programmer.ink/topic/network">network</a> - 653</li>
+        <li><a href="https://programmer.ink/topic/github">github</a> - 615</li>
+        <li><a href="https://programmer.ink/topic/json">JSON</a> - 599</li>
+        <li><a href="https://programmer.ink/topic/mysql">MySQL</a> - 550</li>
+        <li><a href="https://programmer.ink/topic/php">PHP</a> - 482</li>
+        <li><a href="https://programmer.ink/topic/sql">SQL</a> - 480</li>
+        <li><a href="https://programmer.ink/topic/encoding">encoding</a> - 390</li>
+        <li><a href="https://programmer.ink/topic/mobile">Mobile</a> - 363</li>
+        <li><a href="https://programmer.ink/topic/windows">Windows</a> - 333</li>
+    </ul>
+
+        </div>
+    </div>
+
+<div class="container footer">
+    ©2021 <a href="https://programmer.ink/">Programmer Think</a>
+</div><script src="Java%20uses%20RXTX%20for%20serial%20port%20communication_files/hm.txt"></script><script src="Java%20uses%20RXTX%20for%20serial%20port%20communication_files/hm.js"></script><script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?32ebf3c5fd689a6011013887172227f2";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="Java%20uses%20RXTX%20for%20serial%20port%20communication_files/js.txt"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-924JZS4CZ2');
+</script>
+
+
+</body></html>

@@ -24,10 +24,10 @@ public class ArtikulTab extends MainPanel {
 	private static DiscountButtonArtikuli choiceDiscountButton;
 	private static JComboBox<String> paymentCombo;
 	// private String discount;
-	private final TooltipButton skladButton;
+	private  TooltipButton skladButton;
 	public static DefaultTableModel dftm;
 	// private DefaultTableModel artikuliModel;
-	private final JTable înlyArticulsTable;
+	private  JTable onlyArticulsTable;
 	private static JTextField sumFieldNoTax;
 	private static JTextField sumField;
 	// private BevelLabel acquittanceNumLabel;
@@ -274,34 +274,34 @@ public class ArtikulTab extends MainPanel {
 		// artikuliModel = new DefaultTableModel(new String[] {"Àðòèêóëè",
 		// "Ê-âî" },0);
 
-		înlyArticulsTable = new JTable(dftm);
-		// ñêðèé êîëîíè ôàêòóðà è êîíòðàãåíò
-		înlyArticulsTable.getColumnModel().getColumn(6).setMinWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(6).setMaxWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(6).setWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(7).setMinWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(7).setMaxWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(7).setWidth(0);
+		onlyArticulsTable = new JTable(dftm);
+		// ñêðèé êoëoíè ôàêòóðà è êoíòðàãåíò
+		onlyArticulsTable.getColumnModel().getColumn(6).setMinWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(6).setMaxWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(6).setWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(7).setMinWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(7).setMaxWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(7).setWidth(0);
 
-		înlyArticulsTable.addMouseListener(new MouseAdapter() {
+		onlyArticulsTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent me) {
 				Point point = me.getPoint();
-				int currentRow = înlyArticulsTable.rowAtPoint(point);
-				înlyArticulsTable.setRowSelectionInterval(currentRow,
+				int currentRow = onlyArticulsTable.rowAtPoint(point);
+				onlyArticulsTable.setRowSelectionInterval(currentRow,
 						currentRow);
 			}
 		});
-		înlyArticulsTable.setDefaultRenderer(Object.class,
-				new CustomTableCellRenderer(înlyArticulsTable));
-		înlyArticulsTable.setRowHeight(MainPanel.getFontSize() + 15);
+		onlyArticulsTable.setDefaultRenderer(Object.class,
+				new CustomTableCellRenderer(onlyArticulsTable));
+		onlyArticulsTable.setRowHeight(MainPanel.getFontSize() + 15);
 		JMenuItem menuItem = new JMenuItem("Èçòðèé ðåä");
 		menuItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				dftm.removeRow(înlyArticulsTable.getSelectedRow());
+				dftm.removeRow(onlyArticulsTable.getSelectedRow());
 				if (dftm.getRowCount() == 0) {
 					clear();
 				}
@@ -312,9 +312,9 @@ public class ArtikulTab extends MainPanel {
 
 		});
 		popupMenu.add(menuItem);
-		înlyArticulsTable.setComponentPopupMenu(popupMenu);
+		onlyArticulsTable.setComponentPopupMenu(popupMenu);
 
-		JScrollPane scroll = new JScrollPane(înlyArticulsTable,
+		JScrollPane scroll = new JScrollPane(onlyArticulsTable,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setPreferredSize(new Dimension((int) (this.WIDTH * 1.0) - 20,

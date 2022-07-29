@@ -19,15 +19,15 @@ import java.util.ArrayList;
 
 public class ArtikulTab2 extends MainPanel {
 
-	private final ClientsListComboBox2 clientCombo;
+	private  ClientsListComboBox2 clientCombo;
 	private static JTextField discountField;
 	private static DiscountButtonArtikuli choiceDiscountButton;
 	private static JComboBox<String> paymentCombo;
 	// private String discount;
-	private final TooltipButton greySkladButton;
+	private  TooltipButton greySkladButton;
 	public static DefaultTableModel dftm;
 	// private DefaultTableModel artikuliModel;
-	private final JTable înlyArticulsTable;
+	private final JTable onlyArticulsTable;
 	private static JTextField sumFieldNoTax;
 	private static JTextField sumField;
 	// private BevelLabel acquittanceNumLabel;
@@ -241,7 +241,7 @@ public class ArtikulTab2 extends MainPanel {
 
 		dftm = new DefaultTableModel(new String[] {
 				"Âèä íà èçâúğøåíàòà óñëóãà", "Ìÿğêà", "Ê-âî", "Åä. Öåíà",
-				"Ñòîéíîñò", "Îòñòúïêà â %", "Êîíòğàãåíò", "Ôàêòóğà ïî äîñòàâêà" },
+				"Ñòîéíîñò", "Îòñòúïêà â %", "Êîíòğàãåíò", "Ôàêòóğà ïî äîñòàâêà"},
 				0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -270,37 +270,37 @@ public class ArtikulTab2 extends MainPanel {
 			}
 
 		});
-		// artikuliModel = new DefaultTableModel(new String[] {"Àğòèêóëè",
-		// "Ê-âî" },0);
+		// artikuliModel = new DefaultTableModel(new String[] {"????????",
+		// "?-??" },0);
 
-		înlyArticulsTable = new JTable(dftm);
-		// ñêğèé êîëîíè ôàêòóğà è êîíòğàãåíò
-		înlyArticulsTable.getColumnModel().getColumn(6).setMinWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(6).setMaxWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(6).setWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(7).setMinWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(7).setMaxWidth(0);
-		înlyArticulsTable.getColumnModel().getColumn(7).setWidth(0);
+		onlyArticulsTable = new JTable(dftm);
 
-		înlyArticulsTable.addMouseListener(new MouseAdapter() {
+		onlyArticulsTable.getColumnModel().getColumn(6).setMinWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(6).setMaxWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(6).setWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(7).setMinWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(7).setMaxWidth(0);
+		onlyArticulsTable.getColumnModel().getColumn(7).setWidth(0);
+
+		onlyArticulsTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent me) {
 				Point point = me.getPoint();
-				int currentRow = înlyArticulsTable.rowAtPoint(point);
-				înlyArticulsTable.setRowSelectionInterval(currentRow,
+				int currentRow = onlyArticulsTable.rowAtPoint(point);
+				onlyArticulsTable.setRowSelectionInterval(currentRow,
 						currentRow);
 			}
 		});
-		înlyArticulsTable.setDefaultRenderer(Object.class,
-				new CustomTableCellRenderer2(înlyArticulsTable));
-		înlyArticulsTable.setRowHeight(MainPanel.getFontSize() + 15);
-		JMenuItem menuItem = new JMenuItem("Èçòğèé ğåä");
+		onlyArticulsTable.setDefaultRenderer(Object.class,
+				new CustomTableCellRenderer2(onlyArticulsTable));
+		onlyArticulsTable.setRowHeight(MainPanel.getFontSize() + 15);
+		JMenuItem menuItem = new JMenuItem("oooooo ooo");
 		menuItem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				dftm.removeRow(înlyArticulsTable.getSelectedRow());
+				dftm.removeRow(onlyArticulsTable.getSelectedRow());
 				if (dftm.getRowCount() == 0) {
 					clear();
 				}
@@ -311,9 +311,9 @@ public class ArtikulTab2 extends MainPanel {
 
 		});
 		popupMenu.add(menuItem);
-		înlyArticulsTable.setComponentPopupMenu(popupMenu);
+		onlyArticulsTable.setComponentPopupMenu(popupMenu);
 
-		JScrollPane scroll = new JScrollPane(înlyArticulsTable,
+		JScrollPane scroll = new JScrollPane(onlyArticulsTable,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setPreferredSize(new Dimension((int) (this.WIDTH * 1.0) - 20,
@@ -362,7 +362,7 @@ public class ArtikulTab2 extends MainPanel {
 		 * acquittanceNumLabel.setPreferredSize( (new Dimension(
 		 * (int)(southPanel.getPreferredSize().getWidth() * 0.3),
 		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
-		 * acquittanceNumLabel.setTitle("Ñòîêîâà Ğàçïèñêà \u2116 ");
+		 * acquittanceNumLabel.setTitle("??????? ???????? \u2116 ");
 		 * acquittanceNumLabel.setName("");
 		 */
 		float labelHeight = (int) (southPanel.getPreferredSize().getHeight() * 0.8);
@@ -373,7 +373,7 @@ public class ArtikulTab2 extends MainPanel {
 		 * (int)(southPanel.getPreferredSize().getWidth() * 0.3),
 		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
 		 */
-		sallerLabel.setTitle("Ïğîäàâà÷ : ");
+		sallerLabel.setTitle(Enums.Îïåğàòîğ.name()   + ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);
@@ -438,7 +438,7 @@ public class ArtikulTab2 extends MainPanel {
 			valu += Double.parseDouble(dftm.getValueAt(row, 4).toString());
 		}
 		sumFieldNoTax.setText(String.format("%.2f", valu).replace(",", "."));
-		// set ÄÄÑ
+		// set ???
 		valu *= 1.2;
 		// set final value
 		String finalValue = String.format("%.2f", valu).replace(",", ".");
