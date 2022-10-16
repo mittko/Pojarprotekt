@@ -39,8 +39,11 @@ public class ReportRequest extends MainPanel
 				final ArrayList<Object> elem = new ArrayList<Object>();
 				final ResultSetMetaData rsmd = rs.getMetaData();
 				for (int c = 0; c < rsmd.getColumnCount(); ++c) {
-					elem.add(rs.getString(c + 1));
+					String str = rs.getString(c+1);
+					System.out.printf("%s ",str);
+					elem.add(str);
 				}
+				System.out.println();
 				list.add(elem.toArray());
 			}
 		}

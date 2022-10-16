@@ -13,25 +13,25 @@ import javax.swing.SwingUtilities;
 import run.JustFrame;
 import Local.TextReader;
 
-public class BrandListComboBox extends JComboBox<Object> {
+public class EditableComboBox extends JComboBox<Object> {
 
 	Vector<String> v = null;
-	Object[] firms = null;
+	Object[] data = null;
 
 
 
-	public BrandListComboBox() {
+	public EditableComboBox(String filePath) {// "Local/brand.txt"
 		
 		 this.setRenderer(new ComboRenderer());
 
-		firms = TextReader.getData("Local/brand.txt");
+		data = TextReader.getData(filePath);
 		v = new Vector<String>();
 
 		//this.setEditable(true);
 		this.setSelectedItem("");
 
-		for (int i = 0; i < firms.length; i++) {
-			v.add(firms[i].toString());
+		for (int i = 0; i < data.length; i++) {
+			v.add(data[i].toString());
 			this.addItem(v.get(i));
 		}
 
@@ -43,14 +43,14 @@ public class BrandListComboBox extends JComboBox<Object> {
 					removeAllItems();
 					int c = 0;
 					addItem("");
-					for (int i = 0; i < v.size(); i++) {
-						String A = v.get(i).toLowerCase();
+					for (String s : v) {
+						String A = s.toLowerCase();
 						String B = prefix.toLowerCase();
 						if (A.startsWith(B)) {
-							addItem(v.get(i));
+							addItem(s);
 							c++;
-						} else if(A.contains(B)) {
-							addItem(v.get(i));
+						} else if (A.contains(B)) {
+							addItem(s);
 							c++;
 						}
 					}
@@ -77,12 +77,11 @@ public class BrandListComboBox extends JComboBox<Object> {
 				int index, boolean isSelected, boolean cellHasFocus) {
 
 			if (index != -1) {
-				list.setToolTipText(MainPanel.getHTML_Text(BrandListComboBox.this.getItemAt(index).toString()));
+				list.setToolTipText(MainPanel.getHTML_Text(EditableComboBox.this.getItemAt(index).toString()));
 			}
-			Component c = super.getListCellRendererComponent(list, value,
-					index, isSelected, cellHasFocus);
 
-			return c;
+			return super.getListCellRendererComponent(list, value,
+					index, isSelected, cellHasFocus);
 		}
 	}
 
@@ -93,7 +92,7 @@ public class BrandListComboBox extends JComboBox<Object> {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				BrandListComboBox mc = new BrandListComboBox();
+				EditableComboBox mc = new EditableComboBox("Local/brand.txt");
 				JustFrame jf = new JustFrame(mc);
 				jf.pack();
 			}

@@ -358,7 +358,7 @@ public class Common extends MainPanel {
 			rs = stat.executeQuery(command);
 			while (rs.next()) {
 				rsmd = rs.getMetaData();
-				obj = new ArrayList<String>();
+				obj = new ArrayList<>();
 				for (int col = 0; col < rsmd.getColumnCount(); col++) {
 					// System.out.print(rs.getString(col + 1) + " ");
 					obj.add(rs.getString(col + 1));

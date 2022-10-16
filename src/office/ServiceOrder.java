@@ -995,7 +995,7 @@ public class ServiceOrder extends MainPanel {
 
 		categoryPanel.add(category);
 
-		brand = new BrandListComboBox();
+		brand = new EditableComboBox("Local/brand.txt");
 		brand.setBorder(BorderFactory.createLoweredBevelBorder());
 		brand.addActionListener(new ActionListener() {
 

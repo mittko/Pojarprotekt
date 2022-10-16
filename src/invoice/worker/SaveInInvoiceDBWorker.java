@@ -17,22 +17,23 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 	private int parent = 0;
 	private int child = 0;
 	private final InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
-	private JDialog jd = null;
-	private String payment = null;
-	private String discount = null;
-	private String sum = null;
-	private String currentClient = null;
-	private String personName = null;
-	private String date = null;
-	private String INVOICE_NUMBER = null;
-	private String PROTOKOL_NUMBER = null;
+	private final JDialog jd;
+	private final String payment;
+	private final String discount;
+	private final String sum;
+	private final String currentClient;
+	private final String personName;
+	private final String date;
+	private final String invoiceName;
+	private final String INVOICE_NUMBER;
+	private final String PROTOKOL_NUMBER;
 	private int[] next_invoice = null;
 	private final DefaultTableModel dftm;
 	private final BevelLabel numLabel;
     private final String parentTable;
     private final String childTable;
 	public SaveInInvoiceDBWorker(String parentTable,String childTable, JDialog jd, String payment, String discount,
-			String sum, String currentClient, String personName, String date,
+			String sum, String currentClient, String personName, String date,String invoiceName,
 			String invoiceNumber, String protokolNumber,
 			DefaultTableModel dftm, BevelLabel numLabel) {
 		this.parentTable = parentTable;
@@ -44,6 +45,7 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 		this.currentClient = currentClient;// taken from combobox
 		this.personName = personName;
 		this.date = date;
+		this.invoiceName = invoiceName;
 		this.INVOICE_NUMBER = invoiceNumber;
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
@@ -58,14 +60,17 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 
 			// save data in invoice parent
 
-			parent = InvoiceParent_DB.insertIntoInvoiceParent(parentTable,INVOICE_NUMBER,// invoice
-																				// number
-					PROTOKOL_NUMBER, payment, // payment
+			parent = InvoiceParent_DB.insertIntoInvoiceParent(
+					parentTable,
+					INVOICE_NUMBER,// invoice number
+					PROTOKOL_NUMBER,
+					payment, // payment
 					discount, // discount
 					sum, // final sum
 					currentClient, // client
 					personName, // saller
-					date); // date
+					date,//date
+					invoiceName); // name
 
 			// save data in invoice child
 			if (parent > 0) {
@@ -122,12 +127,16 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 	}
 
 	private void showPrintDialog(String invoiceNumber) {
-		PrintInvoiceDialog pd = new PrintInvoiceDialog(dftm, invoiceNumber, // invoice
-																			// number
+		PrintInvoiceDialog pd = new PrintInvoiceDialog(dftm,
+				invoiceNumber,
 				null, // proform number
 				null, // acquittance number
-				currentClient, date, Double.parseDouble(sum), payment, true, // print
-																				// protokol
+				currentClient,
+				date,
+				invoiceName,
+				Double.parseDouble(sum),
+				payment,
+				true, // print protokol
 				false,// print proform
 				false); // print acquittance
 

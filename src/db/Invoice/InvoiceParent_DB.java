@@ -48,13 +48,13 @@ public class InvoiceParent_DB extends MainPanel {
 
 	public static int insertIntoInvoiceParent(String dbTable, String id, String protokol,
 			String payment, String discount, String value, String client,
-			String saller, String date) {
+			String saller, String date, String invoiceName) {
 		Connection connect = null;
 		Statement stat = null;
 		String command = "insert into " + dbTable + " values ('" + id
 				+ "','" + payment + "','" + discount + "','" + value + "','"
 				+ client + "','" + saller + "','" + date + "','" + protokol
-				+ "')";
+				+ "','" + invoiceName +"')";
 		int insert = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
@@ -80,7 +80,6 @@ public class InvoiceParent_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return insert;
 			}
 		}
 	}
@@ -171,7 +170,6 @@ public class InvoiceParent_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return null;
 			}
 		}
 	}
@@ -206,7 +204,6 @@ public class InvoiceParent_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return del;
 			}
 		}
 	}
@@ -241,7 +238,6 @@ public class InvoiceParent_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return del;
 			}
 		}
 	}

@@ -2,6 +2,8 @@ package invoice.worker;
 
 import JPrinter.Print.PrintWithoutOpenPdf;
 import PDF.Invoice.InvoicePDF;
+import PDF.Invoice.MaterialsPDFromInvocie;
+import PDF.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utility.MainPanel;
@@ -14,28 +16,26 @@ import java.util.HashMap;
 
 public class PrintInvoicePdfWorker extends SwingWorker {
 
-	private ArrayList<String> clientInfo = null;
-	private String invoiceNumber;
-	private String currentClient;
-	private String datePdf;
-	// private double danOsnova;
-	private String payment;
-	private JDialog jd;
+	private final String invoiceNumber;
+	private final String currentClient;
+	private final String datePdf;
+	private final String invoiceName;
+
+	private final double sum;
+	private final String payment;
 	boolean isCreated = false;
-	private DefaultTableModel dftm;
-	private PrintService ps;
+	private final DefaultTableModel dftm;
 
 	public PrintInvoicePdfWorker(DefaultTableModel dftm, String currentClient,
-			String invoiceNumber, String datePdf, double danOsnova,
+			String invoiceNumber, String datePdf, String invoiceName, double sum,
 			String payment, PrintService ps, JDialog jd) {
 		this.dftm = dftm;
 		this.currentClient = currentClient;
 		this.invoiceNumber = invoiceNumber;
 		this.datePdf = datePdf;
-		// this.danOsnova = danOsnova;
+		this.invoiceName = invoiceName;
+		this.sum = sum;
 		this.payment = payment;
-		this.ps = ps;
-		this.jd = jd;
 	}
 
 	public static void main(String[] args) {
@@ -49,39 +49,73 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 
 		try {
 			// get client info
-			clientInfo = ClientTable.getClientDetails(currentClient);
-
-			// timeStamp = GetDate.getTimeStamp();
+			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
 
 			String[] ORIGINAL = { "ОРИГИНАЛ", "", "" };
 
-			String timeStamps[] = { MyGetDate.getTimeStamp() + "a",
+			String[] timeStamps = { MyGetDate.getTimeStamp() + "a",
 					MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
 			int[] copies = { 1, 2 };
+			if(!invoiceName.isEmpty()) {
+				for (int i = 0; i < 1; i++) {
+					InvoicePDF pdf = new InvoicePDF();
+					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+							timeStamps[i], datePdf, payment, invoiceName,
+							MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
+							ORIGINAL[i],sum/1.2f,
+							MainPanel.personName);
 
-			for (int i = 0; i < 2; i++) {
-				InvoicePDF pdf = new InvoicePDF();
-				DefaultTableModel mergedTableModel = mergeArtikuls(dftm);
-				isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
-						timeStamps[i], datePdf, payment, mergedTableModel,
-						MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
-						ORIGINAL[i], 0, mergedTableModel.getRowCount(),
-						MainPanel.personName);
+					// update invoice number
+					if (isCreated) {
 
-				// update invoice number
-				if (isCreated) {
+						 OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
+						 "\\Фактура-"
+						 + timeStamps[0] + "-" + invoiceNumber + ".pdf");
 
-					// OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
-					// "\\Фактура-"
-					// + timeStamps[0] + "-" + invoiceNumber + ".pdf");
+//						PrintWithoutOpenPdf.printWithoutDialog(
+//								MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
+//										+ timeStamps[i] + "-" + invoiceNumber
+//										+ ".pdf", ps, copies[i]);
 
-					PrintWithoutOpenPdf.printWithoutDialog(
-							MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
-									+ timeStamps[i] + "-" + invoiceNumber
-									+ ".pdf", ps, copies[i]);
+						// print materials
+
+					}
+
+					MaterialsPDFromInvocie materialsPDFromInvocie = new MaterialsPDFromInvocie();
+					materialsPDFromInvocie.createMaterialsPDF(clientInfo,dftm,timeStamps[0],
+							invoiceNumber,datePdf,0,dftm.getRowCount(),4);
+
+					  OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
+					  "\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
+					  ".pdf");
 
 				}
+			} else {
+				DefaultTableModel mergedTableModel = mergeArtikuls(dftm);
+				for (int i = 0; i < 2; i++) {
+					InvoicePDF pdf = new InvoicePDF();
+					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+							timeStamps[i], datePdf, payment, mergedTableModel,
+							MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
+							ORIGINAL[i], 0, mergedTableModel.getRowCount(),
+							MainPanel.personName);
+
+					// update invoice number
+					if (isCreated) {
+
+						 OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
+						 "\\Фактура-"
+						 + timeStamps[0] + "-" + invoiceNumber + ".pdf");
+
+//						PrintWithoutOpenPdf.printWithoutDialog(
+//								MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
+//										+ timeStamps[i] + "-" + invoiceNumber
+//										+ ".pdf", ps, copies[i]);
+
+					}
+				}
 			}
+
 
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -93,9 +127,6 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 					if (!isCreated) {
 						JOptionPane.showMessageDialog(null,
 								"Грешка при създаването на документа!");
-					} else {
-						// jd.dispose(); //?????????????
-
 					}
 				}
 			});
@@ -110,7 +141,6 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 		mergedData.setColumnCount(8);
 		int artikulsRow = 0;
 
-		System.out.println("len= "+dftm.getColumnCount()+"");
 		for(int position = 0;position < dftm.getRowCount();position++) {
 			String artikul = dftm.getValueAt(position, 0).toString();
 			if(!map.containsKey(artikul)) {
@@ -131,26 +161,26 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 				try {
 					newQuantity = Integer.parseInt(dftm.getValueAt(position, 2).toString());
 				} catch (Exception e) {
-					System.out.println("fak 1");
+					System.out.println(e.getMessage());
 				}
 				double newValue = 0;
 				try {
 					newValue = Double.parseDouble(dftm.getValueAt(position, 3).toString());
 				} catch (Exception e) {
-					System.out.println("fak 2");
+					System.out.println(e.getMessage());
 				}
 
 				int savedQuantity = 0;
 				try {
 					savedQuantity = Integer.parseInt(mergedData.getValueAt(savedPos, 2).toString());
 				} catch (Exception e) {
-					System.out.println("fak 3");
+					System.out.println(e.getMessage());
 				}
 				double savedValue = 0;
 				try {
 					Double.parseDouble(mergedData.getValueAt(savedPos, 3).toString());
 				} catch (Exception e) {
-					System.out.println("fak 4");
+					System.out.println(e.getMessage());
 				}
 
 				int maxQuantity = savedQuantity + newQuantity;

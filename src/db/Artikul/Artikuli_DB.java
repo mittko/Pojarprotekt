@@ -639,7 +639,7 @@ public class Artikuli_DB extends MainPanel {
 
 	// this method update artikuls quantity
 	public static int decreaseArtikul_Quantity(String dbTable, String artikul, String client,
-			String invoice, double i) {
+			String invoice, int i) {
 		Connection connect = null;
 		Statement stat = null;
 		PreparedStatement ps = null;

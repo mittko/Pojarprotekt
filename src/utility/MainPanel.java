@@ -150,7 +150,7 @@ public class MainPanel extends JPanel {
 	public static final String PARTS_QUANTITY = "PartsQuantityDB";
 	public static final String AVAILABLE_ARTIKULS = "ArtikulsDB";
 	public static final String GREY_AVAILABLE_ARTIKULS = "GreyArtikulsDB";
-	public static final String AVAILABLE_SERVICES = "ServiceDB";
+
 	public static final String DELIVERY_ARTIKULS = "DeliveryArtikulsDB2";
 	public static final String SELLS = "Продажби";// взима данни от няколко
 													// таблици
@@ -185,7 +185,8 @@ public class MainPanel extends JPanel {
 			+ "\\tmp\\PDF\\Проформа");
 	public static final String ACQUITTANCE_PDF_PATH = createFolder(DOCUMENTS_PATH
 			+ "\\tmp\\PDF\\Стокова Разписка");
-
+	public static final String MATERIALS_PDF_PATH = createFolder(DOCUMENTS_PATH
+			+ "\\tmp\\PDF\\Вложени Материали");
 	public static final String DIARY_EXCELL_PATH = createFolder(DOCUMENTS_PATH
 			+ "\\tmp\\Excell\\Дневник");
 	public static final String SERVICE_ORDER_AND_PROTOKOL_EXCELL_PATH = createFolder(DOCUMENTS_PATH

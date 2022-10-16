@@ -1,9 +1,11 @@
 package Reports.ReportsWorkers;
 
 import PDF.Invoice.InvoicePDFFromReports;
+import PDF.Invoice.MaterialsPDFromReports;
 import PDF.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
+import utility.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;
@@ -14,34 +16,34 @@ import java.util.HashMap;
 
 public class PrintInvoiceAndProformWorker extends SwingWorker {
 
-	private ArrayList<String> clientInfo = null;
-	private DefaultTableModel dftm = null;
-	private String currentClient = null;
-	private String Number = null;
-	private double danOsnova = 0;
-	private String payment = null;
-	private String datePdf = null;
-	private JDialog jd = null;
+	private final DefaultTableModel dftm;
+	private final String currentClient;
+	private final String invoiceNumber;
+	private final String payment;
+	private final String datePdf;
+	private final JDialog jd;
 	private boolean isCreated;
-	private int startIndex;
-	private int endIndex;
-	private String TITLE;
+	private final int startIndex;
+	private final int endIndex;
+	private final String TITLE;
 	private String TITLE2;
-	private String PATH;
-	private PrintService ps;
-	private String saller;
+	private final String PATH;
+	private final String saller;
 
+	private final String invoiceName;
+
+	private final double danOsnova;
 	public PrintInvoiceAndProformWorker(PrintService ps,
 			DefaultTableModel dftm, JDialog jd, int startIndex, int endIndex,
 			String TITLE, String pdf_path) {
-		this.ps = ps;
 		this.dftm = dftm;
 		this.currentClient = dftm.getValueAt(startIndex, 4).toString();
-		this.Number = dftm.getValueAt(startIndex, 0).toString();
-		this.danOsnova = Double.parseDouble(dftm.getValueAt(startIndex, 3)
+		this.invoiceNumber = dftm.getValueAt(startIndex, 0).toString();
+		danOsnova = Double.parseDouble(dftm.getValueAt(startIndex, 3)
 				.toString());
 		this.payment = dftm.getValueAt(startIndex, 1).toString();
 		this.datePdf = dftm.getValueAt(startIndex, 6).toString();
+		this.invoiceName = dftm.getValueAt(startIndex,8).toString();
 		this.saller = dftm.getValueAt(startIndex, 5).toString();
 		this.jd = jd;
 		this.startIndex = startIndex;
@@ -62,30 +64,64 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 		try {
 
 			// get client info
-			clientInfo = ClientTable.getClientDetails(currentClient);
-			// System.out.printf("current client -> %s ",currentClient);
+			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
 			String[] ДУБЛИКАТ = { " ДУБЛИКАТ", "", "" };
-			String timeStamps[] = { MyGetDate.getTimeStamp() + "a",
+			String[] timeStamps = { MyGetDate.getTimeStamp() + "a",
 					MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
 			int[] copies = { 1, 1 };
-			for (int i = 0; i < 2; i++) {
-				InvoicePDFFromReports pdf = new InvoicePDFFromReports();
-				DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
-				isCreated = pdf.createInvoicePDF(clientInfo, Number,
-						timeStamps[i], datePdf, payment, mergedTableModel, PATH + "\\"
-								+ TITLE + "-", TITLE, ДУБЛИКАТ[i], 0,
-						mergedTableModel.getRowCount()/*endIndex*/, saller);
+			if(!invoiceName.isEmpty()) {
+				for (int i = 0; i < 1; i++) {
+					InvoicePDFFromReports pdf = new InvoicePDFFromReports();
+					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+							timeStamps[i], datePdf, payment, invoiceName, PATH + "\\"
+									+ TITLE + "-", TITLE, ДУБЛИКАТ[i],
+							danOsnova, saller);
 
-				// update invoice number
-				if (isCreated) {
+					// update invoice number
+					if (isCreated) {
 
-					 OpenPDFDocument.pdfRunner(PATH + "\\" + TITLE + "-"
-					 + timeStamps[i] + "-" + Number + ".pdf");
+						OpenPDFDocument.pdfRunner(PATH + "\\" + TITLE + "-"
+								+ timeStamps[i] + "-" + invoiceNumber + ".pdf");
 
 				/*	PrintWithoutOpenPdf.printWithoutDialog(PATH, "\\" + TITLE
 							+ "-" + timeStamps[i] + "-" + Number + ".pdf", ps,
 							copies[i]);*/
 
+					}
+					MaterialsPDFromReports materialsPDFromInvocie = new MaterialsPDFromReports();
+					materialsPDFromInvocie.createMaterialsPDF(clientInfo,dftm,timeStamps[0],
+							startIndex, endIndex);
+
+					OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
+							"\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
+							".pdf");
+
+				}
+			} else {
+				System.out.println("default document");
+				for (int i = 0; i < 2; i++) {
+					InvoicePDFFromReports pdf = new InvoicePDFFromReports();
+					DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
+					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+							timeStamps[i], datePdf, payment, mergedTableModel, PATH + "\\"
+									+ TITLE + "-", TITLE, ДУБЛИКАТ[i], 0,
+							mergedTableModel.getRowCount()/*endIndex*/, saller);
+
+					// update invoice number
+					if (isCreated) {
+
+						OpenPDFDocument.pdfRunner(PATH + "\\" + TITLE + "-"
+								+ timeStamps[i] + "-" + invoiceNumber + ".pdf");
+
+				/*	PrintWithoutOpenPdf.printWithoutDialog(PATH, "\\" + TITLE
+							+ "-" + timeStamps[i] + "-" + Number + ".pdf", ps,
+							copies[i]);*/
+
+					}
+
+					OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
+							"\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
+							".pdf");
 				}
 			}
 
@@ -109,11 +145,11 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 	private DefaultTableModel mergeArtikuls(DefaultTableModel dftm, int startIndex, int stop) {
 		HashMap<String, Integer> map = new HashMap<>();
 		DefaultTableModel mergedData = new DefaultTableModel();
-		mergedData.setColumnCount(15);
+		mergedData.setColumnCount(16);
 		int artikulsRow = 0;
 		for(int i = 0;i < stop;i++) {
 			int position = i + startIndex;
-			String artikul = dftm.getValueAt(position, 9).toString();
+			String artikul = dftm.getValueAt(position, 10).toString();
 			if(!map.containsKey(artikul)) {
 				mergedData.addRow(new Object[]{
 						dftm.getValueAt(position,0),
@@ -130,14 +166,15 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 						dftm.getValueAt(position,11),
 						dftm.getValueAt(position,12),
 						dftm.getValueAt(position,13),
-						dftm.getValueAt(position,14)
+						dftm.getValueAt(position,14),
+						dftm.getValueAt(position,15)
 				});
 				map.put(artikul, artikulsRow++);
 			} else {
 				int savedPos = map.get(artikul);
-				int newQuantity = Integer.parseInt(dftm.getValueAt(position, 11).toString());
-				int savedQuantity = Integer.parseInt(mergedData.getValueAt(savedPos, 11).toString());
-				mergedData.setValueAt((savedQuantity + newQuantity)+"", savedPos, 11);
+				int newQuantity = Integer.parseInt(dftm.getValueAt(position, 12).toString());
+				int savedQuantity = Integer.parseInt(mergedData.getValueAt(savedPos, 12).toString());
+				mergedData.setValueAt((savedQuantity + newQuantity)+"", savedPos, 12);
 				// в този метод се пресмята само общото к-во на артикулите
 				// но не се пресмята крайната стойност
 				// защото тя се смята в метода createInvoicePdf на класа InvoicePdfFromReports

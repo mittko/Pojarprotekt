@@ -70,7 +70,7 @@ public class WorkingBook extends MainPanel {
 
 	private final HashSet<Object> isBarcodAndSerialEntered = new HashSet<Object>();
 
-	public static HashMap<String, ArrayList<Object>> ext_parts = new HashMap<String, ArrayList<Object>>();
+	public static HashMap<String, ArrayList<Object>> ext_parts = new HashMap<>();
 
 	public static HashMap<String, ArrayList<Object>> reasons_map = new HashMap<String, ArrayList<Object>>();
 
@@ -685,7 +685,7 @@ public class WorkingBook extends MainPanel {
 
 			if (!ext_parts.containsKey(key)) {
 				ext_parts.put(key, userChoice);// this is spare parts
-												// of chiced
+												// of choiced
 												// extinguisher
 			}
 			View.dtm_Extinguisher.insertRow(0, newRow); // add to view models

@@ -21,6 +21,8 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 	private String currentClient = null;
 	private String personName = null;
 	private String date = null;
+
+	private String invoiceName;
 	private String INVOICE_NUMBER = null;
 	private String PROTOKOL_NUMBER = null;
 	private int[] next_invoice = null;
@@ -31,7 +33,7 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 	public SaveFiskalBonInInvoiceDBWorker(String parentTable, String childTable,
 										  JDialog jd, String payment,
 			String discount, String sum, String currentClient,
-			String personName, String date, String invoiceNumber,
+			String personName, String date,String invoiceName, String invoiceNumber,
 			String protokolNumber, DefaultTableModel dftm, BevelLabel numLabel) {
 		this.parentTable = parentTable;
 		this.childTable = childTable;
@@ -42,6 +44,7 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 		this.currentClient = currentClient;// taken from combobox
 		this.personName = personName;
 		this.date = date;
+		this.invoiceName = invoiceName;
 		this.INVOICE_NUMBER = invoiceNumber;
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
@@ -63,7 +66,8 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 					sum, // final sum
 					currentClient, // client
 					personName, // saller
-					date); // date
+					date,//date
+					invoiceName); // name
 
 			// save data in invoice child
 			if (parent > 0) {

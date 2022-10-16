@@ -22,10 +22,9 @@ public class EditableField extends JTextField implements ActionListener {
     private final String Copy = "Копирай";
     private final String Cut = "Изрежи";
     private final String Paste = "Постави";
-    private boolean hasFocus = false;
-    
-    private Font CURRENT_FONT = 
-    		new Font(Font.MONOSPACED,Font.LAYOUT_LEFT_TO_RIGHT,MainPanel.getFontSize());
+
+	private final Font CURRENT_FONT =
+    		new Font(Font.MONOSPACED, Font.PLAIN,MainPanel.getFontSize());
     
     public EditableField(String text,int w) {
     	super(w);
@@ -71,7 +70,8 @@ public class EditableField extends JTextField implements ActionListener {
 	}
      
 	public boolean hasFocus() {
-		return this.hasFocus;
+		boolean hasFocus = false;
+		return hasFocus;
 	}
 	private void createPopupMenu() {
 		JMenuItem copyItem = new JMenuItem(Copy);
@@ -85,16 +85,16 @@ public class EditableField extends JTextField implements ActionListener {
     	popupMenu.add(pasteItem);
     	
     	Component[] components = popupMenu.getComponents();
-    	for(int i = 0;i < components.length;i++) {
-    		components[i].setFont(CURRENT_FONT);
-    	}
+		for (Component component : components) {
+			component.setFont(CURRENT_FONT);
+		}
     	copyItem.addActionListener(this);
     	cutItem.addActionListener(this);
     	pasteItem.addActionListener(this);
     	
 	}
 
-	  class MouseHandler extends MouseAdapter {
+	  static class MouseHandler extends MouseAdapter {
 		  private JPopupMenu popupMenu = null;
 		  
 		  public MouseHandler(JPopupMenu popupMenu) {
@@ -119,17 +119,21 @@ public class EditableField extends JTextField implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		String cmd = e.getActionCommand();
-		if(cmd.equals(Copy)) {
-			this.copy();
-		} else if(cmd.equals(Cut)) {
-			this.cut();
-		} else if(cmd.equals(Paste)) {
-			this.paste();
+		switch (cmd) {
+			case Copy:
+				this.copy();
+				break;
+			case Cut:
+				this.cut();
+				break;
+			case Paste:
+				this.paste();
+				break;
 		}
 	}
 
 	public Font getTextFont() {
-      return new Font(Font.DIALOG_INPUT,Font.HANGING_BASELINE,
+      return new Font(Font.DIALOG_INPUT, Font.ITALIC,
     		  MainPanel.getFontSize() + 3); // or Font.HANGING_BASELINE
 	}
 

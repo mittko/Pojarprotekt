@@ -367,9 +367,8 @@ public class View extends MainPanel {
 		TreeMap<Object, Integer> wMap = new TreeMap<Object, Integer>();
 		for (int row = 0; row < t_Extinguisher.getRowCount(); row++) {
 			ArrayList<Object> parts = WorkingBook.ext_parts.get(getKey(row));
-			for (int p = 0; p < parts.size(); p++) {
-				Object key = parts.get(p);
-				Integer broi = wMap.get(parts.get(p));
+			for (Object key : parts) {
+				Integer broi = wMap.get(key);
 				if (broi == null) {
 					broi = 0;
 				}

@@ -130,7 +130,6 @@ public class ProtokolNumber extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return update;
 				// e.printStackTrace();
 			}
 		}
@@ -152,8 +151,8 @@ public class ProtokolNumber extends MainPanel {
 		// TODO Auto-generated method stub
 		ProtokolNumber pr = new ProtokolNumber();
 
-		// updateProtokolNumberInDB("0010604"); // 7
-		String protokolNumber = getProtokolNumber();// 0010295
+	//	 updateProtokolNumberInDB("0015890"); // 7
+		String protokolNumber = getProtokolNumber();// 0015890
 		System.out.println(protokolNumber);
 	}
 

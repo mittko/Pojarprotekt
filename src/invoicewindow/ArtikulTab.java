@@ -33,19 +33,20 @@ public class ArtikulTab extends MainPanel {
 	// private BevelLabel acquittanceNumLabel;
 
 	final JPopupMenu popupMenu = new JPopupMenu();
-
+	final EditableComboBox invoiceNameComboBox = new EditableComboBox("Local/goods.txt");
+//"Õ‡ËÏÂÌÓ‚‡ÌËÂ Ì‡ —ÚÓÍ‡Ú‡ /”ÒÎÛ„‡Ú‡/ ",5
 	@SuppressWarnings("unchecked")
 	public ArtikulTab() {
 
 		JPanel northPanel = new JPanel();// GradientPanel();
-		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		northPanel.setLayout(new BorderLayout());
 		northPanel.setPreferredSize(new Dimension(
-				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.1)));
+				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.15)));
 
 		clientCombo = new ClientsListComboBox2();
 		clientCombo.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.2), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.5)));
+				.getPreferredSize().getHeight() * 0.3)));
 		clientCombo.addItemListener(new ItemListener() {
 
 			@Override
@@ -92,14 +93,14 @@ public class ArtikulTab extends MainPanel {
 		discountField.setBorder(BorderFactory.createLoweredBevelBorder());
 		discountField.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.05), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.6)));
+				.getPreferredSize().getHeight() * 0.4)));
 
 		paymentCombo = new JComboBox<String>(new String[] { "Õ‡˜ËÌ Ì‡ ÔÎ‡˘‡ÌÂ",
 				"¬ ·ÓÈ", "œÓ ·‡ÌÍÓ‚ Ô˙Ú" });
 		paymentCombo.setRenderer(new ComboRenderer());
 		paymentCombo.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.2), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.5)));
+				.getPreferredSize().getHeight() * 0.3)));
 
 		skladButton = new TooltipButton();
 		skladButton.setEnabled(false);
@@ -108,7 +109,7 @@ public class ArtikulTab extends MainPanel {
 		skladButton.setToolTipText(getHTML_Text("»«¡≈–» ¿–“» ”À»"));
 		skladButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.75)));
+				.getPreferredSize().getHeight() * 0.5)));
 
 		skladButton.setAutoSizedIcon(skladButton, new LoadIcon().setIcons(artikuliImage));
 		skladButton.addActionListener(new ActionListener() {
@@ -148,7 +149,7 @@ public class ArtikulTab extends MainPanel {
 		dbButton.setToolTipText(getHTML_Text("«¿œ»ÿ» ¬ ¡¿«¿ ƒ¿ÕÕ»"));
 		dbButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.75)));
+				.getPreferredSize().getHeight() * 0.5)));
 
 		dbButton.setAutoSizedIcon(dbButton, new LoadIcon().setIcons(dbImage));
 		dbButton.addActionListener(new ActionListener() {
@@ -184,16 +185,23 @@ public class ArtikulTab extends MainPanel {
 						// marked as -
 						// (without
 						// protokol)
-						clientCombo.getSelectedItem().toString(), paymentCombo
-								.getSelectedItem().toString(), discountField
-								.getText(), MyMath.round(getDanOsnova(), 2)
-								+ "", personName, MyGetDate
-								.getReversedSystemDate(), true, // invoice
+						clientCombo.getSelectedItem().toString(),
+						paymentCombo
+						.getSelectedItem().toString(),
+						discountField
+						.getText(),
+						MyMath.round(getDanOsnova(), 2)
+						+ "", personName,
+						MyGetDate.getReversedSystemDate(),
+						invoiceNameComboBox.getSelectedItem().toString(),
+						true, // invoice
 						false, // proform
 						true, // acquittance
-						dftm, null, // there is invoice num label
+						dftm,
+						null, // there is invoice num label
 						null, // there is no proform num label
-						null); // acquittance num label
+						null // acquittance num label
+						 );
 				JDialoger jDialoger = new JDialoger();
 				jDialoger.setContentPane(save);
 				jDialoger.Show();
@@ -207,7 +215,7 @@ public class ArtikulTab extends MainPanel {
 		eraserButton.setToolTipText(getHTML_Text("»«“–»…  ƒ¿ÕÕ»“≈"));
 		eraserButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.75)));
+				.getPreferredSize().getHeight() * 0.5)));
 
 		eraserButton.setAutoSizedIcon(eraserButton, new LoadIcon().setIcons(eraserImage));
 		// eraserButton.setIcon(setIcons(eraserImage));
@@ -235,8 +243,7 @@ public class ArtikulTab extends MainPanel {
 			}
 
 		});
-		northPanel.add(clientCombo);
-		northPanel.add(discountField);
+
 
 		JPanel centerPanel = new JPanel();
 
@@ -350,14 +357,25 @@ public class ArtikulTab extends MainPanel {
 		choiceDiscountButton.setToolTipText(getHTML_Text("ƒŒ¡¿¬» Œ“—“⁄œ ¿"));
 		choiceDiscountButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.6)));
+				.getPreferredSize().getHeight() * 0.5)));
 
+		JPanel helpPanel = new JPanel();
+		helpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
-		northPanel.add(choiceDiscountButton);
-		northPanel.add(paymentCombo);
-		northPanel.add(skladButton);
-		northPanel.add(eraserButton);
-		northPanel.add(dbButton);
+		helpPanel.add(clientCombo);
+		helpPanel.add(discountField);
+		helpPanel.add(choiceDiscountButton);
+		helpPanel.add(paymentCombo);
+		helpPanel.add(skladButton);
+		helpPanel.add(eraserButton);
+		helpPanel.add(dbButton);
+
+		northPanel.add(helpPanel, BorderLayout.NORTH);
+		invoiceNameComboBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.2), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.5)));
+		invoiceNameComboBox.setEditable(true);
+		northPanel.add(invoiceNameComboBox,BorderLayout.CENTER);
 
 		/*
 		 * acquittanceNumLabel = new BevelLabel();

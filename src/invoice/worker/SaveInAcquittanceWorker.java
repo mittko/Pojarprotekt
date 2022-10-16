@@ -100,10 +100,7 @@ public class SaveInAcquittanceWorker extends SwingWorker {
 
 			});
 		}
-		if (updateParent > 0 && updateChild > 0) {
-			return true;
-		}
-		return false;
+		return updateParent > 0 && updateChild > 0;
 	}
 
 	private void showPrintDialog() {
@@ -112,7 +109,7 @@ public class SaveInAcquittanceWorker extends SwingWorker {
 																	// number
 				null, // proform number
 				acquittanceNumber, // acquittance number
-				client, date, MyMath.round(value, 2), "заплащане", // payment
+				client, date,"invoiceName", MyMath.round(value, 2), "заплащане", // payment
 																	// this
 																	// is
 																	// no

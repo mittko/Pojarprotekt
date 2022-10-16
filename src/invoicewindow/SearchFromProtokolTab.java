@@ -28,11 +28,9 @@ import java.util.HashSet;
 
 public class SearchFromProtokolTab extends MainPanel {
 
-	private JPanel northPanel;
-
 	public static EditableField searchField;
 
-	private EditableField dateField;
+	private final EditableField dateField;
 
 	public static JTextField discountField;
 
@@ -42,23 +40,17 @@ public class SearchFromProtokolTab extends MainPanel {
 
 	public static BevelLabel clientLabel;
 
-	private JPanel centerPanel;
-
 	public static DefaultTableModel invoiceTableModel = null;
-	private JTable invoiceTable;
+	private final JTable invoiceTable;
 
 	// private DefaultTableModel artikuliModel;
 
-	private JPanel southPanel;
+	private final BevelLabel invoiceNumberLabel = null;
 
-	private BevelLabel invoiceNumberLabel = null;
-
-	private BevelLabel proformNumLabel = null;
+	private final BevelLabel proformNumLabel = null;
 
 	private static JTextField sumFieldNoTax;// no tax
 	public static JTextField sumField; // with tax
-
-	private TooltipButton daysAccountButton;
 
 	public static String INVOICE_CURRENT_CLIENT;
 	// public static ArrayList<Object[]> moreProtokolsLists = new
@@ -81,7 +73,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		// moreProtokolsList.clear();
 		protokolNumberSet.clear();
 
-		northPanel = new JPanel();// GradientPanel();
+		JPanel northPanel = new JPanel();// GradientPanel();
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		northPanel.setPreferredSize(new Dimension(
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.1)));
@@ -274,6 +266,7 @@ public class SearchFromProtokolTab extends MainPanel {
 								.toString(), discountField.getText(), MyMath
 								.round(getDanOsnova(), 2) + "", personName,
 						dateField.getText(),
+						"invoiceNameField.getText()",
 						true, // invoice
 						false, // proform
 						true, // acquittance
@@ -291,7 +284,7 @@ public class SearchFromProtokolTab extends MainPanel {
 
 		});
 
-		centerPanel = new JPanel();
+		JPanel centerPanel = new JPanel();
 
 		invoiceTableModel = new DefaultTableModel(new String[] {
 				"Вид на извършената услуга", "Мярка", "К-во", "Ед. Цена",
@@ -422,7 +415,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		northPanel.add(newClientButton);
 		northPanel.add(clientLabel);
 
-		southPanel = new JPanel();
+		JPanel southPanel = new JPanel();
 		southPanel.setPreferredSize(new Dimension(
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.065)));
 		southPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
@@ -480,7 +473,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
 		 */
 
-		daysAccountButton = new TooltipButton();
+		TooltipButton daysAccountButton = new TooltipButton();
 		daysAccountButton
 				.setToolTipText(getHTML_Text("НАПРАВИ ФИСКАЛЕН ОТЧЕТ"));
 		daysAccountButton.setPreferredSize(new Dimension((int) (southPanel

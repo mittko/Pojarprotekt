@@ -31,7 +31,7 @@ public class CustomButton extends DynamicButton implements ActionListener{
 	}
 	
 	
-	public double getPrice() {
+	public double getPrices() {
 		return this.price;
 	}
 
@@ -59,10 +59,9 @@ public class CustomButton extends DynamicButton implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(isEditable == false) { // не може да се редактира
+		if(!isEditable) { // не може да се редактира
 			return;
 		}
- 
 		  if(!choiced) {
 			//    price = getPriceofPartsFromDB(Worker.tModel);
 				this.setBorder(choiceBorder);
@@ -70,7 +69,6 @@ public class CustomButton extends DynamicButton implements ActionListener{
 			this.setBorder(defaultBorder);
 		}
 		choiced = !choiced;
-		
 	}
 
 /*	@Override
@@ -91,7 +89,7 @@ public class CustomButton extends DynamicButton implements ActionListener{
         SW sw  =null;
         double p = 0;
 		
-		    sw = new SW(partName,type,wheight,category);
+		    sw = new SW(partName, type, wheight, category);
 			try {
 				p = sw.doInBackground();
 				} catch (Exception e) {
@@ -102,7 +100,7 @@ public class CustomButton extends DynamicButton implements ActionListener{
 		return p;
 	}
 	
-	 class SW extends SwingWorker<Double,Double> {
+	 static class SW extends SwingWorker<Double,Double> {
 
 		 String part;
 		 String type;

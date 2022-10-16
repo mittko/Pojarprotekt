@@ -330,7 +330,6 @@ public class ProtokolTable extends MainPanel {
 				Log.DB_Err.writeErros(e.toString());
 				DBException.DBExceptions("Грешка", e);
 				e.printStackTrace();
-				return null;
 			}
 		}
 	}
@@ -346,9 +345,9 @@ public class ProtokolTable extends MainPanel {
 			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			ps = connection.prepareStatement(preparedCommand);
 			connection.setAutoCommit(false);
-			for (int i = 0; i < updateExtinguishersList.size(); i++) {
+			for (String s : updateExtinguishersList) {
 				ps.setString(1, "да");
-				ps.setString(2, updateExtinguishersList.get(i));
+				ps.setString(2, s);
 				ps.addBatch();
 			}
 			int updates[] = ps.executeBatch(); // ?????

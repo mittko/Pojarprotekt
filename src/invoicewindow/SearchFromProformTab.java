@@ -149,7 +149,8 @@ public class SearchFromProformTab extends MainPanel {
 						discountLabel.getName(), MyMath.round(
 								Double.parseDouble(sumField.getText()), 2)
 								+ "", // getDanOsnova()
-						personName, MyGetDate.getReversedSystemDate(),// dateLabel.getName(),
+						personName, MyGetDate.getReversedSystemDate(),
+						"invoiceNameField.getText()",
 						true, // invoice
 						false, // proform
 						true, // acquittance

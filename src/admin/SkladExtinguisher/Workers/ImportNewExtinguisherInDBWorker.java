@@ -2,7 +2,7 @@ package admin.SkladExtinguisher.Workers;
 
 import db.Artikul.Artikuli_DB;
 import db.NewExtinguisher.NewExtinguishers_DB;
-import utility.BrandListComboBox;
+import utility.EditableComboBox;
 import utility.ClientsListComboBox2;
 import utility.MainPanel;
 
@@ -29,7 +29,7 @@ public class ImportNewExtinguisherInDBWorker extends SwingWorker {
 	JComboBox<String> typeCombo;
 	JComboBox<String> wheightCombo;
 	JComboBox<String> categoryCombo;
-	BrandListComboBox brandCombo;
+	EditableComboBox brandCombo;
 	JTextField quantityField;
 	JTextField finalValueField;
 	JTextField deliveryValueField;
@@ -41,12 +41,12 @@ public class ImportNewExtinguisherInDBWorker extends SwingWorker {
 	JTextField percentProfitField;
 
 	public ImportNewExtinguisherInDBWorker(JComboBox<String> typeCombo,
-			JComboBox<String> wheightCombo, JComboBox<String> categoryCombo,
-			BrandListComboBox brandCombo, JTextField quantityField,
-			JTextField finalValueField, JTextField deliveryValueField,
-			JTextField previousValueField, JTextField invoiceField,
-			ClientsListComboBox2 kontragentsComboBox, JTextField dateField,
-			JTextField operatorField, JTextField percentProfitField, JDialog jd) {
+                                           JComboBox<String> wheightCombo, JComboBox<String> categoryCombo,
+                                           EditableComboBox brandCombo, JTextField quantityField,
+                                           JTextField finalValueField, JTextField deliveryValueField,
+                                           JTextField previousValueField, JTextField invoiceField,
+                                           ClientsListComboBox2 kontragentsComboBox, JTextField dateField,
+                                           JTextField operatorField, JTextField percentProfitField, JDialog jd) {
 		super();
 		this.jd = jd;
 		this.typeCombo = typeCombo;

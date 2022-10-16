@@ -5,7 +5,7 @@ import office.ServiceModels.*;
 import admin.SkladExtinguisher.Workers.GetCurrentExtPriceWorker;
 import admin.SkladExtinguisher.Workers.ImportNewExtinguisherInDBWorker;
 import mydate.MyGetDate;
-import utility.BrandListComboBox;
+import utility.EditableComboBox;
 import utility.ClientsListComboBox2;
 import utility.MainPanel;
 import utility.MyMath;
@@ -41,7 +41,7 @@ class AddNewExtinguisherDialog extends MainPanel {
 	private final Cat5Model cat5 = new Cat5Model();
 	private JComboBox<String> categoryCombo = null;
 	private JLabel brandlabel = null;
-	private BrandListComboBox brandCombo = null;
+	private EditableComboBox brandCombo = null;
 	private JLabel quantityLabel = null;
 	private JTextField quantityField = null;
 	private JLabel invoiceLabel;
@@ -139,7 +139,7 @@ class AddNewExtinguisherDialog extends MainPanel {
 
 		brandlabel = new JLabel("Марка");
 
-		brandCombo = new BrandListComboBox();// new JComboBox<String>();
+		brandCombo = new EditableComboBox("Local/brand.txt");// new JComboBox<String>();
 		brandCombo.setEditable(true);
 
 		quantityLabel = new JLabel("Количество");

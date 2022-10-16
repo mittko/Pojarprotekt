@@ -228,11 +228,6 @@ public class Dust extends MainPanel {
 		прах_BC.setName(PrahBC);
 		прах_BC.isEditable = false;
 		
-		
-		
-		
-
-		
 		CustomButton бо€_пожарогасител = new CustomButton();
 		бо€_пожарогасител.setPreferredSize(buttonDimension);
 		бо€_пожарогасител.setAutoSizedIcon(бо€_пожарогасител, new LoadIcon().setIcons("PARTS2/бо€.gif"));
@@ -273,9 +268,7 @@ public class Dust extends MainPanel {
 	    прах_ABC.setName(PrahABC);
 	    прах_ABC.isEditable = false;
 	    
-    
-		
-//	    
+
 //		block.setLayout(new GridLayout(5, 1, 10,5));
 //		block.setPreferredSize(new Dimension(this.WIDTH-20, (int)(4.5 * buttonHeight)));
 		
@@ -346,9 +339,7 @@ public class Dust extends MainPanel {
 		pane5.add(съд);
 		pane5.add(прах_ABC);
 		
-	    
-	    
-		
+
 		block.add(pane1);
 	
 		block.add(pane2);

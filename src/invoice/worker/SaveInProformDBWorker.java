@@ -132,7 +132,7 @@ public class SaveInProformDBWorker extends SwingWorker {
 																	// number
 				proformNumber, // proform number
 				null, // acquittance number
-				currentClient, date, Double.parseDouble(sum), payment, false, // print
+				currentClient, date,"invoiceName", Double.parseDouble(sum), payment, false, // print
 																				// protokol
 				true, // print proform
 				false); // print acquittance

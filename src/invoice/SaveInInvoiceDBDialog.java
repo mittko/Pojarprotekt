@@ -47,7 +47,8 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 
 	public SaveInInvoiceDBDialog(final String parentTable, final String childTable, final String protokolNumber, String client,
 								 final String payment, final String discount, final String sum,
-								 final String personName, final String date, boolean calledFromInvoiceWindow,
+								 final String personName, final String date,
+								 final String invoiceName, boolean calledFromInvoiceWindow,
 								 final boolean calledFromProformWindow, boolean isAcquittance,
 								 final DefaultTableModel dftm, final BevelLabel invoiceLabel,
 								 final BevelLabel proformLabel, final BevelLabel acquittanceLabel) {
@@ -165,9 +166,6 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 				invoiceRadioButton.setEnabled(!fiskalRadioButton.isSelected());
 				invoiceRadioButton.setSelected(false);
 
-//				    if(!payment.equals("В брой")) { // is not proform window
-//						proformRadioButton.setEnabled(!fiskalRadioButton.isSelected());
-//					}
 				proformRadioButton.setEnabled(!fiskalRadioButton.isSelected());
 				proformRadioButton.setSelected(false);
 				if(payment.equals("В брой")) {
@@ -181,14 +179,6 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 			}
 
 		});
-
-//		bg.add(invoiceRadioButton);
-//
-//		bg.add(proformRadioButton);
-//
-//		bg.add(acquittanceRadioButton);
-//
-//		bg.add(fiskalRadioButton);
 
 		JLabel questionLabel = new JLabel(
 				"  Как желаете да съхраните данните ?");
@@ -227,7 +217,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						SaveInInvoiceDBWorker saveinInvoice = new SaveInInvoiceDBWorker(
 								parentTable,childTable,
 								jd, payment, discount, sum, CLIENT, personName,
-								date, updatedInvoiceNumber, protokolNumber,
+								date,invoiceName, updatedInvoiceNumber, protokolNumber,
 								copyOriginTableModel, invoiceLabel);
 
 						try {
@@ -313,7 +303,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 										new SaveFiskalBonInInvoiceDBWorker(
 												parentTable,childTable,
 												jd, payment, discount, sum, CLIENT, personName,
-												date, fiskalOfficialNumber, protokolNumber,
+												date,invoiceName, fiskalOfficialNumber, protokolNumber,
 												copyOriginTableModel, invoiceLabel);
 								boolean WRITE_IN_FISKAL_SUCCESS = saveFiskalInInvoice
 										.doInBackground();
@@ -352,7 +342,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 							SaveFiskalBonInInvoiceDBWorker(
 									parentTable,childTable,
 							jd, payment, discount, sum, CLIENT, personName,
-							date, fiskalOfficialNumber, protokolNumber,
+							date,invoiceName, fiskalOfficialNumber, protokolNumber,
 							copyOriginTableModel, invoiceLabel);
 					try {
 						WRITE_IN_FISKAL_SUCCESS = saveFiskalInInvoice
@@ -399,7 +389,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 		gbc1.gridx = 0;
 		gbc1.gridy = 0;
 		gbc1.gridwidth = 1;
-		// gbc1.insets = new Insets(5, 5, 5, 5);
+
 
 		gridBagPanel.add(questionLabel, gbc1);
 
@@ -408,7 +398,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 		gbc2.gridx = 0;
 		gbc2.gridy = 1;
 		gbc2.gridwidth = 1;
-		// gbc2.insets = new Insets(5, 0, 5, 5);
+
 
 		gridBagPanel.add(invoiceRadioButton, gbc2);
 
@@ -417,7 +407,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 		gbc3.gridx = 1;
 		gbc3.gridy = 1;
 		gbc3.gridwidth = 2;
-		// gbc3.insets = new Insets(15, 0, 5, 5);
+
 
 		gridBagPanel.add(proformRadioButton, gbc3);
 
@@ -426,7 +416,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 		gbc4.gridx = 0;
 		gbc4.gridy = 2;
 		gbc4.gridwidth = 1;
-		// gbc4.insets = new Insets(5, 0, 5, 5);
+
 
 		gridBagPanel.add(acquittanceRadioButton, gbc4);
 
@@ -435,7 +425,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 		gbc5.gridx = 1;
 		gbc5.gridy = 2;
 		gbc5.gridwidth = 1;
-		// gbc5.insets = new Insets(5, 0, 5, 5);
+
 
 		gridBagPanel.add(fiskalRadioButton, gbc5);
 
@@ -444,8 +434,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 		gbc6.gridx = 1;
 		gbc6.gridy = 3;
 		gbc6.gridwidth = 1;
-		// gbc5.insets = new Insets(5, 0, 5, 5);
-		// basePanel.add(gridBagPanel);
+
 
 		gridBagPanel.add(buttonPanel, gbc6);
 

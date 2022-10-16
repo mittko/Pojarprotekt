@@ -50,6 +50,7 @@ public class GeneralTechnicalReviewDB extends MainPanel {
 			// TODO Auto-generated catch block
 			DBException.DBExceptions("Грешка", e);
 			DB_Err.writeErros(e.toString());
+			System.out.println("фак ъоу "+e.toString());
 			e.printStackTrace();
 		} finally {
 

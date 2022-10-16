@@ -20,24 +20,20 @@ import java.util.ArrayList;
 
 public class ReportTableInvoice extends MainPanel {
 
-	private ArrayList<Object[]> childData = null;
 	// private TreeMap<String, ParentInvoiceInfo> parentMap = null;
 	private DefaultTableModel dftm = null;
 	private JTable table = null;
 	// private int CURRENT_ROW = 0;
-	private String CURRENT_INVOICE = null;
+	private final String CURRENT_INVOICE = null;
 	private int SELECTED_INDEX = -1;
 	// private ParentInvoiceInfo info = null;
 	private String TITLE;
 	private String PATH;
 	public static int MOUSE_MOTION_ROW = -1;
-	private TooltipButton printerButton = null;
-	private TooltipButton exportToExcellButton = null;
 
 	public ReportTableInvoice(ArrayList<Object[]> childData) {
 		MOUSE_MOTION_ROW = -1;
 
-		this.childData = childData;
 		// this.parentMap = parentMap;
 
 		JPanel basePanel = new JPanel();
@@ -49,7 +45,7 @@ public class ReportTableInvoice extends MainPanel {
 
 		northPanel.setPreferredSize(new Dimension(this.WIDTH - 20, 50));
 
-		printerButton = new TooltipButton("Генерирай PDF документ");
+		TooltipButton printerButton = new TooltipButton("Генерирай PDF документ");
 
 		printerButton.addActionListener(new ActionListener() {
 
@@ -96,11 +92,11 @@ public class ReportTableInvoice extends MainPanel {
 
 		});
 
-		exportToExcellButton = new TooltipButton();
+		TooltipButton exportToExcellButton = new TooltipButton();
 		exportToExcellButton.setPreferredSize(new Dimension(
 				(int) (printerButton.getPreferredSize().getWidth() * 0.3),
 				(int) (printerButton.getPreferredSize().getHeight())));
-		;
+
 		exportToExcellButton.setToolTipText(getHTML_Text("ЗАПИШИ В EXCEL"));
 		exportToExcellButton.setAutoSizedIcon(exportToExcellButton,
 				new LoadIcon().setIcons(excellImage));
@@ -144,7 +140,7 @@ public class ReportTableInvoice extends MainPanel {
 		centerPanel.setLayout(new FlowLayout());
 		dftm = new DefaultTableModel(new String[] {
 				"\u2116 на Фактура/Проформа", "Начин на плащане", "Отстъпка",
-				"Стойност", "Клиент", "Оператор", "Дата", "\u2116 на Протокол",
+				"Стойност", "Клиент", "Оператор", "Дата", "\u2116 на Протокол","Наименование",
 				"\u2116 на Фактура/Проформа", "Артикул", "Мерна ед.",
 				"Количество", "Ед. Цена", "Сума", "Клиент", "Контрагент",
 				"Фактура по доставка" }, 0) {
@@ -154,9 +150,8 @@ public class ReportTableInvoice extends MainPanel {
 			}
 		};
 
-		System.out.println("продажби = " + childData.size());
-		for (int row = 0; row < childData.size(); row++) {
-			dftm.addRow(childData.get(row));
+		for (Object[] childDatum : childData) {
+			dftm.addRow(childDatum);
 		}
 
 		table = new JTable(dftm);
@@ -170,12 +165,12 @@ public class ReportTableInvoice extends MainPanel {
 			}
 		});
 		// hide dublicate columns
-		table.getColumnModel().getColumn(8).setMinWidth(0);
-		table.getColumnModel().getColumn(8).setMaxWidth(0);
-		table.getColumnModel().getColumn(8).setWidth(0);
-		table.getColumnModel().getColumn(14).setMinWidth(0);
-		table.getColumnModel().getColumn(14).setMaxWidth(0);
-		table.getColumnModel().getColumn(14).setWidth(0);
+		table.getColumnModel().getColumn(9).setMinWidth(0);
+		table.getColumnModel().getColumn(9).setMaxWidth(0);
+		table.getColumnModel().getColumn(9).setWidth(0);
+		table.getColumnModel().getColumn(15).setMinWidth(0);
+		table.getColumnModel().getColumn(15).setMaxWidth(0);
+		table.getColumnModel().getColumn(15).setWidth(0);
 
 		resizeColumnWidth(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
