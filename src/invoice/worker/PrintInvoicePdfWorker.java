@@ -13,6 +13,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 public class PrintInvoicePdfWorker extends SwingWorker {
 
@@ -24,12 +25,17 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 	private final double sum;
 	private final String payment;
 	boolean isCreated = false;
-	private final DefaultTableModel dftm;
+	private final DefaultTableModel details;
+	private final InvoicePDF pdf = new InvoicePDF();
+	private final String[] ORIGINAL = { "ОРИГИНАЛ", "", "" };
 
+	private final String[] timeStamps = { MyGetDate.getTimeStamp() + "a",
+			MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
+	private final int[] copies = { 1, 2 };
 	public PrintInvoicePdfWorker(DefaultTableModel dftm, String currentClient,
 			String invoiceNumber, String datePdf, String invoiceName, double sum,
 			String payment, PrintService ps, JDialog jd) {
-		this.dftm = dftm;
+		this.details = dftm;
 		this.currentClient = currentClient;
 		this.invoiceNumber = invoiceNumber;
 		this.datePdf = datePdf;
@@ -51,20 +57,19 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 			// get client info
 			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
 
-			String[] ORIGINAL = { "ОРИГИНАЛ", "", "" };
 
-			String[] timeStamps = { MyGetDate.getTimeStamp() + "a",
-					MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
-			int[] copies = { 1, 2 };
 			if(!invoiceName.isEmpty()) {
 				for (int i = 0; i < 1; i++) {
-					InvoicePDF pdf = new InvoicePDF();
-					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
-							timeStamps[i], datePdf, payment, invoiceName,
-							MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
-							ORIGINAL[i],sum/1.2f,
-							MainPanel.personName);
 
+					DefaultTableModel defaultTableModel = new DefaultTableModel();
+					defaultTableModel.setColumnCount(5);
+					defaultTableModel.addRow(new Object[]{invoiceName,"брой","1",(sum/1.2f)+"",(sum/1.2f)+""});
+
+					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+							timeStamps[i], datePdf, payment, defaultTableModel,
+							MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
+							ORIGINAL[i], 0, defaultTableModel.getRowCount(),
+							MainPanel.personName);
 					// update invoice number
 					if (isCreated) {
 
@@ -82,8 +87,8 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 					}
 
 					MaterialsPDFromInvocie materialsPDFromInvocie = new MaterialsPDFromInvocie();
-					materialsPDFromInvocie.createMaterialsPDF(clientInfo,dftm,timeStamps[0],
-							invoiceNumber,datePdf,0,dftm.getRowCount(),4);
+					materialsPDFromInvocie.createMaterialsPDF(clientInfo,details,timeStamps[0],
+							invoiceNumber,datePdf,0,details.getRowCount(),4);
 
 					  OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
 					  "\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
@@ -91,29 +96,80 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 
 				}
 			} else {
-				DefaultTableModel mergedTableModel = mergeArtikuls(dftm);
-				for (int i = 0; i < 2; i++) {
-					InvoicePDF pdf = new InvoicePDF();
-					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
-							timeStamps[i], datePdf, payment, mergedTableModel,
-							MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
-							ORIGINAL[i], 0, mergedTableModel.getRowCount(),
-							MainPanel.personName);
+//
+//				DefaultTableModel mergedDetailsTableModel = mergeArtikuls(details);
+//
+//				DefaultTableModel titleTableModel = new DefaultTableModel();
+//				titleTableModel.setColumnCount(8);
+//				DefaultTableModel materialTableModel = new DefaultTableModel();
+//				materialTableModel.setColumnCount(8);
+//
+//				for(int i = 0;i < mergedDetailsTableModel.getRowCount();i++) {
+//					ArrayList<Object> list = new ArrayList<>();
+//					for(int j = 0;j < mergedDetailsTableModel.getColumnCount();j++) {
+//						list.add(mergedDetailsTableModel.getValueAt(i,j));
+//					}
+//					if(mergedDetailsTableModel.getValueAt(i,0).toString().contains("Техническо обслужване")) {
+//						titleTableModel.addRow(list.toArray());
+//					} else {
+//						materialTableModel.addRow(list.toArray());
+//					}
+//				}
+//				if(titleTableModel.getRowCount() > 0) {
+//
+//					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+//							timeStamps[0], datePdf, payment, titleTableModel,
+//							MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
+//							ORIGINAL[0], 0, titleTableModel.getRowCount(),
+//							MainPanel.personName);
+//					// update invoice number
+//					if (isCreated) {
+//
+//						OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
+//								"\\Фактура-"
+//								+ timeStamps[0] + "-" + invoiceNumber + ".pdf");
+//
+////						PrintWithoutOpenPdf.printWithoutDialog(
+////								MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
+////										+ timeStamps[i] + "-" + invoiceNumber
+////										+ ".pdf", ps, copies[i]);
+//
+//						// print materials
+//
+//					}
+//					MaterialsPDFromInvocie materialsPDFromInvocie = new MaterialsPDFromInvocie();
+//					materialsPDFromInvocie.createMaterialsPDF(clientInfo,materialTableModel,timeStamps[0],
+//							invoiceNumber,datePdf,0,materialTableModel.getRowCount(),4);
+//
+//					OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
+//							"\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
+//							".pdf");
+//				} else {
+				DefaultTableModel mergedDetailsTableModel = mergeArtikuls(details);
+					for (int i = 0; i < 2; i++) {
+						InvoicePDF pdf = new InvoicePDF();
+						isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+								timeStamps[i], datePdf, payment, mergedDetailsTableModel ,
+								MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
+								ORIGINAL[i], 0, mergedDetailsTableModel .getRowCount(),
+								MainPanel.personName);
 
-					// update invoice number
-					if (isCreated) {
+						// update invoice number
+						if (isCreated) {
 
-						 OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
-						 "\\Фактура-"
-						 + timeStamps[0] + "-" + invoiceNumber + ".pdf");
+							OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
+									"\\Фактура-"
+									+ timeStamps[0] + "-" + invoiceNumber + ".pdf");
 
 //						PrintWithoutOpenPdf.printWithoutDialog(
 //								MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
 //										+ timeStamps[i] + "-" + invoiceNumber
 //										+ ".pdf", ps, copies[i]);
 
+						}
 					}
-				}
+
+
 			}
 
 

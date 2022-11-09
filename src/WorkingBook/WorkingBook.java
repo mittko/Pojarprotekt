@@ -326,7 +326,7 @@ public class WorkingBook extends MainPanel {
 				.getPreferredSize().getWidth() * 0.11), (int) (north
 				.getPreferredSize().getHeight() * 0.7)));
 
-		JPanel pane1 = new JPanel();// GradientPanel();
+		JPanel pane1 = new JPanel();
 		pane1.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		pane1.add(readBarcod);
@@ -334,7 +334,7 @@ public class WorkingBook extends MainPanel {
 		pane1.add(serialNumber);
 
 
-		Object[] doings = { "Обслужване", ТО, ХИ, ТО_П, ТО_П_ХИ, Брак };
+		Object[] doings = { "Обслужване", TO, HI, TO_P, TO_P_HI, Brak };
 		DefaultComboBoxModel<Object> cbm = new DefaultComboBoxModel<Object>(doings);
 		comboDoings = new JComboBox<Object>(cbm);
 		comboDoings.setEnabled(false);
@@ -354,7 +354,7 @@ public class WorkingBook extends MainPanel {
                 if (doing.equals("Обслужване")) {
                     return;
                 }
-                if (doing.equals(Брак)) {
+                if (doing.equals(Brak)) {
                     CardLayout cl = (CardLayout) (centerCenter.getLayout());
                     cl.show(centerCenter, SCRAB);
                 } else {
@@ -376,8 +376,6 @@ public class WorkingBook extends MainPanel {
 
 
 		penButton = new TooltipButton();
-		// penButton.setIcon(setIcons(penImage));
-		// penButton.setPreferredSize(new Dimension(55,55));
 		penButton.setEnabled(false);
 
 		penButton.setToolTipText(getHTML_Text("ЗАПИШИ В ОБРАБОТЕНИ"));
@@ -412,14 +410,11 @@ public class WorkingBook extends MainPanel {
 								"Да", "Не" }, // this is the array
 						"default");
 				if (yes_no == 0) {
-
 					// write in view table model
 					String key = getExtinguisher(); // get current extinguisher
 					// get value
 					if (!value_map.containsKey(key)) {
 						value_map.put(key, getExtValue());
-						// test all value
-						// System.out.println("all value = " + getExtValue());
 					}
 					writeInTableModel(key, getUserDetailsInput()); // write in
 																	// table
@@ -439,14 +434,12 @@ public class WorkingBook extends MainPanel {
 		HI_Label = new BevelLabel();
 		HI_Label.setPreferredSize(new Dimension(labelWidth, labelHeight));
 		HI_Label.setTitle("ХИДРОСТАТИЧНО ИЗПИТВАНЕ : ");
-		// HI_Label.setAutoSizedIcon(HI_Label, setIcons(reportsImage));
 		HI_Label.setName("");
 
 		// годност на пожарогасително вещество
 		fitAgentLabel = new BevelLabel();
 		fitAgentLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
 		fitAgentLabel.setTitle("ГОДНОСТ НА ГАСИТЕЛНО ВЕЩЕСТВО : ");
-		// HI_Label.setAutoSizedIcon(HI_Label, setIcons(reportsImage));
 		fitAgentLabel.setName("");
 
         pane1.add(comboDoings);//attentionButton); // set reports
@@ -473,8 +466,7 @@ public class WorkingBook extends MainPanel {
 				"Презареждане", "Хидр. Изпитване",
 				"Реална маса", "Допълнителни данни" };
 
-		Object[][] rows = { // { "", "", "", "", "", "", "", "","","" },
-		{ "", "", "", "", "", "", "", "", "", "", "", "" } };
+		Object[][] rows = {{ "", "", "", "", "", "", "", "", "", "", "", "" }};
 
 		tModel = new DefaultTableModel(rows, titles) {
 
@@ -513,8 +505,6 @@ public class WorkingBook extends MainPanel {
 
 		table.setDefaultRenderer(Object.class, new MyTableRenderer(table));
 		table.setRowHeight(Common.getFontSize() + 15);
-		// table.getColumnModel().getColumn(2).setCellEditor(
-		// new Work_TableCellEditor(new CustomTextField()));
 
 		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
@@ -527,9 +517,6 @@ public class WorkingBook extends MainPanel {
 
 		Dimension dim = new Dimension(this.WIDTH - 20,
 				(int) (this.HEIGHT * 0.57));
-		// this.HEIGHT -
-		// north.getPreferredSize().height -
-		// scroll.getPreferredSize().height - southHeight);
 
 		centerCenter.setPreferredSize(dim);
 
@@ -577,7 +564,6 @@ public class WorkingBook extends MainPanel {
 
 		south.setPreferredSize(new Dimension((int) (this.WIDTH * 1.0) - 20,
 				(int) (this.HEIGHT * 0.09)));// southHeight -100) );
-		// setSizeOfSouthPanel(centerCenter.getPreferredSize().height);
 
 		int labHeight = (int) (north.getPreferredSize().getHeight() * 0.9);
 		BevelLabel tehnikLabel = new BevelLabel(labHeight);
@@ -618,25 +604,17 @@ public class WorkingBook extends MainPanel {
 	}
 
 	private void switchPanel(Object type) {
-		// int width = 0;
-		int height = 0;
-
 		CardLayout cl = (CardLayout) (centerCenter.getLayout());
-
 		String command = "";
 		if (type.toString().contains(type_Prah_BC)
 				|| type.toString().contains(type_Prah_ABC)) {
 			command = DUST;
-			height = dust.getPreferredSize().height;
 		} else if (type.toString().contains(type_Water)) {
 			command = WATER;
-			height = water.getPreferredSize().height;
 		} else if (type.toString().contains(type_Water_Fame)) {
 			command = VODOPENEN;
-			height = vodopenen.getPreferredSize().height;
 		} else if (type.toString().contains(type_CO2)) {
 			command = CO2;
-			height = co2.getPreferredSize().height;
 		}
 		cl.show(centerCenter, command);
 
@@ -676,11 +654,8 @@ public class WorkingBook extends MainPanel {
 		newRow[9] = tModel.getValueAt(0, 9);
 		newRow[10] = tModel.getValueAt(0, 10);
 		newRow[11] = tModel.getValueAt(0, 11);
-		// for (int i = 0; i <= 10; i++) {
-		// newRow[i] = tModel.getValueAt(0, i);
-		// }
 
-		if (!comboDoings.getSelectedItem().equals(Брак)) {
+		if (!comboDoings.getSelectedItem().equals(Brak)) {
 			// get parts values and work values
 
 			if (!ext_parts.containsKey(key)) {
@@ -691,18 +666,15 @@ public class WorkingBook extends MainPanel {
 			View.dtm_Extinguisher.insertRow(0, newRow); // add to view models
 
 			// call sticker jdialog to choice sticker
-			boolean TO = comboDoings.getSelectedItem().toString().contains(ТО);// get from TO date -> !tModel.getValueAt(0,
-							// 7).toString().equals("не") ? true: false;
+			boolean _TO = comboDoings.getSelectedItem().toString().contains(TO);
 
-			boolean P = comboDoings.getSelectedItem().toString().contains(П);// get from TO date -> !tModel.getValueAt(0,
-							// 8).toString().equals("не") ? true : false;
+			boolean _P = comboDoings.getSelectedItem().toString().contains(P);
 
-			boolean HI = comboDoings.getSelectedItem().toString().contains(ХИ);// get from TO date -> !tModel.getValueAt(0,
-							// 9).toString().equals("не") ? true : false;
+			boolean _HI = comboDoings.getSelectedItem().toString().contains(HI);
 
-			if (TO || P || HI) { // without HI ????
+			if (_TO || _P || _HI) { // without HI ????
 				final JDialoger jdialog = new JDialoger();
-				StickerJDialog sjd = new StickerJDialog(jdialog, TO, P, HI,
+				StickerJDialog sjd = new StickerJDialog(jdialog, _TO, _P, _HI,
 						tModel.getValueAt(0,7).toString(),// Дата на следващо техническо обслужване
 						tModel.getValueAt(0,8).toString(),// Дата на следващо презареждане
 						tModel.getValueAt(0,9).toString(),// Дата на следващо Хидростатично изпитване
@@ -731,7 +703,7 @@ public class WorkingBook extends MainPanel {
 				});
 				jdialog.Show();
 
-
+//                     DON'T REMOVE !!!
 //				final JDialoger jdialog = new JDialoger();
 //				final StickerJDialogOldVersion sjd =
 //						new StickerJDialogOldVersion(jdialog, TO, P, HI,
@@ -768,16 +740,16 @@ public class WorkingBook extends MainPanel {
 		ArrayList<Object> parts = new ArrayList<Object>();
 		ArrayList<Object> reasons = new ArrayList<Object>();
 
-		if (!comboDoings.getSelectedItem().equals(Брак)) {
+		if (!comboDoings.getSelectedItem().equals(Brak)) {
 
 			Component[] child = centerCenter.getComponents();
-			ArrayList<CustomButton> list = null;
+			ArrayList<PartButton> list = null;
 
 			for (Component component : child) {
 
 				if (component.getName().equals("dust") && component.isShowing()) {
 					list = dust.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 
 						if (cm.choiced) {
 							parts.add(cm.getName());
@@ -786,7 +758,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("water")
 						&& component.isShowing()) {
 					list = water.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						if (cm.choiced) {
 							parts.add(cm.getName());
 						}
@@ -794,7 +766,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("vodopenen")
 						&& component.isShowing()) {
 					list = vodopenen.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						if (cm.choiced) {
 							parts.add(cm.getName());
 						}
@@ -802,7 +774,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("co2")
 						&& component.isShowing()) {
 					list = co2.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						if (cm.choiced) {
 							parts.add(cm.getName());
 						}
@@ -828,23 +800,26 @@ public class WorkingBook extends MainPanel {
 
 	private void setButtonState2(String doing, String type, String wheight,
 			String category) {
-		boolean isTO = comboDoings.getSelectedItem().equals(ТО);
+		boolean isTO = comboDoings.getSelectedItem().equals(TO);
 		switch (doing) {
-			case ХИ:
+			case HI:
 				returnPreviousButtonState(false);
+				WorkerState.markCenaTrud(type,doing);
 				break;
-			case ТО:
+			case TO:
 				returnPreviousButtonState(true);
-				WorkerState.setPlomba(type, isTO);
-				WorkerState.setEntity(type, false);
+				WorkerState.markPlomba(type, isTO);
+				WorkerState.markEntity(type, false);
+				WorkerState.markCenaTrud(type,doing);
 				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
 						category);
 				break;
-			case ТО_П:
-			case ТО_П_ХИ:
+			case TO_P:
+			case TO_P_HI:
 				returnPreviousButtonState(true);
-				WorkerState.setPlomba(type, isTO);
-				WorkerState.setEntity(type, true);
+				WorkerState.markPlomba(type, isTO);
+				WorkerState.markEntity(type, true);
+				WorkerState.markCenaTrud(type,doing);
 				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
 						category);
 				break;
@@ -893,16 +868,16 @@ public class WorkingBook extends MainPanel {
 
 	private void returnPreviousButtonState(boolean enabled) {
 
-		if (!comboDoings.getSelectedItem().equals(Брак)) {
+		if (!comboDoings.getSelectedItem().equals(Brak)) {
 
 			Component[] child = centerCenter.getComponents();
-			ArrayList<CustomButton> list = null;
+			ArrayList<PartButton> list = null;
 
 			for (Component component : child) {
 
 				if (component.getName().equals("dust") && component.isShowing()) {
 					list = dust.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -910,7 +885,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("water")
 						&& component.isShowing()) {
 					list = water.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -918,7 +893,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("vodopenen")
 						&& component.isShowing()) {
 					list = vodopenen.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -926,7 +901,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("co2")
 						&& component.isShowing()) {
 					list = co2.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -1006,27 +981,27 @@ public class WorkingBook extends MainPanel {
 			fitAgentLabel.setName(godnostNaPovarogasitelnoWeshtestwoo);
 			// item is from combo getSelectedItem();
 			switch (item) {
-				case ТО:
+				case TO:
 					tModel.setValueAt(newDate, 0, 7);
 					tModel.setValueAt("не", 0, 8);
 					tModel.setValueAt(substract_HI_YEAR, 0, 9);
 					break;
-				case П:
+				case P:
 					tModel.setValueAt(newDate, 0, 8);
 					tModel.setValueAt("не", 0, 7);
 					tModel.setValueAt(substract_HI_YEAR, 0, 8);
 					break;
-				case ХИ:
+				case HI:
 					tModel.setValueAt(hiNewDate, 0, 9);
 					tModel.setValueAt("не", 0, 8);
 					tModel.setValueAt("не", 0, 7);
 					break;
-				case ТО_П:
+				case TO_P:
 					tModel.setValueAt(newDate, 0, 7);
 					tModel.setValueAt(newDate, 0, 8);
 					tModel.setValueAt(substract_HI_YEAR, 0, 9);
 					break;
-				case ТО_П_ХИ:
+				case TO_P_HI:
 					tModel.setValueAt(newDate, 0, 7);
 					tModel.setValueAt(newDate, 0, 8);
 					tModel.setValueAt(hiNewDate, 0, 9);

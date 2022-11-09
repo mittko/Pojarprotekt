@@ -25,13 +25,13 @@ public class MainPanel extends JPanel {
 
 	public static final String BACKUP_PATH = "D:/CopyDB";
 	// Вид обслужване
-	public static final String ТО = "ТО";
-	public static final String П = "П";
-	public static final String ХИ = "ХИ";
-	public static final String ТО_П = "ТО,П";
-	public static final String ТО_П_ХИ = "ТО,П,ХИ";
+	public static final String TO = "ТО";
+	public static final String P = "П";
+	public static final String HI = "ХИ";
+	public static final String TO_P = "ТО,П";
+	public static final String TO_P_HI = "ТО,П,ХИ";
 
-	public static final String Брак = "Брак";
+	public static final String Brak = "Брак";
 
 	// Категория
 	public static final String category1 = "1";
@@ -64,6 +64,12 @@ public class MainPanel extends JPanel {
 	public static final String BoyaPojarogasitel = "Боядисване на пожарогасител";
 	public static final String BoyaKolichka = "Боядисване на количка";
 	public static final String Etiket = "Етикет";
+
+	public static final String CenaPrezarejdane = "Презареждане на пожарогасител";
+	public static final String CenaTehnichesko = "Техническо обслужване на пожарогасител";
+	public static final String CenaHidrostatichno = "Хидростатично изпитване на пожарогасител";
+	public static final String CenaPrezarejdaneITehnichesko = "Презареждане и техническо обслужване на пожарогасител";
+	public static final String CenaPrezarejdaneTehnicheskoIHidrostatichno = "Хидростатично изпитване и техническо обслужване и презареждане на пожарогасител";
 	//
 
 	// за Воден и Водопенен

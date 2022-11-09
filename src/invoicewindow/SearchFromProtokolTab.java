@@ -266,7 +266,7 @@ public class SearchFromProtokolTab extends MainPanel {
 								.toString(), discountField.getText(), MyMath
 								.round(getDanOsnova(), 2) + "", personName,
 						dateField.getText(),
-						"invoiceNameField.getText()",
+						"Обслувжане на Пожарогасители",
 						true, // invoice
 						false, // proform
 						true, // acquittance

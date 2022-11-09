@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class DustModel2 extends DefaultTableModel {
 	private static final int var = 10 * 2;
-	private static final int parts = 25;
+	private static final int parts = 26;
 	private static final Random rnd = new Random();
 	
     private static final Object[] partsObject = new Object[]{
@@ -17,7 +17,8 @@ public class DustModel2 extends DefaultTableModel {
 		,MainPanel.Plomba,MainPanel.Markuch,MainPanel.DarjachZaMarkuch,MainPanel.Prujina,MainPanel.Struinik,
 		MainPanel.Patron,MainPanel.Sonda,MainPanel.Struinik4,MainPanel.BarbutajnaTraba,MainPanel.IglichkaZaPompane,
 		MainPanel.KapachkaZaUplatnenie,MainPanel.TvardoHodovoKolelo,MainPanel.KoleloZaVisokoTeglo,MainPanel.RemontKolicka,MainPanel.BoyaPojarogasitel,
-		MainPanel.BoyaKolichka,MainPanel.Etiket,MainPanel.SadZaGasitelnoVeshtestvo,MainPanel.PrahBC,MainPanel.PrahABC};
+		MainPanel.BoyaKolichka,MainPanel.Etiket,MainPanel.SadZaGasitelnoVeshtestvo,MainPanel.PrahBC,
+			MainPanel.PrahABC, MainPanel.CenaPrezarejdane,MainPanel.CenaTehnichesko,MainPanel.CenaHidrostatichno, MainPanel.CenaPrezarejdaneITehnichesko,MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno};
     
 	private static final Object[][] obj = {
 			{"2","1 кг"},
@@ -75,22 +76,27 @@ public class DustModel2 extends DefaultTableModel {
 		// here category(obj[j][0]) and wheight(obj[j][1]) values are swaped in init command ,
 		 // because there is wrong (swapped) populated data in db table
 		
-		for(int i = 0;i < partsObject.length;i++) {
-			for(int j = 0;j < var;j++) {
-				PriceTable.initPartPriceTable(partsObject[i].toString(),MainPanel.type_Prah_ABC, 
-						obj[j][1].toString(), obj[j][0].toString(),  MyMath.round(rnd.nextDouble(), 2));
-			}
-		}
-		System.out.println("done!");
+//		for(int i = 0;i < partsObject.length;i++) {
+//			for(int j = 0;j < var;j++) {
+//				PriceTable.initPartPriceTable(partsObject[i].toString(),MainPanel.type_Prah_ABC,
+//						obj[j][1].toString(), obj[j][0].toString(),  MyMath.round(rnd.nextDouble(), 2));
+//			}
+//		}
+//		System.out.println("done!");
 		
 //		// init additional parts (for example 4 kg)
 //		for(int i = 0;i < partsObject.length;i++) {
 //			for(int j = 0;j < 2;j++) {
-//				PriceTable.initPartPriceTable(partsObject[i].toString(),MainPanel.type_Prah_BC, 
+//				PriceTable.initPartPriceTable(partsObject[i].toString(),MainPanel.type_Prah_ABC,
 //						obj[j+6][1].toString(), obj[j+6][0].toString(), MyMath.round(rnd.nextDouble(), 2));
 //			}
 //		}
-		
+		//		// Добавяне на нов артикул за тип Прах ВС
+		//MainPanel.CenaPrezarejdane,MainPanel.CenaTehnichesko,MainPanel.CenaHidrostatichno, MainPanel.CenaPrezarejdaneITehnichesko,MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno
+		for (Object[] objects : obj) {
+			PriceTable.initPartPriceTable(MainPanel.CenaPrezarejdane, MainPanel.type_Prah_ABC,
+					objects[1].toString(), objects[0].toString(), 0);
+		}
 	}
 	
 }

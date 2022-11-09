@@ -38,17 +38,14 @@ import admin.Parts.Workers.seeQuantityAndPriceOfPartWorker;
 
 public class ButtonPanel extends MainPanel {
 
-	private TooltipButton viewButton = null;
-	private TooltipButton saveButton = null;
 	private JComboBox<Object> switchType = null;
-	private EditableField searchField;
-	private DustModel dustModel = new DustModel();
-	private DustModel2 dustModel2 = new DustModel2();
-	private WaterModel waterModel = new WaterModel();
-	private WaterFameModel waterFameModel = new WaterFameModel();
-	private CO2Model co2Model = new CO2Model();
-	private ArrayList<Object[]> helpList = new ArrayList<Object[]>();
-	private TooltipButton excellButton;
+	private final EditableField searchField;
+	private final DustModel dustModel = new DustModel();
+	private final DustModel2 dustModel2 = new DustModel2();
+	private final WaterModel waterModel = new WaterModel();
+	private final WaterFameModel waterFameModel = new WaterFameModel();
+	private final CO2Model co2Model = new CO2Model();
+	private final ArrayList<Object[]> helpList = new ArrayList<Object[]>();
 
 	GridBagLayout gbLayout = new GridBagLayout();
 
@@ -74,8 +71,7 @@ public class ButtonPanel extends MainPanel {
 						.getModel();
 				dftm.setRowCount(0);
 				String b = searchField.getText().toLowerCase();
-				for (int i = 0; i < helpList.size(); i++) {
-					Object[] o = helpList.get(i);
+				for (Object[] o : helpList) {
 					String a = o[0].toString().toLowerCase();
 					if (a.startsWith(b)) {
 						dftm.addRow(o);
@@ -85,7 +81,7 @@ public class ButtonPanel extends MainPanel {
 				}
 			}
 		});
-		viewButton = new TooltipButton("Виж текуща цена");
+		TooltipButton viewButton = new TooltipButton("Виж текуща цена");
 
 		viewButton.addActionListener(new ActionListener() {
 
@@ -114,7 +110,7 @@ public class ButtonPanel extends MainPanel {
 			}
 
 		});
-		saveButton = new TooltipButton("Промени текуща цена");
+		TooltipButton saveButton = new TooltipButton("Промени текуща цена");
 
 		saveButton.addActionListener(new ActionListener() {
 
@@ -130,7 +126,7 @@ public class ButtonPanel extends MainPanel {
 					return;
 				}
 				// ckeck user input
-				Double d = 0.0;
+				double d = 0.0;
 				try {
 					d = Double.parseDouble(TablePanel.jTable.getValueAt(
 							TablePanel.index, 4).toString());
@@ -231,7 +227,7 @@ public class ButtonPanel extends MainPanel {
 			}
 
 		});
-		excellButton = new TooltipButton();
+		TooltipButton excellButton = new TooltipButton();
 		excellButton.setPreferredSize(new Dimension((int) (basePanel
 				.getPreferredSize().getWidth() * 0.1), (int) (basePanel
 				.getPreferredSize().getHeight() * 0.35)));

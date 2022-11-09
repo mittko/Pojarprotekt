@@ -1,6 +1,6 @@
 package Parts;
 
-import utility.CustomButton;
+import utility.PartButton;
 import utility.GradientPanel;
 import utility.LoadIcon;
 import utility.MainPanel;
@@ -11,253 +11,282 @@ import java.util.ArrayList;
 
 public class CO2 extends MainPanel {
 	
-	public static CustomButton пломба = null;
-	public static CustomButton въглероден_диоксид = null;
-	
-	
-	public ArrayList<CustomButton> list = null;
+	public static PartButton plomba = null;
+	public static PartButton wugleroden_dioksid = null;
+
+	public static PartButton cenaTehnichesko = null;
+	public static PartButton cenaHidrostatichno = null;
+	public static PartButton cenaPrezarejdaneITehnichesko = null;
+	public static PartButton cenaPrezarejdaneTehnicheskoIHidrostatichno = null;
+
+	public ArrayList<PartButton> list = null;
 	public CO2(Dimension dim) {
-		list = new ArrayList<CustomButton>();
-		JPanel block = new GradientPanel() ;
-		
-		block.setLayout(new GridLayout(4, 1, 10,5));
-		block.setPreferredSize(new Dimension(dim.width,dim.height-10));//(new Dimension(this.WIDTH-20, (int)(2 * (this.HEIGHT  / 3.5))));
-		
-		JPanel pane1 = new JPanel();
-		pane1.setOpaque(false);
-	//	int buttonHeight = block.getPreferredSize().height / 4; // 100
+		list = new ArrayList<>();
 		int buttonVGap = 5;
-        int buttonHGap = 20;
-	
+		int buttonHGap = 20;
+		GridLayout paneLayout = new GridLayout(0, 5, buttonHGap, buttonVGap);
+
+		JPanel block = new GradientPanel() ;
+
+		JPanel pane1 = new JPanel();
+		pane1.setLayout(paneLayout);
+		pane1.setOpaque(false);
+
+		JPanel pane2 = new JPanel();
+		pane2.setLayout(paneLayout);
+		pane2.setOpaque(false);
+
+		JPanel pane3 = new JPanel();
+		pane3.setLayout(paneLayout);
+		pane3.setOpaque(false);
+
+		JPanel pane4 = new JPanel();
+		pane4.setLayout(paneLayout);
+		pane4.setOpaque(false);
+
+		JPanel pane5 = new JPanel();
+		pane5.setLayout(paneLayout);
+		pane5.setOpaque(false);
+
+		ArrayList<JPanel> paneList = new ArrayList<>();
+		paneList.add(pane1);
+		paneList.add(pane2);
+		paneList.add(pane3);
+		paneList.add(pane4);
+		paneList.add(pane5);
+
+		for(JPanel panel : paneList) {
+			block.add(panel);
+		}
+
+		block.setLayout(new GridLayout(block.getComponentCount(), 1, 10,5));
+		block.setPreferredSize(new Dimension(dim.width-10,
+				( ((dim.height/4) * block.getComponentCount()) - (buttonVGap*5) )));
+
         Dimension buttonDimension = new Dimension(
 	    		(int)(block.getPreferredSize().getWidth() * 0.10),
 				(int)(block.getPreferredSize().getHeight() * 0.15));
         
-		CustomButton бързВентил_Модел1 = new CustomButton();
-		бързВентил_Модел1.setPreferredSize(buttonDimension);
-		бързВентил_Модел1.setAutoSizedIcon(бързВентил_Модел1, new LoadIcon().setIcons("PARTS2/бърз вентил 3.5.gif"));
-	//	бързВентил_Модел1.setIcon(setIcons("PARTS/бърз вентил 3.5.gif"));
-		бързВентил_Модел1.setToolTipText(getHTML_Text(BarzVentil1_Model));
-		бързВентил_Модел1.setName(BarzVentil1_Model);
+		PartButton burzWentil_Model1 = new PartButton();
+		burzWentil_Model1.setPreferredSize(buttonDimension);
+		burzWentil_Model1.setAutoSizedIcon(burzWentil_Model1, new LoadIcon().setIcons("PARTS2/burz_wentil3.5.gif"));
+		burzWentil_Model1.setToolTipText(getHTML_Text(BarzVentil1_Model));
+		burzWentil_Model1.setName(BarzVentil1_Model);
 	    
-		CustomButton бързВентил_Модел2 = new CustomButton();
-		бързВентил_Модел2.setPreferredSize(buttonDimension);
-		бързВентил_Модел2.setAutoSizedIcon(бързВентил_Модел2, new LoadIcon().setIcons("PARTS2/бърз вентил 5.gif"));
-	 // 	бързВентил_Модел2.setIcon(setIcons("PARTS2/бърз вентил 5.gif"));
-		бързВентил_Модел2.setToolTipText(getHTML_Text(BarzVentil2_Model));
-		бързВентил_Модел2.setName(BarzVentil2_Model);
+		PartButton burzWentil_Model2 = new PartButton();
+		burzWentil_Model2.setPreferredSize(buttonDimension);
+		burzWentil_Model2.setAutoSizedIcon(burzWentil_Model2, new LoadIcon().setIcons("PARTS2/burz_wentil5.gif"));
+		burzWentil_Model2.setToolTipText(getHTML_Text(BarzVentil2_Model));
+		burzWentil_Model2.setName(BarzVentil2_Model);
         
-		CustomButton бързВентил_Модел3 = new CustomButton();
-		бързВентил_Модел3.setPreferredSize(buttonDimension);
-		бързВентил_Модел3.setAutoSizedIcon(бързВентил_Модел3, new LoadIcon().setIcons("PARTS2/бърз вентил 30.gif"));
-	
-	//	бързВентил_Модел3.setIcon(setIcons("PARTS/бърз вентил 30.gif"));
-		бързВентил_Модел3.setToolTipText(getHTML_Text(BarzVentil3_Model));
-		бързВентил_Модел3.setName(BarzVentil3_Model);
+		PartButton burzWentil_Model3 = new PartButton();
+		burzWentil_Model3.setPreferredSize(buttonDimension);
+		burzWentil_Model3.setAutoSizedIcon(burzWentil_Model3, new LoadIcon().setIcons("PARTS2/burz_wentil30.gif"));
+		burzWentil_Model3.setToolTipText(getHTML_Text(BarzVentil3_Model));
+		burzWentil_Model3.setName(BarzVentil3_Model);
         
-		CustomButton бързВентил_Модел3_Права_Резба = new CustomButton();
-		бързВентил_Модел3_Права_Резба.setPreferredSize(buttonDimension);
-		бързВентил_Модел3_Права_Резба.setAutoSizedIcon(бързВентил_Модел3_Права_Резба, new LoadIcon().setIcons("PARTS2/бърз вентил 30 права резба.gif"));
-	
-	//	бързВентил_Модел3_Права_Резба.setIcon(setIcons("PARTS/бърз вентил 30 права резба.gif"));
-		бързВентил_Модел3_Права_Резба.setToolTipText(getHTML_Text(BarzVentil3Model_Prava_Rezba));
-		бързВентил_Модел3_Права_Резба.setName(BarzVentil3Model_Prava_Rezba);
+		PartButton burzWentil_Model3_PrawaRezba = new PartButton();
+		burzWentil_Model3_PrawaRezba.setPreferredSize(buttonDimension);
+		burzWentil_Model3_PrawaRezba.setAutoSizedIcon(burzWentil_Model3_PrawaRezba, new LoadIcon().setIcons("PARTS2/burz_wentil30prawa_rezba.gif"));
+		burzWentil_Model3_PrawaRezba.setToolTipText(getHTML_Text(BarzVentil3Model_Prava_Rezba));
+		burzWentil_Model3_PrawaRezba.setName(BarzVentil3Model_Prava_Rezba);
         
-		CustomButton шпленд = new CustomButton();
-		шпленд.setPreferredSize(buttonDimension);
-		шпленд.setAutoSizedIcon(шпленд, new LoadIcon().setIcons("PARTS2/шпленд.gif"));
-		//шпленд.setIcon(setIcons("PARTS/шпленд.gif"));
-		шпленд.setToolTipText(getHTML_Text(Sphlend));
-		шпленд.setName(Sphlend);
-		
-		
-		list.add(бързВентил_Модел1);
-		list.add(бързВентил_Модел2);
-		list.add(бързВентил_Модел3);
-		list.add(бързВентил_Модел3_Права_Резба);
-		list.add(шпленд);
-        
-		pane1.add(бързВентил_Модел1);
-		pane1.add(бързВентил_Модел2);
-		pane1.add(бързВентил_Модел3);
-		pane1.add(бързВентил_Модел3_Права_Резба);
-		pane1.add(шпленд);
-		
-		
-		JPanel pane2 = new JPanel();
-		pane2.setOpaque(false);
-		
-		пломба = new CustomButton();
-		пломба.setPreferredSize(buttonDimension);
-		пломба.setAutoSizedIcon(пломба, new LoadIcon().setIcons("PARTS2/пломба.gif"));
-	//	пломба.setIcon(setIcons("PARTS/пломба.gif"));
-		пломба.setToolTipText(getHTML_Text(Plomba));
-		пломба.setName(Plomba);
-		пломба.isEditable = false;
-		
-		CustomButton снегообразувател_модел1 = new CustomButton();
-		снегообразувател_модел1.setPreferredSize(buttonDimension);
-		снегообразувател_модел1.setAutoSizedIcon(снегообразувател_модел1, new LoadIcon().setIcons("PARTS2/снегообразувател 2 кг.gif"));
-//		снегообразувател_модел1.setIcon(setIcons("PARTS/снегообразувател 2кг.gif"));
-		снегообразувател_модел1.setToolTipText(getHTML_Text(Snegoobrazuvatel1_Model));
-		снегообразувател_модел1.setName(Snegoobrazuvatel1_Model);
-		
-		CustomButton снегообразувател_модел2 = new CustomButton();
-		снегообразувател_модел2.setPreferredSize(buttonDimension);
-		снегообразувател_модел2.setAutoSizedIcon(снегообразувател_модел2, new LoadIcon().setIcons("PARTS2/снегообразувател 5 кг.gif"));
-	//	снегообразувател_модел2.setIcon(setIcons("PARTS/снегообразувател 5кг.gif"));
-		снегообразувател_модел2.setToolTipText(getHTML_Text(Snegoobrazuvatel2_Model));
-		снегообразувател_модел2.setName(Snegoobrazuvatel2_Model);
-		
-		CustomButton снегообразувател_модел3 = new CustomButton();
-		снегообразувател_модел3.setPreferredSize(buttonDimension);
-		снегообразувател_модел3.setAutoSizedIcon(снегообразувател_модел3, new LoadIcon().setIcons("PARTS2/снегообразувател 30 кг.gif"));
-	//	снегообразувател_модел3.setIcon(setIcons("PARTS/снегообразувател 30кг.gif"));
-		снегообразувател_модел3.setToolTipText(getHTML_Text(Snegoobrazuvatel3_Model));
-		снегообразувател_модел3.setName(Snegoobrazuvatel3_Model);
-		
-		CustomButton сонда = new CustomButton();
-		сонда.setPreferredSize(buttonDimension);
-		сонда.setAutoSizedIcon(сонда, new LoadIcon().setIcons("PARTS2/сонда.gif"));
-//		сонда.setIcon(setIcons("PARTS/сонда.gif"));
-		сонда.setToolTipText(getHTML_Text(Sonda));
-		сонда.setName(Sonda);
-		
-		list.add(пломба);
-		list.add(снегообразувател_модел1);
-		list.add(снегообразувател_модел2);
-		list.add(снегообразувател_модел3);
-		list.add(сонда);
-		
-		pane2.add(пломба);
-		pane2.add(снегообразувател_модел1);
-		pane2.add(снегообразувател_модел2);
-		pane2.add(снегообразувател_модел3);
-		pane2.add(сонда);
-		
-		JPanel pane3 = new JPanel();
-		pane3.setOpaque(false);
-		
-		CustomButton дръжка = new CustomButton();
-		дръжка.setPreferredSize(buttonDimension);
-		дръжка.setAutoSizedIcon(дръжка, new LoadIcon().setIcons("PARTS2/дръжка.gif"));
-	//	дръжка.setIcon(setIcons("PARTS/drajka2.png"));
-		дръжка.setToolTipText(getHTML_Text(DrajkaZaPojarogasitel));
-		дръжка.setName(DrajkaZaPojarogasitel);
-		
-		CustomButton запресоване_накрайник = new CustomButton();
-		запресоване_накрайник.setPreferredSize(buttonDimension);
-		запресоване_накрайник.setAutoSizedIcon(запресоване_накрайник, new LoadIcon().setIcons("PARTS2/накрайник.gif"));
-	//	запресоване_накрайник.setIcon(setIcons("PARTS/накрайник.gif"));
-		запресоване_накрайник.setToolTipText(getHTML_Text(ZapresovaneNaNakrainik));
-		запресоване_накрайник.setName(ZapresovaneNaNakrainik);
-		
-		CustomButton твърдо_колело = new CustomButton();
-		твърдо_колело.setPreferredSize(buttonDimension);
-		твърдо_колело.setAutoSizedIcon(твърдо_колело, new LoadIcon().setIcons("PARTS2/твърдо колело.gif"));
-	//	твърдо_колело.setIcon(setIcons("PARTS/твърдо колело.gif"));
-		твърдо_колело.setToolTipText(getHTML_Text(TvardoHodovoKolelo));
-		твърдо_колело.setName(TvardoHodovoKolelo);
-		
-		CustomButton колело_високо_тегло = new CustomButton();
-		колело_високо_тегло.setPreferredSize(buttonDimension);
-		колело_високо_тегло.setAutoSizedIcon(колело_високо_тегло, new LoadIcon().setIcons("PARTS2/колело за високо тегло.gif"));
-	//	колело_високо_тегло.setIcon(setIcons("PARTS/колело за високо тегло.gif"));
-		колело_високо_тегло.setToolTipText(getHTML_Text(KoleloZaVisokoTeglo));
-		колело_високо_тегло.setName(KoleloZaVisokoTeglo);
-		
-		CustomButton ремонт_количка = new CustomButton();
-		ремонт_количка.setPreferredSize(buttonDimension);
-		ремонт_количка.setAutoSizedIcon(ремонт_количка, new LoadIcon().setIcons("PARTS2/ремонтКоличка.gif"));
-	//	ремонт_количка.setIcon(setIcons("PARTS/ремонтКоличка.gif"));
-		ремонт_количка.setToolTipText(getHTML_Text(RemontKolicka));
-		ремонт_количка.setName(RemontKolicka);
-		
-		pane3.add(дръжка);
-		pane3.add(запресоване_накрайник);
-		pane3.add(твърдо_колело);
-		pane3.add(колело_високо_тегло);
-		pane3.add(ремонт_количка);
-		
-		list.add(дръжка);
-		list.add(запресоване_накрайник);
-		list.add(твърдо_колело);
-		list.add(колело_високо_тегло);
-		list.add(ремонт_количка);
+		PartButton shplend = new PartButton();
+		shplend.setPreferredSize(buttonDimension);
+		shplend.setAutoSizedIcon(shplend, new LoadIcon().setIcons("PARTS2/shplend.gif"));
+		shplend.setToolTipText(getHTML_Text(Sphlend));
+		shplend.setName(Sphlend);
 
-		JPanel pane4 = new JPanel();
-		pane4.setOpaque(false);
+		plomba = new PartButton();
+		plomba.setPreferredSize(buttonDimension);
+		plomba.setAutoSizedIcon(plomba, new LoadIcon().setIcons("PARTS2/plomba.gif"));
+		plomba.setToolTipText(getHTML_Text(Plomba));
+		plomba.setName(Plomba);
+		plomba.isEditable = false;
 		
-		CustomButton боя_количка = new CustomButton();
-		 боя_количка.setPreferredSize(buttonDimension);
-		боя_количка.setAutoSizedIcon( боя_количка, new LoadIcon().setIcons("PARTS2/бояКоличка.gif"));
-	//	боя_количка.setIcon(setIcons("PARTS/бояКоличка.gif"));
-		боя_количка.setToolTipText(getHTML_Text(BoyaKolichka));
-		боя_количка.setName(BoyaKolichka);
+		PartButton snegoobrazuwatelModel1 = new PartButton();
+		snegoobrazuwatelModel1.setPreferredSize(buttonDimension);
+		snegoobrazuwatelModel1.setAutoSizedIcon(snegoobrazuwatelModel1, new LoadIcon().setIcons("PARTS2/snegoobrazuwatel2.gif"));
+		snegoobrazuwatelModel1.setToolTipText(getHTML_Text(Snegoobrazuvatel1_Model));
+		snegoobrazuwatelModel1.setName(Snegoobrazuvatel1_Model);
 		
-		CustomButton боя_пожарогасител = new CustomButton();
-		боя_пожарогасител.setPreferredSize(buttonDimension);
-		боя_пожарогасител.setAutoSizedIcon(боя_пожарогасител, new LoadIcon().setIcons("PARTS2/боя.gif"));
-	//	боя_пожарогасител.setIcon(setIcons("PARTS/боя.gif"));
-		боя_пожарогасител.setToolTipText(getHTML_Text(BoyaPojarogasitel));
-		боя_пожарогасител.setName(BoyaPojarogasitel);
+		PartButton snegoobrazuwatelModel2 = new PartButton();
+		snegoobrazuwatelModel2.setPreferredSize(buttonDimension);
+		snegoobrazuwatelModel2.setAutoSizedIcon(snegoobrazuwatelModel2, new LoadIcon().setIcons("PARTS2/snegoobrazuwatel5.gif"));
+		snegoobrazuwatelModel2.setToolTipText(getHTML_Text(Snegoobrazuvatel2_Model));
+		snegoobrazuwatelModel2.setName(Snegoobrazuvatel2_Model);
 		
-		CustomButton етикет = new CustomButton();
-		етикет.setPreferredSize(buttonDimension);
-		етикет.setAutoSizedIcon(етикет, new LoadIcon().setIcons("PARTS2/co2Etiket.png"));
-	//	етикет.setIcon(setIcons("PARTS/co2Etiket.png"));
-		етикет.setToolTipText(getHTML_Text(Etiket));
-		етикет.setName(Etiket);
+		PartButton snegoobrazuwatelModel3 = new PartButton();
+		snegoobrazuwatelModel3.setPreferredSize(buttonDimension);
+		snegoobrazuwatelModel3.setAutoSizedIcon(snegoobrazuwatelModel3, new LoadIcon().setIcons("PARTS2/snegoobrazuwatel30.gif"));
+		snegoobrazuwatelModel3.setToolTipText(getHTML_Text(Snegoobrazuvatel3_Model));
+		snegoobrazuwatelModel3.setName(Snegoobrazuvatel3_Model);
+		
+		PartButton sonda = new PartButton();
+		sonda.setPreferredSize(buttonDimension);
+		sonda.setAutoSizedIcon(sonda, new LoadIcon().setIcons("PARTS2/sonda.gif"));
+		sonda.setToolTipText(getHTML_Text(Sonda));
+		sonda.setName(Sonda);
+
+		PartButton drujka = new PartButton();
+		drujka.setPreferredSize(buttonDimension);
+		drujka.setAutoSizedIcon(drujka, new LoadIcon().setIcons("PARTS2/drujka.gif"));
+		drujka.setToolTipText(getHTML_Text(DrajkaZaPojarogasitel));
+		drujka.setName(DrajkaZaPojarogasitel);
+		
+		PartButton zapresowanNakrajnik = new PartButton();
+		zapresowanNakrajnik.setPreferredSize(buttonDimension);
+		zapresowanNakrajnik.setAutoSizedIcon(zapresowanNakrajnik, new LoadIcon().setIcons("PARTS2/nakrajnik.gif"));
+		zapresowanNakrajnik.setToolTipText(getHTML_Text(ZapresovaneNaNakrainik));
+		zapresowanNakrajnik.setName(ZapresovaneNaNakrainik);
+		
+		PartButton twurdo_kolelo = new PartButton();
+		twurdo_kolelo.setPreferredSize(buttonDimension);
+		twurdo_kolelo.setAutoSizedIcon(twurdo_kolelo, new LoadIcon().setIcons("PARTS2/twurdo_kolelo.gif"));
+		twurdo_kolelo.setToolTipText(getHTML_Text(TvardoHodovoKolelo));
+		twurdo_kolelo.setName(TvardoHodovoKolelo);
+		
+		PartButton koleloZaWisokoTeglo = new PartButton();
+		koleloZaWisokoTeglo.setPreferredSize(buttonDimension);
+		koleloZaWisokoTeglo.setAutoSizedIcon(koleloZaWisokoTeglo, new LoadIcon().setIcons("PARTS2/kolelo_za_wisoko_teglo.gif"));
+		koleloZaWisokoTeglo.setToolTipText(getHTML_Text(KoleloZaVisokoTeglo));
+		koleloZaWisokoTeglo.setName(KoleloZaVisokoTeglo);
+		
+		PartButton remontKolichka = new PartButton();
+		remontKolichka.setPreferredSize(buttonDimension);
+		remontKolichka.setAutoSizedIcon(remontKolichka, new LoadIcon().setIcons("PARTS2/remontKolichka.gif"));
+		remontKolichka.setToolTipText(getHTML_Text(RemontKolicka));
+		remontKolichka.setName(RemontKolicka);
+
+
+		PartButton boqKolichka = new PartButton();
+		 boqKolichka.setPreferredSize(buttonDimension);
+		boqKolichka.setAutoSizedIcon( boqKolichka, new LoadIcon().setIcons("PARTS2/boqKolichka.gif"));
+		boqKolichka.setToolTipText(getHTML_Text(BoyaKolichka));
+		boqKolichka.setName(BoyaKolichka);
+		
+		PartButton boqPojarogasitel = new PartButton();
+		boqPojarogasitel.setPreferredSize(buttonDimension);
+		boqPojarogasitel.setAutoSizedIcon(boqPojarogasitel, new LoadIcon().setIcons("PARTS2/boq.gif"));
+		boqPojarogasitel.setToolTipText(getHTML_Text(BoyaPojarogasitel));
+		boqPojarogasitel.setName(BoyaPojarogasitel);
+		
+		PartButton etiket = new PartButton();
+		etiket.setPreferredSize(buttonDimension);
+		etiket.setAutoSizedIcon(etiket, new LoadIcon().setIcons("PARTS2/co2Etiket.png"));
+		etiket.setToolTipText(getHTML_Text(Etiket));
+		etiket.setName(Etiket);
 		
 		
 		// enabled for now
-		CustomButton съд = new CustomButton();
-		съд.setPreferredSize(buttonDimension);
-		съд.setAutoSizedIcon(съд, new LoadIcon().setIcons("PARTS2/съд.gif"));
-	//	съд.setIcon(setIcons("PARTS/съдCO2.gif"));
-		съд.setToolTipText(getHTML_Text(SadZaGasitelnoVeshtestvo));
-		съд.setName(SadZaGasitelnoVeshtestvo);
+		PartButton sud = new PartButton();
+		sud.setPreferredSize(buttonDimension);
+		sud.setAutoSizedIcon(sud, new LoadIcon().setIcons("PARTS2/sud.gif"));
+		sud.setToolTipText(getHTML_Text(SadZaGasitelnoVeshtestvo));
+		sud.setName(SadZaGasitelnoVeshtestvo);
 	    
-	    въглероден_диоксид = new CustomButton();
-	    въглероден_диоксид.setPreferredSize(buttonDimension);
-	    въглероден_диоксид.setAutoSizedIcon(въглероден_диоксид, new LoadIcon().setIcons("PARTS2/gas.gif"));
-	//    въглероден_диоксид.setIcon(setIcons("PARTS2/gas.gif"));
-	    въглероден_диоксид.setToolTipText(getHTML_Text(GasitelnoVeshtestvoCO2));
-	    въглероден_диоксид.setName(GasitelnoVeshtestvoCO2);
-	    въглероден_диоксид.isEditable = false;
-	
-		//
-		list.add(боя_количка);
-		list.add(боя_пожарогасител);
-		list.add(етикет);
-		list.add(съд);  
-		list.add(въглероден_диоксид);
-		
-		
-		pane4.add(боя_количка);
-		pane4.add(боя_пожарогасител);
-		pane4.add(етикет);
-		pane4.add(съд);
-		pane4.add(въглероден_диоксид);
-	
-//		block.setLayout(new GridLayout(4, 1, 10,5));
-//		block.setPreferredSize(new Dimension(this.WIDTH-20, 4 * buttonHeight));
-//		
-//		pane1.setPreferredSize(new Dimension(this.WIDTH-20, buttonHeight));
-		pane1.setLayout(new GridLayout(0, 5, buttonHGap, buttonVGap));
-		block.add(pane1);
-//		pane2.setPreferredSize(new Dimension(this.WIDTH-20, buttonHeight));
-		pane2.setLayout(new GridLayout(0, 5, buttonHGap, buttonVGap));
-		block.add(pane2);
-//		pane3.setPreferredSize(new Dimension(this.WIDTH-20, buttonHeight));
-		pane3.setLayout(new GridLayout(0, 5, buttonHGap, buttonVGap));
-		block.add(pane3);
-//		pane4.setPreferredSize(new Dimension(this.WIDTH-20, buttonHeight));
-		pane4.setLayout(new GridLayout(0, 5, buttonHGap, buttonVGap));
-		block.add(pane4);
-		this.add(block);
-		
-	//	this.setPreferredSize(block.getPreferredSize());
+	    wugleroden_dioksid = new PartButton();
+	    wugleroden_dioksid.setPreferredSize(buttonDimension);
+	    wugleroden_dioksid.setAutoSizedIcon(wugleroden_dioksid, new LoadIcon().setIcons("PARTS2/gas.gif"));
+	    wugleroden_dioksid.setToolTipText(getHTML_Text(GasitelnoVeshtestvoCO2));
+	    wugleroden_dioksid.setName(GasitelnoVeshtestvoCO2);
+	    wugleroden_dioksid.isEditable = false;
+
+		cenaTehnichesko = new PartButton();
+		cenaTehnichesko.setPreferredSize(buttonDimension);
+		cenaTehnichesko.setAutoSizedIcon(cenaTehnichesko, new LoadIcon().setIcons("PARTS2/recharge_tehn_extinguishers.png"));
+		cenaTehnichesko.setToolTipText(getHTML_Text(CenaTehnichesko));
+		cenaTehnichesko.setName(CenaTehnichesko);
+		cenaTehnichesko.isEditable = false;
+
+		cenaHidrostatichno = new PartButton();
+		cenaHidrostatichno.setPreferredSize(buttonDimension);
+		cenaHidrostatichno.setAutoSizedIcon(cenaHidrostatichno, new LoadIcon().setIcons("PARTS2/recharge_hidro_extinguishers.png"));
+		cenaHidrostatichno.setToolTipText(getHTML_Text(CenaHidrostatichno));
+		cenaHidrostatichno.setName(CenaHidrostatichno);
+		cenaHidrostatichno.isEditable = false;
+
+		cenaPrezarejdaneITehnichesko = new PartButton();
+		cenaPrezarejdaneITehnichesko.setPreferredSize(buttonDimension);
+		cenaPrezarejdaneITehnichesko.setAutoSizedIcon(cenaPrezarejdaneITehnichesko, new LoadIcon().setIcons("PARTS2/recharge_tehn_extinguishers.png"));
+		cenaPrezarejdaneITehnichesko.setToolTipText(getHTML_Text(CenaPrezarejdaneITehnichesko));
+		cenaPrezarejdaneITehnichesko.setName(CenaPrezarejdaneITehnichesko);
+		cenaPrezarejdaneITehnichesko.isEditable = false;
+
+		cenaPrezarejdaneTehnicheskoIHidrostatichno = new PartButton();
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setPreferredSize(buttonDimension);
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setAutoSizedIcon(cenaPrezarejdaneTehnicheskoIHidrostatichno, new LoadIcon().setIcons("PARTS2/recharge_tehn_hidro_extinguishers.png"));
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setToolTipText(getHTML_Text(CenaPrezarejdaneTehnicheskoIHidrostatichno));
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setName(CenaPrezarejdaneTehnicheskoIHidrostatichno);
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.isEditable = false;
+
+		pane1.add(burzWentil_Model1);
+		pane1.add(burzWentil_Model2);
+		pane1.add(burzWentil_Model3);
+		pane1.add(burzWentil_Model3_PrawaRezba);
+		pane1.add(shplend);
+
+		list.add(burzWentil_Model1);
+		list.add(burzWentil_Model2);
+		list.add(burzWentil_Model3);
+		list.add(burzWentil_Model3_PrawaRezba);
+		list.add(shplend);
+
+		pane2.add(plomba);
+		pane2.add(snegoobrazuwatelModel1);
+		pane2.add(snegoobrazuwatelModel2);
+		pane2.add(snegoobrazuwatelModel3);
+		pane2.add(sonda);
+
+		list.add(plomba);
+		list.add(snegoobrazuwatelModel1);
+		list.add(snegoobrazuwatelModel2);
+		list.add(snegoobrazuwatelModel3);
+		list.add(sonda);
+
+		pane3.add(drujka);
+		pane3.add(zapresowanNakrajnik);
+		pane3.add(twurdo_kolelo);
+		pane3.add(koleloZaWisokoTeglo);
+		pane3.add(remontKolichka);
+
+		list.add(drujka);
+		list.add(zapresowanNakrajnik);
+		list.add(twurdo_kolelo);
+		list.add(koleloZaWisokoTeglo);
+		list.add(remontKolichka);
+
+		pane4.add(boqKolichka);
+		pane4.add(boqPojarogasitel);
+		pane4.add(etiket);
+		pane4.add(sud);
+		pane4.add(wugleroden_dioksid);
+
+		list.add(boqKolichka);
+		list.add(boqPojarogasitel);
+		list.add(etiket);
+		list.add(sud);  
+		list.add(wugleroden_dioksid);
+
+		list.add(cenaTehnichesko);
+		list.add(cenaHidrostatichno);
+		list.add(cenaPrezarejdaneITehnichesko);
+		list.add(cenaPrezarejdaneTehnicheskoIHidrostatichno);
+
+		pane5.add(cenaTehnichesko);
+		pane5.add(cenaHidrostatichno);
+		pane5.add(cenaPrezarejdaneITehnichesko);
+		pane5.add(cenaPrezarejdaneTehnicheskoIHidrostatichno);
+
+		if(block.getComponentCount() > 4) {
+			JScrollPane scrollPane = new JScrollPane(block, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setPreferredSize(new Dimension(dim.width-10, dim.height-10));
+			this.add(scrollPane);
+		} else {
+			this.add(block);
+		}
+		this.setOpaque(false);
 	}
 
 	public static void main(String[] args) {

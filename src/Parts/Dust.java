@@ -1,7 +1,7 @@
 package Parts;
 
 
-import utility.CustomButton;
+import utility.PartButton;
 import utility.GradientPanel;
 import utility.LoadIcon;
 import utility.MainPanel;
@@ -12,29 +12,33 @@ import java.util.ArrayList;
 
 public class Dust extends MainPanel {
 
-	public ArrayList<CustomButton> list = null;
-	public static CustomButton пломба = null;  // пломба
-	public static CustomButton прах_BC = null; // прах ВС
-	public static CustomButton прах_ABC = null; // прах АВС
-	public static CustomButton патрон = null;
-	public static CustomButton манометър = null;
-	public static CustomButton игличка = null;
-	public static CustomButton капачка = null;
-	public static CustomButton маркуч = null;
-	public static CustomButton държачЗаМаркуч = null;
-	public static CustomButton струйник4 = null;
-	public static CustomButton твърдоХодовоКолело = null;
-	public static CustomButton колелоЗаВисокоТегло = null;
-	public static CustomButton ремонтНаКоличка = null;
-	public static CustomButton боядисванеНаКоличка  = null;
-	
+	public ArrayList<PartButton> list = null;
+	public static PartButton plomba = null;  // пломба
+	public static PartButton prah_BC = null; // прах ВС
+	public static PartButton prah_ABC = null; // прах АВС
+	public static PartButton patron = null;
+	public static PartButton manometer = null;
+	public static PartButton iglichka = null;
+	public static PartButton kapachka = null;
+	public static PartButton markuch = null;
+	public static PartButton durjachZaMarkuch = null;
+	public static PartButton struinki4 = null;
+	public static PartButton twurdoHodowoKolelo = null;
+	public static PartButton koleloZaWisokoTeglo = null;
+	public static PartButton remontNaKolichka = null;
+	public static PartButton boqdiswaneNaKolichka  = null;
+	public static PartButton cenaTehnichesko = null;
+	public static PartButton cenaHidrostatichno = null;
+	public static PartButton cenaPrezarejdaneITehnichesko = null;
+	public static PartButton cenaPrezarejdaneTehnicheskoIHidrostatichno = null;
 	public Dust(Dimension dim) {
-		list = new ArrayList<CustomButton>();
+		list = new ArrayList<>();
 		
 		JPanel block = new GradientPanel() ;
-//		int buttonHeight =  block.getPreferredSize().height / 5; // old -> 100
-			int buttonVGap = 5;
-	        int buttonHGap = 20;
+
+		int buttonVGap = 5;
+		int buttonHGap = 20;
+
 		GridLayout paneLayout = new GridLayout(0, 5, buttonHGap, buttonVGap);
 		JPanel pane1 = new JPanel();
 		pane1.setLayout(paneLayout);
@@ -55,302 +59,294 @@ public class Dust extends MainPanel {
 		JPanel pane5 = new JPanel();
 		pane5.setLayout(paneLayout);
 		pane5.setOpaque(false);
-		
-		block.setLayout(new GridLayout(5, 1, 10,5));
-		block.setPreferredSize(new Dimension(dim.width,dim.height-10));//(new Dimension(this.WIDTH-20, (int)(2 * (this.HEIGHT  / 3.5))));
-		
+
+		JPanel pane6 = new JPanel();
+		pane6.setLayout(paneLayout);
+		pane6.setOpaque(false);
+
+		ArrayList<JPanel> paneList = new ArrayList<>();
+		paneList.add(pane1);
+		paneList.add(pane2);
+		paneList.add(pane3);
+		paneList.add(pane4);
+		paneList.add(pane5);
+        paneList.add(pane6);
+
+		for(JPanel panel : paneList) {
+			block.add(panel);
+		}
+
+		block.setLayout(new GridLayout(block.getComponentCount(), 1, 10,5));
+		block.setPreferredSize(new Dimension(dim.width-10,
+				( ((dim.height/4) * block.getComponentCount()) - (buttonVGap*5) )));
+
 	   Dimension buttonDimension =  new Dimension(new Dimension(
 				(int)(block.getPreferredSize().getWidth() * 0.10),
 				(int)(block.getPreferredSize().getHeight() * 0.15)
 				));
 	
-		CustomButton  глава = new CustomButton();
-		глава.setPreferredSize(buttonDimension);
-		глава.setAutoSizedIcon(глава, new LoadIcon().setIcons("PARTS2/глава.gif"));
-	//	глава.setIcon(setIcons("PARTS/глава.gif"));
-		
-	    глава.setToolTipText(getHTML_Text(Glava));
-	    глава.setName(Glava);
-	  
-		манометър = new CustomButton();
-		манометър.setPreferredSize(buttonDimension);
-		манометър.setAutoSizedIcon(манометър, new LoadIcon().setIcons("PARTS2/манометър.gif"));
-//		манометър.setIcon(setIcons("PARTS/манометър.gif"));
-        манометър.setToolTipText(getHTML_Text(Manometar));
-        манометър.setName(Manometar);
-        
-    	CustomButton шпленд = new CustomButton();
-    	шпленд.setPreferredSize(buttonDimension);
-		шпленд.setAutoSizedIcon(шпленд, new LoadIcon().setIcons("PARTS2/шпленд.gif"));
-	//	шпленд.setIcon(setIcons("PARTS/шпленд.gif"));
-		шпленд.setToolTipText(getHTML_Text(Sphlend));
-		шпленд.setName(Sphlend);
-		
-		CustomButton о_пръстен = new CustomButton();
-		о_пръстен.setPreferredSize(buttonDimension);
-		о_пръстен.setAutoSizedIcon(о_пръстен, new LoadIcon().setIcons("PARTS2/о-пръстен.gif"));
-	//	о_пръстен.setIcon(setIcons("PARTS/о-пръстен.gif"));
-		о_пръстен.setToolTipText(getHTML_Text(Uplatnenie));
-		о_пръстен.setName(Uplatnenie);
-	
-	
-        
-    	CustomButton затвор = new CustomButton();
-    	затвор.setPreferredSize(buttonDimension);
-		затвор.setAutoSizedIcon(затвор, new LoadIcon().setIcons("PARTS2/затвор.gif"));
-	//	затвор.setIcon(setIcons("PARTS/затвор.gif"));
-		затвор.setToolTipText(getHTML_Text(Zatvor));
-		затвор.setName(Zatvor);
-		
-		
-	
-	
-		пломба = new CustomButton();
-		пломба.setPreferredSize(buttonDimension);
-		пломба.setAutoSizedIcon(пломба, new LoadIcon().setIcons("PARTS2/пломба.gif"));
-//		пломба.setIcon(setIcons("PARTS/пломба.gif"));
-		пломба.setToolTipText(getHTML_Text(Plomba));
-		пломба.setName(Plomba);
-		пломба.isEditable = false;
-		
-		маркуч = new CustomButton();
-		маркуч.setPreferredSize(buttonDimension);
-		маркуч.setAutoSizedIcon(маркуч, new LoadIcon().setIcons("PARTS2/маркуч2.gif"));
-   //     маркуч.setIcon(setIcons("PARTS/маркуч.gif"));
-        маркуч.setToolTipText(getHTML_Text(Markuch));
-        маркуч.setName(Markuch);
-        
-		държачЗаМаркуч = new CustomButton();
-		държачЗаМаркуч.setPreferredSize(buttonDimension);
-		държачЗаМаркуч.setAutoSizedIcon(държачЗаМаркуч, new LoadIcon().setIcons("PARTS2/държач.gif"));
-    //    държачЗаМаркуч.setIcon(setIcons("PARTS/държач.gif"));
-        държачЗаМаркуч.setToolTipText(getHTML_Text(DarjachZaMarkuch));
-        държачЗаМаркуч.setName(DarjachZaMarkuch);
-        
-        CustomButton пружина = new CustomButton();
-        пружина.setPreferredSize(buttonDimension);
-		пружина.setAutoSizedIcon(пружина, new LoadIcon().setIcons("PARTS2/пружина.gif"));
-//		пружина.setIcon(setIcons("PARTS/пружина.gif"));
-		пружина.setToolTipText(getHTML_Text(Prujina));
-		пружина.setName(Prujina);
-		
-		CustomButton струйник = new CustomButton();
-		струйник.setPreferredSize(buttonDimension);
-		струйник.setAutoSizedIcon(струйник, new LoadIcon().setIcons("PARTS2/струйник.gif"));
-	//	струйник.setIcon(setIcons("PARTS/струйник.gif"));
-	    струйник.setToolTipText(getHTML_Text(Struinik));
-		струйник.setName(Struinik);
-		
-		
-		
-	
-	
-		
-		патрон = new CustomButton();
-		патрон.setPreferredSize(buttonDimension);
-		патрон.setAutoSizedIcon(патрон, new LoadIcon().setIcons("PARTS2/патрон.gif"));
-	//	патрон.setIcon(setIcons("PARTS/патрон.gif"));
-		патрон.setToolTipText(getHTML_Text(Patron));
-		патрон.setName(Patron);
-		
-		
-		CustomButton сонда = new CustomButton();
-		сонда.setPreferredSize(buttonDimension);
-		сонда.setAutoSizedIcon(сонда, new LoadIcon().setIcons("PARTS2/сонда.gif"));
-   //     сонда.setIcon(setIcons("PARTS/сонда.gif"));
-		сонда.setToolTipText(getHTML_Text(Sonda));
-		сонда.setName(Sonda);
-		
-		
-		струйник4 = new CustomButton();
-		струйник4.setPreferredSize(buttonDimension);
-	  струйник4.setAutoSizedIcon(струйник4, new LoadIcon().setIcons("PARTS2/струйник 4.gif"));
-	//	струйник4.setIcon(setIcons("PARTS/струйник 4.gif"));
-		струйник4.setToolTipText(getHTML_Text(Struinik4));
-		струйник4.setName(Struinik4);
-		
-		CustomButton барбутажна_тръба = new CustomButton();
-		барбутажна_тръба.setPreferredSize(buttonDimension);
-		барбутажна_тръба.setAutoSizedIcon(барбутажна_тръба, new LoadIcon().setIcons("PARTS2/барбутажна тръба.gif"));
-	//	барбутажна_тръба.setIcon(setIcons("PARTS/барбутажна тръба.gif"));
-		барбутажна_тръба.setToolTipText(getHTML_Text(BarbutajnaTraba));
-		барбутажна_тръба.setName(BarbutajnaTraba);
-		
-		 игличка = new CustomButton();
-		игличка.setPreferredSize(buttonDimension);
-		игличка.setAutoSizedIcon(игличка, new LoadIcon().setIcons("PARTS2/игличка.gif"));
-		
-	//	игличка.setIcon(setIcons("PARTS/игличка.gif"));
-		игличка.setToolTipText(getHTML_Text(IglichkaZaPompane));
-		игличка.setName(IglichkaZaPompane);
-		
-	
-		
-	
-		
-		капачка = new CustomButton();
-		капачка.setPreferredSize(buttonDimension);
-		капачка.setAutoSizedIcon(капачка, new LoadIcon().setIcons("PARTS2/капачка.gif"));
-	
-	//	капачка.setIcon(setIcons("PARTS/капачка.gif"));
-		капачка.setToolTipText(getHTML_Text(KapachkaZaUplatnenie));
-		капачка.setName(KapachkaZaUplatnenie);
-	
-		
-		твърдоХодовоКолело = new CustomButton();
-		твърдоХодовоКолело.setPreferredSize(buttonDimension);
-		твърдоХодовоКолело.setAutoSizedIcon(твърдоХодовоКолело, new LoadIcon().setIcons("PARTS2/твърдо колело.gif"));
-	
-	//	твърдоХодовоКолело.setIcon(setIcons("PARTS/твърдо колело.gif"));
-		твърдоХодовоКолело.setToolTipText(getHTML_Text(TvardoHodovoKolelo));
-		твърдоХодовоКолело.setName(TvardoHodovoKolelo);
-		
-		колелоЗаВисокоТегло = new CustomButton();
-		колелоЗаВисокоТегло.setPreferredSize(buttonDimension);
-		колелоЗаВисокоТегло.setAutoSizedIcon(колелоЗаВисокоТегло, new LoadIcon().setIcons("PARTS2/колело за високо тегло.gif"));
-	   //колелоЗаВисокоТегло.setIcon(setIcons("PARTS/колело за високо тегло.gif"));
-		колелоЗаВисокоТегло.setToolTipText(getHTML_Text(KoleloZaVisokoTeglo));
-		колелоЗаВисокоТегло.setName(KoleloZaVisokoTeglo);
-		
-		ремонтНаКоличка = new CustomButton();
-		ремонтНаКоличка.setPreferredSize(buttonDimension);
-		ремонтНаКоличка.setAutoSizedIcon(ремонтНаКоличка, new LoadIcon().setIcons("PARTS2/ремонтКоличка.gif"));
-//		ремонтНаКоличка.setIcon(setIcons("PARTS/ремонтКоличка.gif"));
-		ремонтНаКоличка.setToolTipText(getHTML_Text(RemontKolicka));
-		ремонтНаКоличка.setName(RemontKolicka);
-		
-		прах_BC = new CustomButton();
-		прах_BC.setPreferredSize(buttonDimension);
-	   прах_BC.setAutoSizedIcon(прах_BC, new LoadIcon().setIcons("PARTS2/bc.gif"));
-	  
-//		прах_BC.setIcon(setIcons("PARTS/bc.gif"));
-		прах_BC.setToolTipText(getHTML_Text(PrahBC));
-		прах_BC.setName(PrahBC);
-		прах_BC.isEditable = false;
-		
-		CustomButton боя_пожарогасител = new CustomButton();
-		боя_пожарогасител.setPreferredSize(buttonDimension);
-		боя_пожарогасител.setAutoSizedIcon(боя_пожарогасител, new LoadIcon().setIcons("PARTS2/боя.gif"));
-//		боя_пожарогасител.setIcon(setIcons("PARTS/боя.gif"));
-		боя_пожарогасител.setToolTipText(getHTML_Text(BoyaPojarogasitel));
-		боя_пожарогасител.setName(BoyaPojarogasitel);
-		
-		боядисванеНаКоличка = new CustomButton();
-		боядисванеНаКоличка.setPreferredSize(buttonDimension);
-		боядисванеНаКоличка.setAutoSizedIcon(боядисванеНаКоличка, new LoadIcon().setIcons("PARTS2/бояКоличка.gif"));
-	//	боядисванеНаКоличка.setIcon(setIcons("PARTS/бояКоличка.gif"));
-		боядисванеНаКоличка.setToolTipText(getHTML_Text(BoyaKolichka));
-		боядисванеНаКоличка.setName(BoyaKolichka);
-		
-		
-		CustomButton етикет = new CustomButton();
-		етикет.setPreferredSize(buttonDimension);
-		етикет.setAutoSizedIcon(етикет, new LoadIcon().setIcons("PARTS2/dustEtiket.png"));
-	  
-	//	етикет.setIcon(setIcons("PARTS/dustEtiket.png"));
-		етикет.setToolTipText(getHTML_Text(Etiket));
-		етикет.setName(Etiket);
-		
-		CustomButton съд = new CustomButton();
-		съд.setPreferredSize(buttonDimension);
-		съд.setAutoSizedIcon(съд, new LoadIcon().setIcons("PARTS2/съд.gif"));
-	  
-//		съд.setIcon(setIcons("PARTS/съд.gif"));
-		съд.setToolTipText(getHTML_Text(SadZaGasitelnoVeshtestvo));
-		съд.setName(SadZaGasitelnoVeshtestvo);
-		
-		прах_ABC = new CustomButton();
-		прах_ABC.setPreferredSize(buttonDimension);
-		прах_ABC.setAutoSizedIcon(прах_ABC, new LoadIcon().setIcons("PARTS2/abc.gif"));
-	  
-	 //   прах_ABC.setIcon(setIcons("PARTS/abc.gif"));
-	    прах_ABC.setToolTipText(getHTML_Text(PrahABC));
-	    прах_ABC.setName(PrahABC);
-	    прах_ABC.isEditable = false;
-	    
+		PartButton glawa = new PartButton();
+		glawa.setPreferredSize(buttonDimension);
+		glawa.setAutoSizedIcon(glawa, new LoadIcon().setIcons("PARTS2/glawa.gif"));
 
-//		block.setLayout(new GridLayout(5, 1, 10,5));
-//		block.setPreferredSize(new Dimension(this.WIDTH-20, (int)(4.5 * buttonHeight)));
+	    glawa.setToolTipText(getHTML_Text(Glava));
+	    glawa.setName(Glava);
+	  
+		manometer = new PartButton();
+		manometer.setPreferredSize(buttonDimension);
+		manometer.setAutoSizedIcon(manometer, new LoadIcon().setIcons("PARTS2/manometer.gif"));
+        manometer.setToolTipText(getHTML_Text(Manometar));
+        manometer.setName(Manometar);
+        
+    	PartButton shplend = new PartButton();
+    	shplend.setPreferredSize(buttonDimension);
+		shplend.setAutoSizedIcon(shplend, new LoadIcon().setIcons("PARTS2/shplend.gif"));
+		shplend.setToolTipText(getHTML_Text(Sphlend));
+		shplend.setName(Sphlend);
 		
-	//	pane1.setPreferredSize(new Dimension(this.WIDTH-20, buttonHeight));
-		
-		pane1.add(глава);
-		pane1.add(манометър);
-		pane1.add(шпленд);
-		pane1.add(о_пръстен);
-		pane1.add(затвор);
-		
-	
-		list.add(глава);
-		list.add(манометър);
-		list.add(шпленд);
-		list.add(о_пръстен);
-		list.add(затвор);
-		
-		
-		list.add(пломба);
-		list.add(маркуч);
-		list.add(държачЗаМаркуч);
-		list.add(пружина);
-		list.add(струйник);
-		
-		
-		
-		pane2.add(пломба);
-		pane2.add(маркуч);
-		pane2.add(държачЗаМаркуч);
-		pane2.add(пружина);
-		pane2.add(струйник);
-		
-		list.add(патрон);
-		list.add(сонда);
-		list.add(струйник4);
-		list.add(барбутажна_тръба);
-		list.add(игличка);
-		
-		pane3.add(патрон);
-		pane3.add(сонда);
-		pane3.add(струйник4);
-		pane3.add(барбутажна_тръба);
-		pane3.add(игличка);
-	
-		list.add(капачка);
-		list.add(твърдоХодовоКолело);
-		list.add(колелоЗаВисокоТегло);
-		list.add(ремонтНаКоличка);
-		list.add(прах_BC);
-		
-		
-		pane4.add(капачка);
-		pane4.add(твърдоХодовоКолело);
-		pane4.add(колелоЗаВисокоТегло);
-		pane4.add(ремонтНаКоличка);
-		pane4.add(прах_BC);
-	
-		list.add(боя_пожарогасител);
-		list.add(боядисванеНаКоличка);
-		list.add(етикет);
-		list.add(съд);
-		list.add(прах_ABC);
-		
-		pane5.add(боя_пожарогасител);
-		pane5.add(боядисванеНаКоличка);
-		pane5.add(етикет);
-		pane5.add(съд);
-		pane5.add(прах_ABC);
-		
+		PartButton o_prusten = new PartButton();
+		o_prusten.setPreferredSize(buttonDimension);
+		o_prusten.setAutoSizedIcon(o_prusten, new LoadIcon().setIcons("PARTS2/o_prusten.gif"));
+		o_prusten.setToolTipText(getHTML_Text(Uplatnenie));
+		o_prusten.setName(Uplatnenie);
 
-		block.add(pane1);
-	
-		block.add(pane2);
+    	PartButton zatwor = new PartButton();
+    	zatwor.setPreferredSize(buttonDimension);
+		zatwor.setAutoSizedIcon(zatwor, new LoadIcon().setIcons("PARTS2/zatwor.gif"));
+		zatwor.setToolTipText(getHTML_Text(Zatvor));
+		zatwor.setName(Zatvor);
 
-		block.add(pane3);
+		plomba = new PartButton();
+		plomba.setPreferredSize(buttonDimension);
+		plomba.setAutoSizedIcon(plomba, new LoadIcon().setIcons("PARTS2/plomba.gif"));
+		plomba.setToolTipText(getHTML_Text(Plomba));
+		plomba.setName(Plomba);
+		plomba.isEditable = false;
 		
-		block.add(pane4);
+		markuch = new PartButton();
+		markuch.setPreferredSize(buttonDimension);
+		markuch.setAutoSizedIcon(markuch, new LoadIcon().setIcons("PARTS2/markuch2.gif"));
+        markuch.setToolTipText(getHTML_Text(Markuch));
+        markuch.setName(Markuch);
+        
+		durjachZaMarkuch = new PartButton();
+		durjachZaMarkuch.setPreferredSize(buttonDimension);
+		durjachZaMarkuch.setAutoSizedIcon(durjachZaMarkuch, new LoadIcon().setIcons("PARTS2/durjach.gif"));
+        durjachZaMarkuch.setToolTipText(getHTML_Text(DarjachZaMarkuch));
+        durjachZaMarkuch.setName(DarjachZaMarkuch);
+        
+        PartButton prujina = new PartButton();
+        prujina.setPreferredSize(buttonDimension);
+		prujina.setAutoSizedIcon(prujina, new LoadIcon().setIcons("PARTS2/prujina.gif"));
+		prujina.setToolTipText(getHTML_Text(Prujina));
+		prujina.setName(Prujina);
 		
-		block.add(pane5);
+		PartButton struinik = new PartButton();
+		struinik.setPreferredSize(buttonDimension);
+		struinik.setAutoSizedIcon(struinik, new LoadIcon().setIcons("PARTS2/struinik.gif"));
+	    struinik.setToolTipText(getHTML_Text(Struinik));
+		struinik.setName(Struinik);
+
+		patron = new PartButton();
+		patron.setPreferredSize(buttonDimension);
+		patron.setAutoSizedIcon(patron, new LoadIcon().setIcons("PARTS2/patron.gif"));
+		patron.setToolTipText(getHTML_Text(Patron));
+		patron.setName(Patron);
+
+		PartButton sonda = new PartButton();
+		sonda.setPreferredSize(buttonDimension);
+		sonda.setAutoSizedIcon(sonda, new LoadIcon().setIcons("PARTS2/sonda.gif"));
+		sonda.setToolTipText(getHTML_Text(Sonda));
+		sonda.setName(Sonda);
+
+		struinki4 = new PartButton();
+		struinki4.setPreferredSize(buttonDimension);
+	    struinki4.setAutoSizedIcon(struinki4, new LoadIcon().setIcons("PARTS2/struinik4.gif"));
+		struinki4.setToolTipText(getHTML_Text(Struinik4));
+		struinki4.setName(Struinik4);
 		
-		this.add(block);
+		PartButton barbutajna_truba = new PartButton();
+		barbutajna_truba.setPreferredSize(buttonDimension);
+		barbutajna_truba.setAutoSizedIcon(barbutajna_truba, new LoadIcon().setIcons("PARTS2/barbutajna_truba.gif"));
+		barbutajna_truba.setToolTipText(getHTML_Text(BarbutajnaTraba));
+		barbutajna_truba.setName(BarbutajnaTraba);
+		
+		iglichka = new PartButton();
+		iglichka.setPreferredSize(buttonDimension);
+		iglichka.setAutoSizedIcon(iglichka, new LoadIcon().setIcons("PARTS2/iglichka.gif"));
+		iglichka.setToolTipText(getHTML_Text(IglichkaZaPompane));
+		iglichka.setName(IglichkaZaPompane);
+
+		
+		kapachka = new PartButton();
+		kapachka.setPreferredSize(buttonDimension);
+		kapachka.setAutoSizedIcon(kapachka, new LoadIcon().setIcons("PARTS2/kapachka.gif"));
+		kapachka.setToolTipText(getHTML_Text(KapachkaZaUplatnenie));
+		kapachka.setName(KapachkaZaUplatnenie);
+	
+		
+		twurdoHodowoKolelo = new PartButton();
+		twurdoHodowoKolelo.setPreferredSize(buttonDimension);
+		twurdoHodowoKolelo.setAutoSizedIcon(twurdoHodowoKolelo, new LoadIcon().setIcons("PARTS2/twurdo_kolelo.gif"));
+		twurdoHodowoKolelo.setToolTipText(getHTML_Text(TvardoHodovoKolelo));
+		twurdoHodowoKolelo.setName(TvardoHodovoKolelo);
+		
+		koleloZaWisokoTeglo = new PartButton();
+		koleloZaWisokoTeglo.setPreferredSize(buttonDimension);
+		koleloZaWisokoTeglo.setAutoSizedIcon(koleloZaWisokoTeglo, new LoadIcon().setIcons("PARTS2/kolelo_za_wisoko_teglo.gif"));
+		koleloZaWisokoTeglo.setToolTipText(getHTML_Text(KoleloZaVisokoTeglo));
+		koleloZaWisokoTeglo.setName(KoleloZaVisokoTeglo);
+		
+		remontNaKolichka = new PartButton();
+		remontNaKolichka.setPreferredSize(buttonDimension);
+		remontNaKolichka.setAutoSizedIcon(remontNaKolichka, new LoadIcon().setIcons("PARTS2/remontKolichka.gif"));
+		remontNaKolichka.setToolTipText(getHTML_Text(RemontKolicka));
+		remontNaKolichka.setName(RemontKolicka);
+
+		prah_BC = new PartButton();
+		prah_BC.setPreferredSize(buttonDimension);
+		prah_BC.setAutoSizedIcon(prah_BC, new LoadIcon().setIcons("PARTS2/bc.gif"));
+		prah_BC.setToolTipText(getHTML_Text(PrahBC));
+		prah_BC.setName(PrahBC);
+		prah_BC.isEditable = false;
+		
+		PartButton boq_povarogasitel = new PartButton();
+		boq_povarogasitel.setPreferredSize(buttonDimension);
+		boq_povarogasitel.setAutoSizedIcon(boq_povarogasitel, new LoadIcon().setIcons("PARTS2/boq.gif"));
+		boq_povarogasitel.setToolTipText(getHTML_Text(BoyaPojarogasitel));
+		boq_povarogasitel.setName(BoyaPojarogasitel);
+		
+		boqdiswaneNaKolichka = new PartButton();
+		boqdiswaneNaKolichka.setPreferredSize(buttonDimension);
+		boqdiswaneNaKolichka.setAutoSizedIcon(boqdiswaneNaKolichka, new LoadIcon().setIcons("PARTS2/boqKolichka.gif"));
+		boqdiswaneNaKolichka.setToolTipText(getHTML_Text(BoyaKolichka));
+		boqdiswaneNaKolichka.setName(BoyaKolichka);
+
+		PartButton etiket = new PartButton();
+		etiket.setPreferredSize(buttonDimension);
+		etiket.setAutoSizedIcon(etiket, new LoadIcon().setIcons("PARTS2/dustEtiket.png"));
+		etiket.setToolTipText(getHTML_Text(Etiket));
+		etiket.setName(Etiket);
+		
+		PartButton sud = new PartButton();
+		sud.setPreferredSize(buttonDimension);
+		sud.setAutoSizedIcon(sud, new LoadIcon().setIcons("PARTS2/sud.gif"));
+		sud.setToolTipText(getHTML_Text(SadZaGasitelnoVeshtestvo));
+		sud.setName(SadZaGasitelnoVeshtestvo);
+		
+		prah_ABC = new PartButton();
+		prah_ABC.setPreferredSize(buttonDimension);
+		prah_ABC.setAutoSizedIcon(prah_ABC, new LoadIcon().setIcons("PARTS2/abc.gif"));
+	    prah_ABC.setToolTipText(getHTML_Text(PrahABC));
+	    prah_ABC.setName(PrahABC);
+	    prah_ABC.isEditable = false;
+
+		cenaTehnichesko = new PartButton();
+		cenaTehnichesko.setPreferredSize(buttonDimension);
+		cenaTehnichesko.setAutoSizedIcon(cenaTehnichesko, new LoadIcon().setIcons("PARTS2/recharge_tehn_extinguishers.png"));
+		cenaTehnichesko.setToolTipText(getHTML_Text(CenaTehnichesko));
+		cenaTehnichesko.setName(CenaTehnichesko);
+		cenaTehnichesko.isEditable = false;
+
+		cenaHidrostatichno = new PartButton();
+		cenaHidrostatichno.setPreferredSize(buttonDimension);
+		cenaHidrostatichno.setAutoSizedIcon(cenaHidrostatichno, new LoadIcon().setIcons("PARTS2/recharge_hidro_extinguishers.png"));
+		cenaHidrostatichno.setToolTipText(getHTML_Text(CenaHidrostatichno));
+		cenaHidrostatichno.setName(CenaHidrostatichno);
+		cenaHidrostatichno.isEditable = false;
+
+		cenaPrezarejdaneITehnichesko = new PartButton();
+		cenaPrezarejdaneITehnichesko.setPreferredSize(buttonDimension);
+		cenaPrezarejdaneITehnichesko.setAutoSizedIcon(cenaPrezarejdaneITehnichesko, new LoadIcon().setIcons("PARTS2/recharge_tehn_extinguishers.png"));
+		cenaPrezarejdaneITehnichesko.setToolTipText(getHTML_Text(CenaPrezarejdaneITehnichesko));
+		cenaPrezarejdaneITehnichesko.setName(CenaPrezarejdaneITehnichesko);
+		cenaPrezarejdaneITehnichesko.isEditable = false;
+
+		cenaPrezarejdaneTehnicheskoIHidrostatichno = new PartButton();
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setPreferredSize(buttonDimension);
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setAutoSizedIcon(cenaPrezarejdaneTehnicheskoIHidrostatichno, new LoadIcon().setIcons("PARTS2/recharge_tehn_hidro_extinguishers.png"));
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setToolTipText(getHTML_Text(CenaPrezarejdaneTehnicheskoIHidrostatichno));
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.setName(CenaPrezarejdaneTehnicheskoIHidrostatichno);
+		cenaPrezarejdaneTehnicheskoIHidrostatichno.isEditable = false;
+
+		pane1.add(glawa);
+		pane1.add(manometer);
+		pane1.add(shplend);
+		pane1.add(o_prusten);
+		pane1.add(zatwor);
+
+		list.add(glawa);
+		list.add(manometer);
+		list.add(shplend);
+		list.add(o_prusten);
+		list.add(zatwor);
+
+		list.add(plomba);
+		list.add(markuch);
+		list.add(durjachZaMarkuch);
+		list.add(prujina);
+		list.add(struinik);
+
+		pane2.add(plomba);
+		pane2.add(markuch);
+		pane2.add(durjachZaMarkuch);
+		pane2.add(prujina);
+		pane2.add(struinik);
+		
+		list.add(patron);
+		list.add(sonda);
+		list.add(struinki4);
+		list.add(barbutajna_truba);
+		list.add(iglichka);
+		
+		pane3.add(patron);
+		pane3.add(sonda);
+		pane3.add(struinki4);
+		pane3.add(barbutajna_truba);
+		pane3.add(iglichka);
+	
+		list.add(kapachka);
+		list.add(twurdoHodowoKolelo);
+		list.add(koleloZaWisokoTeglo);
+		list.add(remontNaKolichka);
+		list.add(prah_BC);
+
+		pane4.add(kapachka);
+		pane4.add(twurdoHodowoKolelo);
+		pane4.add(koleloZaWisokoTeglo);
+		pane4.add(remontNaKolichka);
+		pane4.add(prah_BC);
+	
+		list.add(boq_povarogasitel);
+		list.add(boqdiswaneNaKolichka);
+		list.add(etiket);
+		list.add(sud);
+		list.add(prah_ABC);
+		
+		pane5.add(boq_povarogasitel);
+		pane5.add(boqdiswaneNaKolichka);
+		pane5.add(etiket);
+		pane5.add(sud);
+		pane5.add(prah_ABC);
+
+		list.add(cenaTehnichesko);
+		list.add(cenaHidrostatichno);
+		list.add(cenaPrezarejdaneITehnichesko);
+		list.add(cenaPrezarejdaneTehnicheskoIHidrostatichno);
+
+		pane6.add(cenaTehnichesko);
+		pane6.add(cenaHidrostatichno);
+		pane6.add(cenaPrezarejdaneITehnichesko);
+		pane6.add(cenaPrezarejdaneTehnicheskoIHidrostatichno);
+
+		if(block.getComponentCount() > 4) {
+			JScrollPane scrollPane = new JScrollPane(block, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+					JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scrollPane.setPreferredSize(new Dimension(dim.width-10, dim.height-10));
+			this.add(scrollPane);
+		} else {
+	    	this.add(block);
+		}
 	}
 
 	public static void main(String[] args) {

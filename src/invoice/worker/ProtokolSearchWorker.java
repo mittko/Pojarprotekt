@@ -188,7 +188,6 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 	private void doCalc(ArrayList<Object[]> res) {
 		// 0 -> TO 1 -> P 2 -> HI 3 -> client 4 -> type 5 -> wheight 6 -> value
 		for (Object[] re : res) {
-
 			String type = re[4].toString();
 
 			String gasitelnoVeshtestvo = "";
@@ -212,23 +211,52 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 					break;
 			}
 
-			String wheight = re[5].toString();
-			String category = re[6].toString();
-
 			String TO = re[0].toString();
 			String P = re[1].toString();
 			String HI = re[2].toString();
-
-			String value = String.format("%.2f", re[8]).replace(",",
-					".");
-
-			double doubleValue = Double.parseDouble(value);
-
+			String weight = re[5].toString();
+			String category = re[6].toString();
 			String kontragent = re[9].toString();
 			String invoiceByKontragent = re[10].toString();
 
+			double obshtaCenaZaEdinPojarogasitel = 0;
+			// calculate parts
+			String[] parts = re[7].toString().split(",");
+			for (String part : parts) {
+
+				if (part.equals(gasitelnoVeshtestvo) || part.equals("")) {
+					continue;
+				}
+				double pric = PriceTable.getPartPriceFromDB(part, type,
+						category, weight);
+
+               // obshtaCenaZaEdinPojarogasitel += pric;
+
+				System.out.println("part = " + part + " price = " + pric);
+
+				String key = part + " (" + type + " " + weight + ")";
+
+				if (!mapInfo.containsKey(key)) {
+
+					if (pric == 0) {
+					//	continue;
+					}
+					Info info = new Info(part, "брой", 1, MyMath.round(
+							pric, 2), doubleDiscount,
+							kontragent, invoiceByKontragent);
+					mapInfo.put(key, info);
+				} else {
+					Info info2 = mapInfo.get(key);
+					info2.myarka = "броя";
+					info2.quantity++;
+				}
+			}
+
+			String value = String.format("%.2f", re[8]).replace(",",
+					".");
+			double doubleValue = Double.parseDouble(value);
 			if (type.contains("( Нов )")) {
-				String key = type + " " + wheight;
+				String key = type + " " + weight;
 				if (!mapInfo.containsKey(key)) {
 					Info info = new Info(key, "брой", 1, MyMath.round(
 							doubleValue, 2), doubleDiscount, kontragent, invoiceByKontragent);
@@ -240,130 +268,6 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 				}
 
-			} else if (!TO.equals("не") && P.equals("не") && HI.equals("не")) {
-				String typ = "Техническо обслужване на Пожарогасител " + type
-						+ " " + wheight;
-
-				if (!mapInfo.containsKey(typ)) {
-
-					double price = WorkingBook.TO_PRICE;
-
-					Info info = new Info(typ, "брой", 1,
-							MyMath.round(price, 2), doubleDiscount, kontragent,
-							invoiceByKontragent);
-					mapInfo.put(typ, info);
-				} else {
-					Info info2 = mapInfo.get(typ);
-					info2.myarka = "броя";
-					info2.quantity++;
-
-				}
-			} else if (TO.equals("не") && P.equals("не") && !HI.equals("не")) {
-
-				String typ2 = "Хидростатично изпитване на Пожарогасител "
-						+ type + " " + wheight;
-
-				double pric = WorkingBook.HI_PRICE;
-
-				if (!mapInfo.containsKey(typ2)) {
-					Info info = new Info(typ2, "брой", 1,
-							MyMath.round(pric, 2), doubleDiscount, kontragent,
-							invoiceByKontragent);
-					mapInfo.put(typ2, info);
-				} else {
-					Info info2 = mapInfo.get(typ2);
-					info2.myarka = "броя";
-					info2.quantity++;
-
-				}
-			} else if (!TO.equals("не") && !P.equals("не") && HI.equals("не")) {
-
-				String typ3 = "Техническо обслужване и Презареждане на Пожарогасител "
-						+ type + " " + wheight;
-
-				double prahPrice = PriceTable.getPartPriceFromDB(
-						gasitelnoVeshtestvo, type, category, wheight);
-
-				double price2 = (prahPrice + WorkingBook.TO_PRICE);
-
-				if (!mapInfo.containsKey(typ3)) {
-					Info info = new Info(typ3, "брой", 1, MyMath.round(price2,
-							2), doubleDiscount,
-							kontragent, invoiceByKontragent);
-					mapInfo.put(typ3, info);
-				} else {
-					Info info2 = mapInfo.get(typ3);
-					info2.myarka = "броя";
-					info2.quantity++;
-
-				}
-			} else if (!TO.equals("не") && !P.equals("не") && !HI.equals("не")) {
-				String typ4 = "Техническо обслужване и Презареждане на Пожарогасител "
-						+ type + " " + wheight;
-
-				double price3 = 0;
-				double prahPrice = (PriceTable.getPartPriceFromDB(
-						gasitelnoVeshtestvo, type, category, wheight));
-
-				price3 = (prahPrice + WorkingBook.TO_PRICE);
-
-				if (!mapInfo.containsKey(typ4)) {
-					Info info = new Info(typ4, "брой", 1, MyMath.round(price3,
-							2), doubleDiscount,
-							kontragent, invoiceByKontragent);
-					mapInfo.put(typ4, info);
-				} else {
-					Info info2 = mapInfo.get(typ4);
-					info2.myarka = "броя";
-					info2.quantity++;
-
-				}
-
-				String typ5 = "Хидростатично изпитване на Пожарогасител "
-						+ type + " " + wheight;
-
-				if (!mapInfo.containsKey(typ5)) {
-
-					double pric = (WorkingBook.HI_PRICE);
-					Info info = new Info(typ5, "брой", 1,
-							MyMath.round(pric, 2), doubleDiscount, kontragent,
-							invoiceByKontragent);
-					mapInfo.put(typ5, info);
-				} else {
-					Info info2 = mapInfo.get(typ5);
-					info2.myarka = "броя";
-					info2.quantity++;
-
-				}
-
-			}
-			// calculate parts
-			String parts[] = re[7].toString().split(",");
-			for (String part : parts) {
-
-				if (part.equals(gasitelnoVeshtestvo) || part.equals("")) {
-					continue;
-				}
-				double pric = PriceTable.getPartPriceFromDB(part, type,
-						category, wheight);
-
-				String key = part + " (" + type + " " + wheight + ")";
-
-				if (!mapInfo.containsKey(key)) {
-
-					if (pric == 0) {
-						continue;
-					}
-
-					Info info = new Info(part, "брой", 1, MyMath.round(
-							pric, 2), doubleDiscount,
-							kontragent, invoiceByKontragent);
-					mapInfo.put(key, info);
-				} else {
-					Info info2 = mapInfo.get(key);
-					info2.myarka = "броя";
-					info2.quantity++;
-				}
 			}
 		}
 	}

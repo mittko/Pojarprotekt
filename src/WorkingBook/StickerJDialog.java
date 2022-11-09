@@ -31,7 +31,7 @@ public class StickerJDialog extends MainPanel {
 	    
 	    JLabel TO_Label = new JLabel("");//("реумхвеяйн наяксфбюме"); //(MainPanel.рн);
 	    
-	    TO_Button = new StickerButton(parentDialog,nextDateTO, nextDateP, nextDateHI, barcod,MainPanel.рн,1);
+	    TO_Button = new StickerButton(parentDialog,nextDateTO, nextDateP, nextDateHI, barcod,MainPanel.TO,1);
 	    TO_Button.setActionCommand("button1");
 	    TO_Button.setIcon(new LoadIcon().setIcons("Stiker2.jpg"));
 	    int w = TO_Button.getIcon().getIconWidth();
