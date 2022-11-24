@@ -46,9 +46,8 @@ public class InsertArtikulWorker extends SwingWorker
 	JTextField artikulCodeField;
 	JDialog jd;
 	String dbTable;
-	String code;
 
-	public InsertArtikulWorker(final String dbTable, final ClientsListComboBox2 clientsComboBox, final ArtikulsListComboBox artikulsComboBox, final JTextField skladField, final JTextField medField, final JTextField deliveryValueField, final JTextField bigFinalValueField, final EditableField invoiceField, final JTextField dateField, final JTextField personField, final JTextField percentProfitField, final JTextField artikulCodeField, final JDialog jd) {
+	public InsertArtikulWorker(final String dbTable, final ClientsListComboBox2 clientsComboBox, final ArtikulsListComboBox artikulsComboBox, final JTextField skladField, final JTextField medField, final JTextField deliveryValueField, final JTextField bigFinalValueField, final EditableField invoiceField, final JTextField dateField, final JTextField personField, final JTextField percentProfitField, final JDialog jd) {
 		this.artikul = null;
 		this.quantity = 0;
 		this.med = null;
@@ -59,17 +58,7 @@ public class InsertArtikulWorker extends SwingWorker
 		this.percentProfit = null;
 		this.insertIntoArtikuls = 0;
 		this.insertIntoDeliveryArtikuls = 0;
-		this.clientsComboBox = null;
-		this.artikulsComboBox = null;
-		this.skladField = null;
-		this.medField = null;
-		this.deliveryValueField = null;
-		this.bigFinalValueField = null;
-		this.invoiceField = null;
-		this.dateField = null;
-		this.personField = null;
-		this.percentProfitField = null;
-		this.jd = null;
+
 		this.dbTable = dbTable;
 		this.clientsComboBox = clientsComboBox;
 		this.artikulsComboBox = artikulsComboBox;
@@ -81,7 +70,6 @@ public class InsertArtikulWorker extends SwingWorker
 		this.dateField = dateField;
 		this.personField = personField;
 		this.percentProfitField = percentProfitField;
-		this.artikulCodeField = artikulCodeField;
 		this.jd = jd;
 		this.artikul = artikulsComboBox.getEditor().getItem().toString();
 		this.quantity = Integer.parseInt(skladField.getText());
@@ -93,7 +81,6 @@ public class InsertArtikulWorker extends SwingWorker
 		this.date = this.dateField.getText();
 		this.seller = this.personField.getText();
 		this.percentProfit = this.percentProfitField.getText();
-		this.code = artikulCodeField.getText();
 		this.jd = jd;
 	}
 
@@ -135,21 +122,22 @@ public class InsertArtikulWorker extends SwingWorker
 	@Override
 	protected Object doInBackground() throws Exception {
 		try {
-			this.insertIntoArtikuls = Artikuli_DB.insertIntoArtikulTable(this.dbTable, this.artikul, this.quantity, this.med, this.saleValue, this.invoiceNumber, this.client, this.date, this.seller, this.percentProfit, this.code);
+			this.insertIntoArtikuls = Artikuli_DB.insertIntoArtikulTable(this.dbTable, this.artikul, this.quantity, this.med, this.saleValue, this.invoiceNumber, this.client, this.date, this.seller, this.percentProfit);
 			if (this.dbTable.equals("ArtikulsDB")) {
 				this.insertIntoDeliveryArtikuls = Artikuli_DB.insertIntoDeliveryArtikulTable(this.artikul, this.quantity, this.med, this.deliveryValue, this.client, this.invoiceNumber, this.date, this.seller);
 			}
-		}
-		finally {
+		} catch (Exception e) {
+			System.out.println("from InsertArtikulWorker " + e.getMessage());
+		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
 					if (InsertArtikulWorker.this.insertIntoArtikuls > 0) {
 						JOptionPane.showMessageDialog(null,
-								"Error from InsertArtikulWorker!");
+								"Данните са записани успешно !");
 						InsertArtikulWorker.this.clear();
 					}
-					InsertArtikulWorker.this.jd.setCursor(new Cursor(0));
+					InsertArtikulWorker.this.jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				}
 			});
 		}

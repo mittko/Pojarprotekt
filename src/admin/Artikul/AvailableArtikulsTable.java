@@ -412,12 +412,12 @@ public class AvailableArtikulsTable extends MainPanel {
 
 		JPanel centerPanel = new JPanel();
 
-		artikulTableModel = new DefaultTableModel(new String[] { "Код","Артикули",
+		artikulTableModel = new DefaultTableModel(new String[] { "Артикули",
 				"Налични", "Мерна Ед", "Ед. Цена", "Фактура", "Контрагент",
 				"Дата", "Оператор", "Процент Печалба" }, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				return column == 1 || column == 3;
+				return column == 0 || column == 2;
 			}
 		};
 
@@ -473,16 +473,15 @@ public class AvailableArtikulsTable extends MainPanel {
 	}
 
 	private void setColumnsWidth() {
-		table.getColumnModel().getColumn(0).setPreferredWidth(this.WIDTH / 20);
-		table.getColumnModel().getColumn(1).setPreferredWidth(this.WIDTH / 3);
+		table.getColumnModel().getColumn(0).setPreferredWidth(this.WIDTH / 3);
+		table.getColumnModel().getColumn(1).setPreferredWidth(this.WIDTH / 20);
 		table.getColumnModel().getColumn(2).setPreferredWidth(this.WIDTH / 20);
 		table.getColumnModel().getColumn(3).setPreferredWidth(this.WIDTH / 20);
-		table.getColumnModel().getColumn(4).setPreferredWidth(this.WIDTH / 20);
-		table.getColumnModel().getColumn(5).setPreferredWidth(this.WIDTH / 10);
-		table.getColumnModel().getColumn(6).setPreferredWidth(this.WIDTH / 5);
+		table.getColumnModel().getColumn(4).setPreferredWidth(this.WIDTH / 10);
+		table.getColumnModel().getColumn(5).setPreferredWidth(this.WIDTH / 5);
+		table.getColumnModel().getColumn(6).setPreferredWidth(this.WIDTH / 10);
 		table.getColumnModel().getColumn(7).setPreferredWidth(this.WIDTH / 10);
-		table.getColumnModel().getColumn(8).setPreferredWidth(this.WIDTH / 10);
-		table.getColumnModel().getColumn(9).setPreferredWidth(this.WIDTH / 20);
+		table.getColumnModel().getColumn(8).setPreferredWidth(this.WIDTH / 20);
 
 	}
 

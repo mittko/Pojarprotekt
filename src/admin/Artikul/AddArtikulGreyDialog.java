@@ -38,8 +38,6 @@ import utility.EditableField;
 import utility.ClientsListComboBox2;
 import utility.MainPanel;
 
-import static invoicewindow.SearchFromProformTab.dateLabel;
-
 public class AddArtikulGreyDialog extends MainPanel
 {
 	private final ClientsListComboBox2 clientComboBox;
@@ -48,14 +46,11 @@ public class AddArtikulGreyDialog extends MainPanel
 	private JTextField skladField;
 	private JTextField medField;
 	private JTextField deliveryValueField;
-	private JTextField artikulCodeField;
 	private JTextField bigFinalValueField;
 	private JTextField percentProfitField;
 	private JTextField dateField;
 	private JTextField personField;
 	JButton saveInDBButton;
-	private String medItem;
-	private String oldValueItem;
 	private String currValueItem;
 
 	public static void main(final String[] args) {
@@ -66,30 +61,29 @@ public class AddArtikulGreyDialog extends MainPanel
 		this.skladField = null;
 		this.medField = null;
 		this.deliveryValueField = null;
-		this.artikulCodeField = null;
 		this.bigFinalValueField = null;
 		this.percentProfitField = null;
 		this.dateField = null;
 		this.personField = null;
 		this.saveInDBButton = new JButton("Запази");
-		this.medItem = medItem;
-		this.oldValueItem = oldValueItem;
 		final JPanel basePanel2 = new JPanel();
 		basePanel2.setBorder(BorderFactory.createLineBorder(Color.black));
 		final JPanel leftPanel = new JPanel();
 		leftPanel.setOpaque(false);
 		leftPanel.setLayout(new GridBagLayout());
+
 		final JLabel clientLabel = new JLabel("Контрагент");
 		final JLabel invoiceLabel = new JLabel("Фактура No:");
 		final JLabel artikulLabel = new JLabel("Артикул");
 		final JLabel skladLabel = new JLabel("Брой");
 		final JLabel medLabel = new JLabel("Мер. единица  ");
-		final JLabel artikulCodeLabel = new JLabel("Код");
 		final JLabel deliveryValueLabel = new JLabel("Доставна цена");
-		final JLabel personLabel = new JLabel("Оператор");
+		final JLabel dateLabel = new JLabel("Дата");
+
 		final JPanel rightPanel = new JPanel();
 		rightPanel.setOpaque(false);
 		rightPanel.setLayout(new GridBagLayout());
+
 		(this.artikulsComboBox = new ArtikulsListComboBox("GreyArtikulsDB")).setSelectedItem(artikulItem);
 		(this.clientComboBox = new ClientsListComboBox2()).setSelectedItem(client);
 		this.clientComboBox.setEnabled(false);
@@ -114,15 +108,9 @@ public class AddArtikulGreyDialog extends MainPanel
 			public void keyReleased(final KeyEvent ke) {
 				final JTextField textField = (JTextField)ke.getSource();
 				final String med = textField.getText();
-				AddArtikulGreyDialog.this.medItem = med;
 			}
 		});
-		(this.artikulCodeField = new JTextField(10)).setEditable(true);
-		this.artikulCodeField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(final KeyEvent ke) {
-			}
-		});
+
 		(this.deliveryValueField = new JTextField(10)).setForeground(Color.red);
 		this.deliveryValueField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -339,7 +327,7 @@ public class AddArtikulGreyDialog extends MainPanel
 				}
 				final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AddArtikulGreyDialog.this);
 				jd.setCursor(new Cursor(3));
-				final InsertArtikulWorker add = new InsertArtikulWorker("GreyArtikulsDB", AddArtikulGreyDialog.this.clientComboBox, AddArtikulGreyDialog.this.artikulsComboBox, AddArtikulGreyDialog.this.skladField, AddArtikulGreyDialog.this.medField, AddArtikulGreyDialog.this.deliveryValueField, AddArtikulGreyDialog.this.bigFinalValueField, AddArtikulGreyDialog.this.invoiceField, AddArtikulGreyDialog.this.dateField, AddArtikulGreyDialog.this.personField, AddArtikulGreyDialog.this.percentProfitField, AddArtikulGreyDialog.this.artikulCodeField, jd);
+				final InsertArtikulWorker add = new InsertArtikulWorker("GreyArtikulsDB", AddArtikulGreyDialog.this.clientComboBox, AddArtikulGreyDialog.this.artikulsComboBox, AddArtikulGreyDialog.this.skladField, AddArtikulGreyDialog.this.medField, AddArtikulGreyDialog.this.deliveryValueField, AddArtikulGreyDialog.this.bigFinalValueField, AddArtikulGreyDialog.this.invoiceField, AddArtikulGreyDialog.this.dateField, AddArtikulGreyDialog.this.personField, AddArtikulGreyDialog.this.percentProfitField, jd);
 				add.execute();
 			}
 		});
@@ -355,8 +343,6 @@ public class AddArtikulGreyDialog extends MainPanel
 		rightPanel.add(this.skladField, gbc12);
 		rightPanel.add(medLabel, gbc14);
 		rightPanel.add(this.medField, gbc15);
-		rightPanel.add(artikulCodeLabel, gbc18);
-		rightPanel.add(this.artikulCodeField, gbc19);
 		final JPanel percentProfitPanel = new JPanel();
 		percentProfitPanel.setLayout(new FlowLayout(0));
 		percentProfitPanel.add(new JLabel("% Печалба"));

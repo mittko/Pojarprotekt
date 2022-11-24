@@ -48,7 +48,6 @@ public class AddArtikulDialog extends MainPanel
 	private JTextField skladField;
 	private JTextField medField;
 	private JTextField deliveryValueField;
-	private JTextField artikulCodeField;
 	private JTextField bigFinalValueField;
 	private JTextField percentProfitField;
 	private JTextField dateField;
@@ -66,7 +65,6 @@ public class AddArtikulDialog extends MainPanel
 		this.skladField = null;
 		this.medField = null;
 		this.deliveryValueField = null;
-		this.artikulCodeField = null;
 		this.bigFinalValueField = null;
 		this.percentProfitField = null;
 		this.dateField = null;
@@ -84,7 +82,6 @@ public class AddArtikulDialog extends MainPanel
 		final JLabel artikulLabel = new JLabel("Артикул");
 		final JLabel skladLabel = new JLabel("Брой");
 		final JLabel medLabel = new JLabel("Мер. единица  ");
-		final JLabel artikulCodeLabel = new JLabel("Код");
 		final JLabel deliveryValueLabel = new JLabel("Доставна цена");
 		final JLabel dateLabel = new JLabel("Дата");
 		final JLabel personLabel = new JLabel("Оператор");
@@ -124,12 +121,6 @@ public class AddArtikulDialog extends MainPanel
 				final JTextField textField = (JTextField)ke.getSource();
 				final String med = textField.getText();
 				AddArtikulDialog.this.medItem = med;
-			}
-		});
-		(this.artikulCodeField = new JTextField(10)).setEditable(true);
-		this.artikulCodeField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(final KeyEvent ke) {
 			}
 		});
 		(this.deliveryValueField = new JTextField(10)).setForeground(Color.red);
@@ -344,8 +335,18 @@ public class AddArtikulDialog extends MainPanel
 				}
 				final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AddArtikulDialog.this);
 				jd.setCursor(new Cursor(3));
-				final InsertArtikulWorker add = new InsertArtikulWorker("ArtikulsDB", AddArtikulDialog.this.clientComboBox, AddArtikulDialog.this.artikulsComboBox, AddArtikulDialog.this.skladField, AddArtikulDialog.this.medField, AddArtikulDialog.this.deliveryValueField, AddArtikulDialog.this.bigFinalValueField, AddArtikulDialog.this.invoiceField,
-						AddArtikulDialog.this.dateField, AddArtikulDialog.this.personField, AddArtikulDialog.this.percentProfitField, AddArtikulDialog.this.artikulCodeField, jd);
+				final InsertArtikulWorker add = new InsertArtikulWorker("ArtikulsDB",
+						AddArtikulDialog.this.clientComboBox,
+						AddArtikulDialog.this.artikulsComboBox,
+						AddArtikulDialog.this.skladField,
+						AddArtikulDialog.this.medField,
+						AddArtikulDialog.this.deliveryValueField,
+						AddArtikulDialog.this.bigFinalValueField,
+						AddArtikulDialog.this.invoiceField,
+						AddArtikulDialog.this.dateField,
+						AddArtikulDialog.this.personField,
+						AddArtikulDialog.this.percentProfitField,
+						jd);
 				add.execute();
 			}
 		});
@@ -361,13 +362,12 @@ public class AddArtikulDialog extends MainPanel
 		rightPanel.add(this.skladField, gbc12);
 		rightPanel.add(medLabel, gbc14);
 		rightPanel.add(this.medField, gbc15);
-		rightPanel.add(artikulCodeLabel, gbc18);
-		rightPanel.add(this.artikulCodeField, gbc19);
+
 		final JPanel percentProfitPanel = new JPanel();
 		percentProfitPanel.setLayout(new FlowLayout(0));
 		percentProfitPanel.add(new JLabel("% Печалба"));
 		percentProfitPanel.add(this.percentProfitField);
-		rightPanel.add(percentProfitPanel, gbc20);
+		rightPanel.add(percentProfitPanel, gbc21);
 		rightPanel.add(deliveryValueLabel, gbc22);
 		rightPanel.add(this.deliveryValueField, gbc23);
 		final JPanel middleFinalValuePanel = new JPanel();

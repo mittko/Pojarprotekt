@@ -37,11 +37,15 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 			// пожарогасители !!!
 			for (int row = 0; row < artikulModel.getRowCount(); row++) {
 
-				if (artikulModel.getValueAt(row, 7) != null) {
+			//	System.out.println(artikulModel.getValueAt(row,7)+" fak you");
+			//	if (artikulModel.getValueAt(row, 7) != null) {
 					// ako e null znachi e napraveno obslujwane inache e artikul
 					int quantityToDecrease = Integer.parseInt(artikulModel
 							.getValueAt(row, 2).toString());
+
 					String artikul = artikulModel.getValueAt(row, 0).toString();
+
+
 
 					String kontragent = artikulModel.getValueAt(row, 6)
 							.toString();
@@ -55,6 +59,9 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 							.getAvailableArtikulsByInvoiceAndKontragent(
 									dbTable,
 									artikul, kontragent, invoiceByKontragent);
+
+	//			System.out.println("artikul (" + artikul + ") " + availableArtikuls.size() + " (" + kontragent + ") (" + invoiceByKontragent + ")" );
+
 					// this method returns artikuls sorted !!!!
 					for (ArtikulInfo art : availableArtikuls) {
 
@@ -65,6 +72,9 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 
 						if (quantityToDecrease > art.getQuantity()) {
 							// decrease art.getQuantity
+
+							System.out.println(art.getArtikulName() +" fak you " + art.getQuantity());
+
 							Artikuli_DB.decreaseArtikul_Quantity(dbTable,
 									art.getArtikulName(), art.getKontragent(),
 									art.getInvoiceByKontragent(),
@@ -97,7 +107,7 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 						}
 					}
 				}
-			}
+		//	}
 
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {

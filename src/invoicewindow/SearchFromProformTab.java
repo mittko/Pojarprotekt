@@ -33,16 +33,19 @@ public class SearchFromProformTab extends MainPanel {
 	public static JTextField sumField;
 	public static String PROTOKOL_NUMBER = "";
     private final HashSet<String> insertedNumbers = new HashSet<>();
+
+	final EditableComboBox invoiceNameComboBox = new EditableComboBox("Local/goods.txt");
+
 	public SearchFromProformTab() {
 		northPanel = new JPanel();// GradientPanel();
+		northPanel.setLayout(new BorderLayout());
 		northPanel.setPreferredSize(new Dimension(
-				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.09)));
-		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.15)));
 
 		searchProformField = new EditableField("œÓÙÓÏ‡ \u2116", 9);
 		searchProformField.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.3), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.7)));
+				.getPreferredSize().getHeight() * 0.5)));
 		searchProformField.addActionListener(new ActionListener() {
 
 			@Override
@@ -65,7 +68,7 @@ public class SearchFromProformTab extends MainPanel {
 			}
 
 		});
-		float labelHeight1 = (int) (northPanel.getPreferredSize().getHeight() * 0.7);
+		float labelHeight1 = (int) (northPanel.getPreferredSize().getHeight() * 0.5);
 
 		dateLabel = new BevelLabel(labelHeight1);
 		/*
@@ -100,7 +103,7 @@ public class SearchFromProformTab extends MainPanel {
 		rubberButton.setToolTipText(getHTML_Text("»«“–»… ƒ¿ÕÕ»“≈"));
 		rubberButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.8)));
+				.getPreferredSize().getHeight() * 0.5)));
 
 		rubberButton.setAutoSizedIcon(rubberButton, new LoadIcon().setIcons(eraserImage));
 		rubberButton.addActionListener(new ActionListener() {
@@ -130,7 +133,7 @@ public class SearchFromProformTab extends MainPanel {
 		dbButton.setToolTipText(getHTML_Text("«¿œ»ÿ» ¬ ¡¿«¿ ƒ¿ÕÕ»"));
 		dbButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.8)));
+				.getPreferredSize().getHeight() * 0.5)));
 
 		dbButton.setAutoSizedIcon(dbButton, new LoadIcon().setIcons(dbImage));
 		dbButton.addActionListener(new ActionListener() {
@@ -150,7 +153,7 @@ public class SearchFromProformTab extends MainPanel {
 								Double.parseDouble(sumField.getText()), 2)
 								+ "", // getDanOsnova()
 						personName, MyGetDate.getReversedSystemDate(),
-						"invoiceNameField.getText()",
+						invoiceNameComboBox.getSelectedItem().toString(),
 						true, // invoice
 						false, // proform
 						true, // acquittance
@@ -164,12 +167,22 @@ public class SearchFromProformTab extends MainPanel {
 
 		});
 
-		northPanel.add(searchProformField);
+		JPanel helpPanel = new JPanel();
+		helpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+
+		helpPanel.add(searchProformField);
 		//northPanel.add(discountLabel);
-		northPanel.add(paymentLabel);
-		northPanel.add(dateLabel);
-		northPanel.add(rubberButton);
-		northPanel.add(dbButton);
+		helpPanel.add(paymentLabel);
+		helpPanel.add(dateLabel);
+		helpPanel.add(rubberButton);
+		helpPanel.add(dbButton);
+
+		northPanel.add(helpPanel,BorderLayout.NORTH);
+		invoiceNameComboBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.2), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.5)));
+		invoiceNameComboBox.setEditable(true);
+		northPanel.add(invoiceNameComboBox,BorderLayout.CENTER);
 
 		centerPanel = new JPanel();
 

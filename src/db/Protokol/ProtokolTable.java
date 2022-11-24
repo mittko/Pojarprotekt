@@ -198,8 +198,8 @@ public class ProtokolTable extends MainPanel {
 						number, // number
 						tehnik, // techik
 						date, // datе
-						"-",// ПОЖАРПРОТЕКТ 00Д
-						"-", // 0000001
+						"ПОЖАРПРОТЕКТ ООД",// -
+						"0000001", // -
 						protokolTableModel.getValueAt(index, 11).toString()// допълнителни
 																			// данни
 				);

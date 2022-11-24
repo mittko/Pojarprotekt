@@ -8,11 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Random;
 
 public class CO2Model extends DefaultTableModel {
-	private static final int parts = 21;
-	private static final int var = 12 * 1;
-	private static final Random rnd = new Random();
+
 	
-	private static final Object[] partsObject = {
+	private static final Object[] parts = {
 		MainPanel.BarzVentil1_Model,MainPanel.BarzVentil2_Model,MainPanel.BarzVentil3_Model,MainPanel.BarzVentil3Model_Prava_Rezba,MainPanel.Sphlend,
 		MainPanel.Plomba,MainPanel.Snegoobrazuvatel1_Model,MainPanel.Snegoobrazuvatel2_Model,MainPanel.Snegoobrazuvatel3_Model,MainPanel.Sonda,
 	    MainPanel.DrajkaZaPojarogasitel,MainPanel.ZapresovaneNaNakrainik,MainPanel.TvardoHodovoKolelo,MainPanel.KoleloZaVisokoTeglo,MainPanel.RemontKolicka,
@@ -20,7 +18,7 @@ public class CO2Model extends DefaultTableModel {
 			MainPanel.SadZaGasitelnoVeshtestvo,MainPanel.GasitelnoVeshtestvoCO2,
 			MainPanel.CenaPrezarejdane,MainPanel.CenaTehnichesko,MainPanel.CenaHidrostatichno, MainPanel.CenaPrezarejdaneITehnichesko,MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno
 	};
-	private static final Object[][] obj = {
+	private static final Object[][] weightAndCategory = {
 		{"5","1.4 кг"},
 		{"5","2 кг"},
 		{"5","3 кг"},
@@ -35,14 +33,14 @@ public class CO2Model extends DefaultTableModel {
 		{"5","45 кг"}
 };
 	private static Object[][] reinitObj() {
-		Object[][] newObj = new Object[(parts * var)][4];
+		Object[][] newObj = new Object[(parts.length * weightAndCategory.length)][4];
 		int p = 0;
-		for (Object o : partsObject) {
-			for (int j = 0; j < var; j++, p++) {
+		for (Object o : parts) {
+			for (int j = 0; j < weightAndCategory.length; j++, p++) {
 				newObj[p][0] = o;
 				newObj[p][1] = MainPanel.type_CO2;
-				newObj[p][2] = obj[j][0];
-				newObj[p][3] = obj[j][1];
+				newObj[p][2] = weightAndCategory[j][0];
+				newObj[p][3] = weightAndCategory[j][1];
 			}
 		}
 		return newObj;
@@ -70,10 +68,16 @@ public class CO2Model extends DefaultTableModel {
 //		}
 //		System.out.println("done!");
 
-		// Добавяне на нов артикул за тип Воден
-		for (Object[] objects : obj) {
-			PriceTable.initPartPriceTable(MainPanel.CenaPrezarejdane, MainPanel.type_CO2,
-					objects[1].toString(), objects[0].toString(), 0);
+		String[] nowiArtikuli = {MainPanel.CenaPrezarejdane,
+				MainPanel.CenaTehnichesko,
+				MainPanel.CenaHidrostatichno,
+				MainPanel.CenaPrezarejdaneITehnichesko,
+				MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno};
+		for(String nowArtikul : nowiArtikuli) {
+			for (Object[] objects : weightAndCategory) {
+				PriceTable.initPartPriceTable(nowArtikul, MainPanel.type_CO2,
+						objects[1].toString(), objects[0].toString(), 1.5);
+			}
 		}
 	}
 

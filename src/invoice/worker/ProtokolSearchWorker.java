@@ -1,6 +1,7 @@
 package invoice.worker;
 
 import WorkingBook.WorkingBook;
+import db.Artikul.Artikuli_DB;
 import db.Discount.DiscountDB;
 import db.PartsPrice.PriceTable;
 import db.Protokol.ProtokolTable;
@@ -219,7 +220,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 			String kontragent = re[9].toString();
 			String invoiceByKontragent = re[10].toString();
 
-			double obshtaCenaZaEdinPojarogasitel = 0;
+			System.out.println("fak " + kontragent + " " + invoiceByKontragent);
 			// calculate parts
 			String[] parts = re[7].toString().split(",");
 			for (String part : parts) {
@@ -227,12 +228,13 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 				if (part.equals(gasitelnoVeshtestvo) || part.equals("")) {
 					continue;
 				}
-				double pric = PriceTable.getPartPriceFromDB(part, type,
-						category, weight);
-
-               // obshtaCenaZaEdinPojarogasitel += pric;
-
-				System.out.println("part = " + part + " price = " + pric);
+				double pric = Artikuli_DB.getBigPriceForArtikulInInvoice(part);
+				System.out.println(part + " " + pric);
+				if(pric == 0) {
+					// typically for tehnichesko obsluvwane
+					// old version take price from price table
+					pric = PriceTable.getPartPriceFromDB(part, type, category, weight);
+				};
 
 				String key = part + " (" + type + " " + weight + ")";
 

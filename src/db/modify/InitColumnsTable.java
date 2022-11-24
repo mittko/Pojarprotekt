@@ -11,9 +11,15 @@ import Log.DB_Err;
 import Exceptions.DBException;
 import java.sql.DriverManager;
 import net.GetCurrentIP;
+import utility.MainPanel;
 
 public class InitColumnsTable
 {
+
+    public static void main(String[] args) {
+        int result = updateAnyColumnValue(MainPanel.INVOICE_PARENT,"name","");
+        System.out.println(result);
+    }
     public static int updateAnyColumnValue(final String table, final String column, final String value) {
         Connection connect = null;
         Statement stat = null;

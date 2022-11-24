@@ -8,11 +8,9 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Random;
 
 public class DustModel2 extends DefaultTableModel {
-	private static final int var = 10 * 2;
-	private static final int parts = 26;
-	private static final Random rnd = new Random();
+
 	
-    private static final Object[] partsObject = new Object[]{
+    private static final Object[] parts = new Object[]{
     	MainPanel.Glava,MainPanel.Manometar,MainPanel.Sphlend,MainPanel.Uplatnenie,MainPanel.Zatvor
 		,MainPanel.Plomba,MainPanel.Markuch,MainPanel.DarjachZaMarkuch,MainPanel.Prujina,MainPanel.Struinik,
 		MainPanel.Patron,MainPanel.Sonda,MainPanel.Struinik4,MainPanel.BarbutajnaTraba,MainPanel.IglichkaZaPompane,
@@ -20,7 +18,7 @@ public class DustModel2 extends DefaultTableModel {
 		MainPanel.BoyaKolichka,MainPanel.Etiket,MainPanel.SadZaGasitelnoVeshtestvo,MainPanel.PrahBC,
 			MainPanel.PrahABC, MainPanel.CenaPrezarejdane,MainPanel.CenaTehnichesko,MainPanel.CenaHidrostatichno, MainPanel.CenaPrezarejdaneITehnichesko,MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno};
     
-	private static final Object[][] obj = {
+	private static final Object[][] weightAndCategory = {
 			{"2","1 кг"},
 			{"4","1 кг"},
 			{"2","2 кг"},
@@ -45,14 +43,14 @@ public class DustModel2 extends DefaultTableModel {
 	};
 
 	private static Object[][] reinitObj() {
-		Object[][] newObj = new Object[(parts * var)][4];
+		Object[][] newObj = new Object[(parts.length * weightAndCategory.length)][4];
 		int p = 0;
-		for(int i = 0;i < partsObject.length;i++) {
-			for(int j = 0;j < var;j++,p++) {
-				newObj[p][0] = partsObject[i];
+		for (Object o : parts) {
+			for (int j = 0; j < weightAndCategory.length; j++, p++) {
+				newObj[p][0] = o;
 				newObj[p][1] = MainPanel.type_Prah_ABC;
-				newObj[p][2] = obj[j][0];
-				newObj[p][3] = obj[j][1];
+				newObj[p][2] = weightAndCategory[j][0];
+				newObj[p][3] = weightAndCategory[j][1];
 			}
 		}
 		return newObj;
@@ -63,10 +61,7 @@ public class DustModel2 extends DefaultTableModel {
 	
 	@Override
 	public boolean isCellEditable(int row,int column) {
-		if(column == 4) {
-			return true;
-		}
-		return false;
+		return column == 4;
 	}
 	public static void main(String[] args) {
 		testInit();
@@ -92,10 +87,16 @@ public class DustModel2 extends DefaultTableModel {
 //			}
 //		}
 		//		// Добавяне на нов артикул за тип Прах ВС
-		//MainPanel.CenaPrezarejdane,MainPanel.CenaTehnichesko,MainPanel.CenaHidrostatichno, MainPanel.CenaPrezarejdaneITehnichesko,MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno
-		for (Object[] objects : obj) {
-			PriceTable.initPartPriceTable(MainPanel.CenaPrezarejdane, MainPanel.type_Prah_ABC,
-					objects[1].toString(), objects[0].toString(), 0);
+		String[] nowiArtikuli = {MainPanel.CenaPrezarejdane,
+				MainPanel.CenaTehnichesko,
+				MainPanel.CenaHidrostatichno,
+				MainPanel.CenaPrezarejdaneITehnichesko,
+				MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno};
+		for(String nowArtikul : nowiArtikuli) {
+			for (Object[] objects : weightAndCategory) {
+				PriceTable.initPartPriceTable(nowArtikul, MainPanel.type_Prah_ABC,
+						objects[1].toString(), objects[0].toString(), 1.5);
+			}
 		}
 	}
 	

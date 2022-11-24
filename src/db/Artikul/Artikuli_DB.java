@@ -967,10 +967,10 @@ public class Artikuli_DB extends MainPanel {
 		return max;
 	}
 
-	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit, final String code) {
+	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit) {
 		Connection connect = null;
 		Statement stat = null;
-		final String command = "insert into " + dbTable + " values ('" + artikul + "'," + quantity + ",'" + med + "','" + value + "','" + invoiceNumber + "','" + client + "','" + date + "','" + seller + "','" + percentProfit + "','" + code + "')";
+		final String command = "insert into " + dbTable + " values ('" + artikul + "'," + quantity + ",'" + med + "','" + value + "','" + invoiceNumber + "','" + client + "','" + date + "','" + seller + "','" + percentProfit + "')";
 		int insert = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);

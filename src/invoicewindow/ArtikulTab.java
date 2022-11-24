@@ -371,9 +371,9 @@ public class ArtikulTab extends MainPanel {
 		helpPanel.add(dbButton);
 
 		northPanel.add(helpPanel, BorderLayout.NORTH);
-		invoiceNameComboBox.setPreferredSize(new Dimension((int) (northPanel
-				.getPreferredSize().getWidth() * 0.2), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.5)));
+//		invoiceNameComboBox.setPreferredSize(new Dimension((int) (northPanel
+//				.getPreferredSize().getWidth() * 0.2), (int) (northPanel
+//				.getPreferredSize().getHeight() * 0.5)));
 		invoiceNameComboBox.setEditable(true);
 		northPanel.add(invoiceNameComboBox,BorderLayout.CENTER);
 

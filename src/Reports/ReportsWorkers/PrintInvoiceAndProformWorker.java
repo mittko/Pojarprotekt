@@ -72,6 +72,7 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 			if(!invoiceName.isEmpty()) {
 				for (int i = 0; i < 1; i++) {
 					InvoicePDFFromReports pdf = new InvoicePDFFromReports();
+
 					isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
 							timeStamps[i], datePdf, payment, invoiceName, PATH + "\\"
 									+ TITLE + "-", TITLE, ДУБЛИКАТ[i],
@@ -83,18 +84,19 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 						OpenPDFDocument.pdfRunner(PATH + "\\" + TITLE + "-"
 								+ timeStamps[i] + "-" + invoiceNumber + ".pdf");
 
+						MaterialsPDFromReports materialsPDFromInvocie = new MaterialsPDFromReports();
+						materialsPDFromInvocie.createMaterialsPDF(clientInfo,dftm,timeStamps[0],
+								startIndex, endIndex);
+
+						OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
+								"\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
+								".pdf");
 				/*	PrintWithoutOpenPdf.printWithoutDialog(PATH, "\\" + TITLE
 							+ "-" + timeStamps[i] + "-" + Number + ".pdf", ps,
 							copies[i]);*/
 
 					}
-					MaterialsPDFromReports materialsPDFromInvocie = new MaterialsPDFromReports();
-					materialsPDFromInvocie.createMaterialsPDF(clientInfo,dftm,timeStamps[0],
-							startIndex, endIndex);
 
-					OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
-							"\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
-							".pdf");
 
 				}
 			} else {
@@ -118,10 +120,6 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 							copies[i]);*/
 
 					}
-
-					OpenPDFDocument.pdfRunner(MainPanel.MATERIALS_PDF_PATH+
-							"\\Вложени Материали-"+ timeStamps[0] + "-" + invoiceNumber +
-							".pdf");
 				}
 			}
 
