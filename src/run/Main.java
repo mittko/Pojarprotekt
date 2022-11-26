@@ -2,7 +2,12 @@ package run;
 
 import enterdialog.PasswordComponent;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 public class Main {
@@ -19,7 +24,11 @@ public class Main {
 				start.setFrameLocationOnTheCenter();
 			}
 		});
+
+
 	}
+
+
 }
 
 

@@ -49,6 +49,7 @@ public class NewExtinguisherWindow extends MainPanel {
 	public static final GenerateSO genSO = new GenerateSO();
 	public static final BarcodGenerator bGen = new BarcodGenerator();
 
+	final JPopupMenu popupMenu = new JPopupMenu();
 	public NewExtinguisherWindow(final String serviceNumber,
 			String protokolNumber) {
 
@@ -210,11 +211,11 @@ public class NewExtinguisherWindow extends MainPanel {
 				if (dftm.getRowCount() == 0)
 					return;
 
-				if (CURRENT_ROW == -1) {
-					JOptionPane.showMessageDialog(null,
-							"Не е избран пожарогасител");
-					return;
-				}
+//				if (CURRENT_ROW == -1) {
+//					JOptionPane.showMessageDialog(null,
+//							"Не е избран пожарогасител");
+//					return;
+//				}
 				int yes_no = JOptionPane.showOptionDialog(null,
 						"Наистина ли искате да изтриете данните ?", "",
 						JOptionPane.YES_NO_OPTION,
@@ -224,9 +225,11 @@ public class NewExtinguisherWindow extends MainPanel {
 				if (yes_no != 0)
 					return;
 
-				dftm.removeRow(CURRENT_ROW);
-				// updateQuantityOfExtinguisherModel.removeRow(CURRENT_ROW);
+				dftm.setRowCount(0);
 				CURRENT_ROW = -1;
+
+				// updateQuantityOfExtinguisherModel.removeRow(CURRENT_ROW);
+
 				// this logic clear all table contents
 				/*
 				 * dftm.setRowCount(0);
@@ -392,6 +395,19 @@ public class NewExtinguisherWindow extends MainPanel {
 		table.setRowHeight(MainPanel.getFontSize() + 15);
 		// resizeColumnWidth(table);
 		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		JMenuItem menuItem = new JMenuItem("Изтрий ред");
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				dftm.removeRow(table.getSelectedRow());
+			}
+
+		});
+		popupMenu.add(menuItem);
+		table.setComponentPopupMenu(popupMenu);
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent me) {
@@ -494,17 +510,5 @@ public class NewExtinguisherWindow extends MainPanel {
 		}
 		return true;
 	}
-	// public void resizeColumnWidth(JTable table) {
-	// final TableColumnModel columnModel = table.getColumnModel();
-	// for (int column = 0; column < table.getColumnCount(); column++) {
-	// int width = 50;//300; // Min width
-	// for (int row = 0; row < table.getRowCount(); row++) {
-	// TableCellRenderer renderer = table.getCellRenderer(row, column);
-	// Component comp = table.prepareRenderer(renderer, row, column);
-	// width = Math.max(comp.getPreferredSize().width, width);
-	// }
-	// columnModel.getColumn(column).setPreferredWidth(width + getFontSize());
-	// }
-	//
-	// }
+
 }

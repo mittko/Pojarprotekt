@@ -970,6 +970,7 @@ public class WorkingBook extends MainPanel {
 		   String urgentDays = MyGetDate.getUrgentDays(
             		MyGetDate.getReversedSystemDate()
 			, godnostNaPovarogasitelnoWeshtestwoo);
+		   // ако е избран прахов BC хвърля изключение
 		    int daysAsInt = 0;
             try {
 				daysAsInt = Integer.parseInt(urgentDays);

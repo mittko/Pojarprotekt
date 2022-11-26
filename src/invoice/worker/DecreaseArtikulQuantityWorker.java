@@ -26,8 +26,7 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 		// TODO Auto-generated method stub
 		try {
 
-			// Тук артикулите като Нови пожарогасители (или от Работилница) не
-			// ги намаля от
+			// Тук артикулите като Нови пожарогасители не ги намаля от
 			// количествата, защото тук се намалят количествата артикули в База
 			// Данни - Артикули
 			// не в База Данни - Нови Пожарогасители (не ги намира по името по
@@ -37,7 +36,7 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 			// пожарогасители !!!
 			for (int row = 0; row < artikulModel.getRowCount(); row++) {
 
-			//	System.out.println(artikulModel.getValueAt(row,7)+" fak you");
+
 			//	if (artikulModel.getValueAt(row, 7) != null) {
 					// ako e null znachi e napraveno obslujwane inache e artikul
 					int quantityToDecrease = Integer.parseInt(artikulModel
@@ -52,15 +51,12 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 
 					String invoiceByKontragent = artikulModel
 							.getValueAt(row, 7).toString();
-					// System.out.printf("контрагент = %s фактура = %s\n",
-					// kontragent, invoiceByKontragent);
 
-					ArrayList<ArtikulInfo> availableArtikuls = Artikuli_DB
+				ArrayList<ArtikulInfo> availableArtikuls  = Artikuli_DB
 							.getAvailableArtikulsByInvoiceAndKontragent(
 									dbTable,
 									artikul, kontragent, invoiceByKontragent);
 
-	//			System.out.println("artikul (" + artikul + ") " + availableArtikuls.size() + " (" + kontragent + ") (" + invoiceByKontragent + ")" );
 
 					// this method returns artikuls sorted !!!!
 					for (ArtikulInfo art : availableArtikuls) {

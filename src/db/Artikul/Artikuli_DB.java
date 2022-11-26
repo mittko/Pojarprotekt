@@ -518,7 +518,57 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 
-
+	public static ArtikulInfo getInvoiceAndKontragentByArtikul(
+			String dbTable,
+			String artikul) {
+		ArtikulInfo artikulsInfo = null;
+		Connection connect = null;
+		Statement stat = null;
+		String command = "select artikul, quantity, client, invoice, date from "
+				+ dbTable
+				+ " where ( artikul = "
+				+ "'"
+				+ artikul
+				+ "'"
+				+ " and quantity > 0 ) ";
+		ResultSet rs = null;
+		try {
+			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			stat = connect.createStatement();
+			rs = stat.executeQuery(command);
+			while (rs.next()) {
+				artikulsInfo = new ArtikulInfo(rs.getString(1),
+						rs.getString(2), rs.getString(3),
+						rs.getString(4),
+				rs.getString(5));
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			DBException.DBExceptions("Грешка", e);
+			DB_Err.writeErros(e.toString());
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				DBException.DBExceptions("Грешка", e);
+				DB_Err.writeErros(e.toString());
+				e.printStackTrace();
+			}
+		}
+		return artikulsInfo;
+	}
 	public static int editArtikulQuantity(String artikul, String newQuantity) {
 		Connection connect = null;
 		// Statement stat = null;

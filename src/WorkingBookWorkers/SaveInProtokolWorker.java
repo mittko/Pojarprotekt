@@ -46,10 +46,8 @@ public class SaveInProtokolWorker extends SwingWorker {
 				  if(results[row] == 1) {
 					  updateExtinguishersList.add(View.dtm_Extinguisher.getValueAt(row, 3).toString());
 			    		result = 1;
-					/*  ProtokolTable.setExtinguisherDone(View.dtm_Extinguisher
-								.getValueAt(row, 3).toString());
-						// - > обработен
-*/				  } 
+
+				  }
 			  }
 	
 			

@@ -111,9 +111,7 @@ public class ServiceOrder extends MainPanel {
 
 	public ArrayList<String> updateExtinguisher = null;
 
-	public JustFrame newClientFrame = null;
-
-	private HeaderTable headerTable;
+	private final JPopupMenu popupMenu = new JPopupMenu();
 
 	public ServiceOrder(String serviceNumber) {
 		// first init
@@ -477,6 +475,7 @@ public class ServiceOrder extends MainPanel {
 					String number = table.getValueAt(table.getSelectedRow(), 2)
 							.toString();
 
+					// TO DO
 //					StringBuilder sb = new StringBuilder();
 //					for(int i = 0;i < number.length()-1;i++) {
 //						sb.append(number.charAt(i));
@@ -567,10 +566,6 @@ public class ServiceOrder extends MainPanel {
 		});
 
 		TooltipButton eraserButton = new TooltipButton();
-
-		// eraserButton.setIcon(new LoadIcon().setIcons(eraserImage));
-		// eraserButton.setPreferredSize(new Dimension(55, 55));
-
 		eraserButton.setToolTipText(getHTML_Text("ИЗТРИЙ ДАННИТЕ"));
 		eraserButton.setPreferredSize(new Dimension((int) (northHelpPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northHelpPanel
@@ -586,24 +581,26 @@ public class ServiceOrder extends MainPanel {
 				if (tModel.getRowCount() == 0)
 					return;
 
-				if (CURRENT_ROW == -1) {
-					JOptionPane.showMessageDialog(null,
-							"Не е избран пожарогасител");
-					return;
-				}
+//				if (CURRENT_ROW == -1) {
+//					JOptionPane.showMessageDialog(null,
+//							"Не е избран пожарогасител");
+//					return;
+//				}
 				int yes_no = JOptionPane.showOptionDialog(null,
 						"Наистина ли искате да изтриете данните ?", "",
 						JOptionPane.YES_NO_OPTION,
 						JOptionPane.QUESTION_MESSAGE, null, new String[] {
 								"Да", "Не" }, // this is the array
 						"default");
-				if (yes_no != 0)
-					return;
+				if (yes_no == 0) {
+					tModel.setRowCount(0);
+				}
 
-				tModel.removeRow(CURRENT_ROW);
+				/* OLD SOLUTION tModel.removeRow(CURRENT_ROW);
 				CURRENT_ROW = -1;
 
-				readBarcod.requestFocus();
+				readBarcod.requestFocus();*/
+
 				// this logic clear all table contents
 				/*
 				 * tModel.setRowCount(0); barcodDigits = new int[2]; for (int i
@@ -823,7 +820,6 @@ public class ServiceOrder extends MainPanel {
 				// TODO Auto-generated method stub
 
 				insertExtinguishers();
-				// tModel.addRow(new Object[]{"","","","","","","",""});
 			}
 
 		});
@@ -1006,7 +1002,7 @@ public class ServiceOrder extends MainPanel {
 				if (table.getRowCount() > 0
 						&& CURRENT_ROW < table.getRowCount()) {
 
-					if (brand == null && brand.getSelectedItem().equals("")) {
+					if (brand == null || brand.getSelectedItem().equals("")) {
 						return;
 					}
 
@@ -1061,16 +1057,7 @@ public class ServiceOrder extends MainPanel {
 				return col == 3 || col == 13;
 			}
 		};
-		tModel.addTableModelListener(new TableModelListener() {
 
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-				if (tModel.getRowCount() == 0)
-					cleaner();
-			}
-
-		});
 		table = new JTable(tModel);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -1082,6 +1069,28 @@ public class ServiceOrder extends MainPanel {
 		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		table.setRowHeight(MainPanel.getFontSize() + 15);
 		table.setDefaultRenderer(Object.class, new MyTableRenderer(table));
+
+		tModel.addTableModelListener(new TableModelListener() {
+
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				// TODO Auto-generated method stub
+				if (tModel.getRowCount() == 0)
+					cleaner();
+			}
+		});
+		JMenuItem menuItem = new JMenuItem("Изтрий ред");
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				tModel.removeRow(table.getSelectedRow());
+			}
+
+		});
+		popupMenu.add(menuItem);
+		table.setComponentPopupMenu(popupMenu);
 
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -1382,6 +1391,7 @@ public class ServiceOrder extends MainPanel {
 		brand.setSelectedItem("");
 
 		updateExtinguisher.clear(); // clear list for brack old barcodes
+
 	}
 
 	// reset type and wheight to previous init content

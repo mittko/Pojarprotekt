@@ -1,6 +1,7 @@
 package invoice.worker;
 
 import WorkingBook.WorkingBook;
+import db.Artikul.ArtikulInfo;
 import db.Artikul.Artikuli_DB;
 import db.Discount.DiscountDB;
 import db.PartsPrice.PriceTable;
@@ -173,14 +174,31 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 			Info value = inf.getValue();
 
+			String kontragent = value.kontragent;
+			String invoiceByKontragent = value.invoiceByKontragent;
+			if(kontragent.equals("-") && invoiceByKontragent.equals("-")) {
+				// артикулите идват от работилницата
+				ArtikulInfo artikulInfo = Artikuli_DB
+							.getInvoiceAndKontragentByArtikul(MainPanel.AVAILABLE_ARTIKULS, value.key);
+				if(artikulInfo != null) {
+					// артикулите (резервните части) идват от таблицата
+					// където са заведени обикновените артикули
+					kontragent = artikulInfo.getKontragent();
+					invoiceByKontragent = artikulInfo.getInvoiceByKontragent();
+				} else {
+					// артикулите се отнасят за цена на труда (техническо , презареждане и т.н
+					// и са заведени в таблица различна от тази на обикновените артикули
+					kontragent = "ПОЖАРПРОТЕКТ ООД";
+					invoiceByKontragent = "0000001";
+				}
+			}
 			Object[] obj = new Object[] {
 					value.key,
 					value.myarka,
 					value.quantity,
 					MyMath.round(value.price, 2),
 					MyMath.round(value.quantity * MyMath.round(value.price, 2),
-							2), value.discount, value.kontragent,
-					value.invoiceByKontragent };
+							2), value.discount, kontragent, invoiceByKontragent };
 			fromInvoiceTableModel.addRow(obj);
 		}
 
