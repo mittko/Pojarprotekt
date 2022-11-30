@@ -6,10 +6,7 @@ import Log.IOErrorsWriter;
 import Log.PdfErr;
 import PDF.OpenPDFDocument;
 import PDF.PdfCreator;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import mydate.MyGetDate;
 import utility.MainPanel;
@@ -19,7 +16,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-public class GenerateBarcod {
+public class GenerateBarcod extends PdfCreator {
 	Image img;
 	/*
 	 * private static String target = System.getProperty("user.home") +
@@ -67,17 +64,27 @@ public class GenerateBarcod {
 		PdfContentByte cb = writer.getDirectContent();
 		cb.setLineWidth(1f);
 		BarcodeEAN codeEAN = new BarcodeEAN();
+		float imgX = 5;
+		float imgY = document.getPageSize().getHeight() - 35; // 40
 
 		codeEAN.setCodeType(Barcode.EAN13);
 		codeEAN.setCode(code);
 
+
+		cb.beginText();
+		cb.moveText(imgX+20,imgY-3);
+		BaseFont bf = PdfCreator.getCyrilycBaseFont("arial");
+		cb.setFontAndSize(bf,4);
+		cb.showText(MyGetDate.getDate_Days_Hours());
+		cb.endText();
+
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
-			float imgX = 5;
-			float imgY = document.getPageSize().getHeight() - 35; // 40
+
 			img.setAbsolutePosition(imgX, imgY);// imgX imgY - 35/40
 
 			document.add(img);
+
 
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
@@ -108,8 +115,7 @@ public class GenerateBarcod {
 
 	private static PdfTemplate createText(String text, PdfContentByte cb,
 										  BaseFont bf, int fontSize) {
-		PdfTemplate template = cb.createTemplate(200, 200);// (100,1009 (200,
-															// 200);
+		PdfTemplate template = cb.createTemplate(200, 200);
 		template.beginText();
 		template.setFontAndSize(bf, fontSize);
 		template.showText(text);
@@ -313,10 +319,10 @@ public class GenerateBarcod {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		// generateBarcodAsPDF("4858484884122","test.pdf");
-		// runPDF.pdfRunner("C:/Program1/tmp/BarcodeImage/"+"test.pdf");
-		generateBarcodOnStickerAsPDF("4858484884122", "test1.pdf", "01.01.2019");
-		OpenPDFDocument.pdfRunner("C:/Program1/tmp/BarcodeImage/test1.pdf");
+		 generateBarcodAsPDF("4858484884122","test.pdf");
+		 OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH+"\\"+"test.pdf");
+		//generateBarcodOnStickerAsPDF("4858484884122", "test1.pdf", "01.01.2019");
+		//OpenPDFDocument.pdfRunner("C:/Program1/tmp/BarcodeImage/test1.pdf");
 	}
 
 }

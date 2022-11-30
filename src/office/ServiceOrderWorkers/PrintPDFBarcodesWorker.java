@@ -1,6 +1,7 @@
 package office.ServiceOrderWorkers;
 
 import JPrinter.Print.PrintBarcod;
+import PDF.OpenPDFDocument;
 import generators.GenerateBarcod;
 import utility.MainPanel;
 
@@ -19,9 +20,8 @@ public class PrintPDFBarcodesWorker extends SwingWorker {
 		
 		if(GenerateBarcod.generateBarcodAsPDF(barcode, barcode + "-етикет.pdf") ) {
 
-		PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,barcode + "-етикет.pdf");
-			//		runPDF.pdfRunner("C:/Program1/BarcodeImage/" + number
-			//			+ ".pdf");
+	//	PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,barcode + "-етикет.pdf");
+					OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH+"\\"+barcode + "-етикет.pdf");
 		}
 
 		return null;
