@@ -68,7 +68,7 @@ public class WorkingBook extends MainPanel {
 
 	private Object[] fromSerial = null;
 
-	private final HashSet<Object> isBarcodAndSerialEntered = new HashSet<Object>();
+	public static final HashSet<Object> isBarcodAndSerialEntered = new HashSet<Object>();
 
 	public static HashMap<String, ArrayList<Object>> ext_parts = new HashMap<>();
 
@@ -86,6 +86,7 @@ public class WorkingBook extends MainPanel {
 
 
 	public WorkingBook() {
+		isBarcodAndSerialEntered.clear();
 		CURRENT_CLIENT = "";
 
 		JPanel north = new JPanel();

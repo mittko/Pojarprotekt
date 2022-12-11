@@ -36,6 +36,7 @@ public class ProtokolPDF3 extends PdfCreator {
 	private Image technikImage2;
 	private Image technikImage3;
 	private Image technikImage4;
+	private Image technikImage5;
 	private String arial = "arial";
 	private String arialbd = "arialbd";
 	private String italic = "italic";
@@ -47,9 +48,9 @@ public class ProtokolPDF3 extends PdfCreator {
 	}
 
 	public boolean processPdf(DefaultTableModel dm,
-			TreeMap<Object, Integer> PARTS, String[] clData,
-			String protokolNumber, String timeStamp, int startIndex,
-			int endIndex, String protokolDate) {
+							  TreeMap<Object, Integer> PARTS, String[] clData,
+							  String protokolNumber, String timeStamp, int startIndex,
+							  int endIndex, String protokolDate) {
 
 		this.protokolDate = protokolDate;
 
@@ -58,7 +59,7 @@ public class ProtokolPDF3 extends PdfCreator {
 		}
 
 		setText("Приложение \u2116 9 към чл. 31, ал. 5", X, Y, arialbd, 10);// НАРЕДБА
-																				// 8121з-531,
+		// 8121з-531,
 		setText("(Доп. - ДВ, бр. 33 от 2017 г.)", X + 40, Y - 15, arial, 9);
 		X = (document.right() - 50) / 2;
 		Y = Y - 30;
@@ -119,8 +120,8 @@ public class ProtokolPDF3 extends PdfCreator {
 	}
 
 	private boolean setDynamicTable(float x, float y, DefaultTableModel dm,
-			TreeMap<Object, Integer> PARTS, String[] clData,
-			String protokolNumber, int startIndex, int endIndex) {
+									TreeMap<Object, Integer> PARTS, String[] clData,
+									String protokolNumber, int startIndex, int endIndex) {
 
 		PdfPTable dynamicTable = new PdfPTable(11);
 
@@ -220,7 +221,7 @@ public class ProtokolPDF3 extends PdfCreator {
 
 		// изпитване
 		for (int row = 0; row < endIndex; row++) {
-		//	toRows++;
+			//	toRows++;
 			String _tehnichesko = dm.getValueAt(row + startIndex, 7)
 					+ ""; // техническо обслужване
 			String _prezarejdane = dm.getValueAt(row + startIndex, 8) + ""; // презареждане
@@ -228,9 +229,9 @@ public class ProtokolPDF3 extends PdfCreator {
 					.getValueAt(row + startIndex, 9) + ""; // хидростатично
 			String[] doing = {_tehnichesko,_prezarejdane,_hidrostatichno};
 			++numer;
-            for(int j = 0;j < 3;j++) {
-                if(doing[j].equals("не")) {
-                	continue;
+			for(int j = 0;j < 3;j++) {
+				if(doing[j].equals("не")) {
+					continue;
 				}
 				toRows++;
 
@@ -417,7 +418,7 @@ public class ProtokolPDF3 extends PdfCreator {
 				// set name of person
 				if (dm.getColumnCount() >= 13) {
 					// generira se ot spravki
-					String technikName = dm.getValueAt(row + startIndex, 13).toString();
+					String technikName = MainPanel.personName.trim();//dm.getValueAt(row + startIndex, 13).toString();
 
 					switch (technikName) {
 						case "Георги Ковачки": {
@@ -448,6 +449,16 @@ public class ProtokolPDF3 extends PdfCreator {
 							dynamicTable.addCell(cellSign);
 							break;
 						}
+						case "Васил Димитров": {
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName); // column 9 име на лицето
+
+							PdfPCell cellSign = new PdfPCell(technikImage5, true);
+							dynamicTable.addCell(cellSign); // column 10 подпис на лицето
+							// извършило обслужването
+							break;
+						}
 						default:
 							PdfPCell cellName = new PdfPCell(new Phrase("Георги Ильов", font7));
 							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -458,8 +469,8 @@ public class ProtokolPDF3 extends PdfCreator {
 							break;
 					}
 
-				    } else {
-				//	 generira se na momenta
+				} else {
+					//	 generira se na momenta
 
 					String technikName = MainPanel.personName.trim();
 
@@ -490,6 +501,16 @@ public class ProtokolPDF3 extends PdfCreator {
 
 							PdfPCell cellSign = new PdfPCell(technikImage4, true);
 							dynamicTable.addCell(cellSign);
+							break;
+						}
+						case "Васил Димитров": {
+							PdfPCell cellName = new PdfPCell(new Phrase(technikName, font7));
+							cellName.setHorizontalAlignment(Element.ALIGN_LEFT);
+							dynamicTable.addCell(cellName); // column 9 име на лицето
+
+							PdfPCell cellSign = new PdfPCell(technikImage5, true);
+							dynamicTable.addCell(cellSign); // column 10 подпис на лицето
+							// извършило обслужването
 							break;
 						}
 						default:
@@ -751,10 +772,11 @@ public class ProtokolPDF3 extends PdfCreator {
 		}
 		String workingDir = System.getProperty("user.dir");
 
-		technikImage = getItextImage(workingDir + "/Images/гошката.jpg");
+		technikImage = getItextImage(workingDir + "/Images/goshkata.jpg");
 		technikImage2 = getItextImage(workingDir + "/Images/ице.jpg");
-		technikImage3 = getItextImage(workingDir + "/Images/шеф.jpg");
-		technikImage4 = getItextImage(workingDir + "/Images/спас.jpg");
+		technikImage3 = getItextImage(workingDir + "/Images/shef.jpg");
+		technikImage4 = getItextImage(workingDir + "/Images/spas.jpg");
+		technikImage5 = getItextImage(workingDir+"/Images/vasil.jpg");
 		return true;
 	}
 

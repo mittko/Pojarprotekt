@@ -12,6 +12,8 @@ import utility.MainPanel;
 import utility.TooltipButton;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,6 +22,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.TreeMap;
+
+import static WorkingBook.WorkingBook.isBarcodAndSerialEntered;
 
 public class View extends MainPanel {
 
@@ -59,9 +63,9 @@ public class View extends MainPanel {
 
 		PDF_PROTOKOL_NUMBER = DB_PROTOKOL_NUMBER;
 
-	//	ProtokolGenerator protokolGenerator = new ProtokolGenerator();
+		//	ProtokolGenerator protokolGenerator = new ProtokolGenerator();
 
-	//	ProtokolNumber prNumber = new ProtokolNumber();
+		//	ProtokolNumber prNumber = new ProtokolNumber();
 
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -189,6 +193,42 @@ public class View extends MainPanel {
 
 		});
 
+		TooltipButton removeRowButton = new TooltipButton();
+		removeRowButton.setPreferredSize(new Dimension((int) (northNorth
+				.getPreferredSize().getWidth() * 0.045), (int) (northNorth
+				.getPreferredSize().getHeight() * 0.75)));
+		removeRowButton.setAutoSizedIcon(removeRowButton,
+				new LoadIcon().setIcons(eraserImage));
+		removeRowButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(SELECTED_ROW == -1)  {
+					JOptionPane.showMessageDialog(null,"Не е избран пожарогасител");
+				} else {
+					int yes_no = JOptionPane.showOptionDialog(null,
+							"Сигурни ли сте че искате да изтриете пожарогасителят ?", "",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null, new String[] {
+									"Да", "Не" }, // this is the array
+							"default");
+					if(yes_no == 0) {
+						isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(SELECTED_ROW,3).toString());
+						isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(SELECTED_ROW,4).toString());
+						dtm_Extinguisher.removeRow(SELECTED_ROW);
+					}
+				}
+			}
+		});
+
+		dtm_Extinguisher.addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				if(dtm_Extinguisher.getRowCount() == 0) {
+					WorkingBook.CURRENT_CLIENT = "";
+					((DefaultListModel<Object>)partsList.getModel()).clear();
+				}
+			}
+		});
 		// this logic does not work !!!!!
 		/*
 		 * invoiceButton = new TooltipButton();
@@ -200,30 +240,30 @@ public class View extends MainPanel {
 		 * (int)(northNorth.getPreferredSize().getHeight() * 0.75)));
 		 * invoiceButton.setAutoSizedIcon(invoiceButton,
 		 * setIcons(invoiceImage));
-		 * 
+		 *
 		 * // invoiceButton.setPreferredSize(new Dimension(55,55));
-		 * 
+		 *
 		 * invoiceButton.addActionListener(new ActionListener() {
-		 * 
+		 *
 		 * @Override public void actionPerformed(ActionEvent arg0) { // TODO
 		 * Auto-generated method stub // TWO THREADS SwingWorker sw = new
 		 * SwingWorker() {
-		 * 
+		 *
 		 * @Override protected Object doInBackground() throws Exception { //
 		 * TODO Auto-generated method stub String invoiceNumber =
 		 * InvoiceNumber.getInvoiceNumber(); //String proformNumber =
 		 * InvoiceNumber.getProformNumber();
-		 * 
+		 *
 		 * ProtokolSearcher ps = new ProtokolSearcher(DB_PROTOKOL_NUMBER,
 		 * searchFromProtokol.invoiceTableModel); // search in protokol
 		 * ps.execute();
-		 * 
+		 *
 		 * if(invoiceNumber != null) { SwingUtilities.invokeLater(new Runnable()
 		 * {
-		 * 
+		 *
 		 * @Override public void run() { // TODO Auto-generated method stub //
 		 * initialize data for invoice
-		 * 
+		 *
 		 * final MyInvoice3 invoice3 = new MyInvoice3();
 		 * searchFromProtokol.searchField.setText(DB_PROTOKOL_NUMBER); final
 		 * JDialoger jDialog = new JDialoger();
@@ -241,13 +281,13 @@ public class View extends MainPanel {
 		 * jDialog.dispose(); } else {
 		 * jDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); } }
 		 * else { jDialog.dispose(); } } }); jDialog.Show(); }
-		 * 
+		 *
 		 * }); } return null; }
-		 * 
+		 *
 		 * }; sw.execute();
-		 * 
+		 *
 		 * }
-		 * 
+		 *
 		 * });
 		 */
 
@@ -326,6 +366,8 @@ public class View extends MainPanel {
 		// northNorth.add(invoiceButton);
 
 		northNorth.add(protokolNumberLabel);
+
+		northNorth.add(removeRowButton);
 
 		north.add(northNorth, BorderLayout.NORTH);
 
