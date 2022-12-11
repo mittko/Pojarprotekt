@@ -23,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
+import static WorkingBook.WorkingBook.isBarcodAndSerialEntered;
+
 public class View extends MainPanel {
 
 	private static final String[] titles = { "Клиент", "Вид", "Маса", "Баркод",
@@ -210,6 +212,9 @@ public class View extends MainPanel {
 									"Да", "Не" }, // this is the array
 							"default");
 					if(yes_no == 0) {
+						isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(SELECTED_ROW,3).toString());
+						isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(SELECTED_ROW,4).toString());
+
 						dtm_Extinguisher.removeRow(SELECTED_ROW);
 					}
 				}
