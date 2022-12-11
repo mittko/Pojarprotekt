@@ -12,6 +12,8 @@ import utility.MainPanel;
 import utility.TooltipButton;
 
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -189,6 +191,40 @@ public class View extends MainPanel {
 
 		});
 
+		TooltipButton removeRowButton = new TooltipButton();
+		removeRowButton.setPreferredSize(new Dimension((int) (northNorth
+				.getPreferredSize().getWidth() * 0.045), (int) (northNorth
+				.getPreferredSize().getHeight() * 0.75)));
+		removeRowButton.setAutoSizedIcon(removeRowButton,
+				new LoadIcon().setIcons(eraserImage));
+		removeRowButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(SELECTED_ROW == -1)  {
+					JOptionPane.showMessageDialog(null,"Не е избран пожарогасител");
+				} else {
+					int yes_no = JOptionPane.showOptionDialog(null,
+							"Сигурни ли сте че искате да изтриете пожарогасителят ?", "",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null, new String[] {
+									"Да", "Не" }, // this is the array
+							"default");
+					if(yes_no == 0) {
+						dtm_Extinguisher.removeRow(SELECTED_ROW);
+					}
+				}
+			}
+		});
+
+		dtm_Extinguisher.addTableModelListener(new TableModelListener() {
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				if(dtm_Extinguisher.getRowCount() == 0) {
+					WorkingBook.CURRENT_CLIENT = "";
+					((DefaultListModel<Object>)partsList.getModel()).clear();
+				}
+			}
+		});
 		// this logic does not work !!!!!
 		/*
 		 * invoiceButton = new TooltipButton();
@@ -327,6 +363,8 @@ public class View extends MainPanel {
 
 		northNorth.add(protokolNumberLabel);
 
+		northNorth.add(removeRowButton);
+
 		north.add(northNorth, BorderLayout.NORTH);
 
 		north.add(scroll, BorderLayout.CENTER);
@@ -367,9 +405,8 @@ public class View extends MainPanel {
 		TreeMap<Object, Integer> wMap = new TreeMap<Object, Integer>();
 		for (int row = 0; row < t_Extinguisher.getRowCount(); row++) {
 			ArrayList<Object> parts = WorkingBook.ext_parts.get(getKey(row));
-			for (int p = 0; p < parts.size(); p++) {
-				Object key = parts.get(p);
-				Integer broi = wMap.get(parts.get(p));
+			for (Object key : parts) {
+				Integer broi = wMap.get(key);
 				if (broi == null) {
 					broi = 0;
 				}

@@ -170,7 +170,7 @@ public class PrintBarcod {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		PrintBarcod pb = new PrintBarcod();
-		 GenerateBarcod.generateBarcodAsPDF("1000000093018", "1000000093018" +
+		 GenerateBarcod.generateBarcodAsPDF("1000000093018","Пожарпротект ЕООД", "1000000093018" +
 		 ".pdf");
 		 printPDF(MainPanel.BARCODE_PDF_PATH, "1000000093018.pdf");
 		//getPrintService();

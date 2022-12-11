@@ -486,7 +486,7 @@ public class ServiceOrder extends MainPanel {
 //					printSerialBarcodesWorker.execute();
 
 					PrintPDFBarcodesWorker printBarcode = new PrintPDFBarcodesWorker(
-							number);
+							number, CURRENT_CLIENT);
 					printBarcode.execute();
 
 				} else {

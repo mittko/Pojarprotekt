@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class ArtikulInfo implements Comparable<ArtikulInfo> {
 	private String artikulName;
-	private double quantity;
+	private int quantity;
 	private String kontragent;
 	private String invoiceByKontragent;
 	private String dateString;
@@ -19,7 +19,7 @@ public class ArtikulInfo implements Comparable<ArtikulInfo> {
 			String kontragent, String invoiceByKontragent, String dateString) {
 		super();
 		this.artikulName = artikulName;
-		this.quantity = Double.parseDouble(quantityStr);
+		this.quantity = Integer.parseInt(quantityStr);
 		this.invoiceByKontragent = invoiceByKontragent;
 		this.kontragent = kontragent;
 		this.dateString = dateString;
@@ -44,7 +44,7 @@ public class ArtikulInfo implements Comparable<ArtikulInfo> {
 		return artikulName;
 	}
 
-	public double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 

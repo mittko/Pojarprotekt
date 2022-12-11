@@ -39,7 +39,7 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 
 				if (artikulModel.getValueAt(row, 7) != null) {
 					// ako e null znachi e napraveno obslujwane inache e artikul
-					double quantityToDecrease = Double.parseDouble(artikulModel
+					int quantityToDecrease = Integer.parseInt(artikulModel
 							.getValueAt(row, 2).toString());
 					String artikul = artikulModel.getValueAt(row, 0).toString();
 

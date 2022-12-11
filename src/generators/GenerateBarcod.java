@@ -30,7 +30,7 @@ public class GenerateBarcod {
 
 	private static boolean LAST = false;
 
-	public static boolean generateBarcodAsPDF(String code, String out) {
+	public static boolean generateBarcodAsPDF(String code,String clientName, String out) {
 
 		File f = new File(MainPanel.BARCODE_PDF_PATH + out);
 		if (f.exists()) {
@@ -39,12 +39,12 @@ public class GenerateBarcod {
 		}
 
 		Document document = new Document(new Rectangle(100f, 40f)); // 100 40
-																	// work
-																	// configure
-																	// barcod
-																	// paper
-																	// size
-																	// 100,45
+		// work
+		// configure
+		// barcod
+		// paper
+		// size
+		// 100,45
 
 		PdfWriter writer = null;
 		try {
@@ -67,17 +67,34 @@ public class GenerateBarcod {
 		PdfContentByte cb = writer.getDirectContent();
 		cb.setLineWidth(1f);
 		BarcodeEAN codeEAN = new BarcodeEAN();
+		float imgX = 5;
+		float imgY = document.getPageSize().getHeight() - 35; // 40
 
 		codeEAN.setCodeType(Barcode.EAN13);
 		codeEAN.setCode(code);
 
+
+		cb.beginText();
+		cb.moveText(imgX+0,imgY-3);
+		BaseFont bf = PdfCreator.getCyrilycBaseFont("arial");
+		cb.setFontAndSize(bf,4);
+		cb.showText(MyGetDate.getDate_Days_Hours());
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(imgX+40,imgY-3);
+		cb.setFontAndSize(bf,4);
+		cb.showText(clientName);
+		cb.endText();
+
+
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
-			float imgX = 5;
-			float imgY = document.getPageSize().getHeight() - 35; // 40
+
 			img.setAbsolutePosition(imgX, imgY);// imgX imgY - 35/40
 
 			document.add(img);
+
 
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
