@@ -51,8 +51,12 @@ public class AddColumn {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AddColumn alertTable = new AddColumn();
-		int result = alertTable.addColumn(MainPanel.INVOICE_PARENT, "name",500);
-		System.out.println(result);
+	//	int result = alertTable.addColumn(MainPanel.INVOICE_PARENT, "name",500);
+	//	System.out.println(result);
+
+		int result2 = alertTable.addColumn(MainPanel.PROFORM_PARENT, "name",500);
+		System.out.println(result2);
+
 		// int result2 = InitColumnsTable.updateAnyColumnValue(MainPanel.INVOICE_PARENT,"name","");
 		// System.out.println("result = " + result2);
 

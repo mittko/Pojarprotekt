@@ -27,7 +27,7 @@ public class ReportDialog extends MainPanel {
 	private JRadioButtonMenuItem rbmi8 = null;
 	// private JMenu deliveryMenu = new JMenu("Доставки");
 	private JRadioButtonMenuItem rbmi9 = null;
-	private JRadioButtonMenuItem rbmi9А = null;
+	private JRadioButtonMenuItem rbmi9A = null;
 	private JRadioButtonMenuItem rbmi10 = null;
 	private JRadioButtonMenuItem rbmi11 = null;
 
@@ -218,14 +218,14 @@ public class ReportDialog extends MainPanel {
 			}
 
 		});
-		rbmi9А = new JRadioButtonMenuItem("Доставки Нови Пожарогасители");
-		rbmi9А.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		rbmi9А.addActionListener(new ActionListener() {
+		rbmi9A = new JRadioButtonMenuItem("Доставки Нови Пожарогасители");
+		rbmi9A.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		rbmi9A.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				title = rbmi9А.getText();
+				title = rbmi9A.getText();
 				destination = DELIVERY_ARTIKULS;
 				setComponentState(false, false, true, false, false, false,
 						true, false, false, false, false, false, false);

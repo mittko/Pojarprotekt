@@ -16,7 +16,8 @@ public class CO2Model extends DefaultTableModel {
 	    MainPanel.DrajkaZaPojarogasitel,MainPanel.ZapresovaneNaNakrainik,MainPanel.TvardoHodovoKolelo,MainPanel.KoleloZaVisokoTeglo,MainPanel.RemontKolicka,
 	    MainPanel.BoyaKolichka,MainPanel.BoyaPojarogasitel,MainPanel.Etiket,
 			MainPanel.SadZaGasitelnoVeshtestvo,MainPanel.GasitelnoVeshtestvoCO2,
-			MainPanel.CenaPrezarejdane,MainPanel.CenaTehnichesko,MainPanel.CenaHidrostatichno, MainPanel.CenaPrezarejdaneITehnichesko,MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno
+			MainPanel.CenaPrezarejdane,MainPanel.CenaTehnichesko,MainPanel.CenaHidrostatichno,
+			MainPanel.CenaPrezarejdaneITehnichesko,MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno
 	};
 	private static final Object[][] weightAndCategory = {
 		{"5","1.4 Í„"},

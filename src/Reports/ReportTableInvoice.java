@@ -154,6 +154,7 @@ public class ReportTableInvoice extends MainPanel {
 			dftm.addRow(childDatum);
 		}
 
+
 		table = new JTable(dftm);
 		table.setDefaultRenderer(Object.class, new InvoiceTableRenderer());
 		table.setRowHeight(MainPanel.getFontSize() + 15);
@@ -171,6 +172,7 @@ public class ReportTableInvoice extends MainPanel {
 		table.getColumnModel().getColumn(15).setMinWidth(0);
 		table.getColumnModel().getColumn(15).setMaxWidth(0);
 		table.getColumnModel().getColumn(15).setWidth(0);
+
 
 		resizeColumnWidth(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);

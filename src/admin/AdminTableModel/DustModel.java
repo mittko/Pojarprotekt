@@ -93,16 +93,16 @@ public class DustModel extends DefaultTableModel {
 //		}
 
 //		// Добавяне на нов артикул за тип Прах ВС
-		String[] nowiPovarogasiteli = {
+		String[] nowiArtikuli = {
 				MainPanel.CenaPrezarejdane,
 				MainPanel.CenaTehnichesko,
 				MainPanel.CenaHidrostatichno,
 				MainPanel.CenaPrezarejdaneITehnichesko,
 				MainPanel.CenaPrezarejdaneTehnicheskoIHidrostatichno};
 
-		for (String nowPovarogasitel : nowiPovarogasiteli) {
+		for (String nowArtikul : nowiArtikuli) {
 			for (Object[] objects : weightAndCategory) {
-				PriceTable.initPartPriceTable(nowPovarogasitel, MainPanel.type_Prah_BC,
+				PriceTable.initPartPriceTable(nowArtikul, MainPanel.type_Prah_BC,
 						objects[1].toString(), objects[0].toString(), 1.5);
 			}
 

@@ -341,12 +341,12 @@ public class MaterialsPDFromReports extends PdfCreator {
 				mainTableNextY, pdfWriter.getDirectContent());
 
 		float dateBottomX = bottomTextX - 10;
-		float dateBottomY = (go == true ? 800 : mainTableY - 15);
+		float dateBottomY = (go ? 800 : mainTableY - 15);
 		for (int i = from; i < RANGE + 1; i++) {
 			dateBottomY -= mainTable.getRowHeight(i);
 		}
 
-		setText(dftm.getValueAt(0, 4).toString(), dateBottomX, dateBottomY,
+		setText(name, dateBottomX, dateBottomY,
 				"arialbd", 10);
 
 		float signatureX = dateBottomX;

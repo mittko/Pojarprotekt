@@ -17,8 +17,11 @@ public class InitColumnsTable
 {
 
     public static void main(String[] args) {
-        int result = updateAnyColumnValue(MainPanel.INVOICE_PARENT,"name","");
-        System.out.println(result);
+       // int result = updateAnyColumnValue(MainPanel.INVOICE_PARENT,"name","");
+      //  System.out.println(result);
+
+        int result2 = updateAnyColumnValue(MainPanel.PROFORM_PARENT,"name","");
+        System.out.println(result2);
     }
     public static int updateAnyColumnValue(final String table, final String column, final String value) {
         Connection connect = null;

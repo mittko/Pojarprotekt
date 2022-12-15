@@ -337,7 +337,7 @@ public class MaterialsPDFromInvocie extends PdfCreator {
 			dateBottomY -= mainTable.getRowHeight(i);
 		}
 
-		setText(date, dateBottomX, dateBottomY, "arialbd", 10);
+		setText(name, dateBottomX, dateBottomY, "arialbd", 10);
 
 		float signatureX = dateBottomX;
 		float signatureY = dateBottomY - 25;
