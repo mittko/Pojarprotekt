@@ -34,7 +34,7 @@ public class MyGetDate {
 	 * return dateFormat.format(date); }
 	 */
 	public static String getDate_Days_Hours() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");// ("yyyy.MM.dd");
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");// ("yyyy.MM.dd");
 		Date date = new Date();
 		return dateFormat.format(date);
 	}

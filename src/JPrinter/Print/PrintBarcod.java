@@ -95,7 +95,8 @@ public class PrintBarcod {
 
 		// cinfigure where to positioning image on label
 
-		paper.setImageableArea(5, -20, 400, 60); // original
+		// this hardcoded values are due to trial errors
+		paper.setImageableArea(0,0,180,105);//(5, -20, 400, 60); // original
 
 		pf.setPaper(paper);
 

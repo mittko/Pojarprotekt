@@ -25,6 +25,11 @@
 
 package ThermalPrinters.LPQ58Printers;
 
+import mydate.MyGetDate;
+
+import javax.print.*;
+import javax.print.attribute.HashAttributeSet;
+import javax.print.attribute.standard.PrinterName;
 import javax.swing.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -116,7 +121,7 @@ public class ESCPos {
 	}
 
 	public ByteArrayOutputStream printString(String str) throws IOException {
-		//escInit();
+		escInit();
 		printer.write(str.getBytes());
 		printer.write(0xA);
 		/*string
@@ -139,8 +144,7 @@ public class ESCPos {
 	 * Prints n lines of blank paper.
 	 * */
 	public ByteArrayOutputStream feed(int feed){
-		ByteArrayOutputStream printer =
-				new ByteArrayOutputStream();
+
 		//escInit();
 		printer.write(0x1B);
 		printer.write('d');
@@ -287,7 +291,27 @@ public class ESCPos {
 	 *  		2 = Below barcode.
 	 *  		3 = Both above and below barcode.
 	 */
-	public void printBarcode(String code, int type, int h, int w, int font, int pos) throws IOException {
+
+	public static void main(String[] args) throws IOException, PrintException {
+
+		final ESCPos escPos = new ESCPos();
+		//final String[] spl = this.jCommandsTextField.getText().split(" ");
+		final String barcode = "5555555555555";//spl[0];
+		final int type = 67;//Integer.parseInt(spl[1]);
+		final int h = 65;//Integer.parseInt(spl[2]);
+		final int w = 3;//Integer.parseInt(spl[3]);
+		final int font = 0;//Integer.parseInt(spl[4]);
+		final int pos = 1;//Integer.parseInt(spl[5]);
+	//	final int lineSpacing = 31;//Integer.parseInt(spl[6]);
+	//	escPos.setLineSpacing(lineSpacing);
+		escPos.escInit();
+		escPos.printBarcode(barcode, type, h, w, font, pos,"КИРИЛИЦА");
+
+
+		final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
+		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"LPQ58(ESC)");
+	}
+	public void printBarcode(String code, int type, int h, int w, int font, int pos, String text) throws IOException, PrintException {
 
 		System.out.println("printing barcode...");
 
@@ -339,9 +363,20 @@ public class ESCPos {
 			printer.write(type);// 65<=m<=73 = barcode type 0-10
 			printer.write(code.length()); // n -> length of encoded string
 			printer.write(code.getBytes());//d1-dn
+
+			printer.write(new byte[]{0x1B,0x74,17});// try to set cyryllic code page
+			printer.write((MyGetDate.getDate_Days_Hours() +  " " +  text).getBytes("cp855"));
+			printer.write(0xA);
+			printer.write(("\n\n").getBytes());
+			printer.write(0xA);
+			//output extra paper
+		//	printer.write('d');
+		//	printer.write(1);
+
 		} else {
 			JOptionPane.showMessageDialog(null,"Грешен баркод формат");
 		}
+
 	/*	This command feeds as much paper as is required to print the bar code,
 		regardless of the line spacing specified by line space setting commands.*/
 	}
@@ -556,5 +591,28 @@ public class ESCPos {
 		printQR("http://www.josephbergen.com", 51, 8);
 		printAndFeed("\n##name## ##version##\nby Joseph Bergen\nwww.josephbergen.com", 4);
 		resetToDefault();
+	}
+	public void printHexBytes(final byte[] bytes, String printerName) {
+		PrintService printService;
+		final HashAttributeSet attributeSet = new HashAttributeSet();
+		attributeSet.add(new PrinterName(printerName, null));
+		final PrintService[] services = PrintServiceLookup.lookupPrintServices(null, attributeSet);
+		if (services.length == 0) {
+			JOptionPane.showMessageDialog(null, "Printer not found !");
+			return;
+		}
+		if (services.length > 1) {
+			System.out.println("Found more than one printer. Only the first printer will be used.");
+		}
+		printService = services[0];
+		System.out.println("Printer found: " + printService.getName());
+		try {
+			final DocFlavor flavor = DocFlavor.BYTE_ARRAY.AUTOSENSE;
+			final SimpleDoc doc = new SimpleDoc(bytes, flavor, null);
+			final DocPrintJob job = printService.createPrintJob();
+			job.print(doc, null);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 	}
 }

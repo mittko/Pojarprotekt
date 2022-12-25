@@ -34,11 +34,12 @@ public class GenerateBarcod {
 
 		File f = new File(MainPanel.BARCODE_PDF_PATH + out);
 		if (f.exists()) {
-			JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
-			return false;
+		//	JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
+		//	return false;
 		}
 
-		Document document = new Document(new Rectangle(100f, 40f)); // 100 40
+		// this hardcoded values are due to trial errors
+		Document document = new Document(new Rectangle(120f, 80f)); // 100 40
 		// work
 		// configure
 		// barcod
@@ -67,23 +68,22 @@ public class GenerateBarcod {
 		PdfContentByte cb = writer.getDirectContent();
 		cb.setLineWidth(1f);
 		BarcodeEAN codeEAN = new BarcodeEAN();
-		float imgX = 5;
-		float imgY = document.getPageSize().getHeight() - 35; // 40
+
 
 		codeEAN.setCodeType(Barcode.EAN13);
 		codeEAN.setCode(code);
 
 
 		cb.beginText();
-		cb.moveText(imgX+0,imgY-3);
+		cb.moveText(0,22);
 		BaseFont bf = PdfCreator.getCyrilycBaseFont("arial");
-		cb.setFontAndSize(bf,4);
+		cb.setFontAndSize(bf,8f);
 		cb.showText(MyGetDate.getDate_Days_Hours());
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(imgX+40,imgY-3);
-		cb.setFontAndSize(bf,4);
+		cb.moveText(60,22);
+		cb.setFontAndSize(bf,8f);
 		cb.showText(clientName);
 		cb.endText();
 
@@ -91,7 +91,10 @@ public class GenerateBarcod {
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
 
-			img.setAbsolutePosition(imgX, imgY);// imgX imgY - 35/40
+			img.setAbsolutePosition(10,30);//
+			// 0,0 is on the left bottom angle on the label
+			// x value move from left to right
+			// y value move from down to up
 
 			document.add(img);
 
@@ -332,8 +335,9 @@ public class GenerateBarcod {
 		// TODO Auto-generated method stub
 		// generateBarcodAsPDF("4858484884122","test.pdf");
 		// runPDF.pdfRunner("C:/Program1/tmp/BarcodeImage/"+"test.pdf");
-		generateBarcodOnStickerAsPDF("4858484884122", "test1.pdf", "01.01.2019");
-		OpenPDFDocument.pdfRunner("C:/Program1/tmp/BarcodeImage/test1.pdf");
+	//	generateBarcodOnStickerAsPDF("4858484884122", "test1.pdf", "01.01.2019");
+		generateBarcodAsPDF("4858484884122","Пожарпротект ЕООД","test1.pdf");
+		OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH+"\\"+"test1.pdf");
 	}
 
 }
