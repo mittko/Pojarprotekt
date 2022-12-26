@@ -486,7 +486,7 @@ public class ServiceOrder extends MainPanel {
 							new PrintSerialBarcodesWorker(sb.toString(), CURRENT_CLIENT);
 					printSerialBarcodesWorker.execute();
 
-//					PrintPDFBarcodesWorker printBarcode = new PrintPDFBarcodesWorker(
+//			tozi kod preskacha edin etiket		PrintPDFBarcodesWorker printBarcode = new PrintPDFBarcodesWorker(
 //							number, CURRENT_CLIENT);
 //					printBarcode.execute();
 

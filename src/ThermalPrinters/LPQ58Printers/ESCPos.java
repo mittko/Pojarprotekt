@@ -365,7 +365,7 @@ public class ESCPos {
 			printer.write(code.getBytes());//d1-dn
 
 			printer.write(new byte[]{0x1B,0x74,17});// try to set cyryllic code page
-			printer.write((MyGetDate.getDate_Days_Hours() +  " " +  text).getBytes("cp855"));
+			printer.write((MyGetDate.getDate_Days_Hours() +  " " +  text).getBytes("cp866"));
 			printer.write(0xA);
 			printer.write(("\n\n").getBytes());
 			printer.write(0xA);

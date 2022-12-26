@@ -27,7 +27,7 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 		escPos.escInit();
 		escPos.printBarcode(barcode, type, h, w, font, pos,clientName);
 		final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
-		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"LPQ58(ESC)");
+		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"HPRT LPQ58 Receipt(USB)");//""LPQ58(ESC)");
 
 //		PrintToSerialPort printToSerialPort = new PrintToSerialPort();
 //		if(!PrintToSerialPort.isConnected()) {
