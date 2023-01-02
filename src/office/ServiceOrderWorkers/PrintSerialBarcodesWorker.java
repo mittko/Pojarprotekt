@@ -20,12 +20,12 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 
 		final ESCPos escPos = new ESCPos();
 		final int type = 67;
-		final int h = 71;
-		final int w = 2;
+		final int h = 30;//71;
+		final int w = 3;//2;
 		final int font = 0;
 		final int pos = 1;
 		escPos.escInit();
-		escPos.printBarcode(barcode, type, h, w, font, pos,clientName);
+		escPos.printBarcode(barcode, type, h, w, font, pos,clientName, (byte)3);
 		final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
 		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"LPQ58(ESC)");
 

@@ -73,22 +73,7 @@ public class ESCPos {
 		System.out.println("\n##name## ##version## by ##author##!\n");
 	}
 
-	public void sayHello() throws IOException {
-		
-		printer.write(0x1B);
-		printer.write('@');
-		printer.write("Hello World".getBytes());
-		printer.write(0x1B);
-	    printer.write('d');
-	    printer.write(6);
 
-	/*	1B
-		@
-		Hello World
-		1B
-		d
-		6*/
-	}
 	
 	/**
 	 * return the version of the library.
@@ -124,6 +109,10 @@ public class ESCPos {
 		escInit();
 		printer.write(str.getBytes());
 		printer.write(0xA);
+
+		printer.write(0x1B);
+		printer.write('d');
+		printer.write(5);
 		/*string
 		A*/
 		return printer;
@@ -144,7 +133,6 @@ public class ESCPos {
 	 * Prints n lines of blank paper.
 	 * */
 	public ByteArrayOutputStream feed(int feed){
-
 		//escInit();
 		printer.write(0x1B);
 		printer.write('d');
@@ -292,26 +280,49 @@ public class ESCPos {
 	 *  		3 = Both above and below barcode.
 	 */
 
+	public ByteArrayOutputStream printToLabelGap() throws IOException {
+		printer.write("yes".getBytes());
+		printer.write(new byte[]{0x1B,0x64,4});
+	//	printer.write(0xA);
+		return printer;
+	}
+	public ByteArrayOutputStream sayHello() throws IOException {
+
+		printer.write(0x1B);
+		printer.write('@');
+		printer.write("Hello World".getBytes());
+
+		printer.write(new byte[]{0x1b,0x64,0});
+
+		return printer;
+	/*	1B
+		@
+		Hello World
+		1B
+		d
+		6*/
+	}
 	public static void main(String[] args) throws IOException, PrintException {
 
 		final ESCPos escPos = new ESCPos();
 		//final String[] spl = this.jCommandsTextField.getText().split(" ");
-		final String barcode = "5555555555555";//spl[0];
+		final String barcode = "999999999999";//spl[0];
 		final int type = 67;//Integer.parseInt(spl[1]);
-		final int h = 65;//Integer.parseInt(spl[2]);
+		final int h =  30;//30;//65;//Integer.parseInt(spl[2]);
 		final int w = 3;//Integer.parseInt(spl[3]);
 		final int font = 0;//Integer.parseInt(spl[4]);
 		final int pos = 1;//Integer.parseInt(spl[5]);
-	//	final int lineSpacing = 31;//Integer.parseInt(spl[6]);
-	//	escPos.setLineSpacing(lineSpacing);
+
+//		ByteArrayOutputStream byteArrayOutputStream = escPos.sayHello();
+//		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"LPQ58(ESC)");
+
 		escPos.escInit();
-		escPos.printBarcode(barcode, type, h, w, font, pos,"КИРИЛИЦА");
-
-
+		escPos.printBarcode(barcode, type, h, w, font, pos,"КирилицаРъченицаРъченица", (byte)3);
 		final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
 		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"LPQ58(ESC)");
 	}
-	public void printBarcode(String code, int type, int h, int w, int font, int pos, String text) throws IOException, PrintException {
+	public void printBarcode(String code, int type, int h, int w, int font, int pos, String text, byte extraEmptyLines) throws IOException, PrintException {
+		// select print direction
 
 		System.out.println("printing barcode...");
 
@@ -346,6 +357,8 @@ public class ESCPos {
 
 		if(type >= 0 && type <= 10) {
 			// FIRST VARIANT
+
+
 			System.out.println("first variant barcode");
 			//GS k m d1 d2...dk 0x00
 			printer.write(0x1D); //GS
@@ -356,6 +369,10 @@ public class ESCPos {
 
 		} else if(type >= 65 && type <= 73) {
 			// SECOND VARIANT
+
+			// upside down direction
+			printer.write(new byte[]{0x1b, 0x7b,1});
+
 			System.out.println("second variant barcode");
 			//GS k m n d1 d2...dk
 			printer.write(0x1D); //GS
@@ -364,14 +381,17 @@ public class ESCPos {
 			printer.write(code.length()); // n -> length of encoded string
 			printer.write(code.getBytes());//d1-dn
 
-			printer.write(new byte[]{0x1B,0x74,17});// try to set cyryllic code page
-			printer.write((MyGetDate.getDate_Days_Hours() +  " " +  text).getBytes("cp855"));
+			// try to set cyryllic code page
+			printer.write(new byte[]{0x1B,0x74,17});
+
+			// print date and client name
+			printer.write((MyGetDate.getDate_Days_Hours() +  " " +
+					text.substring(0, Math.min(text.length(),15))).getBytes("cp866"));
 			printer.write(0xA);
-			printer.write(("\n\n").getBytes());
-			printer.write(0xA);
-			//output extra paper
-		//	printer.write('d');
-		//	printer.write(1);
+
+			// print extra empty lines
+		    printer.write(new byte[]{0x1b,0x64,extraEmptyLines});
+
 
 		} else {
 			JOptionPane.showMessageDialog(null,"Грешен баркод формат");
