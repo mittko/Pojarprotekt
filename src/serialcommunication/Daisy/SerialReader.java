@@ -1,8 +1,8 @@
 package serialcommunication.Daisy;
 
-import gnu.io.SerialPortEvent;
-import gnu.io.SerialPortEventListener;
 
+import javax.comm.SerialPortEvent;
+import javax.comm.SerialPortEventListener;
 import java.io.IOException;
 import java.io.InputStream;
 

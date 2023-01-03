@@ -7,6 +7,7 @@ import office.Renderers.MyComboRenderer;
 import office.Renderers.MyTableRenderer;
 import office.ServiceModels.*;
 import office.ServiceOrderWorkers.PrintPDFBarcodesWorker;
+import office.ServiceOrderWorkers.PrintSerialBarcodesWorker;
 import office.ServiceOrderWorkers.PrinterServiceOrderWorker;
 import office.ServiceOrderWorkers.SaveinServiceOrderDBWorker;
 import db.GetFromScanner;
@@ -476,13 +477,13 @@ public class ServiceOrder extends MainPanel {
 							.toString();
 
 					// TO DO
-//					StringBuilder sb = new StringBuilder();
-//					for(int i = 0;i < number.length()-1;i++) {
-//						sb.append(number.charAt(i));
-//					}
-//					PrintSerialBarcodesWorker printSerialBarcodesWorker =
-//							new PrintSerialBarcodesWorker((sb.toString()));
-//					printSerialBarcodesWorker.execute();
+					StringBuilder sb = new StringBuilder();
+					for(int i = 0;i < number.length()-1;i++) {
+						sb.append(number.charAt(i));
+					}
+					PrintSerialBarcodesWorker printSerialBarcodesWorker =
+							new PrintSerialBarcodesWorker(sb.toString(), CURRENT_CLIENT);
+					printSerialBarcodesWorker.execute();
 
 					PrintPDFBarcodesWorker printBarcode = new PrintPDFBarcodesWorker(
 							number);

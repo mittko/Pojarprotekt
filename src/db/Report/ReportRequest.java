@@ -20,7 +20,6 @@ import net.GetCurrentIP;
 import java.util.ArrayList;
 import utility.MainPanel;
 
-import static com.sun.webpane.platform.ConfigManager.log;
 
 public class ReportRequest extends MainPanel
 {

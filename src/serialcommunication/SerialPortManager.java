@@ -1,13 +1,13 @@
 package serialcommunication;
 
 
-import gnu.io.*;
 import serialcommunication.Daisy.GetAnswer;
 import serialcommunication.Daisy.SerialReader;
 import serialcommunication.DatecsLP50.CommPortReceiver;
 import serialcommunication.DatecsLP50.CommPortSender;
 import serialcommunication.DatecsLP50.ProtocolImpl;
 
+import javax.comm.*;
 import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +60,8 @@ public class SerialPortManager {
                 outputStream = serialPort.getOutputStream();
                 serialPort.addEventListener(new SerialReader(inputStream,getAnswer));
                 return true;
-            } catch (UnsupportedCommOperationException | IOException | TooManyListenersException e) {
+            } catch (IOException | TooManyListenersException |
+                     UnsupportedCommOperationException e) {
                 JOptionPane.showMessageDialog(null,
                         e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
                 return false;
