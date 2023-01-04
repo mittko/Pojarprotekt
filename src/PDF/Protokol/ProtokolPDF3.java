@@ -37,9 +37,9 @@ public class ProtokolPDF3 extends PdfCreator {
 	private Image technikImage3;
 	private Image technikImage4;
 	private Image technikImage5;
-	private String arial = "arial";
+	private final String arial = "arial";
 	private String arialbd = "arialbd";
-	private String italic = "italic";
+	private final String italic = "italic";
 	private final Font font10 = getFontAndSize(arial, 10);
 	private final Font font9 = getFontAndSize(arial, 9);
 	private final Font font8 = getFontAndSize(arial, 8);
@@ -76,8 +76,8 @@ public class ProtokolPDF3 extends PdfCreator {
 		Y = Y - 15;
 		setText("Днес, "
 				+ protokolDate
-				+ " в гр. Дупница, ръководителят (упълномощеният представител) "
-				+ "Петя Мертакчийска", X, Y, arial, 9);
+				+ " в гр. Дупница, ръководителят  "
+				+ "Спас Георгиев Ильов", X, Y, arial, 9);
 		X = (document.right() / 2) - 20;
 		Y = Y - 15;
 		setText("(име, презиме, фамилия)", X, Y, italic, 8);
@@ -671,7 +671,7 @@ public class ProtokolPDF3 extends PdfCreator {
 			document.newPage();
 			y = document.top();
 		}
-		setText("Петя Мертакчийска", footX[12], y - footY[12], italic, 9);
+		setText("Георги Ильов", footX[12], y - footY[12], italic, 9);
 
 		if (y - footY[13] <= document.bottom()) {
 			document.newPage();

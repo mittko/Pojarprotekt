@@ -4,6 +4,7 @@ import PDF.Invoice.InvoicePDFFromReports;
 import PDF.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
+import utility.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;
@@ -64,7 +65,7 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 			// get client info
 			clientInfo = ClientTable.getClientDetails(currentClient);
 			// System.out.printf("current client -> %s ",currentClient);
-			String[] ÄÓÁËÈÊÀÒ = { " ÄÓÁËÈÊÀÒ", "", "" };
+			String[] ÄÓÁËÈÊÀÒ = {MainPanel.personName.equals("Àäìèíèñòğàòîğ") ? " ÎĞÈÃÈÍÀË" : " ÄÓÁËÈÊÀÒ", "", "" };
 			String timeStamps[] = { MyGetDate.getTimeStamp() + "a",
 					MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
 			int[] copies = { 1, 1 };

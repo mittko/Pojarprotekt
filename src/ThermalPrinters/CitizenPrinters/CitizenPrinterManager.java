@@ -153,7 +153,7 @@ public class CitizenPrinterManager {
                new CitizenPrinterManager();
      //  citizenPrinterManager.printPrinterStatus();
        citizenPrinterManager.printBarcodeAndCharacterPrinting("333333333333","05.06.2022",
-               "05.06.2022", "05.06.2022","Георги Ильов");
+               "05.06.2022", "05.06.2022","Georgi Ильов");
    }
 
 
@@ -196,14 +196,13 @@ public class CitizenPrinterManager {
                Date date1 = format.parse(toDate);
                System.out.println("tehnichesko " + date1);
 
-               setRowAddress(new byte[]{0, 0, 0, 0});   // move on top/down on portrait model
+      /*hak*/         setRowAddress(new byte[]{0, 0, 0, 0});   // move on top/down on portrait model
                setColumnAddress(new byte[]{0, 0, 0, 0});// move on left/right on portrait model
                byteArrayOutputStream.write("".getBytes());
                byteArrayOutputStream.write(CR);
 
                // ДАТА НА СЛЕДВАЩО ТЕХНИЧЕСКО ОБСЛУЖВАНЕ
                // ДАТА ОТЛЯВО
-
                setRowAddress(new byte[]{0, 3, 1, 5});   // move on top/down on portrait model
                setColumnAddress(new byte[]{0, 0, 2, 5});// move on left/right on portrait mode
                byteArrayOutputStream.write(constructCharacterDataToSend(currDate).getBytes());
