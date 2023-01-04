@@ -77,7 +77,7 @@ public class ProtokolPDF3 extends PdfCreator {
 		setText("Днес, "
 				+ protokolDate
 				+ " в гр. Дупница, ръководителят "
-				+ "Спас Ильов", X, Y, arial, 9);
+				+ "Спас Георгиев Ильов", X, Y, arial, 9);
 		X = (document.right() / 2) - 20;
 		Y = Y - 15;
 		setText("(име, презиме, фамилия)", X, Y, italic, 8);

@@ -1,5 +1,5 @@
-db_path=jdbc:derby://127.0.0.1:1527/D:/Local/RealDB
+db_path=jdbc:derby://78.142.42.215:1527/D:/RealDB
 label_printer1=lpq58
 label_printer2=citizen
-; local db_path=jdbc:derby://127.0.0.1:1527/D:/Local/RealDB
+; local db_path=jdbc:derby://127.0.0.1:1527/C:/Local/RealDB
 ; net db_path=jdbc:derby://78.142.42.215:1527/D:/RealDB

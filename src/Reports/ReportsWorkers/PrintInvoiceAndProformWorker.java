@@ -65,7 +65,8 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 
 			// get client info
 			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
-			String[] ÄÓÁËÈÊÀÒ = { " ÄÓÁËÈÊÀÒ", "", "" };
+			String[] ÄÓÁËÈÊÀÒ = { MainPanel.personName.trim().equals("Àäìèíèñòğàòîğ") ? "ÎĞÈÃÈÍÀË"
+					: " ÄÓÁËÈÊÀÒ", "", "" };
 			String[] timeStamps = { MyGetDate.getTimeStamp() + "a",
 					MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
 			int[] copies = { 1, 1 };

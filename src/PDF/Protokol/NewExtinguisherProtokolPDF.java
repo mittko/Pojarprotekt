@@ -63,8 +63,8 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 		Y = Y - 15;
 		setText("Днес, "
 				+ MyGetDate.getReversedSystemDate()
-				+ " в гр. Дупница, ръководителят (упълномощеният представител) "
-				+ "Петя Мертакчийска", X, Y, arial, 9);
+				+ " в гр. Дупница, ръководителят "
+				+ "Спас Георгиев Ильов", X, Y, arial, 9);
 		X = (document.right() / 2) - 20;
 		Y = Y - 15;
 		setText("(име, презиме, фамилия)", X, Y, italic, 8);
@@ -135,7 +135,7 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 		setText("    извършила обслужването)", footX[10], y - footY[10],
 				italic, 9);
 		setText("(подпис, печат)", footX[11], y - footY[11], italic, 9);
-		setText("Петя Мертакчийска", footX[12], y - footY[12], italic, 9);
+		setText("Георги Ильов", footX[12], y - footY[12], italic, 9);
 		setText("(име, фамилия)", footX[13], y - footY[13], italic, 9);
 
 		setText("( собственик/предста-", footX[14], y - footY[14], italic, 9);
@@ -362,7 +362,7 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 			dynamicTable.addCell(dateCell); // column 8 дата
 
 			//String person[] = new String[] { "Георги", "Ильов" };// MainPanel.personName.trim().split("[  ]+");
-			PdfPCell personCell = new PdfPCell(new Phrase("Георги\nИльов", font7));
+			PdfPCell personCell = new PdfPCell(new Phrase(MainPanel.personName.trim()/*"Георги\nИльов"*/, font7));
 			personCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 			dynamicTable.addCell(personCell); // column 9 име на лицето
@@ -450,7 +450,27 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 		}
 		String workingDir = System.getProperty("user.dir");
 		// System.out.println(workingDir);
-		technikImage = getItextImage(workingDir + "/Images/шеф.jpg");
+		switch (MainPanel.personName.trim()) {
+			case "Георги Ковачки": {
+				technikImage = getItextImage(workingDir + "/Images/goshkata.jpg");
+				break;
+			}
+			case "Георги Ильов": {
+				technikImage = getItextImage(workingDir + "/Images/shef.jpg");
+				break;
+			}
+			case "Спас Ильов": {
+				technikImage = getItextImage(workingDir + "/Images/spas.jpg");
+				break;
+			}
+			case "Васил Димитров": {
+				technikImage = getItextImage(workingDir+"/Images/vasil.jpg");
+				break;
+			}
+			default:
+				technikImage = getItextImage(workingDir + "/Images/shef.jpg");
+				break;
+		}
 		return true;
 	}
 
