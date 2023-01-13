@@ -182,7 +182,7 @@ public class ProtokolTable extends MainPanel {
 				loopBatch(ps, protokolTableModel.getValueAt(index, 0)
 						.toString(),// client
 						protokolTableModel.getValueAt(index, 1).toString(), // type
-						protokolTableModel.getValueAt(index, 10).toString(), // wheight
+						protokolTableModel.getValueAt(index, 2 /*10*/).toString(), // wheight
 						protokolTableModel.getValueAt(index, 3).toString(), // barcod
 						protokolTableModel.getValueAt(index, 4).toString(), // serial
 						protokolTableModel.getValueAt(index, 5).toString(), // category

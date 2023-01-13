@@ -418,7 +418,7 @@ public class ProtokolPDF3 extends PdfCreator {
 				// set name of person
 				if (dm.getColumnCount() >= 13) {
 					// generira se ot spravki
-					String technikName = MainPanel.personName.trim();//dm.getValueAt(row + startIndex, 13).toString();
+					String technikName = dm.getValueAt(row + startIndex, 13).toString();
 
 					switch (technikName) {
 						case "Георги Ковачки": {
