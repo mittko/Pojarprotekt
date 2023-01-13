@@ -143,8 +143,13 @@ public class PasswordDialog extends MainPanel {
 				String[] spl = line.split("=");
 				GetCurrentIP.DB_PATH = spl[1];
 				line = buff.readLine();
-				String[] spl1 = line.split("=");
-				MainPanel.LABEL_PRINTER1 = spl1[1];
+			    String[] spl1 = line.split("=");
+				GetCurrentIP.LPS_DB_PATH = spl1[1];
+
+			System.out.println("POJARPROTEKT "+GetCurrentIP.DB_PATH);
+			System.out.println("LPS "+GetCurrentIP.LPS_DB_PATH);
+			//	String[] spl1 = line.split("=");
+			//	MainPanel.LABEL_PRINTER1 = spl1[1];
 
 		//	}
 		} catch (IOException e) {

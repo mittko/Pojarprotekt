@@ -2,6 +2,7 @@ package NewClient;
 
 import Document.TextFieldLimit;
 import db.Client.ClientTable;
+import net.GetCurrentIP;
 import run.JustFrame;
 import utility.BevelLabel;
 import utility.EditableField;
@@ -129,9 +130,14 @@ public class AddPerson extends MainPanel {
 									.isSelected() ? "да" : "не";
 
 							insertion = ClientTable.insertIntoPersonTable(
+									GetCurrentIP.DB_PATH,
 									name.getText(), tel.getText(),
 									discountField.getText(), incorrect);
 
+//							insertion = ClientTable.insertIntoPersonTable(
+//									GetCurrentIP.LPS_DB_PATH,
+//									name.getText(), tel.getText(),
+//									discountField.getText(), incorrect);
 						} finally {
 
 							SwingUtilities.invokeLater(new Runnable() {

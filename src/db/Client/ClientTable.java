@@ -98,7 +98,7 @@ public class ClientTable extends MainPanel {
 		}
 	}
 
-	public static int insertIntoPersonTable(String name, String tel,
+	public static int insertIntoPersonTable(String db, String name, String tel,
 			String discount, String incorrectPerson) {
 		Connection connection = null;
 		Statement statement = null;
@@ -108,7 +108,7 @@ public class ClientTable extends MainPanel {
 			discount = "0";
 		}
 		try {
-			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			connection = DriverManager.getConnection(db);
 			statement = connection.createStatement();
 			sql = "insert into " + PERSON + " values (" + "'" + name + "'"
 					+ "," + "'" + tel + "'" + "," + "'" + discount + "'" + ","
