@@ -134,10 +134,7 @@ public class AddPerson extends MainPanel {
 									name.getText(), tel.getText(),
 									discountField.getText(), incorrect);
 
-//							insertion = ClientTable.insertIntoPersonTable(
-//									GetCurrentIP.LPS_DB_PATH,
-//									name.getText(), tel.getText(),
-//									discountField.getText(), incorrect);
+
 						} finally {
 
 							SwingUtilities.invokeLater(new Runnable() {

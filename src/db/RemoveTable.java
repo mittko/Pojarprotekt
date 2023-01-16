@@ -140,6 +140,7 @@ public class RemoveTable extends MainPanel {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		RemoveTable r = new RemoveTable();
+		r.deleteDocument(MainPanel.PROTOKOL,"0016979");
 		// r.deleteTable(PARTS_PRICE);
 		// r.deleteTable(PROTOKOL_NUMBER);
 		// r.deleteTable(FIRM);

@@ -8,6 +8,7 @@ import utility.MainPanel;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class FirmTable extends MainPanel {
 
@@ -82,7 +83,7 @@ public class FirmTable extends MainPanel {
 		}
 	}
 
-	public static int insertIntoFirmTable(String firm, String city,
+	public static int insertIntoFirmTable(String db, String firm, String city,
 			String address, String eik, String mol, String email,
 			String person, String telPerson, String bank, String bic,
 			String iban, String discount, String incorrectPerson) {
@@ -112,7 +113,7 @@ public class FirmTable extends MainPanel {
 			discount = "0";
 		}
 		try {
-			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			connect = DriverManager.getConnection(db);
 			statement = connect.createStatement();
 			sql = "insert into " + FIRM + " values (" + "'" + firm + "','"
 					+ city + "','" + address + "','" + eik + "','" + mol
@@ -298,13 +299,149 @@ public class FirmTable extends MainPanel {
 		return result;
 	}
 
+	private HashSet<String> allFirmSet = new HashSet<>();
+	public void getAllFirmsFromPojarprotekt(String db) {
+		Connection connect = null;
+		Statement stat = null;
+		ResultSet rs = null;
+		ResultSetMetaData rsmd;
+		ArrayList<Object[]> result = new ArrayList<>();
+		ArrayList<String> obj;
+		try {
+			connect = DriverManager.getConnection(db);
+			stat = connect.createStatement();
+			rs = stat.executeQuery("select * from " + MainPanel.FIRM);
+			while (rs.next()) {
+				rsmd = rs.getMetaData();
+				obj = new ArrayList<>();
+				for (int col = 0; col < rsmd.getColumnCount(); col++) {
+				//	System.out.print(rs.getString(col + 1) + " " + "(" + col + ")");
+
+					String key = rs.getString(col + 1);
+					if(col == 0) {
+				//		System.out.println("key " + key);
+					}
+					allFirmSet.add(key);
+					//	obj.add(rs.getString(col + 1));
+				}
+				//result.add(obj.toArray());
+			//	System.out.println();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			DBException.DBExceptions("Грешка", e);
+			Log.DB_Err.writeErros(e.toString());
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				DBException.DBExceptions("Грешка", e);
+				Log.DB_Err.writeErros(e.toString());
+				e.printStackTrace();
+
+			}
+		}
+		System.out.println("size = "+ allFirmSet.size());
+	}
+
+	public void getAllFirmsFromLPS(String db) {
+		Connection connect = null;
+		Statement stat = null;
+		ResultSet rs = null;
+		ResultSetMetaData rsmd;
+		ArrayList<Object[]> result = new ArrayList<>();
+		ArrayList<String> obj;
+		try {
+			connect = DriverManager.getConnection(db);
+			stat = connect.createStatement();
+			rs = stat.executeQuery("select * from " + MainPanel.FIRM);
+			while (rs.next()) {
+				rsmd = rs.getMetaData();
+				obj = new ArrayList<>();
+				for (int col = 0; col < rsmd.getColumnCount(); col++) {
+					//	System.out.print(rs.getString(col + 1) + " ");
+
+						String firm = rs.getString(1);
+						String city = rs.getString(2);
+                        String address = rs.getString(3);
+						String eik = rs.getString(4);
+						String mol = rs.getString(5);
+						String email = rs.getString(6);
+						String person = rs.getString(7);
+						String telPerson = rs.getString(8);
+						String bank = rs.getString(9);
+                        String bic = rs.getString(10);
+						String iban = rs.getString(11);
+						String discount = rs.getString(12);
+                        String incorrect = rs.getString(13);
+
+					String key = rs.getString(1);
+					if(!allFirmSet.contains(key)) {
+						allFirmSet.add(key);
+//						System.out.println("client " + key);
+						int insertion = FirmTable.insertIntoFirmTable(
+								GetCurrentIP.LPS_DB_PATH,
+								firm, city,
+								address, eik,
+								mol, email,
+								person, telPerson,
+								bank, bic,
+								iban, discount,
+								incorrect);
+						System.out.println("insertion " + insertion);
+					}
+					//	obj.add(rs.getString(col + 1));
+				}
+				//result.add(obj.toArray());
+//					System.out.println();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			DBException.DBExceptions("Грешка", e);
+			Log.DB_Err.writeErros(e.toString());
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				DBException.DBExceptions("Грешка", e);
+				Log.DB_Err.writeErros(e.toString());
+				e.printStackTrace();
+
+			}
+		}
+		System.out.println("size = "+ allFirmSet.size());
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		FirmTable ft = new FirmTable();
 		// ft.createFirmTable2();
-		AddColumn addColumn = new AddColumn();
-		addColumn.addColumn(FIRM, "incorrectPerson", 2);
+	//	AddColumn addColumn = new AddColumn();
+	//	addColumn.addColumn(FIRM, "incorrectPerson", 2);
 		// Conecting.testInfo("FirmTable");
+		ft.getAllFirmsFromPojarprotekt(GetCurrentIP.DB_PATH);
+		ft.getAllFirmsFromLPS(GetCurrentIP.LPS_DB_PATH);
 	}
 
 }

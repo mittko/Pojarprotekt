@@ -2,6 +2,7 @@ package NewClient;
 
 import Document.TextFieldLimit;
 import db.Client.FirmTable;
+import net.GetCurrentIP;
 import run.JustFrame;
 import utility.BevelLabel;
 import utility.EditableField;
@@ -222,6 +223,7 @@ public class AddFirm extends MainPanel {
 									.isSelected() ? "да" : "не";
 
 							insertion = FirmTable.insertIntoFirmTable(
+									GetCurrentIP.DB_PATH,
 									firm.getText(), city.getText(),
 									address.getText(), eik.getText(),
 									mol.getText(), email.getText(),
@@ -229,6 +231,8 @@ public class AddFirm extends MainPanel {
 									bank.getText(), BIC.getText(),
 									IBAN.getText(), discountField.getText(),
 									incorrect);
+
+
 						} finally {
 							SwingUtilities.invokeLater(new Runnable() {
 

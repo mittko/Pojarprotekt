@@ -182,7 +182,9 @@ public class ProtokolTable extends MainPanel {
 				loopBatch(ps, protokolTableModel.getValueAt(index, 0)
 						.toString(),// client
 						protokolTableModel.getValueAt(index, 1).toString(), // type
-						protokolTableModel.getValueAt(index, 2 /*10*/).toString(), // wheight
+						protokolTableModel.getValueAt(index, 2).toString()
+						+ " / " +
+						protokolTableModel.getValueAt(index,10), // wheight
 						protokolTableModel.getValueAt(index, 3).toString(), // barcod
 						protokolTableModel.getValueAt(index, 4).toString(), // serial
 						protokolTableModel.getValueAt(index, 5).toString(), // category
@@ -375,7 +377,46 @@ public class ProtokolTable extends MainPanel {
 		}
 
 	}
+	public static void resetExtinguisherDoneWithBatch(
+			ArrayList<String> updateExtinguishersList) {
 
+		Connection connection = null;
+		PreparedStatement ps = null;
+		String preparedCommand = "update " + SERVICE
+				+ " set done = ? where barcod like ?";
+		try {
+			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			ps = connection.prepareStatement(preparedCommand);
+			connection.setAutoCommit(false);
+			for (int i = 0; i < updateExtinguishersList.size(); i++) {
+				ps.setString(1, "ÌÂ");
+				ps.setString(2, updateExtinguishersList.get(i));
+				ps.addBatch();
+			}
+			int updates[] = ps.executeBatch(); // ?????
+			connection.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.DB_Err.writeErros(e.toString());
+			DBException.DBExceptions("√Â¯Í‡", e);
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Log.DB_Err.writeErros(e.toString());
+				DBException.DBExceptions("√Â¯Í‡", e);
+			}
+		}
+
+	}
 	/*
 	 * public static int setExtinguisherDone(String barcod) { Connection connect
 	 * = null; Statement stat = null; String command = "update " + SERVICE +
@@ -676,7 +717,12 @@ public class ProtokolTable extends MainPanel {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ProtokolTable pt = new ProtokolTable();
-		pt.inspectProtokol("0010030");
+
+//		ArrayList<String> list = new ArrayList<>();
+//		list.add("1000016192019");
+//		list.add("1000016192026");
+//		ProtokolTable.resetExtinguisherDoneWithBatch(list);
+		//pt.inspectProtokol("0010030");
 		//pt.updateClientInProtokolTableDB("Ã¿–»Œ - ÃŒ“Œ ŒŒƒ", "0011936");
 		// pt.updateProtokolNumber("0010582", "1000010414025");// 0010603
 		// pt.updateProtokolNumber("0010582", "1000010414018");

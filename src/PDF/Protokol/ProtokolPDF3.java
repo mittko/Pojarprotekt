@@ -255,10 +255,12 @@ public class ProtokolPDF3 extends PdfCreator {
 				dynamicTable.addCell(cell3); // column 3 категория
 
 				String wheightStr = dm.getValueAt(row + startIndex, 2).toString();
-				if (wheightStr.contains("литра")) {
-					wheightStr = wheightStr.replace("литра", "л");
+				String[] spl = wheightStr.split("/");
+                String _wheight = spl[0].trim();
+				if (_wheight.contains("литра")) {
+					_wheight = _wheight.replace("литра", "л");
 				}
-				PdfPCell cell4 = new PdfPCell(new Phrase(wheightStr, font9));
+				PdfPCell cell4 = new PdfPCell(new Phrase(_wheight, font9));
 				cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 				dynamicTable.addCell(cell4); // column 4 маса

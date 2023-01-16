@@ -187,48 +187,56 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 	private void doCalc(ArrayList<Object[]> res) {
 		// 0 -> TO 1 -> P 2 -> HI 3 -> client 4 -> type 5 -> wheight 6 -> value
-		for (int i = 0; i < res.size(); i++) {
+		for (Object[] re : res) {
 
-			String type = res.get(i)[4].toString();
+			String type = re[4].toString();
 
 			String gasitelnoVeshtestvo = "";
 			switch (type) {
-			case MainPanel.type_Prah_BC:
-				gasitelnoVeshtestvo = MainPanel.PrahBC;
-				break;
-			case MainPanel.type_Prah_ABC:
-				gasitelnoVeshtestvo = MainPanel.PrahABC;
-				break;
-			case MainPanel.type_Water:
-				gasitelnoVeshtestvo = MainPanel.GasitelnoVeshtestvoVoda;
-				break;
-			case MainPanel.type_Water_Fame:
-				gasitelnoVeshtestvo = MainPanel.GasitelnoVeshtestvoVodaPyana;
-				break;
-			case MainPanel.type_CO2:
-				gasitelnoVeshtestvo = MainPanel.GasitelnoVeshtestvoCO2;
-				break;
-			default:
-				break;
+				case MainPanel.type_Prah_BC:
+					gasitelnoVeshtestvo = MainPanel.PrahBC;
+					break;
+				case MainPanel.type_Prah_ABC:
+					gasitelnoVeshtestvo = MainPanel.PrahABC;
+					break;
+				case MainPanel.type_Water:
+					gasitelnoVeshtestvo = MainPanel.GasitelnoVeshtestvoVoda;
+					break;
+				case MainPanel.type_Water_Fame:
+					gasitelnoVeshtestvo = MainPanel.GasitelnoVeshtestvoVodaPyana;
+					break;
+				case MainPanel.type_CO2:
+					gasitelnoVeshtestvo = MainPanel.GasitelnoVeshtestvoCO2;
+					break;
+				default:
+					break;
 			}
 
-			String wheight = res.get(i)[5].toString();
-			String category = res.get(i)[6].toString();
+			String weightStr = re[5].toString();
+			String[] spl = weightStr.split("/");
+			String weight = "";
+			if (spl.length == 1) {
+				weight = spl[0].trim();
+	    	} else if(spl.length == 2) {
+				weight = spl[1].trim();
+			}
+			System.out.println("weight " + weight);
+			String category = re[6].toString();
 
-			String TO = res.get(i)[0].toString();
-			String P = res.get(i)[1].toString();
-			String HI = res.get(i)[2].toString();
+			String TO = re[0].toString();
+			String P = re[1].toString();
+			String HI = re[2].toString();
 
-			String value = String.format("%.2f", res.get(i)[8]).replace(",",
+			String value = String.format("%.2f", re[8]).replace(",",
 					".");
 
 			double doubleValue = Double.parseDouble(value);
 
-			String kontragent = res.get(i)[9].toString();
-			String invoiceByKontragent = res.get(i)[10].toString();
+			String kontragent = re[9].toString();
+			String invoiceByKontragent = re[10].toString();
 
 			if (type.contains("( Нов )")) {
-				String key = type + " " + wheight;
+				String key = type + " " + weight;
 				if (!mapInfo.containsKey(key)) {
 					Info info = new Info(key, "брой", 1, MyMath.round(
 							doubleValue, 2), doubleDiscount, kontragent, invoiceByKontragent);
@@ -242,7 +250,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 			} else if (!TO.equals("не") && P.equals("не") && HI.equals("не")) {
 				String typ = "Техническо обслужване на Пожарогасител " + type
-						+ " " + wheight;
+						+ " " + weight;
 
 				if (!mapInfo.containsKey(typ)) {
 
@@ -261,7 +269,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 			} else if (TO.equals("не") && P.equals("не") && !HI.equals("не")) {
 
 				String typ2 = "Хидростатично изпитване на Пожарогасител "
-						+ type + " " + wheight;
+						+ type + " " + weight;
 
 				double pric = WorkingBook.HI_PRICE;
 
@@ -279,10 +287,10 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 			} else if (!TO.equals("не") && !P.equals("не") && HI.equals("не")) {
 
 				String typ3 = "Техническо обслужване и Презареждане на Пожарогасител "
-						+ type + " " + wheight;
+						+ type + " " + weight;
 
 				double prahPrice = PriceTable.getPartPriceFromDB(
-						gasitelnoVeshtestvo, type, category, wheight);
+						gasitelnoVeshtestvo, type, category, weight);
 
 				double price2 = (prahPrice + WorkingBook.TO_PRICE);
 
@@ -299,11 +307,11 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 				}
 			} else if (!TO.equals("не") && !P.equals("не") && !HI.equals("не")) {
 				String typ4 = "Техническо обслужване и Презареждане на Пожарогасител "
-						+ type + " " + wheight;
+						+ type + " " + weight;
 
 				double price3 = 0;
 				double prahPrice = (PriceTable.getPartPriceFromDB(
-						gasitelnoVeshtestvo, type, category, wheight));
+						gasitelnoVeshtestvo, type, category, weight));
 
 				price3 = (prahPrice + WorkingBook.TO_PRICE);
 
@@ -320,7 +328,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 				}
 
 				String typ5 = "Хидростатично изпитване на Пожарогасител "
-						+ type + " " + wheight;
+						+ type + " " + weight;
 
 				if (!mapInfo.containsKey(typ5)) {
 
@@ -338,16 +346,16 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 			}
 			// calculate parts
-			String parts[] = res.get(i)[7].toString().split(",");
+			String parts[] = re[7].toString().split(",");
 			for (int p = 0; p < parts.length; p++) {
 
 				if (parts[p].equals(gasitelnoVeshtestvo) || parts[p].equals("")) {
 					continue;
 				}
 				double pric = PriceTable.getPartPriceFromDB(parts[p], type,
-						category, wheight);
+						category, weight);
 
-				String key = parts[p] + " (" + type + " " + wheight + ")";
+				String key = parts[p] + " (" + type + " " + weight + ")";
 
 				if (!mapInfo.containsKey(key)) {
 
