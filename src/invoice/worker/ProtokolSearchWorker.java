@@ -233,7 +233,15 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 			String TO = re[0].toString();
 			String P = re[1].toString();
 			String HI = re[2].toString();
-			String weight = re[5].toString();
+			String weightStr = re[5].toString();
+			String[] spl = weightStr.split("/");
+			String weight = "";
+			if (spl.length == 1) {
+				weight = spl[0].trim();
+			} else if(spl.length == 2) {
+				weight = spl[1].trim();
+			}
+			System.out.println("weight " + weight);
 			String category = re[6].toString();
 			String kontragent = re[9].toString();
 			String invoiceByKontragent = re[10].toString();

@@ -182,7 +182,9 @@ public class ProtokolTable extends MainPanel {
 				loopBatch(ps, protokolTableModel.getValueAt(index, 0)
 						.toString(),// client
 						protokolTableModel.getValueAt(index, 1).toString(), // type
-						protokolTableModel.getValueAt(index, 2 /*10*/).toString(), // wheight
+						protokolTableModel.getValueAt(index, 2).toString()
+								+ " / " +
+								protokolTableModel.getValueAt(index,10), // wheight
 						protokolTableModel.getValueAt(index, 3).toString(), // barcod
 						protokolTableModel.getValueAt(index, 4).toString(), // serial
 						protokolTableModel.getValueAt(index, 5).toString(), // category
@@ -672,7 +674,48 @@ public class ProtokolTable extends MainPanel {
 			}
 		}
 	}
-	public static void main(String[] args) {
+
+	public static void resetExtinguisherDoneWithBatch(
+			ArrayList<String> updateExtinguishersList) {
+
+		Connection connection = null;
+		PreparedStatement ps = null;
+		String preparedCommand = "update " + SERVICE
+				+ " set done = ? where barcod like ?";
+		try {
+			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			ps = connection.prepareStatement(preparedCommand);
+			connection.setAutoCommit(false);
+			for (String s : updateExtinguishersList) {
+				ps.setString(1, "не");
+				ps.setString(2, s);
+				ps.addBatch();
+			}
+			int updates[] = ps.executeBatch(); // ?????
+			connection.commit();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Log.DB_Err.writeErros(e.toString());
+			DBException.DBExceptions("??????", e);
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Log.DB_Err.writeErros(e.toString());
+				DBException.DBExceptions("??????", e);
+			}
+		}
+	}
+
+		public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ProtokolTable pt = new ProtokolTable();
 		pt.inspectProtokol("0010030");
