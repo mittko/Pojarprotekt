@@ -3,7 +3,7 @@ package NewClient.Workers;
 import NewClient.editClient.EditFirm;
 import NewClient.editClient.EditPerson;
 import db.Client.ClientTable;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

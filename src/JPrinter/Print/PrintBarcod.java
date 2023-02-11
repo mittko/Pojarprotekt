@@ -5,7 +5,7 @@ import Log.IOErrorsWriter;
 import com.sun.pdfview.PDFFile;
 import com.sun.pdfview.PDFPrintPage;
 import generators.GenerateBarcod;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;

@@ -7,7 +7,7 @@ import db.NewExtinguisher.NewExtinguishers_DB;
 import db.Report.ReportRequest;
 import mydate.MyGetDate;
 import run.JustFrame;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -686,7 +686,8 @@ public class ReportDialog extends MainPanel {
 			} else if (selectedCriterii > 0) {
 				mainCommand1.append(" and ");
 			}
-			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
+			String client = clientCombo.getSelectedItem().toString();
+			mainCommand1.append("client = " + "'").append(client).append("'");
 			selectedCriterii++;
 		}
 

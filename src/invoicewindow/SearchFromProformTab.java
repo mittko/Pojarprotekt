@@ -5,7 +5,7 @@ import invoice.SaveInInvoiceDBDialog;
 import invoice.worker.ProformSearchWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -20,6 +20,11 @@ public class SearchFromProformTab extends MainPanel {
 
 	private JPanel northPanel;
 	public static EditableField searchProformField;
+
+	public static JButton registrationVatCheckBox = new JButton();
+
+	final static ImageIcon selectedIcon = new LoadIcon().setIcons(yesImage);
+
 	public static BevelLabel dateLabel;
 	public static BevelLabel discountLabel;
 	public static BevelLabel paymentLabel;
@@ -155,7 +160,7 @@ public class SearchFromProformTab extends MainPanel {
 						true, // acquittance
 						proformTableModel, null,// there is no invoice label,
 						proformNumLabel, null // there is no acquittance label
-				);
+				, registrationVatCheckBox.isSelected());
 				JDialoger jDialoger = new JDialoger();
 				jDialoger.setContentPane(save);
 				jDialoger.Show();
@@ -163,7 +168,28 @@ public class SearchFromProformTab extends MainPanel {
 
 		});
 
+//		registrationVatCheckBox.setSelected(false);
+//		registrationVatCheckBox.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(!registrationVatCheckBox.isSelected()) {
+//					setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+//					registrationVatCheckBox.setSelected(true);
+//				} else {
+//					registrationVatCheckBox.setIcon(null);
+//					registrationVatCheckBox.setSelected(false);
+//				}
+//			}
+//		});
+		registrationVatCheckBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.75)));
+
+		JLabel registrationVatLabel = new JLabel("Регистрация по ДДС");
+
 		northPanel.add(searchProformField);
+		northPanel.add(registrationVatLabel);
+		northPanel.add(registrationVatCheckBox);
 		//northPanel.add(discountLabel);
 		northPanel.add(paymentLabel);
 		northPanel.add(dateLabel);
@@ -309,6 +335,7 @@ public class SearchFromProformTab extends MainPanel {
 		sallerLabel.setName("");
 		sumField.setText("");
 		proformTableModel.setRowCount(0);
+		registrationVatCheckBox.setIcon(null);
 	}
 	private void calcFinalSum() {
 		double valu = 0.0;
@@ -322,5 +349,15 @@ public class SearchFromProformTab extends MainPanel {
 		// set final value
 		String finalValue = String.format("%.2f", valu).replace(",", ".");
 		sumField.setText(finalValue);
+	}
+
+	public static void switchRegistrationVat() {
+		System.out.println(registrationVatCheckBox.isSelected());
+
+		if ((registrationVatCheckBox.isSelected())) {
+			setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+		} else {
+			registrationVatCheckBox.setIcon(null);
+		}
 	}
 }

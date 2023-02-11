@@ -4,9 +4,9 @@ import admin.SkladExtinguisher.Renderers.NewExtRenderer2;
 import admin.SkladExtinguisher.Workers.DeleteExtinguisherWorker;
 import admin.SkladExtinguisher.Workers.SeeAllNewExtinguisherWorker;
 import run.JDialoger;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

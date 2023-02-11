@@ -7,14 +7,13 @@
 package admin.Artikul;
 
 import admin.Artikul.Workers.InsertArtikulWorker;
-import utility.MyMath;
+import utils.MyMath;
 import java.awt.FlowLayout;
 import java.util.Date;
 import java.awt.Cursor;
 import javax.swing.SwingUtilities;
 import javax.swing.JDialog;
 import java.text.ParseException;
-import java.awt.Component;
 import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
@@ -22,21 +21,20 @@ import java.awt.event.ActionListener;
 import java.awt.Insets;
 import java.awt.GridBagConstraints;
 import mydate.MyGetDate;
-import java.awt.event.KeyListener;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import javax.swing.JLabel;
-import java.awt.LayoutManager;
 import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import utility.ArtikulsListComboBox;
-import utility.EditableField;
-import utility.ClientsListComboBox2;
-import utility.MainPanel;
+import utils.ArtikulsListComboBox;
+import utils.EditableField;
+import utils.ClientsListComboBox2;
+import utils.MainPanel;
 
 import static invoicewindow.SearchFromProformTab.dateLabel;
 

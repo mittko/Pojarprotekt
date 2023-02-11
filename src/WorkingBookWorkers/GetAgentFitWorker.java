@@ -1,7 +1,7 @@
 package WorkingBookWorkers;
 
 import db.ExtinguishingAgent.ExtinguishingAgentDB;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 

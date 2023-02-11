@@ -1,6 +1,6 @@
 package admin.PriceExtinguisher;
 
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class NewExtinguisherPrice extends MainPanel {
 /*

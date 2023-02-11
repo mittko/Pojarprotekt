@@ -2,7 +2,7 @@ package Reports.gui_edt;
 
 import Reports.ReportTableNewExtinguishers;
 import run.JDialoger;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -3,8 +3,8 @@ package admin.Doing;
 import Document.TextFieldLimit;
 import admin.Doing.Worker.changePriceOfDoingWorker;
 import admin.Doing.Worker.seePriceOfDoingWorker;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import java.awt.*;

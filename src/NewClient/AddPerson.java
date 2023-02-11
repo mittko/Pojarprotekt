@@ -4,10 +4,10 @@ import Document.TextFieldLimit;
 import db.Client.ClientTable;
 import net.GetCurrentIP;
 import run.JustFrame;
-import utility.BevelLabel;
-import utility.EditableField;
-import utility.LoadIcon;
-import utility.MainPanel;
+import utils.BevelLabel;
+import utils.EditableField;
+import utils.LoadIcon;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

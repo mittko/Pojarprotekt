@@ -1,6 +1,6 @@
 package invoicewindow;
 
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,17 +9,15 @@ import java.awt.event.ActionListener;
 
 public class OnlyTabs extends MainPanel {
 
-	private JPanel northPanel;
-	private JPanel choicePanel;
-	private JPanel centerPanel;
+	private final JPanel centerPanel;
 	public SearchFromProtokolTab searchProtokol;
 	public SearchFromProformTab searchProform;
 	
 	public OnlyTabs() {
-		northPanel = new JPanel ();
+		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new GridLayout(1,1));
-		
-		choicePanel = new JPanel();
+
+		JPanel choicePanel = new JPanel();
 		choicePanel.setPreferredSize(new Dimension(this.WIDTH-20,
 				(int)(this.HEIGHT * 0.07)));
 		choicePanel.setLayout(new GridLayout(1,2));

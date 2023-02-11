@@ -11,8 +11,8 @@ public class GetCurrentIP {
 	public static String DB_PATH="jdbc:derby://127.0.0.1:1527/C:/Local/RealDB";
 	public static String LPS_DB_PATH="jdbc:derby://127.0.0.1:1527/C:/Local/RealDBLPS";
 
-	// = "jdbc:derby://127.0.0.1:1527/D:/Local/RealDB";
-    //"jdbc:derby://78.142.42.215:1527/D:/RealDB";
+	// = "jdbc:derby://127.0.0.1:1527/C:/Local/RealDB";
+    //"jdbc:derby://78.142.42.215:1527/C:/RealDB";
 	public class Address {
 		public String IP;
 		public int PORT;

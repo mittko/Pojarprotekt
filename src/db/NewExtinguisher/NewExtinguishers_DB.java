@@ -7,7 +7,7 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.io.File;
 import java.io.IOException;

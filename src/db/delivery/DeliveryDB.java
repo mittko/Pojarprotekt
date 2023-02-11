@@ -3,7 +3,7 @@ package db.delivery;
 import Exceptions.DBException;
 import Log.DB_Err;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

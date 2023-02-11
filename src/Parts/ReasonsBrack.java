@@ -2,7 +2,7 @@ package Parts;
 
 import WorkingBook.Renderers.ReasonsRenderer;
 import run.JustFrame;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

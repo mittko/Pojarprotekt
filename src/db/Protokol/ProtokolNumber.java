@@ -9,7 +9,7 @@ import java.sql.Statement;
 import net.GetCurrentIP;
 import Exceptions.DBException;
 import Log.DB_Err;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class ProtokolNumber extends MainPanel {
 	/* 0000000 */
@@ -130,7 +130,6 @@ public class ProtokolNumber extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return update;
 				// e.printStackTrace();
 			}
 		}

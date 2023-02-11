@@ -2,7 +2,7 @@ package NewExtinguisher.SwingWorkers;
 
 import JPrinter.PrintSticker.PrintSticker;
 import generators.GenerateBarcod;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 

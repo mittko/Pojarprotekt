@@ -13,7 +13,7 @@ import jxl.write.*;
 import jxl.write.WritableFont.FontName;
 import jxl.write.biff.RowsExceededException;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

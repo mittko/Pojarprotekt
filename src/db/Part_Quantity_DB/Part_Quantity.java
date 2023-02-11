@@ -2,7 +2,7 @@ package db.Part_Quantity_DB;
 
 import Exceptions.DBException;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.*;
 import java.util.ArrayList;

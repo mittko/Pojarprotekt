@@ -5,11 +5,12 @@ import NewExtinguisher.NewExtinguisherWindow;
 import WorkingBook.View;
 import WorkingBook.WorkingBook;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProtokolTable extends MainPanel {
 
@@ -332,7 +333,7 @@ public class ProtokolTable extends MainPanel {
 				Log.DB_Err.writeErros(e.toString());
 				DBException.DBExceptions("Грешка", e);
 				e.printStackTrace();
-				return null;
+
 			}
 		}
 	}
@@ -348,9 +349,9 @@ public class ProtokolTable extends MainPanel {
 			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			ps = connection.prepareStatement(preparedCommand);
 			connection.setAutoCommit(false);
-			for (int i = 0; i < updateExtinguishersList.size(); i++) {
+			for (String s : updateExtinguishersList) {
 				ps.setString(1, "да");
-				ps.setString(2, updateExtinguishersList.get(i));
+				ps.setString(2, s);
 				ps.addBatch();
 			}
 			int updates[] = ps.executeBatch(); // ?????
@@ -388,9 +389,9 @@ public class ProtokolTable extends MainPanel {
 			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			ps = connection.prepareStatement(preparedCommand);
 			connection.setAutoCommit(false);
-			for (int i = 0; i < updateExtinguishersList.size(); i++) {
+			for (String s : updateExtinguishersList) {
 				ps.setString(1, "не");
-				ps.setString(2, updateExtinguishersList.get(i));
+				ps.setString(2, s);
 				ps.addBatch();
 			}
 			int updates[] = ps.executeBatch(); // ?????
@@ -569,7 +570,6 @@ public class ProtokolTable extends MainPanel {
 				Log.DB_Err.writeErros(e.toString());
 				DBException.DBExceptions("Грешка", e);
 				e.printStackTrace();
-				return update;
 			}
 		}
 	}
@@ -639,7 +639,6 @@ public class ProtokolTable extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return update;
 			}
 		}
 	}
@@ -710,11 +709,10 @@ public class ProtokolTable extends MainPanel {
 				Log.DB_Err.writeErros(e.toString());
 				DBException.DBExceptions("Грешка", e);
 				e.printStackTrace();
-				return update;
 			}
 		}
 	}
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		ProtokolTable pt = new ProtokolTable();
 
@@ -731,6 +729,112 @@ public class ProtokolTable extends MainPanel {
 		// pt.readFromExcelInsertIntoProtokol("Протокол2000323.xls");
 		//pt.addColumn("additional_data");
 
+	//	pt.getSchemas();
+	//	pt.getSchemaTables("APP");
+		pt.getLastTableRecord();
+	}
+
+	private void getSchemas() throws SQLException {
+		Connection connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);;
+		DatabaseMetaData dmd = connection.getMetaData();
+		ResultSet rs = dmd.getSchemas();
+		List<String> schemas = new ArrayList<String>();
+		while (rs.next()) {
+			String schema = rs.getString("TABLE_SCHEM");
+			System.out.println("schema " + schema);
+			schemas.add(schema);
+		}
+		rs.close();
+	}
+	private void getSchemaTables(String schemaPattern) throws SQLException {
+		Connection connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+		// get database metadata
+		DatabaseMetaData metaData = connection.getMetaData();
+        // get columns
+		ResultSet rs = metaData.getTables(null, schemaPattern, "%", null);
+		List<String> tables = new ArrayList<String>();
+		while (rs.next()) {
+			// 1: none
+			// 2: schema
+			// 3: table name
+			// 4: table type (TABLE, VIEW)
+			String tableName = rs.getString(3);
+
+			tables.add(tableName);
+			getTableColumns(schemaPattern,tableName);
+		}
+		rs.close();
+	}
+	private void getTableColumns(String schemaPattern, String tableName) throws SQLException {
+		Connection connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+		// get data base metadata
+		DatabaseMetaData metaData = connection.getMetaData();
+        // get columns
+		ResultSet rs = metaData.getColumns(null, schemaPattern,
+				tableName, "%");
+		List<String> columns = new ArrayList<String>();
+		System.out.println();
+		System.out.println("tableName " + tableName);
+		while (rs.next()) {
+			// 1: none
+			// 2: schema
+			// 3: table name
+			// 4: column name
+			// 5: length
+			// 6: data type (CHAR, VARCHAR, TIMESTAMP, ...)
+			String column = rs.getString(4);
+			String dataType = rs.getString(6);
+			System.out.print(column + " (" +  dataType + ") ");
+			columns.add(column);
+		}
+		rs.close();
+	}
+
+	private void getLastTableRecord() {
+		Connection connect = null;
+		Statement stat = null;
+		String command = "select NUMBER from " + PROTOKOL + " ORDER BY 'NUMBER' fetch first 4 rows only";
+		ResultSet rs = null;
+		ResultSetMetaData rsmd = null;
+		try {
+			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			stat = connect.createStatement();
+			rs = stat.executeQuery(command);
+			while (rs.next()) {
+				rsmd = rs.getMetaData();
+				ArrayList<Object> obj = new ArrayList<Object>();
+				for (int i = 0; i < rsmd.getColumnCount(); i++) {
+					obj.add(rs.getObject(i + 1));
+				}
+				for (Object o : obj) {
+					System.out.print(o + " ");
+				}
+				System.out.println();
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			Log.DB_Err.writeErros(e.toString());
+			DBException.DBExceptions("Грешка", e);
+			e.printStackTrace();
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				Log.DB_Err.writeErros(e.toString());
+				DBException.DBExceptions("Грешка", e);
+				e.printStackTrace();
+
+			}
+		}
 	}
 	public void inspectProtokol(String number) {
 		Connection connect = null;

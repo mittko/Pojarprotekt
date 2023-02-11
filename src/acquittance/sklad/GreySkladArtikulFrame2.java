@@ -3,7 +3,7 @@ package acquittance.sklad;
 import acquittance.editors.TableCellEditors2;
 import acquittance.renderers.AutoSortRenderer2;
 import admin.Artikul.Workers.BiggestPriceForInvoiceWorker;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

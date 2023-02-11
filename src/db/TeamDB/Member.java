@@ -10,9 +10,7 @@ import java.util.ArrayList;
 
 import net.GetCurrentIP;
 import Exceptions.DBException;
-import utility.MainPanel;
-
-import static utility.MainPanel.TEAM;
+import utils.MainPanel;
 
 public class Member extends MainPanel {
 

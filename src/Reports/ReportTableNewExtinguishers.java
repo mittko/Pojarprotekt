@@ -4,9 +4,9 @@ import Reports.ReportsRenderers.ArtikulsTableRenderer;
 import Reports.ReportsRenderers.JTableX;
 import Reports.ReportsWorkers.ExportToExcellWorkerNewExtinguishers;
 import run.JustFrame;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

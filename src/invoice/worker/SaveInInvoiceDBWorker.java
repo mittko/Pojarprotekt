@@ -6,7 +6,7 @@ import db.Invoice.InvoiceParent_DB;
 import generators.InvoiceGenerator;
 import invoice.PrintInvoiceDialog;
 import run.JDialoger;
-import utility.BevelLabel;
+import utils.BevelLabel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -31,10 +31,12 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 	private final BevelLabel numLabel;
     private final String parentTable;
     private final String childTable;
+
+	private boolean isVatRegistered;
 	public SaveInInvoiceDBWorker(String parentTable,String childTable, JDialog jd, String payment, String discount,
 			String sum, String currentClient, String personName, String date,
 			String invoiceNumber, String protokolNumber,
-			DefaultTableModel dftm, BevelLabel numLabel) {
+			DefaultTableModel dftm, BevelLabel numLabel, boolean isVatRegistered) {
 		this.parentTable = parentTable;
 		this.childTable = childTable;
 		this.jd = jd;
@@ -48,6 +50,7 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
 		this.numLabel = numLabel;
+		this.isVatRegistered = isVatRegistered;
 	}
 
 	@Override

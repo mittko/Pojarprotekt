@@ -5,10 +5,10 @@ import admin.Artikul.Workers.DeleteArtikulWorker;
 import admin.Artikul.Workers.LoadAllArtikulsWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
-import utility.EditableField;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.EditableField;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

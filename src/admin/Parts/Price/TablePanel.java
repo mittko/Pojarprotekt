@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import run.JustFrame;
 import admin.AdminRenderer.MyTableCellRenderer;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class TablePanel extends MainPanel {
 

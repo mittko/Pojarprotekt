@@ -4,7 +4,7 @@ import JPrinter.Print.PrintWithoutOpenPdf;
 import PDF.Invoice.InvoicePDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;
@@ -21,12 +21,13 @@ public class PrintProformPdfWorker extends SwingWorker {
 	private String payment;
 	private JDialog jd;
 	boolean isCreated = false;
+
 	private DefaultTableModel dftm;
 	private PrintService ps;
 
 	public PrintProformPdfWorker(DefaultTableModel dftm, String currentClient,
 			String proformNumber, String datePdf, double danOsnova,
-			String payment, PrintService ps, JDialog jd) {
+			String payment,PrintService ps, JDialog jd) {
 		this.dftm = dftm;
 		this.currentClient = currentClient;
 		this.proformNumber = proformNumber;

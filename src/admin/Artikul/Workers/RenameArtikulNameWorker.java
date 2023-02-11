@@ -1,7 +1,7 @@
 package admin.Artikul.Workers;
 
 import db.Artikul.Artikuli_DB;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 

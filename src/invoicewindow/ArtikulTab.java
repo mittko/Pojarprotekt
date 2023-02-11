@@ -1,5 +1,6 @@
 package invoicewindow;
 
+import db.Client.FirmTable;
 import invoice.InvoiceRenderer.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.Sklad.SkladArtikulFrame;
@@ -7,7 +8,7 @@ import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
 import invoice.worker.GetDiscountWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -22,12 +23,15 @@ public class ArtikulTab extends MainPanel {
 	private final ClientsListComboBox2 clientCombo;
 	private static JTextField discountField;
 	private static DiscountButtonArtikuli choiceDiscountButton;
+
+	private static JButton registrationVatCheckBox;
+	final ImageIcon selectedIcon = new LoadIcon().setIcons(yesImage);
 	private static JComboBox<String> paymentCombo;
 	// private String discount;
-	private  TooltipButton skladButton;
+	private final TooltipButton skladButton;
 	public static DefaultTableModel dftm;
 	// private DefaultTableModel artikuliModel;
-	private  JTable onlyArticulsTable;
+	private final JTable onlyArticulsTable;
 	private static JTextField sumFieldNoTax;
 	private static JTextField sumField;
 	// private BevelLabel acquittanceNumLabel;
@@ -76,6 +80,16 @@ public class ArtikulTab extends MainPanel {
 
 								discountField.setText(discount);
 								choiceDiscountButton.setDefaultIcon();
+
+								String registrationVat = FirmTable.getHasFirmVatRegistration(
+										clientCombo.getSelectedItem().toString());
+								registrationVatCheckBox.setSelected(
+										registrationVat.equals("‰‡"));
+								if ((registrationVatCheckBox.isSelected())) {
+									setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+								} else {
+									registrationVatCheckBox.setIcon(null);
+								}
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -92,7 +106,7 @@ public class ArtikulTab extends MainPanel {
 		discountField.setBorder(BorderFactory.createLoweredBevelBorder());
 		discountField.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.05), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.6)));
+				.getPreferredSize().getHeight() * 0.75)));
 
 		paymentCombo = new JComboBox<String>(new String[] { "Õ‡˜ËÌ Ì‡ ÔÎ‡˘‡ÌÂ",
 				"¬ ·ÓÈ", "œÓ ·‡ÌÍÓ‚ Ô˙Ú" });
@@ -103,8 +117,6 @@ public class ArtikulTab extends MainPanel {
 
 		skladButton = new TooltipButton();
 		skladButton.setEnabled(false);
-		// skladButton.setPreferredSize(new Dimension(55,55));
-		// skladButton.setIcon(setIcons(artikuliImage));
 		skladButton.setToolTipText(getHTML_Text("»«¡≈–» ¿–“» ”À»"));
 		skladButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
@@ -143,8 +155,6 @@ public class ArtikulTab extends MainPanel {
 		});
 
 		TooltipButton dbButton = new TooltipButton();
-		// dbButton.setPreferredSize(new Dimension(55,55));
-		// dbButton.setIcon(setIcons(dbImage));
 		dbButton.setToolTipText(getHTML_Text("«¿œ»ÿ» ¬ ¡¿«¿ ƒ¿ÕÕ»"));
 		dbButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
@@ -193,7 +203,8 @@ public class ArtikulTab extends MainPanel {
 						true, // acquittance
 						dftm, null, // there is invoice num label
 						null, // there is no proform num label
-						null); // acquittance num label
+						null,
+						registrationVatCheckBox.isSelected()); // acquittance num label
 				JDialoger jDialoger = new JDialoger();
 				jDialoger.setContentPane(save);
 				jDialoger.Show();
@@ -235,8 +246,7 @@ public class ArtikulTab extends MainPanel {
 			}
 
 		});
-		northPanel.add(clientCombo);
-		northPanel.add(discountField);
+
 
 		JPanel centerPanel = new JPanel();
 
@@ -350,9 +360,32 @@ public class ArtikulTab extends MainPanel {
 		choiceDiscountButton.setToolTipText(getHTML_Text("ƒŒ¡¿¬» Œ“—“⁄œ ¿"));
 		choiceDiscountButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.6)));
+				.getPreferredSize().getHeight() * 0.75)));
 
+        registrationVatCheckBox = new JButton();
+//		registrationVatCheckBox.setSelected(false);
+//		registrationVatCheckBox.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(!registrationVatCheckBox.isSelected()) {
+//					setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+//					registrationVatCheckBox.setSelected(true);
+//				} else {
+//					registrationVatCheckBox.setIcon(null);
+//					registrationVatCheckBox.setSelected(false);
+//				}
+//			}
+//		});
+		registrationVatCheckBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.75)));
 
+		JLabel registrationVatLabel = new JLabel("–Â„ËÒÚ‡ˆËˇ ÔÓ ƒƒ—");
+
+		northPanel.add(clientCombo);
+		northPanel.add(registrationVatLabel);
+		northPanel.add(registrationVatCheckBox);
+		northPanel.add(discountField);
 		northPanel.add(choiceDiscountButton);
 		northPanel.add(paymentCombo);
 		northPanel.add(skladButton);
@@ -435,7 +468,7 @@ public class ArtikulTab extends MainPanel {
 		discountField.setText("");
 		choiceDiscountButton.setDefaultIcon();
 		paymentCombo.setSelectedIndex(0);
-
+		registrationVatCheckBox.setIcon(null);
 	}
 
 	public void calcFinalSum() {

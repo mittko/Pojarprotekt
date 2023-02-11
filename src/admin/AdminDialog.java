@@ -9,7 +9,7 @@ import admin.SkladExtinguisher.MainFrame_SkladNewExtinguisher;
 import admin.Team.TeamTable;
 import admin.extinguishingagent.ExtinguishingAgentDialog;
 import run.JDialoger;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

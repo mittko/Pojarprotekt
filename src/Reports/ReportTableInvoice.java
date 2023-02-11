@@ -3,9 +3,9 @@ package Reports;
 import Reports.ReportsRenderers.InvoiceTableRenderer;
 import Reports.ReportsWorkers.ExportToExcellWorkerInvocie;
 import Reports.ReportsWorkers.PrintInvoiceAndProformWorker;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

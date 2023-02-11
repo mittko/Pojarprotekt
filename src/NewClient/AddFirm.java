@@ -4,10 +4,7 @@ import Document.TextFieldLimit;
 import db.Client.FirmTable;
 import net.GetCurrentIP;
 import run.JustFrame;
-import utility.BevelLabel;
-import utility.EditableField;
-import utility.LoadIcon;
-import utility.MainPanel;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -32,6 +29,8 @@ public class AddFirm extends MainPanel {
 	JTextField IBAN = null;
 	JTextField discountField = null;
 	JCheckBox incorrectClientCheckBox;
+
+	JCheckBox registeredVATCheckBox;
 	int insertion = 0;
 	private int size = 45;
 
@@ -221,6 +220,8 @@ public class AddFirm extends MainPanel {
 						try {
 							String incorrect = incorrectClientCheckBox
 									.isSelected() ? "да" : "не";
+                            String registrationVat = registeredVATCheckBox.
+									isSelected() ? "да" : "не";
 
 							insertion = FirmTable.insertIntoFirmTable(
 									GetCurrentIP.DB_PATH,
@@ -230,7 +231,9 @@ public class AddFirm extends MainPanel {
 									person.getText(), telPerson.getText(),
 									bank.getText(), BIC.getText(),
 									IBAN.getText(), discountField.getText(),
-									incorrect);
+									incorrect,
+									registrationVat
+							);
 
 
 						} finally {
@@ -266,7 +269,12 @@ public class AddFirm extends MainPanel {
 				.getFont().getSize());
 		incorrectClientCheckBox.setFont(newCheckBoxFont);
 
+		registeredVATCheckBox = new JCheckBox();
+		registeredVATCheckBox.setText("Регистриран по ДДС");
+		registeredVATCheckBox.setFont(newCheckBoxFont);
+
 		bottom.add(incorrectClientCheckBox);
+		bottom.add(registeredVATCheckBox);
 		bottom.add(button);
 		bottom.add(done);
 		bottom.add(doneText);

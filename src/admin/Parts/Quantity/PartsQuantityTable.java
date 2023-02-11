@@ -14,8 +14,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import run.JDialoger;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.MainPanel;
+import utils.TooltipButton;
 import admin.Parts.Quantity.Renderer.Renderer;
 import admin.Parts.Quantity.Worker.SeePartsQuantityWorker;
 import db.Part_Quantity_DB.Part_Quantity;

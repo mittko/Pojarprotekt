@@ -9,7 +9,7 @@ import java.sql.Statement;
 import net.GetCurrentIP;
 import Exceptions.DBException;
 import Log.DB_Err;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class InvoiceNumber extends MainPanel {
 

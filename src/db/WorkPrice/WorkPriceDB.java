@@ -2,7 +2,7 @@ package db.WorkPrice;
 
 import Exceptions.DBException;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.*;
 

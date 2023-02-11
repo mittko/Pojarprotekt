@@ -3,10 +3,10 @@ package admin.SkladExtinguisher;
 import NewExtinguisher.NewExtinguisherWindow;
 import admin.SkladExtinguisher.Editors.TextCellEditors;
 import admin.SkladExtinguisher.Renderers.NewExtRenderer;
-import utility.EditableField;
-import utility.MainPanel;
-import utility.RedCaret;
-import utility.TooltipButton;
+import utils.EditableField;
+import utils.MainPanel;
+import utils.RedCaret;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

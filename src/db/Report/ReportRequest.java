@@ -15,10 +15,9 @@ import Log.DB_Err;
 import Exceptions.DBException;
 import java.sql.DriverManager;
 
-import db.Report.ArtikulAsCode;
 import net.GetCurrentIP;
 import java.util.ArrayList;
-import utility.MainPanel;
+import utils.MainPanel;
 
 
 public class ReportRequest extends MainPanel

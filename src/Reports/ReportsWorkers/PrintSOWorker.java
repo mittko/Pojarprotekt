@@ -4,7 +4,7 @@ import PDF.OpenPDFDocument;
 import PDF.SO.ServiceOrderPDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

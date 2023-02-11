@@ -12,9 +12,9 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import mydate.MyGetDate;
-import utility.MainPanel;
-import utility.MyMath;
-import utility.convertFromDoubleToText;
+import utils.MainPanel;
+import utils.MyMath;
+import utils.convertFromDoubleToText;
 
 import javax.swing.table.DefaultTableModel;
 import java.io.FileNotFoundException;
@@ -74,6 +74,7 @@ public class InvoicePDF extends PdfCreator {
 		this.endIndex = endIndex;
 		this.invoiceDate = invoiceDate;
 
+
 		/*
 		 * for(int i = 0;i < clientInfo.size();i++) {
 		 * System.out.printf("clientInfo.get(%d) = %s\n",i,clientInfo.get(i)); }
@@ -84,10 +85,16 @@ public class InvoicePDF extends PdfCreator {
 				city = clientInfo.get(1); // 1 -> city
 				address = clientInfo.get(2);// 2 -> address
 				String registraciaDDS = extractOnlyDigit(clientInfo.get(3));// 3
-																			// ->
-																			// EIK
-				EIK = registraciaDDS;
-				DDS = "BG" + registraciaDDS;
+
+				String isVatRegistered = clientInfo.get(clientInfo.size()-1);															// ->
+				if(isVatRegistered.equals("да")) {
+					DDS = "BG" + registraciaDDS;
+					EIK = "";
+				} else {
+					EIK =  registraciaDDS;
+					DDS = "";
+				}
+
 				MOL = clientInfo.get(4);// name (MOL)
 				// 5 -> tel of firm
 				// 6 -> email

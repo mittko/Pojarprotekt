@@ -1,6 +1,6 @@
 package NewExtinguisher.Renderers;
 
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

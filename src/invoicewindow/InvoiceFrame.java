@@ -1,7 +1,7 @@
 package invoicewindow;
 
 import run.JustFrame;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 

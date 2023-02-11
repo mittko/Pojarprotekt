@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 
-import utility.LoadIcon;
+import utils.LoadIcon;
 
 public class JustFrame extends JFrame {
 	public int HEIGHT;

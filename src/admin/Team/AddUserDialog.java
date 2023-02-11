@@ -1,9 +1,9 @@
 package admin.Team;
 
 import admin.Team.Workers.AddUserWorker;
-import utility.CustomCheckBox;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.CustomCheckBox;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import java.awt.*;

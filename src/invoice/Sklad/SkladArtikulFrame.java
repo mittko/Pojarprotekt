@@ -3,7 +3,7 @@ package invoice.Sklad;
 import admin.Artikul.Workers.BiggestPriceForInvoiceWorker;
 import invoice.InvoiceEditors.TableCellEditors;
 import invoice.InvoiceRenderer.AutoSortRenderer;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

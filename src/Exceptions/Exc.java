@@ -1,6 +1,6 @@
 package Exceptions;
 
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.awt.*;
 

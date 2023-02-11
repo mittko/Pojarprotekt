@@ -2,9 +2,9 @@ package admin.SkladExtinguisher.Workers;
 
 import db.Artikul.Artikuli_DB;
 import db.NewExtinguisher.NewExtinguishers_DB;
-import utility.BrandListComboBox;
-import utility.ClientsListComboBox2;
-import utility.MainPanel;
+import utils.BrandListComboBox;
+import utils.ClientsListComboBox2;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

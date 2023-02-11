@@ -3,7 +3,7 @@ package db;
 import Exceptions.DBException;
 import Log.DB_Err;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.*;
 
@@ -137,10 +137,10 @@ public class RemoveTable extends MainPanel {
 		return update;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		RemoveTable r = new RemoveTable();
-		r.deleteDocument(MainPanel.PROTOKOL,"0016979");
+		// r.deleteDocument(MainPanel.PROTOKOL,"0016979");
 		// r.deleteTable(PARTS_PRICE);
 		// r.deleteTable(PROTOKOL_NUMBER);
 		// r.deleteTable(FIRM);
@@ -165,7 +165,25 @@ public class RemoveTable extends MainPanel {
 		// r.deleteTable(NEW_EXTINGUISHERS);
 		// int rw = r.deleteDocument(PROTOKOL, "0010636");
 
+		deleteClient(MainPanel.FIRM,"'Õ» ŒÀ-≈Ã 2015'≈ŒŒƒ");
 		// System.out.println(rw);
 	}
 
+	private static void deleteClient(String table, String clientName) {
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			PreparedStatement preparedStatement = conn.prepareStatement(
+					"delete from " + table + " where firm=?");
+			preparedStatement.setString(1, clientName);
+			int row = preparedStatement.executeUpdate();
+			// rows affected
+			System.out.println(row);
+		} catch (SQLException e) {
+			DBException.DBExceptions("√Â¯Í‡ ", e);
+			DB_Err.writeErros(e.toString());
+			Log.DB_Err.writeErros(e.toString());
+		}
+
+	}
 }

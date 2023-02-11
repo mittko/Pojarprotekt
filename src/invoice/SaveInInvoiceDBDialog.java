@@ -7,9 +7,9 @@ import invoicewindow.ArtikulTab;
 import invoicewindow.SearchFromProformTab;
 import invoicewindow.SearchFromProtokolTab;
 import mydate.MyGetDate;
-import utility.BevelLabel;
-import utility.MainPanel;
-import utility.MyMath;
+import utils.BevelLabel;
+import utils.MainPanel;
+import utils.MyMath;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -45,18 +45,19 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 
 	private final DefaultTableModel copyOriginTableModel = new DefaultTableModel();
 
+	private boolean isVatRegistered;
+
 	public SaveInInvoiceDBDialog(final String parentTable, final String childTable, final String protokolNumber, String client,
 								 final String payment, final String discount, final String sum,
 								 final String personName, final String date, boolean calledFromInvoiceWindow,
 								 final boolean calledFromProformWindow, boolean isAcquittance,
 								 final DefaultTableModel dftm, final BevelLabel invoiceLabel,
-								 final BevelLabel proformLabel, final BevelLabel acquittanceLabel) {
+								 final BevelLabel proformLabel, final BevelLabel acquittanceLabel
+	                             , final boolean isVatRegistered) {
 		// parameters to save data
 		this.CLIENT = client;
-		// set enabled/disabled radio buttons
-		// this.isInvoice = isInvoice;
-		// this.isProform = isProform;
-		// this.isAcquittance = isAcquittance;
+		this.isVatRegistered = isVatRegistered;
+
 
 		this.dftm = dftm;
 
@@ -182,13 +183,6 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 
 		});
 
-//		bg.add(invoiceRadioButton);
-//
-//		bg.add(proformRadioButton);
-//
-//		bg.add(acquittanceRadioButton);
-//
-//		bg.add(fiskalRadioButton);
 
 		JLabel questionLabel = new JLabel(
 				"  Как желаете да съхраните данните ?");
@@ -228,7 +222,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 								parentTable,childTable,
 								jd, payment, discount, sum, CLIENT, personName,
 								date, updatedInvoiceNumber, protokolNumber,
-								copyOriginTableModel, invoiceLabel);
+								copyOriginTableModel, invoiceLabel, isVatRegistered);
 
 						try {
 							WRITE_IN_INVOICE_SUCCESS = saveinInvoice
@@ -273,7 +267,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						SaveInProformDBWorker saveinProform = new SaveInProformDBWorker(
 								jd, payment, discount, sum, CLIENT, personName,
 								date, updateProformNumber, protokolNumber,
-								copyOriginTableModel, proformLabel);
+								copyOriginTableModel, proformLabel,isVatRegistered);
 						try {
 							WRITE_IN_PROFORM_SUCCESS = saveinProform
 									.doInBackground();

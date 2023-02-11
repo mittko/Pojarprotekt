@@ -2,7 +2,7 @@ package office.ServiceOrderWorkers;
 
 import JPrinter.Print.PrintBarcod;
 import generators.GenerateBarcod;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 

@@ -23,13 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.FontUIResource;
 
-import utility.BevelLabel;
-import utility.EditableField;
-import utility.LoadIcon;
+import utils.*;
 import Document.TextFieldLimit;
 import db.Client.FirmTable;
-import utility.MainPanel;
 
 public class EditFirm extends MainPanel {
 
@@ -49,8 +47,8 @@ public class EditFirm extends MainPanel {
 	int edit = 0;
 	private int size = 45;
 	public static ArrayList<JComponent> components = null;
-	private JCheckBox incorrectClientCheckBox;
-
+	private final JCheckBox incorrectClientCheckBox;
+	private final JCheckBox registrationVatCheckBox;
 	public EditFirm() {
 
 		components = new ArrayList<JComponent>();
@@ -201,7 +199,7 @@ public class EditFirm extends MainPanel {
 		final JLabel doneText = new JLabel();
 
 		final BevelLabel done = new BevelLabel((int) (bottom.getPreferredSize()
-				.getHeight() * 1.0));
+				.getHeight()));
 		/*
 		 * done.setPreferredSize(new Dimension(
 		 * (int)(bottom.getPreferredSize().getWidth() * 0.08),
@@ -243,7 +241,8 @@ public class EditFirm extends MainPanel {
 
 							String incorrect = incorrectClientCheckBox
 									.isSelected() ? "да" : "не";
-
+                            String registrationVat = registrationVatCheckBox
+									.isSelected() ? "да" : "не";
 							edit = FirmTable.editFirmTable(OLD_FIRM_NAME,
 									NEW_FIRM_NAME, city.getText(),
 									address.getText(), eik.getText(),
@@ -251,7 +250,7 @@ public class EditFirm extends MainPanel {
 									person.getText(), telPerson.getText(),
 									bank.getText(), BIC.getText(),
 									IBAN.getText(), discountField.getText(),
-									incorrect);
+									incorrect,registrationVat);
 
 							// here to add code to rename old name
 							// with new name in all tables !!!
@@ -325,6 +324,10 @@ public class EditFirm extends MainPanel {
 				.getFont().getSize());
 		incorrectClientCheckBox.setFont(newCheckBoxFont);
 
+		registrationVatCheckBox = new JCheckBox();
+		registrationVatCheckBox.setText("Регистриран по ДДС");
+        registrationVatCheckBox.setFont(newCheckBoxFont);
+
 		components.add(firm);
 		components.add(city);
 		components.add(address);
@@ -338,8 +341,10 @@ public class EditFirm extends MainPanel {
 		components.add(IBAN);
 		components.add(discountField);
 		components.add(incorrectClientCheckBox);
+		components.add(registrationVatCheckBox);
 
 		bottom.add(incorrectClientCheckBox);
+		bottom.add(registrationVatCheckBox);
 		bottom.add(button);
 		bottom.add(done);
 		bottom.add(doneText);

@@ -19,7 +19,7 @@ import invoicewindow.SearchFromProformTab;
 import invoicewindow.SearchFromProtokolTab;
 import office.ServiceOrder;
 import run.JDialoger;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -24,13 +24,13 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
-import utility.BevelLabel;
-import utility.EditableField;
-import utility.LoadIcon;
+import utils.BevelLabel;
+import utils.EditableField;
+import utils.LoadIcon;
 import Document.TextFieldLimit;
 import db.Client.ClientTable;
 import db.Client.FirmTable;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class EditPerson extends MainPanel {
 	JTextField name = null;

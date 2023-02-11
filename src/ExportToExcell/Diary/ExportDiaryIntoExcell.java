@@ -15,7 +15,7 @@ import jxl.write.*;
 import jxl.write.WritableFont.FontName;
 import jxl.write.biff.RowsExceededException;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

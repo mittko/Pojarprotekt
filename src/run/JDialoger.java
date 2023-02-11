@@ -6,7 +6,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 
-import utility.LoadIcon;
+import utils.LoadIcon;
 
 public class JDialoger extends JDialog {
 

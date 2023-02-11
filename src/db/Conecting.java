@@ -1,7 +1,7 @@
 package db;
 
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.*;
 

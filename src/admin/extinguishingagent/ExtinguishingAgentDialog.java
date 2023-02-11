@@ -3,7 +3,7 @@ package admin.extinguishingagent;
 import admin.extinguishingagent.workers.EditExtinguishingAgentWorker;
 import admin.extinguishingagent.workers.LoadExtinguishingTableValues;
 import run.JustFrame;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

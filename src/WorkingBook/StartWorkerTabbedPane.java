@@ -1,6 +1,6 @@
 package WorkingBook;
 
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

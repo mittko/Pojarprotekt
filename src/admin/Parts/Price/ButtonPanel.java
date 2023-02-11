@@ -23,10 +23,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import run.JustFrame;
-import utility.EditableField;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.EditableField;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 import admin.AdminTableModel.CO2Model;
 import admin.AdminTableModel.DustModel;
 import admin.AdminTableModel.DustModel2;

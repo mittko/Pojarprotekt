@@ -8,15 +8,14 @@ package admin.Artikul.Workers;
 
 import javax.swing.SwingUtilities;
 import java.awt.Cursor;
-import java.awt.Component;
 import javax.swing.JOptionPane;
 
 import db.Artikul.Artikuli_DB;
 import javax.swing.JDialog;
-import utility.EditableField;
+import utils.EditableField;
 import javax.swing.JTextField;
-import utility.ArtikulsListComboBox;
-import utility.ClientsListComboBox2;
+import utils.ArtikulsListComboBox;
+import utils.ClientsListComboBox2;
 import javax.swing.SwingWorker;
 
 public class InsertArtikulWorker extends SwingWorker

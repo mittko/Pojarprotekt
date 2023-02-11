@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-import utility.ChoisePrinterDialog;
+import utils.ChoisePrinterDialog;
 import WorkingBookWorkers.ProtokolPrinter;
 
 public class PrintProtokolWorker extends SwingWorker{

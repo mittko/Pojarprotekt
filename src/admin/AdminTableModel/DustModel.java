@@ -1,8 +1,8 @@
 package admin.AdminTableModel;
 
 import db.PartsPrice.PriceTable;
-import utility.MainPanel;
-import utility.MyMath;
+import utils.MainPanel;
+import utils.MyMath;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Random;

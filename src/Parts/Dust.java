@@ -1,10 +1,10 @@
 package Parts;
 
 
-import utility.CustomButton;
-import utility.GradientPanel;
-import utility.LoadIcon;
-import utility.MainPanel;
+import utils.CustomButton;
+import utils.GradientPanel;
+import utils.LoadIcon;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

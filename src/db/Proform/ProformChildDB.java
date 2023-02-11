@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import net.GetCurrentIP;
 import Exceptions.DBException;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class ProformChildDB extends MainPanel {
 

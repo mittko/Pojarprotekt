@@ -6,7 +6,7 @@ import NewClient.editClient.IncorrectPerson;
 import db.Conecting;
 import db.modify.AddColumn;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -479,7 +479,6 @@ public class ClientTable extends MainPanel {
 			rs = stat.executeQuery();
 			ResultSetMetaData rsmd = rs.getMetaData();
 			while (rs.next()) {
-
 				for (int i = 0; i < rsmd.getColumnCount(); i++) {
 					details.add(rs.getString(i + 1)); //
 				}

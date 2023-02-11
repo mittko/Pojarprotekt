@@ -4,9 +4,9 @@ import Document.TextFieldLimit;
 import admin.Discount.Workers.changeDiscountOfWorker;
 import admin.Discount.Workers.seeDiscountOfClientWorker;
 import run.JustFrame;
-import utility.ClientsListComboBox2;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.ClientsListComboBox2;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import java.awt.*;

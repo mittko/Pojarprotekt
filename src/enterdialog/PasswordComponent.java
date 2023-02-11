@@ -8,7 +8,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class PasswordComponent extends MainPanel {
 	// private Image img = null;

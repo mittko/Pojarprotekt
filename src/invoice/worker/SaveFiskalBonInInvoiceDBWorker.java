@@ -3,7 +3,7 @@ package invoice.worker;
 import db.Invoice.InvoiceChildDB;
 import db.Invoice.InvoiceParent_DB;
 import generators.InvoiceGenerator;
-import utility.BevelLabel;
+import utils.BevelLabel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

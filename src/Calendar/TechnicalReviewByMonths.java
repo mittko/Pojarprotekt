@@ -4,8 +4,8 @@ import Calendar.calendarrenderer.MontsTableRenderer;
 import db.Calendar.TenhicalReviewByMonthsDB;
 import mydate.MyGetDate;
 import run.JustFrame;
-import utility.HeaderTable;
-import utility.MainPanel;
+import utils.HeaderTable;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

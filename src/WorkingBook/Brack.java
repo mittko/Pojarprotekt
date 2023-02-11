@@ -8,10 +8,10 @@ import db.Brack.BrackNumber;
 import db.Common;
 import generators.ProtokolGenerator;
 import run.JustFrame;
-import utility.BevelLabel;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.BevelLabel;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

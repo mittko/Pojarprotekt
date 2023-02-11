@@ -2,9 +2,9 @@ package admin.SkladExtinguisher;
 
 import admin.SkladExtinguisher.Workers.GetDeliveryPriceOfNewExtinguisherWorker;
 import admin.SkladExtinguisher.Workers.UpdatePriceNewExtinguisherWorker;
-import utility.EditableField;
-import utility.MainPanel;
-import utility.MyMath;
+import utils.EditableField;
+import utils.MainPanel;
+import utils.MyMath;
 
 import javax.swing.*;
 import java.awt.*;

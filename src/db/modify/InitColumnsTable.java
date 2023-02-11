@@ -11,9 +11,14 @@ import Log.DB_Err;
 import Exceptions.DBException;
 import java.sql.DriverManager;
 import net.GetCurrentIP;
+import utils.MainPanel;
 
 public class InitColumnsTable
 {
+    public static void main(String[] args) {
+       int update = updateAnyColumnValue(MainPanel.FIRM,"vat_registration","не");
+        System.out.println(update);
+    }
     public static int updateAnyColumnValue(final String table, final String column, final String value) {
         Connection connect = null;
         Statement stat = null;

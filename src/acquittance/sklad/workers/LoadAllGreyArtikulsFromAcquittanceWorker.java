@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static utility.MainPanel.GREY_AVAILABLE_ARTIKULS;
+import static utils.MainPanel.GREY_AVAILABLE_ARTIKULS;
 
 public class LoadAllGreyArtikulsFromAcquittanceWorker extends SwingWorker {
 

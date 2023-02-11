@@ -1,19 +1,23 @@
 package invoice.worker;
 
 import WorkingBook.WorkingBook;
+import db.Client.FirmTable;
 import db.Discount.DiscountDB;
 import db.PartsPrice.PriceTable;
 import db.Protokol.ProtokolTable;
 import invoicewindow.SearchFromProtokolTab;
-import utility.EditableField;
-import utility.MainPanel;
-import utility.MyMath;
+import utils.EditableField;
+import utils.MainPanel;
+import utils.MyMath;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+
+import static invoicewindow.SearchFromProtokolTab.registrationVatCheckBox;
+import static invoicewindow.SearchFromProtokolTab.selectedIcon;
 
 //inner class
 public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
@@ -129,6 +133,13 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 								SearchFromProtokolTab.clientLabel
 										.setName((String) result.get(0)[3]);
+
+								String registrationVat = FirmTable.getHasFirmVatRegistration(
+										SearchFromProtokolTab.INVOICE_CURRENT_CLIENT);
+								boolean selected = registrationVat.equals("да");
+								SearchFromProtokolTab.registrationVatCheckBox.setSelected(selected);
+								SearchFromProtokolTab.switchRegistrationVat();
+
 
 								vizualizeTable(mapInfo);
 

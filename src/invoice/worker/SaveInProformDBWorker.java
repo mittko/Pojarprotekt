@@ -10,7 +10,7 @@ import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 import run.JDialoger;
-import utility.BevelLabel;
+import utils.BevelLabel;
 import invoice.PrintInvoiceDialog;
 import db.Invoice.InvoiceNumber;
 import db.Proform.ProformChildDB;
@@ -34,10 +34,12 @@ public class SaveInProformDBWorker extends SwingWorker {
 	private DefaultTableModel dftm;
 	private BevelLabel numLabel;
 
+	private boolean isVatRegistered;
+
 	public SaveInProformDBWorker(JDialog jd, String payment, String discount,
 			String sum, String currentClient, String personName, String date,
 			String proformNumber, String protokolNumber,
-			DefaultTableModel dftm, BevelLabel numLabel) {
+			DefaultTableModel dftm, BevelLabel numLabel, boolean isVatRegistered) {
 		this.jd = jd;
 		this.payment = payment;
 		this.discount = discount;
@@ -49,6 +51,7 @@ public class SaveInProformDBWorker extends SwingWorker {
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
 		this.numLabel = numLabel;
+		this.isVatRegistered = isVatRegistered;
 	}
 
 	@Override

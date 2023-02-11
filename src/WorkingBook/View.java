@@ -6,10 +6,10 @@ import WorkingBookWorkers.PrintProtokolWorker;
 import WorkingBookWorkers.SaveInProtokolWorker;
 import db.Common;
 import run.JustFrame;
-import utility.BevelLabel;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.BevelLabel;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -183,6 +183,7 @@ public class View extends MainPanel {
 				 * dtm_Extinguisher.setRowCount(0); jd.setCursor(new
 				 * Cursor(Cursor.DEFAULT_CURSOR));
 				 */
+
 				PrintProtokolWorker pw = new PrintProtokolWorker(
 						dtm_Extinguisher, jd, PDF_PROTOKOL_NUMBER,
 						getPartsMap());

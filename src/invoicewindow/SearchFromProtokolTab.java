@@ -10,7 +10,7 @@ import invoice.worker.SellWithFiskalBonWorker;
 import NewClient.NewClient;
 import mydate.MyGetDate;
 import run.JDialoger;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -28,11 +28,12 @@ import java.util.HashSet;
 
 public class SearchFromProtokolTab extends MainPanel {
 
-	private JPanel northPanel;
-
 	public static EditableField searchField;
 
-	private EditableField dateField;
+	private final EditableField dateField;
+
+	public final static ImageIcon selectedIcon = new LoadIcon().setIcons(yesImage);
+	public static JButton registrationVatCheckBox = new JButton();
 
 	public static JTextField discountField;
 
@@ -42,23 +43,17 @@ public class SearchFromProtokolTab extends MainPanel {
 
 	public static BevelLabel clientLabel;
 
-	private JPanel centerPanel;
-
 	public static DefaultTableModel invoiceTableModel = null;
-	private JTable invoiceTable;
+	private final JTable invoiceTable;
 
 	// private DefaultTableModel artikuliModel;
 
-	private JPanel southPanel;
+	private final BevelLabel invoiceNumberLabel = null;
 
-	private BevelLabel invoiceNumberLabel = null;
-
-	private BevelLabel proformNumLabel = null;
+	private final BevelLabel proformNumLabel = null;
 
 	private static JTextField sumFieldNoTax;// no tax
 	public static JTextField sumField; // with tax
-
-	private TooltipButton daysAccountButton;
 
 	public static String INVOICE_CURRENT_CLIENT;
 	// public static ArrayList<Object[]> moreProtokolsLists = new
@@ -81,7 +76,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		// moreProtokolsList.clear();
 		protokolNumberSet.clear();
 
-		northPanel = new JPanel();// GradientPanel();
+		JPanel northPanel = new JPanel();// GradientPanel();
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		northPanel.setPreferredSize(new Dimension(
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.1)));
@@ -124,7 +119,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		discountField.setBorder(BorderFactory.createLoweredBevelBorder());
 		discountField.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.05), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.6)));
+				.getPreferredSize().getHeight() * 0.75)));
 
 		paymenCombo = new JComboBox<String>(new String[] { "Начин на плащане",
 				"В брой", "По банков път" });
@@ -278,7 +273,7 @@ public class SearchFromProtokolTab extends MainPanel {
 						false, // proform
 						true, // acquittance
 						invoiceTableModel, invoiceNumberLabel, proformNumLabel,
-						null);
+						null, registrationVatCheckBox.isSelected());
 
 				// clear protokol number to avoid mess
 				protokolNumber = "";
@@ -291,7 +286,7 @@ public class SearchFromProtokolTab extends MainPanel {
 
 		});
 
-		centerPanel = new JPanel();
+		JPanel centerPanel = new JPanel();
 
 		invoiceTableModel = new DefaultTableModel(new String[] {
 				"Вид на извършената услуга", "Мярка", "К-во", "Ед. Цена",
@@ -402,17 +397,38 @@ public class SearchFromProtokolTab extends MainPanel {
 		choiceDiscountButton.setToolTipText(getHTML_Text("ДОБАВИ ОТСТЪПКА"));
 		choiceDiscountButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.6)));
+				.getPreferredSize().getHeight() * 0.75)));
 
 		clientLabel = new BevelLabel();
 		clientLabel.setTitle("Клиент : ");
 		clientLabel.setName("");
-		clientLabel.setPreferredSize(new Dimension((int) (northPanel
-				.getPreferredSize().getWidth() * 0.25), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.7)));
+//		clientLabel.setPreferredSize(new Dimension((int) (northPanel
+//				.getPreferredSize().getWidth() * 0.25), (int) (northPanel
+//				.getPreferredSize().getHeight() * 0.7)));
+
+//		registrationVatCheckBox.setSelected(false);
+//		registrationVatCheckBox.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(!registrationVatCheckBox.isSelected()) {
+//					setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+//					registrationVatCheckBox.setSelected(true);
+//				} else {
+//					registrationVatCheckBox.setIcon(null);
+//					registrationVatCheckBox.setSelected(false);
+//				}
+//			}
+//		});
+		registrationVatCheckBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.75)));
+
+		JLabel registrationVatLabel = new JLabel("Регистрация по ДДС");
 
 		northPanel.add(searchField);
 		northPanel.add(dateField);
+		northPanel.add(registrationVatLabel);
+		northPanel.add(registrationVatCheckBox);
 		northPanel.add(discountField);
 		northPanel.add(choiceDiscountButton);
 		northPanel.add(paymenCombo);
@@ -420,9 +436,8 @@ public class SearchFromProtokolTab extends MainPanel {
 		northPanel.add(rubberButton);
 		northPanel.add(dbButton);
 		northPanel.add(newClientButton);
-		northPanel.add(clientLabel);
 
-		southPanel = new JPanel();
+		JPanel southPanel = new JPanel();
 		southPanel.setPreferredSize(new Dimension(
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.065)));
 		southPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
@@ -480,7 +495,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
 		 */
 
-		daysAccountButton = new TooltipButton();
+		TooltipButton daysAccountButton = new TooltipButton();
 		daysAccountButton
 				.setToolTipText(getHTML_Text("НАПРАВИ ФИСКАЛЕН ОТЧЕТ"));
 		daysAccountButton.setPreferredSize(new Dimension((int) (southPanel
@@ -521,8 +536,8 @@ public class SearchFromProtokolTab extends MainPanel {
 			}
 
 		});
-		// southPanel.add(invoiceNumberLabel);
-		// southPanel.add(proformNumLabel);
+
+		southPanel.add(clientLabel);
 		southPanel.add(sallerLabel);
 		// southPanel.add(dateLabel);
 		southPanel.add(sumLabel2);
@@ -562,6 +577,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		// moreProtokolsList.clear();
 		protokolNumberSet.clear();
 		INVOICE_CURRENT_CLIENT = "";
+		registrationVatCheckBox.setIcon(null);
 
 	}
 
@@ -579,5 +595,14 @@ public class SearchFromProtokolTab extends MainPanel {
 		// set final value
 		String finalValue = String.format("%.2f", valu).replace(",", ".");
 		sumField.setText(finalValue);
+	}
+
+
+	public static void switchRegistrationVat() {
+		if ((registrationVatCheckBox.isSelected())) {
+			setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+		} else {
+			registrationVatCheckBox.setIcon(null);
+		}
 	}
 }

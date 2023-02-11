@@ -5,8 +5,8 @@ import PDF.Protokol.NewExtinguisherProtokolPDF;
 import db.Client.ClientTable;
 import db.Protokol.ProtokolNumber;
 import mydate.MyGetDate;
-import utility.ChoisePrinterDialog;
-import utility.MainPanel;
+import utils.ChoisePrinterDialog;
+import utils.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;

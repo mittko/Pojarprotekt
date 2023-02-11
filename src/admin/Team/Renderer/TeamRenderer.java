@@ -1,7 +1,7 @@
 package admin.Team.Renderer;
 
-import utility.BevelLabel;
-import utility.MainPanel;
+import utils.BevelLabel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

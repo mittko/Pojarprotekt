@@ -16,10 +16,9 @@ public class getProtokolNumberWorker extends SwingWorker {
 	@Override
 	public String doInBackground() throws Exception {
 		// TODO Auto-generated method stub
-		String protokolNumber = ProtokolNumber.getProtokolNumber();
 		//int[] next_number = pg.updateProtokol(protokolNumber);
 	     //ProtokolNumber.updateProtokolNumberInDB(pg.digitsToString(next_number));
-		return protokolNumber;
+		return ProtokolNumber.getProtokolNumber();
 	}
 
 }

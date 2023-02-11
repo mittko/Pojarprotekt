@@ -9,9 +9,9 @@ import Reports.ReportsWorkers.PrintProtokolBrackWorker;
 import Reports.ReportsWorkers.PrintProtokolWorker;
 import Reports.ReportsWorkers.PrintSOWorker;
 import run.JustFrame;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

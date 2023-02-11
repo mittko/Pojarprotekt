@@ -1,7 +1,7 @@
 package NewExtinguisher.SwingWorkers;
 
 import ThermalPrinters.CitizenPrinters.CitizenPrinterManager;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 

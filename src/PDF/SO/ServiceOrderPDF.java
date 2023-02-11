@@ -13,7 +13,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

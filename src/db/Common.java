@@ -4,7 +4,7 @@ import Exceptions.DBException;
 import Log.DB_Err;
 import db.modify.AddColumn;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;

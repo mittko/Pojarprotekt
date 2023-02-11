@@ -1,9 +1,9 @@
 package db.modify;
 
 import Exceptions.DBException;
-import db.Artikul.Artikuli_DB;
+import db.Client.FirmTable;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -51,9 +51,11 @@ public class AddColumn {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AddColumn alertTable = new AddColumn();
-		 int result = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS, "code",20);
+		alertTable.addColumn(MainPanel.FIRM, "vat_registration",10);
 
-		 int result2 = InitColumnsTable.updateAnyColumnValue(MainPanel.AVAILABLE_ARTIKULS,"code","1");
+	//	 int result = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS, "code",20);
+
+	//	 int result2 = InitColumnsTable.updateAnyColumnValue(MainPanel.AVAILABLE_ARTIKULS,"code","1");
 		// System.out.println("result = " + result);
 
 		// Member.updateAllColumnValues("Acquittance", "yes");

@@ -4,7 +4,7 @@ import PDF.Aqcuittance.AcquittancePDFromReports;
 import PDF.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -4,7 +4,7 @@ import PDF.Invoice.InvoicePDFFromReports;
 import PDF.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;

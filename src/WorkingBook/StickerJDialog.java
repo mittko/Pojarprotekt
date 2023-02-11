@@ -1,8 +1,8 @@
 package WorkingBook;
 
 import NewExtinguisher.SwingWorkers.StickerPrinterWorker;
-import utility.LoadIcon;
-import utility.MainPanel;
+import utils.LoadIcon;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.border.Border;

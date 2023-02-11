@@ -4,8 +4,8 @@ import invoice.worker.PrintAcquittancePdfWorker;
 import invoice.worker.PrintInvoicePdfWorker;
 import invoice.worker.PrintProformPdfWorker;
 import generators.InvoiceGenerator;
-import utility.ChoisePrinterDialog;
-import utility.MainPanel;
+import utils.ChoisePrinterDialog;
+import utils.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;
@@ -43,11 +43,12 @@ public class PrintInvoiceDialog extends JPanel {
 	private DefaultTableModel dftm;
 	private final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
 
+
 	public PrintInvoiceDialog(final DefaultTableModel dftm,
-			final String invoiceNumber, final String proformNumber,
-			final String acquittanceNumber, final String currentClient,
-			final String datePdf, final double danOsnova, final String payment,
-			boolean isInvoice, boolean isProform, boolean isAcquittance) {
+							  final String invoiceNumber, final String proformNumber,
+							  final String acquittanceNumber, final String currentClient,
+							  final String datePdf, final double danOsnova, final String payment,
+							  boolean isInvoice, boolean isProform, boolean isAcquittance) {
 
 		this.dftm = dftm;
 		// varaibles to create pdf
@@ -137,46 +138,53 @@ public class PrintInvoiceDialog extends JPanel {
 				JDialog jd = (JDialog) SwingUtilities
 						.getWindowAncestor(PrintInvoiceDialog.this);
 
-				if (pdfCommand.equals(INVOICE_PDF)) { // if invoice pdf is
-														// choiced
-					PrintService ps = ChoisePrinterDialog.showPrinters();
-					if (ps == null) {
-						return;
-					}
+				switch (pdfCommand) {
+					case INVOICE_PDF: { // if invoice pdf is
+						// choiced
+						PrintService ps = ChoisePrinterDialog.showPrinters();
+						if (ps == null) {
+							return;
+						}
 
-					PrintInvoicePdfWorker printInvoicePdf = new PrintInvoicePdfWorker(
-							dftm, currentClient, invoiceNumber, datePdf,
-							danOsnova, payment, ps, jd);
-					printInvoicePdf.execute();
-
-					// bye
-					jd.dispose();
-
-				} else if (pdfCommand.equals(PROFORM_PDF)) {
-					PrintService ps = ChoisePrinterDialog.showPrinters();
-					if (ps != null) {
-
-						PrintProformPdfWorker printProformPdf = new PrintProformPdfWorker(
-								dftm, currentClient, proformNumber, datePdf,
+						PrintInvoicePdfWorker printInvoicePdf = new PrintInvoicePdfWorker(
+								dftm, currentClient, invoiceNumber, datePdf,
 								danOsnova, payment, ps, jd);
-						printProformPdf.execute();
+						printInvoicePdf.execute();
 
 						// bye
 						jd.dispose();
 
+						break;
 					}
-				} else if (pdfCommand.equals(ACQIUTTANCE_PDF)) {
-					PrintService ps = ChoisePrinterDialog.showPrinters();
-					if (ps != null) {
+					case PROFORM_PDF: {
+						PrintService ps = ChoisePrinterDialog.showPrinters();
+						if (ps != null) {
 
-						PrintAcquittancePdfWorker printAcquittance = new PrintAcquittancePdfWorker(
-								dftm, currentClient, acquittanceNumber,
-								datePdf, danOsnova, ps, jd);
-						printAcquittance.execute();
+							PrintProformPdfWorker printProformPdf = new PrintProformPdfWorker(
+									dftm, currentClient, proformNumber, datePdf,
+									danOsnova, payment, ps, jd);
+							printProformPdf.execute();
 
-						// bye
-						jd.dispose();
+							// bye
+							jd.dispose();
 
+						}
+						break;
+					}
+					case ACQIUTTANCE_PDF: {
+						PrintService ps = ChoisePrinterDialog.showPrinters();
+						if (ps != null) {
+
+							PrintAcquittancePdfWorker printAcquittance = new PrintAcquittancePdfWorker(
+									dftm, currentClient, acquittanceNumber,
+									datePdf, danOsnova, ps, jd);
+							printAcquittance.execute();
+
+							// bye
+							jd.dispose();
+
+						}
+						break;
 					}
 				}
 

@@ -5,7 +5,7 @@ import Log.DB_Err;
 import generators.BarcodGenerator;
 import generators.SerialGenerator;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import java.sql.*;
 

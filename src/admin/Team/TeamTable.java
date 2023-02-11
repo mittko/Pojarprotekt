@@ -4,8 +4,8 @@ import admin.Team.Renderer.TeamRenderer;
 import admin.Team.Workers.RemoveMemberWorker;
 import admin.Team.Workers.SeeMembersWorker;
 import run.JDialoger;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

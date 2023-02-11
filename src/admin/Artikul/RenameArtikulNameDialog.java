@@ -3,7 +3,7 @@ package admin.Artikul;
 import Exceptions.DBException;
 import admin.Artikul.Workers.RenameArtikulNameWorker;
 import run.JustFrame;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -3,7 +3,7 @@ package WorkingBookWorkers;
 import WorkingBook.View;
 import generators.ProtokolGenerator;
 import mydate.MyGetDate;
-import utility.ChoisePrinterDialog;
+import utils.ChoisePrinterDialog;
 
 import javax.print.PrintService;
 import javax.swing.*;

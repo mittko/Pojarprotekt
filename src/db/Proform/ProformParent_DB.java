@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import net.GetCurrentIP;
 import Exceptions.DBException;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class ProformParent_DB extends MainPanel {
 

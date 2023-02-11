@@ -22,9 +22,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 import Reports.ReportsRenderers.AcquittanceTableRender;
 import Reports.ReportsWorkers.ExportToExcellWorkerAcquittance;
 import Reports.ReportsWorkers.PrintAcquittanceWorker;

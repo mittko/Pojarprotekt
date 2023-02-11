@@ -7,10 +7,10 @@ import Reports.ReportsWorkers.ExportToExcellWorkerAvailable;
 
 import mydate.MyGetDate;
 import run.JustFrame;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.MyMath;
-import utility.TooltipButton;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.MyMath;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

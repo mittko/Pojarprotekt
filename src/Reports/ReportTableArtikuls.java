@@ -22,9 +22,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import run.JustFrame;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 import Reports.ReportsRenderers.ArtikulsTableRenderer;
 import Reports.ReportsRenderers.JTableX;
 import Reports.ReportsWorkers.ExportToExcellWorkerArtikuls;

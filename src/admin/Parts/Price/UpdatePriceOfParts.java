@@ -1,7 +1,7 @@
 package admin.Parts.Price;
 
 import run.JustFrame;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

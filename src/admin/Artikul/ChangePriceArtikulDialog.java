@@ -3,9 +3,9 @@ package admin.Artikul;
 import admin.Artikul.Workers.GetDeliveryValueForArtikul;
 import admin.Artikul.Workers.UpdatePriceArtikulWorker;
 import mydate.MyGetDate;
-import utility.EditableField;
-import utility.MainPanel;
-import utility.MyMath;
+import utils.EditableField;
+import utils.MainPanel;
+import utils.MyMath;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package admin.SkladExtinguisher.Workers;
 
 import db.NewExtinguisher.NewExtinguishers_DB;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

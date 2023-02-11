@@ -1,8 +1,8 @@
 package admin.SkladExtinguisher;
 
 import admin.SkladExtinguisher.Workers.UpdateNewQuantityOfExtinguisgerInDB;
-import utility.EditableField;
-import utility.MainPanel;
+import utils.EditableField;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -6,7 +6,7 @@ import db.Brack.BrackNumber;
 import db.Brack.ProtBrackTable;
 import generators.ProtokolGenerator;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;

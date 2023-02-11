@@ -4,7 +4,7 @@ import JPrinter.Print.PrintWithoutOpenPdf;
 import PDF.Invoice.InvoicePDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;
@@ -22,8 +22,10 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 	private String payment;
 	private JDialog jd;
 	boolean isCreated = false;
+
 	private DefaultTableModel dftm;
 	private PrintService ps;
+
 
 	public PrintInvoicePdfWorker(DefaultTableModel dftm, String currentClient,
 			String invoiceNumber, String datePdf, double danOsnova,

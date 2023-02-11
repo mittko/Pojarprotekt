@@ -6,8 +6,8 @@ import db.AcquittanceDB.AcuittanceParentDB;
 import generators.AcquittanceGenerator;
 import invoice.PrintInvoiceDialog;
 import run.JDialoger;
-import utility.BevelLabel;
-import utility.MyMath;
+import utils.BevelLabel;
+import utils.MyMath;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +27,7 @@ public class SaveInAcquittanceWorker extends SwingWorker {
 	private int updateChild;
 	private int[] next_acquittance = null;
 	private BevelLabel numLabel;
+
 
 	public SaveInAcquittanceWorker(DefaultTableModel dftm, String number,
 			double value, String saller, String client, String date,

@@ -1,9 +1,9 @@
 package admin.Parts.Quantity;
 
 import admin.Parts.Quantity.Worker.UpdatePartQuantityWorker;
-import utility.EditableField;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.EditableField;
+import utils.MainPanel;
+import utils.TooltipButton;
 
 import javax.swing.*;
 import java.awt.*;

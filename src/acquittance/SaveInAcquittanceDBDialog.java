@@ -5,9 +5,9 @@ import acquittance.windows.ArtikulTab2;
 import invoice.worker.DecreaseArtikulQuantityWorker;
 import invoice.worker.GetAqcuittanceNumberWorker;
 import invoice.worker.SaveInAcquittanceWorker;
-import utility.BevelLabel;
-import utility.MainPanel;
-import utility.MyMath;
+import utils.BevelLabel;
+import utils.MainPanel;
+import utils.MyMath;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

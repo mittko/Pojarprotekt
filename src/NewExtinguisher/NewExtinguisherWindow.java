@@ -11,7 +11,7 @@ import generators.BarcodGenerator;
 import generators.GenerateSO;
 import mydate.MyGetDate;
 import run.JDialoger;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

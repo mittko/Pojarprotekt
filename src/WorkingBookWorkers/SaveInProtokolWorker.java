@@ -7,7 +7,7 @@ import db.Protokol.ProtokolNumber;
 import db.Protokol.ProtokolTable;
 import generators.ProtokolGenerator;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,8 +58,7 @@ public class SaveInProtokolWorker extends SwingWorker {
 				// update protokol number
 			   next_number = pg.updateProtokol(FIXED_PROTOKOL_NUMBER);
 						
-				ProtokolNumber.updateProtokolNumberInDB(pg
-						.digitsToString(next_number)); // change
+				ProtokolNumber.updateProtokolNumberInDB(pg.digitsToString(next_number)); // change
 				
 				// ???? Update Service Order
 				ProtokolTable.setExtinguisherDoneWithBatch(updateExtinguishersList);// in service table

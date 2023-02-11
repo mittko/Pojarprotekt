@@ -3,7 +3,7 @@ package WorkingBook;
 import Parts.Dust;
 import Parts.Vodopenen;
 import Parts.Water;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class WorkerState extends MainPanel {
 

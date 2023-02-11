@@ -1,8 +1,9 @@
 db_path=jdbc:derby://127.0.0.1:1527/C:/Local/RealDB
-db_path=jdbc:derby://78.142.42.215:1527/D:/RealDBLPS
+db_path=jdbc:derby://127.0.0.1:1527/C:/Local/RealDBLPS
 label_printer1=lpq58
 label_printer2=citizen
-; POJARPROTEKT LOCAL DB -> db_path=jdbc:derby://127.0.0.1:1527/C:/Local/RealDB
-; POJARPROTEKT NET DB -> db_path=jdbc:derby://78.142.42.215:1527/D:/RealDB
-; LPS LOCAL DB -> db_path=jdbc:derby://127.0.0.1:1527/C:/Local/RealDBLPS
-; LPS NET DB -> db_path=jdbc:derby://78.142.42.215:1527/D:/RealDBLPS
+;LOCAL POJARPROTEKT -> db_path=jdbc:derby://127.0.0.1:1527/C:/Local/RealDB
+;LOCAL LPS -> db_path=jdbc:derby://127.0.0.1:1527/C:/Local/RealDBLPS
+
+;NET POJARPROTEKT -> db_path=jdbc:derby://78.142.42.215:1527/D:/RealDB
+;NET LPS -> db_path=jdbc:derby://78.142.42.215:1527/D:/RealDBLPS

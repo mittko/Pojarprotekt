@@ -7,7 +7,7 @@ import acquittance.sklad.workers.LoadAllGreyArtikulsFromAcquittanceWorker;
 import invoice.worker.GetDiscountWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;

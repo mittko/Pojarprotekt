@@ -4,7 +4,7 @@ import JPrinter.Print.PrintWithoutOpenPdf;
 import PDF.Aqcuittance.AcquittancePDFromInvocie;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.print.PrintService;
 import javax.swing.*;

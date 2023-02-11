@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static utility.MainPanel.AVAILABLE_ARTIKULS;
+import static utils.MainPanel.AVAILABLE_ARTIKULS;
 
 public class LoadAllArtikulsWorker extends SwingWorker {
 	private JDialog jd = null;

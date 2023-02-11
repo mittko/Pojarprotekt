@@ -11,7 +11,7 @@ import db.GetFromScanner;
 import mydate.MyGetDate;
 import run.JDialoger;
 import run.JustFrame;
-import utility.*;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

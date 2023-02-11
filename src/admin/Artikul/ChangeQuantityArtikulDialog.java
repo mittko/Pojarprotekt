@@ -1,9 +1,9 @@
 package admin.Artikul;
 
 import admin.Artikul.Workers.ChangeArtikulQuantityWorker;
-import utility.EditableField;
-import utility.MainPanel;
-import utility.MyMath;
+import utils.EditableField;
+import utils.MainPanel;
+import utils.MyMath;
 
 import javax.swing.*;
 import java.awt.*;

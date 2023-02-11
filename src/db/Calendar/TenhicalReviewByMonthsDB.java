@@ -3,7 +3,7 @@ package db.Calendar;
 import Exceptions.DBException;
 import Log.DB_Err;
 import net.GetCurrentIP;
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 import java.sql.*;

@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 import run.JDialoger;
 import Reports.ReportTableAcquittance;
-import utility.MainPanel;
+import utils.MainPanel;
 
 public class EDTAcquitance extends MainPanel implements Runnable {
 	private ArrayList<Object[]> data = null;

@@ -18,10 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import run.JDialoger;
-import utility.ClientsListComboBox2;
-import utility.LoadIcon;
-import utility.MainPanel;
-import utility.TooltipButton;
+import utils.ClientsListComboBox2;
+import utils.LoadIcon;
+import utils.MainPanel;
+import utils.TooltipButton;
 import NewClient.Workers.GetDataForClientWorker;
 import NewClient.Workers.RemoveClientWorker;
 

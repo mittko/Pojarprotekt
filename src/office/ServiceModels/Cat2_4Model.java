@@ -1,6 +1,6 @@
 package office.ServiceModels;
 
-import utility.MainPanel;
+import utils.MainPanel;
 
 import javax.swing.*;
 
