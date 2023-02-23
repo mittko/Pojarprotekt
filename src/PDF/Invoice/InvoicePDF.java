@@ -89,10 +89,10 @@ public class InvoicePDF extends PdfCreator {
 				String isVatRegistered = clientInfo.get(clientInfo.size()-1);															// ->
 				if(isVatRegistered.equals("да")) {
 					DDS = "BG" + registraciaDDS;
-					EIK = "";
-				} else {
 					EIK =  registraciaDDS;
+				} else {
 					DDS = "";
+					EIK =  registraciaDDS;
 				}
 
 				MOL = clientInfo.get(4);// name (MOL)

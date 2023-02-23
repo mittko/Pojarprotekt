@@ -151,7 +151,7 @@ public class ProtokolNumber extends MainPanel {
 		// TODO Auto-generated method stub
 		ProtokolNumber pr = new ProtokolNumber();
 
-		// updateProtokolNumberInDB("0010604"); // 7
+		 updateProtokolNumberInDB("0017027"); // 7
 		String protokolNumber = getProtokolNumber();// 0010295
 		System.out.println(protokolNumber);
 	}

@@ -86,15 +86,15 @@ public class InvoicePDFFromReports extends PdfCreator {
 				String registraciaDDS = extractOnlyDigit(clientInfo.get(3));// 3
 																			// ->
 																			// EIK
-				String isVatRegistered = clientInfo.get(clientInfo.size()-1);															// ->
+				String isVatRegistered = clientInfo.get(clientInfo.size()-1);
+				System.out.println("VAT "+isVatRegistered);
 				if(isVatRegistered.equals("да")) {
 					DDS = "BG" + registraciaDDS;
-					EIK = "";
-				} else {
 					EIK =  registraciaDDS;
+				} else {
 					DDS = "";
+					EIK =  registraciaDDS;
 				}
-
 				MOL = clientInfo.get(4);// name (MOL)
 				// 5 -> tel of firm
 				// 6 -> email

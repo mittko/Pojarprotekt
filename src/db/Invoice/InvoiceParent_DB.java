@@ -80,7 +80,6 @@ public class InvoiceParent_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return insert;
 			}
 		}
 	}
