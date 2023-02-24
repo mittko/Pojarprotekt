@@ -51,6 +51,8 @@ public class EditFirm extends MainPanel {
 	public static ArrayList<JComponent> components = null;
 	private JCheckBox incorrectClientCheckBox;
 
+	private JCheckBox registrationVatCheckbox;
+
 	public EditFirm() {
 
 		components = new ArrayList<JComponent>();
@@ -243,7 +245,8 @@ public class EditFirm extends MainPanel {
 
 							String incorrect = incorrectClientCheckBox
 									.isSelected() ? "да" : "не";
-
+                            String isVatRegistered = registrationVatCheckbox
+									.isSelected() ? "да" : "не";
 							edit = FirmTable.editFirmTable(OLD_FIRM_NAME,
 									NEW_FIRM_NAME, city.getText(),
 									address.getText(), eik.getText(),
@@ -251,7 +254,7 @@ public class EditFirm extends MainPanel {
 									person.getText(), telPerson.getText(),
 									bank.getText(), BIC.getText(),
 									IBAN.getText(), discountField.getText(),
-									incorrect);
+									incorrect, isVatRegistered);
 
 							// here to add code to rename old name
 							// with new name in all tables !!!
@@ -325,6 +328,10 @@ public class EditFirm extends MainPanel {
 				.getFont().getSize());
 		incorrectClientCheckBox.setFont(newCheckBoxFont);
 
+		registrationVatCheckbox = new JCheckBox();
+		registrationVatCheckbox.setText("Регистрация по ДДС");
+		registrationVatCheckbox.setFont(newCheckBoxFont);
+
 		components.add(firm);
 		components.add(city);
 		components.add(address);
@@ -338,8 +345,10 @@ public class EditFirm extends MainPanel {
 		components.add(IBAN);
 		components.add(discountField);
 		components.add(incorrectClientCheckBox);
+		components.add(registrationVatCheckbox);
 
 		bottom.add(incorrectClientCheckBox);
+		bottom.add(registrationVatCheckbox);
 		bottom.add(button);
 		bottom.add(done);
 		bottom.add(doneText);
@@ -403,6 +412,8 @@ public class EditFirm extends MainPanel {
 		IBAN.setText("");
 		discountField.setText("");
 		EditClientPanel.clientCombo2.setSelectedItem("");
+		incorrectClientCheckBox.setSelected(false);
+		registrationVatCheckbox.setSelected(false);
 	}
 
 }

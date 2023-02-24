@@ -77,7 +77,6 @@ public class FirmTable extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				Log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return update;
 			}
 		}
 	}
@@ -85,7 +84,7 @@ public class FirmTable extends MainPanel {
 	public static int insertIntoFirmTable(String firm, String city,
 			String address, String eik, String mol, String email,
 			String person, String telPerson, String bank, String bic,
-			String iban, String discount, String incorrectPerson) {
+			String iban, String discount, String incorrectPerson, String vatRegistration) {
 		Connection connect = null;
 		Statement statement = null;
 		String sql = null;
@@ -118,7 +117,8 @@ public class FirmTable extends MainPanel {
 					+ city + "','" + address + "','" + eik + "','" + mol
 					+ "','" + email + "','" + person + "','" + telPerson
 					+ "','" + bank + "','" + bic + "','" + iban + "','"
-					+ discount + "','" + incorrectPerson + "')";
+					+ discount + "','" + incorrectPerson + "','"
+					+ vatRegistration + "')";
 			insertion = statement.executeUpdate(sql);
 			// JOptionPane.showMessageDialog(null,
 			// "Данните са записани успешно!");
@@ -152,7 +152,7 @@ public class FirmTable extends MainPanel {
 	public static int editFirmTable(String OLD_FIRM_NAME, String NEW_FIRM_NAME,
 			String city, String address, String eik, String mol, String email,
 			String person, String telPerson, String bank, String bic,
-			String iban, String discount, String incorrectPerson) {
+			String iban, String discount, String incorrectPerson, String vatRegistration) {
 		Connection connect = null;
 		Statement statement = null;
 		String sql = null;
@@ -188,6 +188,7 @@ public class FirmTable extends MainPanel {
 					+ telPerson + "',bank = '" + bank + "',bic = '" + bic
 					+ "',iban = '" + iban + "',discount = '" + discount
 					+ "', incorrectPerson = '" + incorrectPerson
+					+ "', vat_registration = '" + vatRegistration
 					+ "'  where firm like '" + OLD_FIRM_NAME + "'";
 			insertion = statement.executeUpdate(sql);
 
@@ -211,7 +212,6 @@ public class FirmTable extends MainPanel {
 				// TODO Auto-generated catch block
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return insertion;
 			}
 
 		}
@@ -249,7 +249,6 @@ public class FirmTable extends MainPanel {
 				Log.DB_Err.writeErros(e.toString());
 				DBException.DBExceptions("Грешка", e);
 				e.printStackTrace();
-				return update;
 			}
 
 		}
@@ -298,6 +297,49 @@ public class FirmTable extends MainPanel {
 		return result;
 	}
 
+	public static String getHasFirmVatRegistration(String firm) {
+		Connection connect = null;
+		Statement stat = null;
+		String query = "select vat_registration from " + MainPanel.FIRM
+				+ " where firm = '" + firm + "'";
+		ResultSet rs = null;
+		String registrationVat = "не";
+		try {
+			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			stat = connect.createStatement();
+			rs = stat.executeQuery("select * from " + MainPanel.FIRM);
+			rs = stat.executeQuery(query);
+			while (rs.next()) {
+				registrationVat = rs.getString(1);
+				break;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			DBException.DBExceptions("DB Error", e);
+			Log.DB_Err.writeErros(e.toString());
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				DBException.DBExceptions("DB Error", e);
+				Log.DB_Err.writeErros(e.toString());
+				e.printStackTrace();
+
+			}
+		}
+		return registrationVat;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		FirmTable ft = new FirmTable();

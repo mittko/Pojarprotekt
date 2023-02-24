@@ -1,5 +1,6 @@
 package invoicewindow;
 
+import db.Client.FirmTable;
 import invoice.InvoiceRenderer.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.Sklad.SkladArtikulFrame;
@@ -35,6 +36,10 @@ public class ArtikulTab extends MainPanel {
 	final JPopupMenu popupMenu = new JPopupMenu();
 	final EditableComboBox invoiceNameComboBox = new EditableComboBox("Local/goods.txt");
 //"Наименование на Стоката /Услугата/ ",5
+
+	private static JButton registrationVatCheckBox;
+	final ImageIcon selectedIcon = new LoadIcon().setIcons(yesImage);
+
 	@SuppressWarnings("unchecked")
 	public ArtikulTab() {
 
@@ -77,6 +82,16 @@ public class ArtikulTab extends MainPanel {
 
 								discountField.setText(discount);
 								choiceDiscountButton.setDefaultIcon();
+
+								String registrationVat = FirmTable.getHasFirmVatRegistration(
+										clientCombo.getSelectedItem().toString());
+								registrationVatCheckBox.setSelected(
+										registrationVat.equals("да"));
+								if ((registrationVatCheckBox.isSelected())) {
+									setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+								} else {
+									registrationVatCheckBox.setIcon(null);
+								}
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -93,7 +108,7 @@ public class ArtikulTab extends MainPanel {
 		discountField.setBorder(BorderFactory.createLoweredBevelBorder());
 		discountField.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.05), (int) (northPanel
-				.getPreferredSize().getHeight() * 0.4)));
+				.getPreferredSize().getHeight() * 0.5)));
 
 		paymentCombo = new JComboBox<String>(new String[] { "Начин на плащане",
 				"В брой", "По банков път" });
@@ -362,7 +377,29 @@ public class ArtikulTab extends MainPanel {
 		JPanel helpPanel = new JPanel();
 		helpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
+		registrationVatCheckBox = new JButton();
+//		registrationVatCheckBox.setSelected(false);
+//		registrationVatCheckBox.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(!registrationVatCheckBox.isSelected()) {
+//					setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+//					registrationVatCheckBox.setSelected(true);
+//				} else {
+//					registrationVatCheckBox.setIcon(null);
+//					registrationVatCheckBox.setSelected(false);
+//				}
+//			}
+//		});
+		registrationVatCheckBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.5)));
+
+		JLabel registrationVatLabel = new JLabel("Регистрация по ДДС");
+
 		helpPanel.add(clientCombo);
+		helpPanel.add(registrationVatLabel);
+		helpPanel.add(registrationVatCheckBox);
 		helpPanel.add(discountField);
 		helpPanel.add(choiceDiscountButton);
 		helpPanel.add(paymentCombo);
@@ -453,6 +490,7 @@ public class ArtikulTab extends MainPanel {
 		discountField.setText("");
 		choiceDiscountButton.setDefaultIcon();
 		paymentCombo.setSelectedIndex(0);
+		registrationVatCheckBox.setIcon(null);
 
 	}
 

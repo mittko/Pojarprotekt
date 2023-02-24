@@ -3,6 +3,7 @@ package invoice.worker;
 import WorkingBook.WorkingBook;
 import db.Artikul.ArtikulInfo;
 import db.Artikul.Artikuli_DB;
+import db.Client.FirmTable;
 import db.Discount.DiscountDB;
 import db.PartsPrice.PriceTable;
 import db.Protokol.ProtokolTable;
@@ -131,6 +132,12 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 								SearchFromProtokolTab.clientLabel
 										.setName((String) result.get(0)[3]);
+
+								String registrationVat = FirmTable.getHasFirmVatRegistration(
+										SearchFromProtokolTab.INVOICE_CURRENT_CLIENT);
+								boolean selected = registrationVat.equals("да");
+								SearchFromProtokolTab.registrationVatCheckBox.setSelected(selected);
+								SearchFromProtokolTab.switchRegistrationVat();
 
 								vizualizeTable(mapInfo);
 

@@ -9,7 +9,7 @@ public class TooltipButton extends DynamicButton {
 //	private CustomTooltip ct = null;
 //	private final Toolkit tool = Toolkit.getDefaultToolkit();
 	public TooltipButton() {
-		this.setContentAreaFilled(false);
+	//	this.setContentAreaFilled(false);
 		this.addMouseListener(new MouseHandler());
 	}
 	public TooltipButton(String text) {
@@ -45,12 +45,12 @@ public class TooltipButton extends DynamicButton {
     	
     	  @Override
     	  public void mouseEntered(MouseEvent me) {
-    		  setContentAreaFilled(true);
+    	//	  setContentAreaFilled(true);
     		 TooltipButton.this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     	  }
     	  @Override
     	  public void mouseExited(MouseEvent me) {
-    		  setContentAreaFilled(false);
+    	//	  setContentAreaFilled(false);
     	  }
       }
 }

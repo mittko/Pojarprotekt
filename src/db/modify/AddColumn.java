@@ -5,6 +5,7 @@ import db.Artikul.Artikuli_DB;
 import net.GetCurrentIP;
 import utility.MainPanel;
 
+import javax.naming.InitialContext;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -51,14 +52,20 @@ public class AddColumn {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AddColumn alertTable = new AddColumn();
+	//	alertTable.addColumn(MainPanel.FIRM, "vat_registration",10);
+	//	InitColumnsTable.updateAnyColumnValue(MainPanel.FIRM,"vat_registration","не");
+
 	//	int result = alertTable.addColumn(MainPanel.INVOICE_PARENT, "name",500);
 	//	System.out.println(result);
 
+	//	int result2 = InitColumnsTable.updateAnyColumnValue(MainPanel.INVOICE_PARENT,"name","");
+	//	System.out.println("result = " + result2);
+
+	 /*За проформата засега няма да слагам поле за наименоание на фактурата !
 		int result2 = alertTable.addColumn(MainPanel.PROFORM_PARENT, "name",500);
 		System.out.println(result2);
-
-		// int result2 = InitColumnsTable.updateAnyColumnValue(MainPanel.INVOICE_PARENT,"name","");
-		// System.out.println("result = " + result2);
+		int result2 = InitColumnsTable.updateAnyColumnValue(MainPanel.PROFORM_PARENT,"name","");
+		System.out.println("result = " + result2);*/
 
 		// Member.updateAllColumnValues("Acquittance", "yes");
 

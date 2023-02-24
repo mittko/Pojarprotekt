@@ -13,7 +13,7 @@ import java.sql.Statement;
 public class ModifyColumnWidth {
 
     public static void main(String[] args) {
-       int modify =  modifyColumnWidth(MainPanel.BRACK,"brand",50);
+        int modify =  modifyColumnWidth(MainPanel.BRACK,"brand",50);
         System.out.println(modify);
     }
     public static int modifyColumnWidth(String table, String column, int width) {

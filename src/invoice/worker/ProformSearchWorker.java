@@ -1,5 +1,6 @@
 package invoice.worker;
 
+import db.Client.FirmTable;
 import invoicewindow.SearchFromProformTab;
 
 import java.util.ArrayList;
@@ -99,6 +100,12 @@ public class ProformSearchWorker extends SwingWorker<Object, Object> {
 					SearchFromProformTab.sallerLabel.setName(proformSaller);
 					//SearchFromProformTab.sumField.setText(proformPrice);
 					SearchFromProformTab.PROTOKOL_NUMBER = protokolNumber;
+
+					String registrationVat = FirmTable.getHasFirmVatRegistration(
+							proformClient);
+					SearchFromProformTab.registrationVatCheckBox.setSelected(
+							registrationVat.equals("да"));
+					SearchFromProformTab.switchRegistrationVat();
 				}
 
 			});

@@ -366,6 +366,15 @@ public class MainPanel extends JPanel {
 	/**
 	 * @param args
 	 */
+
+	public static void setDynamicSizedIcon(JButton button, ImageIcon icon) {
+		Image img = icon.getImage();
+		Image newimg = img.getScaledInstance(button.getPreferredSize().width,
+				button.getPreferredSize().height, Image.SCALE_SMOOTH);
+		icon = new ImageIcon(newimg);
+		button.setIcon(icon);
+	}
+
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 

@@ -28,6 +28,7 @@ public class MaterialsPDFromInvocie extends PdfCreator {
 	private String city = "";
 	private String address = "";
 	private String EIK = "";
+	private String DDS = "";
 	private String MOL = "";
 	private String BANK = "";
 	private String BIC = "";
@@ -51,7 +52,18 @@ public class MaterialsPDFromInvocie extends PdfCreator {
 			if (clientInfo2.size() != 4) {
 				city = clientInfo2.get(1); // 1 -> city
 				address = clientInfo2.get(2);// 2 -> address
-				EIK = extractOnlyDigit(clientInfo2.get(3));// 3 -> EIK
+
+				String registraciaDDS = extractOnlyDigit(clientInfo2.get(3));// 3 -> EIK
+				String isVatRegistered = clientInfo2.get(clientInfo2.size()-1);
+
+				if(isVatRegistered.equals("да")) {
+					DDS = "BG" + registraciaDDS;
+				} else {
+					DDS = "";
+				}
+				EIK = registraciaDDS;
+
+
 				MOL = clientInfo2.get(4);// name (MOL)
 				// 5 -> tel of firm
 				// 6 -> email
@@ -145,11 +157,11 @@ public class MaterialsPDFromInvocie extends PdfCreator {
 		Phrase addressPhrase2 = new Phrase("Адрес: "
 				+ (!address.equals("-") ? address : ""), arial10);
 		clientInfo2Cell.addElement(addressPhrase2);
-		Phrase eikPhrase2 = new Phrase("ЕИК: " + (!EIK.equals("-") ? EIK : ""),
+		Phrase eikPhrase2 = new Phrase("ЕИК: " + EIK,
 				arial10);
 		clientInfo2Cell.addElement(eikPhrase2);
-		Phrase ddsPhrase2 = new Phrase("ДДС \u2116 BG"
-				+ (!EIK.equals("-") ? EIK : ""), arial10);
+		Phrase ddsPhrase2 = new Phrase("ДДС \u2116 "
+				+ DDS, arial10);
 		clientInfo2Cell.addElement(ddsPhrase2);
 		Phrase molPhrase2 = new Phrase("Мол: " + (!MOL.equals("-") ? MOL : ""),
 				arial10);
@@ -332,7 +344,7 @@ public class MaterialsPDFromInvocie extends PdfCreator {
 				mainTableNextY, pdfWriter.getDirectContent());
 
 		float dateBottomX = bottomTextX - 10;
-		float dateBottomY = (go == true ? 800 : mainTableY - 15);
+		float dateBottomY = (go ? 800 : mainTableY - 15);
 		for (int i = from; i < RANGE + 1; i++) {
 			dateBottomY -= mainTable.getRowHeight(i);
 		}
@@ -350,7 +362,7 @@ public class MaterialsPDFromInvocie extends PdfCreator {
 
 		// добави ДДС
 		// 20 % // Стокова разписка без ДДС !!!111
-		float DDS = 1.0f;
+		float DDS = 1.2f;
 		finalSum *= DDS;
 
 		nextAcquittanceTableY = finalSumY;

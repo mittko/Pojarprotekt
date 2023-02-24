@@ -31,7 +31,7 @@ public class ReportTableInvoice extends MainPanel {
 	private String PATH;
 	public static int MOUSE_MOTION_ROW = -1;
 
-	public ReportTableInvoice(ArrayList<Object[]> childData) {
+	public ReportTableInvoice(ArrayList<Object[]> childData, boolean isInvoiceReport) {
 		MOUSE_MOTION_ROW = -1;
 
 		// this.parentMap = parentMap;
@@ -149,6 +149,20 @@ public class ReportTableInvoice extends MainPanel {
 				return false;
 			}
 		};
+		if(!isInvoiceReport) {
+			// В проформата няма колона нименование
+			dftm = new DefaultTableModel(new String[]{
+					"\u2116 на Фактура/Проформа", "Начин на плащане", "Отстъпка",
+					"Стойност", "Клиент", "Оператор", "Дата", "\u2116 на Протокол",
+					"\u2116 на Фактура/Проформа", "Артикул", "Мерна ед.",
+					"Количество", "Ед. Цена", "Сума", "Клиент", "Контрагент",
+					"Фактура по доставка"}, 0) {
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+			};
+		}
 
 		for (Object[] childDatum : childData) {
 			dftm.addRow(childDatum);
@@ -173,7 +187,6 @@ public class ReportTableInvoice extends MainPanel {
 		table.getColumnModel().getColumn(15).setMaxWidth(0);
 		table.getColumnModel().getColumn(15).setWidth(0);
 
-
 		resizeColumnWidth(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		// JTable rowTable = new RowNumberTable(table); //****
@@ -182,11 +195,6 @@ public class ReportTableInvoice extends MainPanel {
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setPreferredSize(new Dimension(WIDTH - 50, (HEIGHT - 70)));
-		// scroll.getVerticalScrollBar().setUI(new YourUI());
-		// scroll.getHorizontalScrollBar().setUI(new YourUI());
-		// scroll.setRowHeaderView(rowTable); //****
-		// scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER,//****
-		// rowTable.getTableHeader());//****
 
 		basePanel.add(northPanel, BorderLayout.NORTH);
 		basePanel.add(scroll, BorderLayout.CENTER);

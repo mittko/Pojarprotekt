@@ -262,7 +262,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						updateProformNumber = getProformNumber.doInBackground();
 						SaveInProformDBWorker saveinProform = new SaveInProformDBWorker(
 								jd, payment, discount, sum, CLIENT, personName,
-								date, updateProformNumber, protokolNumber,
+								date,invoiceName, updateProformNumber, protokolNumber,
 								copyOriginTableModel, proformLabel);
 						try {
 							WRITE_IN_PROFORM_SUCCESS = saveinProform

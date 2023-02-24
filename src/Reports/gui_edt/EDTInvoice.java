@@ -16,13 +16,16 @@ public class EDTInvoice extends MainPanel implements Runnable {
 	// private TreeMap<String, ParentInvoiceInfo> parentInvoiceMap = null;
 	private String titles;
 
+	private boolean isInvoiceReport;
+
 	public EDTInvoice(ArrayList<Object[]> data, JDialog jd, String No,
-			String titles) {
+			String titles, boolean isInvoiceReport) {
 		this.childData = data;
 		// this.parentInvoiceMap = parentMap;
 		this.jd = jd;
 		this.No = No;
 		this.titles = titles;
+		this.isInvoiceReport = isInvoiceReport;
 	}
 
 	@Override
@@ -34,7 +37,7 @@ public class EDTInvoice extends MainPanel implements Runnable {
 		}
 		if (childData.size() > 0) {
 
-			ReportTableInvoice irt = new ReportTableInvoice(childData);
+			ReportTableInvoice irt = new ReportTableInvoice(childData, isInvoiceReport);
 			JDialoger jDialog = new JDialoger();
 			jDialog.setContentPane(irt);
 			jDialog.setTitle(titles);

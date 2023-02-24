@@ -50,13 +50,13 @@ public class ProformParent_DB extends MainPanel {
 
 	public static int insertIntoProformParent(String id, String protokol,
 			String payment, String discount, String value, String client,
-			String saller, String date) {
+			String saller, String date, String invoiceName) {
 		Connection connect = null;
 		Statement stat = null;
 		String command = "insert into " + PROFORM_PARENT + " values ('" + id
 				+ "','" + payment + "','" + discount + "','" + value + "','"
 				+ client + "','" + saller + "','" + date + "','" + protokol
-				+ "')";
+				/*+ "','" + invoiceName*/ + "')";
 		int insert = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);

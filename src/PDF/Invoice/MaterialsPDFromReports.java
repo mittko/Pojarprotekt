@@ -28,6 +28,8 @@ public class MaterialsPDFromReports extends PdfCreator {
 	private String city = "";
 	private String address = "";
 	private String EIK = "";
+
+	private String DDS = "";
 	private String MOL = "";
 	private String TEL = "";
 	private String BANK = "";
@@ -42,7 +44,7 @@ public class MaterialsPDFromReports extends PdfCreator {
 	private PdfWriter pdfWriter;
 	private PdfContentByte pcb;
 	private final Font arial10 = getFontAndSize("arial", 10);
-	private float ДДС = 1.0f; // 20 % // Стокова разписка без ДДС !!!111
+	private float ДДС = 1.2f; // 20 % // Стокова разписка без ДДС !!!111
 
 	public void createMaterialsPDF(ArrayList<String> clientInfo2,
 			DefaultTableModel dftm, String timeStamp, int startIndex,
@@ -53,7 +55,16 @@ public class MaterialsPDFromReports extends PdfCreator {
 			if (clientInfo2.size() != 4) {
 				city = clientInfo2.get(1); // 1 -> city
 				address = clientInfo2.get(2);// 2 -> address
-				EIK = extractOnlyDigit(clientInfo2.get(3));// 3 -> EIK
+
+				String registraciaDDS  = extractOnlyDigit(clientInfo2.get(3));// 3 -> EIK
+				String isVatRegistered = clientInfo2.get(clientInfo2.size()-1);															// ->
+				if(isVatRegistered.equals("да")) {
+					DDS = "BG" + registraciaDDS;
+				} else {
+					DDS = "";
+				}
+				EIK = registraciaDDS;
+
 				MOL = clientInfo2.get(4);// name (MOL)
 				// 5 -> tel of firm
 				// 6 -> email
@@ -155,11 +166,11 @@ public class MaterialsPDFromReports extends PdfCreator {
 		Phrase addressPhrase2 = new Phrase("Адрес: "
 				+ (!address.equals("-") ? address : ""), arial10);
 		clientInfo2Cell.addElement(addressPhrase2);
-		Phrase eikPhrase2 = new Phrase("ЕИК: " + (!EIK.equals("-") ? EIK : ""),
+		Phrase eikPhrase2 = new Phrase("ЕИК: " + EIK,
 				arial10);
 		clientInfo2Cell.addElement(eikPhrase2);
-		Phrase ddsPhrase2 = new Phrase("ДДС \u2116 BG"
-				+ (!EIK.equals("-") ? EIK : ""), arial10);
+		Phrase ddsPhrase2 = new Phrase("ДДС \u2116"
+				+ DDS, arial10);
 		clientInfo2Cell.addElement(ddsPhrase2);
 		Phrase molPhrase2 = new Phrase("Мол: " + (!MOL.equals("-") ? MOL : ""),
 				arial10);

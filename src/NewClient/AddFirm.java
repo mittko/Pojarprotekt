@@ -31,6 +31,8 @@ public class AddFirm extends MainPanel {
 	JTextField IBAN = null;
 	JTextField discountField = null;
 	JCheckBox incorrectClientCheckBox;
+
+	JCheckBox registeredVatCheckBox;
 	int insertion = 0;
 	private int size = 45;
 
@@ -221,6 +223,9 @@ public class AddFirm extends MainPanel {
 							String incorrect = incorrectClientCheckBox
 									.isSelected() ? "да" : "не";
 
+							String isVatRegistered = registeredVatCheckBox.isSelected()
+									? "да" : "не";
+
 							insertion = FirmTable.insertIntoFirmTable(
 									firm.getText(), city.getText(),
 									address.getText(), eik.getText(),
@@ -228,7 +233,7 @@ public class AddFirm extends MainPanel {
 									person.getText(), telPerson.getText(),
 									bank.getText(), BIC.getText(),
 									IBAN.getText(), discountField.getText(),
-									incorrect);
+									incorrect, isVatRegistered);
 						} finally {
 							SwingUtilities.invokeLater(new Runnable() {
 
@@ -262,7 +267,12 @@ public class AddFirm extends MainPanel {
 				.getFont().getSize());
 		incorrectClientCheckBox.setFont(newCheckBoxFont);
 
+		registeredVatCheckBox = new JCheckBox();
+		registeredVatCheckBox.setText("Регистрация по ДДС");
+		registeredVatCheckBox.setFont(newCheckBoxFont);
+
 		bottom.add(incorrectClientCheckBox);
+		bottom.add(registeredVatCheckBox);
 		bottom.add(button);
 		bottom.add(done);
 		bottom.add(doneText);

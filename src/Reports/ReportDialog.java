@@ -454,6 +454,7 @@ public class ReportDialog extends MainPanel {
 								break;
 							case INVOICE_PARENT:
 							case PROFORM_PARENT:
+
 								try {
 
 									// get info for parent
@@ -475,7 +476,8 @@ public class ReportDialog extends MainPanel {
 
 									SwingUtilities
 											.invokeLater(new EDTInvoice(d, jDialog,
-													No, "Справки " + invoiceTitle));
+													No, "Справки " + invoiceTitle,
+													invoiceTitle.equals("Фактура")));
 									No = "";
 
 								}

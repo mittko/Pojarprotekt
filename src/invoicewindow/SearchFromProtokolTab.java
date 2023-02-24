@@ -67,6 +67,9 @@ public class SearchFromProtokolTab extends MainPanel {
 	final JPopupMenu popupMenu = new JPopupMenu();
 	private String protokolNumber = "";
 
+	public final static ImageIcon selectedIcon = new LoadIcon().setIcons(yesImage);
+	public static JButton registrationVatCheckBox = new JButton();
+
 	public SearchFromProtokolTab() {
 
 		INVOICE_CURRENT_CLIENT = "";
@@ -404,8 +407,29 @@ public class SearchFromProtokolTab extends MainPanel {
 				.getPreferredSize().getWidth() * 0.25), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.7)));
 
+		//		registrationVatCheckBox.setSelected(false);
+//		registrationVatCheckBox.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(!registrationVatCheckBox.isSelected()) {
+//					setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+//					registrationVatCheckBox.setSelected(true);
+//				} else {
+//					registrationVatCheckBox.setIcon(null);
+//					registrationVatCheckBox.setSelected(false);
+//				}
+//			}
+//		});
+		registrationVatCheckBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.75)));
+
+		JLabel registrationVatLabel = new JLabel("Регистрация по ДДС");
+
 		northPanel.add(searchField);
 		northPanel.add(dateField);
+		northPanel.add(registrationVatLabel);
+		northPanel.add(registrationVatCheckBox);
 		northPanel.add(discountField);
 		northPanel.add(choiceDiscountButton);
 		northPanel.add(paymenCombo);
@@ -413,7 +437,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		northPanel.add(rubberButton);
 		northPanel.add(dbButton);
 		northPanel.add(newClientButton);
-		northPanel.add(clientLabel);
+
 
 		JPanel southPanel = new JPanel();
 		southPanel.setPreferredSize(new Dimension(
@@ -516,6 +540,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		});
 		// southPanel.add(invoiceNumberLabel);
 		// southPanel.add(proformNumLabel);
+		southPanel.add(clientLabel);
 		southPanel.add(sallerLabel);
 		// southPanel.add(dateLabel);
 		southPanel.add(sumLabel2);
@@ -555,7 +580,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		// moreProtokolsList.clear();
 		protokolNumberSet.clear();
 		INVOICE_CURRENT_CLIENT = "";
-
+		registrationVatCheckBox.setIcon(null);
 	}
 
 	public static void calcFinalSum() {
@@ -572,5 +597,13 @@ public class SearchFromProtokolTab extends MainPanel {
 		// set final value
 		String finalValue = String.format("%.2f", valu).replace(",", ".");
 		sumField.setText(finalValue);
+	}
+
+	public static void switchRegistrationVat() {
+		if ((registrationVatCheckBox.isSelected())) {
+			setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+		} else {
+			registrationVatCheckBox.setIcon(null);
+		}
 	}
 }

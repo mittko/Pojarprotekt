@@ -62,8 +62,14 @@ public class InvoicePDF extends PdfCreator {
 				String registraciaDDS = extractOnlyDigit(clientInfo.get(3));// 3
 																			// ->
 																			// EIK
+				String isVatRegistered = clientInfo.get(clientInfo.size()-1);															// ->
+				if(isVatRegistered.equals("да")) {
+					DDS = "BG" + registraciaDDS;
+				} else {
+					DDS = "";
+				}
 				EIK = registraciaDDS;
-				DDS = "BG" + registraciaDDS;
+
 				MOL = clientInfo.get(4);// name (MOL)
 				// 5 -> tel of firm
 				// 6 -> email

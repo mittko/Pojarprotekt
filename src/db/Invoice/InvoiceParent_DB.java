@@ -2,6 +2,7 @@ package db.Invoice;
 
 import Exceptions.DBException;
 import Log.DB_Err;
+import db.modify.AddColumn;
 import net.GetCurrentIP;
 import utility.MainPanel;
 
@@ -325,6 +326,7 @@ public class InvoiceParent_DB extends MainPanel {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		InvoiceParent_DB invoice = new InvoiceParent_DB();
+
 		// System.out.println(deleteInvoiceChild("0000005047"));
 		// System.out.println(deleteInvoiceParent("0000005047"));
 

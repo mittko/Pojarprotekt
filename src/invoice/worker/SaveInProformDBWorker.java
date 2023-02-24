@@ -28,6 +28,7 @@ public class SaveInProformDBWorker extends SwingWorker {
 	private String currentClient = null;
 	private String personName = null;
 	private String date = null;
+	private final String invoiceName;
 	private String PROFORM_NUMBER = null;
 	private String PROTOKOL_NUMBER = null;
 	private int[] next_proform = null;
@@ -36,8 +37,8 @@ public class SaveInProformDBWorker extends SwingWorker {
 
 	public SaveInProformDBWorker(JDialog jd, String payment, String discount,
 			String sum, String currentClient, String personName, String date,
-			String proformNumber, String protokolNumber,
-			DefaultTableModel dftm, BevelLabel numLabel) {
+								 String invoiceName, String proformNumber,
+								 String protokolNumber, DefaultTableModel dftm, BevelLabel numLabel) {
 		this.jd = jd;
 		this.payment = payment;
 		this.discount = discount;
@@ -45,6 +46,7 @@ public class SaveInProformDBWorker extends SwingWorker {
 		this.currentClient = currentClient;
 		this.personName = personName;
 		this.date = date;
+		this.invoiceName = invoiceName;
 		this.PROFORM_NUMBER = proformNumber;
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
@@ -63,7 +65,7 @@ public class SaveInProformDBWorker extends SwingWorker {
 					sum, // крайна цена
 					currentClient, // клиент
 					personName, // продавач
-					date); // дата
+					date,invoiceName); // дата
 
 			// save data in invoice child
 			if (parentProform > 0) {
@@ -120,10 +122,7 @@ public class SaveInProformDBWorker extends SwingWorker {
 			});
 
 		}
-		if (parentProform > 0 && childProform > 0) {
-			return true;
-		}
-		return false;
+		return parentProform > 0 && childProform > 0;
 	}
 
 	private void showPrintDialog(String proformNumber) {

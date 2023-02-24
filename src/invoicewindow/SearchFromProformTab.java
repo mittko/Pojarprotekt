@@ -36,6 +36,10 @@ public class SearchFromProformTab extends MainPanel {
 
 	final EditableComboBox invoiceNameComboBox = new EditableComboBox("Local/goods.txt");
 
+	public static JButton registrationVatCheckBox = new JButton();
+
+	final static ImageIcon selectedIcon = new LoadIcon().setIcons(yesImage);
+
 	public SearchFromProformTab() {
 		northPanel = new JPanel();// GradientPanel();
 		northPanel.setLayout(new BorderLayout());
@@ -166,12 +170,31 @@ public class SearchFromProformTab extends MainPanel {
 			}
 
 		});
+		registrationVatCheckBox.setSelected(false);
+//		registrationVatCheckBox.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(!registrationVatCheckBox.isSelected()) {
+//					setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+//					registrationVatCheckBox.setSelected(true);
+//				} else {
+//					registrationVatCheckBox.setIcon(null);
+//					registrationVatCheckBox.setSelected(false);
+//				}
+//			}
+//		});
+		registrationVatCheckBox.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.5)));
+
+		JLabel registrationVatLabel = new JLabel("Регистрация по ДДС");
 
 		JPanel helpPanel = new JPanel();
 		helpPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		helpPanel.add(searchProformField);
-		//northPanel.add(discountLabel);
+		helpPanel.add(registrationVatLabel);
+        helpPanel.add(registrationVatCheckBox);
 		helpPanel.add(paymentLabel);
 		helpPanel.add(dateLabel);
 		helpPanel.add(rubberButton);
@@ -323,6 +346,7 @@ public class SearchFromProformTab extends MainPanel {
 		sallerLabel.setName("");
 		sumField.setText("");
 		proformTableModel.setRowCount(0);
+		registrationVatCheckBox.setIcon(null);
 	}
 	private void calcFinalSum() {
 		double valu = 0.0;
@@ -336,5 +360,15 @@ public class SearchFromProformTab extends MainPanel {
 		// set final value
 		String finalValue = String.format("%.2f", valu).replace(",", ".");
 		sumField.setText(finalValue);
+	}
+
+	public static void switchRegistrationVat() {
+		System.out.println(registrationVatCheckBox.isSelected());
+
+		if ((registrationVatCheckBox.isSelected())) {
+			setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+		} else {
+			registrationVatCheckBox.setIcon(null);
+		}
 	}
 }

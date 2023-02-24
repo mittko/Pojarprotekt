@@ -117,7 +117,6 @@ public class GeneralTechnicalReview extends MainPanel {
 		detailsTable.getColumnModel().getColumn(4)
 				.setPreferredWidth((int) (this.WIDTH * 0.15));
 		// detailsTable.getTableHeader().setReorderingAllowed(false);
-
 		// detailsTable.getTableHeader().setResizingAllowed(false);
 
 		detailsTable.setDefaultRenderer(Object.class, new DetailsRenderer(
@@ -186,7 +185,7 @@ public class GeneralTechnicalReview extends MainPanel {
 		calendarButton
 				.setAutoSizedIcon(calendarButton, new LoadIcon().setIcons(calendarImage));
 		// calendarButton.setBackground(Color.RED);
-		calendarButton.setBorderPainted(false);
+		//calendarButton.setBorderPainted(false);
 		calendarButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -241,7 +240,7 @@ public class GeneralTechnicalReview extends MainPanel {
 				(int) (box.getPreferredSize().getHeight() * 0.8)));
 		;
 		next.setAutoSizedIcon(next, new LoadIcon().setIcons(enterImage2));
-		next.setBorderPainted(false);
+		//next.setBorderPainted(false);
 		// next.setBackground(Color.RED);
 
 		next.addActionListener(new ActionListener() {
@@ -261,7 +260,7 @@ public class GeneralTechnicalReview extends MainPanel {
 				.getPreferredSize().getHeight() * 0.8)));
 		diaryButton.setAutoSizedIcon(diaryButton, new LoadIcon().setIcons(diaryImage));
 		// diaryButton.setBackground(Color.red);
-		diaryButton.setBorderPainted(false);
+		//diaryButton.setBorderPainted(false);
 		diaryButton.addActionListener(new ActionListener() {
 
 			@Override
