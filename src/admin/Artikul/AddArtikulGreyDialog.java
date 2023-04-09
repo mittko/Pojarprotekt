@@ -337,7 +337,7 @@ public class AddArtikulGreyDialog extends MainPanel
 				}
 				final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AddArtikulGreyDialog.this);
 				jd.setCursor(new Cursor(3));
-				final InsertArtikulWorker add = new InsertArtikulWorker("GreyArtikulsDB", AddArtikulGreyDialog.this.clientComboBox, AddArtikulGreyDialog.this.artikulsComboBox, AddArtikulGreyDialog.this.skladField, AddArtikulGreyDialog.this.medField, AddArtikulGreyDialog.this.deliveryValueField, AddArtikulGreyDialog.this.bigFinalValueField, AddArtikulGreyDialog.this.invoiceField, AddArtikulGreyDialog.this.dateField, AddArtikulGreyDialog.this.personField, AddArtikulGreyDialog.this.percentProfitField, AddArtikulGreyDialog.this.artikulCodeField, jd);
+				final InsertArtikulWorker add = new InsertArtikulWorker("GreyArtikulsDB", AddArtikulGreyDialog.this.clientComboBox, AddArtikulGreyDialog.this.artikulsComboBox, AddArtikulGreyDialog.this.skladField, AddArtikulGreyDialog.this.medField, AddArtikulGreyDialog.this.deliveryValueField, AddArtikulGreyDialog.this.bigFinalValueField, AddArtikulGreyDialog.this.invoiceField, AddArtikulGreyDialog.this.dateField, AddArtikulGreyDialog.this.personField, AddArtikulGreyDialog.this.percentProfitField,  jd);
 				add.execute();
 			}
 		});

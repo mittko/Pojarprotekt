@@ -45,9 +45,8 @@ public class InsertArtikulWorker extends SwingWorker
 	JTextField artikulCodeField;
 	JDialog jd;
 	String dbTable;
-	String code;
 
-	public InsertArtikulWorker(final String dbTable, final ClientsListComboBox2 clientsComboBox, final ArtikulsListComboBox artikulsComboBox, final JTextField skladField, final JTextField medField, final JTextField deliveryValueField, final JTextField bigFinalValueField, final EditableField invoiceField, final JTextField dateField, final JTextField personField, final JTextField percentProfitField, final JTextField artikulCodeField, final JDialog jd) {
+	public InsertArtikulWorker(final String dbTable, final ClientsListComboBox2 clientsComboBox, final ArtikulsListComboBox artikulsComboBox, final JTextField skladField, final JTextField medField, final JTextField deliveryValueField, final JTextField bigFinalValueField, final EditableField invoiceField, final JTextField dateField, final JTextField personField, final JTextField percentProfitField, final JDialog jd) {
 		this.artikul = null;
 		this.quantity = 0;
 		this.med = null;
@@ -92,7 +91,6 @@ public class InsertArtikulWorker extends SwingWorker
 		this.date = this.dateField.getText();
 		this.seller = this.personField.getText();
 		this.percentProfit = this.percentProfitField.getText();
-		this.code = artikulCodeField.getText();
 		this.jd = jd;
 	}
 
@@ -134,7 +132,7 @@ public class InsertArtikulWorker extends SwingWorker
 	@Override
 	protected Object doInBackground() throws Exception {
 		try {
-			this.insertIntoArtikuls = Artikuli_DB.insertIntoArtikulTable(this.dbTable, this.artikul, this.quantity, this.med, this.saleValue, this.invoiceNumber, this.client, this.date, this.seller, this.percentProfit, this.code);
+			this.insertIntoArtikuls = Artikuli_DB.insertIntoArtikulTable(this.dbTable, this.artikul, this.quantity, this.med, this.saleValue, this.invoiceNumber, this.client, this.date, this.seller, this.percentProfit);
 			if (this.dbTable.equals("ArtikulsDB")) {
 				this.insertIntoDeliveryArtikuls = Artikuli_DB.insertIntoDeliveryArtikulTable(this.artikul, this.quantity, this.med, this.deliveryValue, this.client, this.invoiceNumber, this.date, this.seller);
 			}
@@ -145,7 +143,7 @@ public class InsertArtikulWorker extends SwingWorker
 				public void run() {
 					if (InsertArtikulWorker.this.insertIntoArtikuls > 0) {
 						JOptionPane.showMessageDialog(null,
-								"Error from InsertArtikulWorker!");
+								"Данните са записани успешно !");
 						InsertArtikulWorker.this.clear();
 					}
 					InsertArtikulWorker.this.jd.setCursor(new Cursor(0));
@@ -161,7 +159,6 @@ public class InsertArtikulWorker extends SwingWorker
 		this.deliveryValueField.setText("");
 		this.bigFinalValueField.setText("");
 		this.percentProfitField.setText("");
-		this.artikulCodeField.setText("");
 	}
 }
 

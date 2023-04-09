@@ -56,6 +56,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		}
 	}
+
 	private void createAvailableArtikulGreyDB() {
 		Connection connect = null;
 		Statement stat = null;
@@ -89,42 +90,41 @@ public class Artikuli_DB extends MainPanel {
 			}
 		}
 	}
+
 	// TODO
-	 private void createArtikulDB2(String dbTable) {
-	 Connection connect = null;
-	 Statement stat = null;
-	 String command = "create table " + dbTable
-	 + " (artikul varchar(300),quantity int,"
-	 + " med varchar(20), value varchar(20), invoice varchar(20),"
-	 +
-	 " client varchar(50), date varchar(20), operator varchar(30), percentProfit varchar(5) )";
+	private void createArtikulDB2(String dbTable) {
+		Connection connect = null;
+		Statement stat = null;
+		String command = "create table " + dbTable
+				+ " (artikul varchar(300),quantity int,"
+				+ " med varchar(20), value varchar(20), invoice varchar(20),"
+				+
+				" client varchar(50), date varchar(20), operator varchar(30), percentProfit varchar(5) )";
 
-	 try {
-	 connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
-	 stat = connect.createStatement();
-	 stat.execute(command);
-	 System.out.println("table created succesfully!");
-	 } catch (SQLException e) {
-	 // TODO Auto-generated catch block
-	 DBException.DBExceptions("Грешка", e);
-	 Log.DB_Err.writeErros(e.toString());
-	 e.printStackTrace();
-	 } finally {
-	 try {
-	 if (stat != null) {
-	 stat.close();
-	 }
-	 if (connect != null) {
-	 connect.close();
-	 }
-	 } catch (SQLException e) {
-	 // TODO Auto-generated catch block
-	 e.printStackTrace();
-	 }
-	 }
-	 }
-
-
+		try {
+			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			stat = connect.createStatement();
+			stat.execute(command);
+			System.out.println("table created succesfully!");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			DBException.DBExceptions("Грешка", e);
+			Log.DB_Err.writeErros(e.toString());
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 
 	// public static int initArtikulTable(String table, String artikul,
@@ -518,7 +518,6 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 
-
 	public static int editArtikulQuantity(String artikul, String newQuantity) {
 		Connection connect = null;
 		// Statement stat = null;
@@ -639,7 +638,7 @@ public class Artikuli_DB extends MainPanel {
 
 	// this method update artikuls quantity
 	public static int decreaseArtikul_Quantity(String dbTable, String artikul, String client,
-			String invoice, int i) {
+											   String invoice, int i) {
 		Connection connect = null;
 		Statement stat = null;
 		PreparedStatement ps = null;
@@ -688,7 +687,7 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	public static int updateArtikul_ValueInDelivery(String artikul,
-			String newValue, String kontragent, String invoiceByKontragent) {
+													String newValue, String kontragent, String invoiceByKontragent) {
 
 		Connection connect = null;
 		Statement stat = null;
@@ -728,8 +727,8 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	public static int updateArtikul_ValueInAvailable(String dbTable, String artikul,
-			String artikulValue, String percentProfit, String kontragent,
-			String invoiceByKontragent) {
+													 String artikulValue, String percentProfit, String kontragent,
+													 String invoiceByKontragent) {
 
 		Connection connect = null;
 		Statement stat = null;
@@ -967,24 +966,22 @@ public class Artikuli_DB extends MainPanel {
 		return max;
 	}
 
-	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit, final String code) {
+	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit) {
 		Connection connect = null;
 		Statement stat = null;
-		final String command = "insert into " + dbTable + " values ('" + artikul + "'," + quantity + ",'" + med + "','" + value + "','" + invoiceNumber + "','" + client + "','" + date + "','" + seller + "','" + percentProfit + "','" + code + "')";
+		final String command = "insert into " + dbTable + " values ('" + artikul + "'," + quantity + ",'" + med + "','" + value + "','" + invoiceNumber + "','" + client + "','" + date + "','" + seller + "','" + percentProfit + "')";
 		int insert = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			stat = connect.createStatement();
 			insert = stat.executeUpdate(command);
 			return insert;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(command);
-			e.printStackTrace();
+			System.out.println(e.getMessage());;
 			return insert;
-		}
-		finally {
+		} finally {
 			try {
 				if (stat != null) {
 					stat.close();
@@ -992,8 +989,7 @@ public class Artikuli_DB extends MainPanel {
 				if (connect != null) {
 					connect.close();
 				}
-			}
-			catch (SQLException e2) {
+			} catch (SQLException e2) {
 				DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e2);
 				DB_Err.writeErros(e2.toString());
 				e2.printStackTrace();
@@ -1003,8 +999,8 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	public static int insertIntoDeliveryArtikulTable(String artikul,
-			int quantity, String med, String value, String client,
-			String invoiceNumber, String date, String seller) {
+													 int quantity, String med, String value, String client,
+													 String invoiceNumber, String date, String seller) {
 		Connection connect = null;
 		Statement stat = null;
 		String command = "insert into " + MainPanel.DELIVERY_ARTIKULS
@@ -1043,7 +1039,7 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	public static int deleteArtikulFromDelivery(String artikul,
-			String kontragent, String invoiceByKontragent) {
+												String kontragent, String invoiceByKontragent) {
 		Connection connect = null;
 		// Statement stat = null;
 		PreparedStatement ps = null;
@@ -1056,7 +1052,7 @@ public class Artikuli_DB extends MainPanel {
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			ps = connect.prepareStatement(command);// stat =
-													// connect.createStatement();
+			// connect.createStatement();
 			ps.setString(1, artikul);
 			ps.setString(2, kontragent);
 			ps.setString(3, invoiceByKontragent);
@@ -1089,7 +1085,7 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	public static int deleteArtikulFromAvailbale(String dbTable, String artikul, String client,
-			String invoice) {
+												 String invoice) {
 		Connection connect = null;
 		// Statement stat = null;
 		PreparedStatement ps = null;
@@ -1099,7 +1095,7 @@ public class Artikuli_DB extends MainPanel {
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			ps = connect.prepareStatement(command);// stat =
-													// connect.createStatement();
+			// connect.createStatement();
 			ps.setString(1, artikul);
 			ps.setString(2, client);
 			ps.setString(3, invoice);
@@ -1132,7 +1128,7 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	public static int editArtikulQuantity(String dbTable, String artikul, String newQuantity,
-			String kontragent, String invoiceByKontragnet) {
+										  String kontragent, String invoiceByKontragnet) {
 		Connection connect = null;
 		// Statement stat = null;
 		PreparedStatement ps = null;
@@ -1175,6 +1171,7 @@ public class Artikuli_DB extends MainPanel {
 		}
 		return update;
 	}
+
 	public static int editArtikulName(String table, String oldArtikulName,
 									  String newArtikulName) {
 		Connection connect = null;
@@ -1251,6 +1248,7 @@ public class Artikuli_DB extends MainPanel {
 		}
 
 	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Artikuli_DB art = new Artikuli_DB();
@@ -1290,10 +1288,6 @@ public class Artikuli_DB extends MainPanel {
 //						"0");// процент печалба
 //			}
 //		}
-
-
-
-
 
 
 		// int d = deleteArtikulFromAvailbale("Редуцир винтил с два манометъра",
@@ -1359,65 +1353,63 @@ public class Artikuli_DB extends MainPanel {
 		// art.copyDataFromAvailableArtikulsToDeliveryArtikuls();
 
 
+		// Object[][] data = readExcel("D://novipojarogaiteli.xls");
+		// for (int i = 0; i < data.length; i++) {
+		// NewExtinguishers_DB.setExtinguisher(MainPanel.NEW_EXTINGUISHERS,
+		// data[i][0].toString(), // тип пожарогасител
+		// data[i][1].toString(),// тегло
+		// data[i][2].toString(),// категория
+		// data[i][3].toString(),// марка
+		// Integer.parseInt(data[i][4].toString()),// количество
+		// data[i][5].toString(),// цена
+		// "0000001",// фактура
+		// "ПОЖАРПРОТЕКТ ООД",// контрагент
+		// GetDate.getReversedSystemDate(), // дата
+		// "Спас Ильов", // продавач
+		// "0");// процент печалба
+
+		// int insertIntoDeliveryArtikuls = Artikuli_DB
+		// .insertIntoDeliveryArtikulTable(data[i][0].toString()
+		// + " ( Нов ) " + data[i][1].toString(),// тип
+		// Integer.parseInt(data[i][4].toString()), // ->
+		// // колочество
+		// // this
+		// // is
+		// // int
+		// "броя", // мерна единица
+		// data[i][5].toString(), // cena
+		// "ПОЖАРПРОТЕКТ ООД", // клиент
+		// "0000001",// фактура
+		// GetDate.getReversedSystemDate(),// дата
+		// "Спас Ильов");// продавач
+
+		// }
+
+		// Object[][] data = readExcel("D://artikuls.xls");
+		// for (int i = 0; i < 0; i++) {
+		// System.out.printf(
+		// "%s %s %s %s %s %s %s %s %s\n",
+		// data[i][0].toString(),// артикул
+		// data[i][1].toString(),// количество
+		// data[i][2].toString(), // мерна единица
+		// data[i][3].toString(),// крайна цена
+		// "0000001",// фактура номер
+		// "ПОЖАРПРОТЕКТ ООД",// контрагент
+		// GetDate.getReversedSystemDate(),// дата
+		// "Спас Ильов", // продавач
+		// "20");// процент печалба
 
 
-			// Object[][] data = readExcel("D://novipojarogaiteli.xls");
-			// for (int i = 0; i < data.length; i++) {
-			// NewExtinguishers_DB.setExtinguisher(MainPanel.NEW_EXTINGUISHERS,
-			// data[i][0].toString(), // тип пожарогасител
-			// data[i][1].toString(),// тегло
-			// data[i][2].toString(),// категория
-			// data[i][3].toString(),// марка
-			// Integer.parseInt(data[i][4].toString()),// количество
-			// data[i][5].toString(),// цена
-			// "0000001",// фактура
-			// "ПОЖАРПРОТЕКТ ООД",// контрагент
-			// GetDate.getReversedSystemDate(), // дата
-			// "Спас Ильов", // продавач
-			// "0");// процент печалба
-
-			// int insertIntoDeliveryArtikuls = Artikuli_DB
-			// .insertIntoDeliveryArtikulTable(data[i][0].toString()
-			// + " ( Нов ) " + data[i][1].toString(),// тип
-			// Integer.parseInt(data[i][4].toString()), // ->
-			// // колочество
-			// // this
-			// // is
-			// // int
-			// "броя", // мерна единица
-			// data[i][5].toString(), // cena
-			// "ПОЖАРПРОТЕКТ ООД", // клиент
-			// "0000001",// фактура
-			// GetDate.getReversedSystemDate(),// дата
-			// "Спас Ильов");// продавач
-
-			// }
-
-			// Object[][] data = readExcel("D://artikuls.xls");
-			// for (int i = 0; i < 0; i++) {
-			// System.out.printf(
-			// "%s %s %s %s %s %s %s %s %s\n",
-			// data[i][0].toString(),// артикул
-			// data[i][1].toString(),// количество
-			// data[i][2].toString(), // мерна единица
-			// data[i][3].toString(),// крайна цена
-			// "0000001",// фактура номер
-			// "ПОЖАРПРОТЕКТ ООД",// контрагент
-			// GetDate.getReversedSystemDate(),// дата
-			// "Спас Ильов", // продавач
-			// "20");// процент печалба
-
-
-			// insertIntoDeliveryArtikulTable(data[i][0].toString(), // артикул
-			// Integer.parseInt(data[i][1].toString()),// количество
-			// data[i][2].toString(),// мерна единица
-			// data[i][3].toString(), // продажна цена
-			// "ПОЖАРПРОТЕКТ ООД",// контрагент
-			// "0000001",// фактура
-			// GetDate.getReversedSystemDate(),// дата
-			// "Спас Ильов"); // продавач
-			// }
-		}
+		// insertIntoDeliveryArtikulTable(data[i][0].toString(), // артикул
+		// Integer.parseInt(data[i][1].toString()),// количество
+		// data[i][2].toString(),// мерна единица
+		// data[i][3].toString(), // продажна цена
+		// "ПОЖАРПРОТЕКТ ООД",// контрагент
+		// "0000001",// фактура
+		// GetDate.getReversedSystemDate(),// дата
+		// "Спас Ильов"); // продавач
+		// }
+	}
 
 	public static Object[][] readExcel(String fileName) {
 		Object[][] obj = null;

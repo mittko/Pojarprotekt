@@ -18,7 +18,7 @@ public class ArtikulRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
-		if (column == 4) {
+		if (column == 3) {
 			if (value.toString().contains(",")) {
 				value = value.toString().replace(",", "."); // english comma
 			}
@@ -36,7 +36,7 @@ public class ArtikulRenderer extends DefaultTableCellRenderer {
 		}
 		Component c = super.getTableCellRendererComponent(table, value,
 				isSelected, hasFocus, row, column);
-		if (column != 1) {
+		if (column != 0) {
 			this.setHorizontalAlignment(JLabel.CENTER);
 		} else {
 			this.setHorizontalAlignment(JLabel.LEFT);
@@ -52,9 +52,9 @@ public class ArtikulRenderer extends DefaultTableCellRenderer {
 			this.setBackground(Color.white);
 		}
 
-		if (column == 4) {
+		if (column == 3) {
 			this.setForeground(Color.BLUE);
-		} else if (column == 2) {
+		} else if (column == 1) {
 			int quantity = 0;
 			try {
 				quantity = Integer.parseInt(value.toString());

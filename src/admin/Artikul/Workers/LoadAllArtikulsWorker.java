@@ -25,7 +25,7 @@ public class LoadAllArtikulsWorker extends SwingWorker {
 			data = Artikuli_DB.getAllAvailableArtikuls(AVAILABLE_ARTIKULS);
 			AvailableArtikulsTable.helpSearchFieldList.clear();
 			for (Object[] datum : data) {
-				Object[] obj = new Object[]{datum[9],datum[0], datum[1],
+				Object[] obj = new Object[]{/*datum[9],*/datum[0], datum[1],
 						datum[2], datum[3], datum[4],
 						datum[5], datum[6], datum[7],
 						datum[8]};
@@ -66,7 +66,7 @@ public class LoadAllArtikulsWorker extends SwingWorker {
 							// data.size()
 
 							Object[] obj = new Object[]{
-									datum[9],
+								/*	datum[9],*/
 									datum[0],
 									datum[1], datum[2],
 									datum[3], datum[4],
