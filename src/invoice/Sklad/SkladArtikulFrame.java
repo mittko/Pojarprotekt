@@ -72,10 +72,7 @@ public class SkladArtikulFrame extends MainPanel {
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				if (column == 4 || column == 5) {
-					return true;
-				}
-				return false;
+				return column == 4 || column == 5;
 			}
 		};
 		JTextField helpTextField = new JTextField();
@@ -222,10 +219,9 @@ public class SkladArtikulFrame extends MainPanel {
 
 				String skladQuantity = skladTable.getValueAt(row, 1).toString();
 
-				/*
-				 * String med = skladTable.getValueAt( row, 2).toString(); //
-				 * мерна // единица
-				 */
+
+				  String med = skladTable.getValueAt( row, 2).toString(); // мерна единица
+
 
 				// String value = "";
 				// try {
@@ -318,7 +314,7 @@ public class SkladArtikulFrame extends MainPanel {
 //						invoiceByKontragent });  OLD LOGIC THAT WORK !!!
 
 				invoiceTableModel.addRow(new Object[] { artikul,
-						userQ < 2 ? "брой" : "броя", quantity,
+						/*userQ < 2 ? "брой" : "броя"*/med, quantity,
 						MyMath.round(val, 2), allSum,
 						clientDiscountInPercentage, kontragent,
 						invoiceByKontragent });

@@ -1,6 +1,5 @@
 package acquittance.sklad.workers;
 
-import acquittance.sklad.GreySkladArtikulFrame2;
 import db.Artikul.Artikuli_DB;
 
 import javax.swing.*;
@@ -53,8 +52,8 @@ public class LoadAllGreyArtikulsFromAcquittanceWorker extends SwingWorker {
 							}
 						});
 
-						GreySkladArtikulFrame2.skladModel.setRowCount(0);
-						GreySkladArtikulFrame2.DATA_LIST.clear();
+						GreySkladArtikulFrame.skladModel.setRowCount(0);
+						GreySkladArtikulFrame.DATA_LIST.clear();
 
 						for (Object[] objects : result) {
 							// set in the table imediatelly
@@ -64,7 +63,7 @@ public class LoadAllGreyArtikulsFromAcquittanceWorker extends SwingWorker {
 							// ".")));// format to two decimal places after
 							// points
 							//
-							GreySkladArtikulFrame2.skladModel.addRow(new Object[]{
+							GreySkladArtikulFrame.skladModel.addRow(new Object[]{
 									objects[0], // артикул
 									objects[1], // количество
 									objects[2], // м.ед
@@ -74,7 +73,7 @@ public class LoadAllGreyArtikulsFromAcquittanceWorker extends SwingWorker {
 									objects[5] // контрагент});
 							});
 							// store data in list to change table dinamically
-							GreySkladArtikulFrame2.DATA_LIST.add(new Object[]{
+							GreySkladArtikulFrame.DATA_LIST.add(new Object[]{
 									objects[0], // артикул
 									objects[1], // количество
 									objects[2], // м.ед

@@ -1,5 +1,6 @@
 package acquittance.windows;
 
+import invoicewindow.ProtokolAndProformSearchTabs;
 import run.JustFrame;
 import utils.MainPanel;
 
@@ -8,14 +9,17 @@ import javax.swing.*;
 public class AcquittanceFrame extends MainPanel {
 
 
-	public ArtikulTab2 acqTab;
+	public GreyArtikulTab greyArtikulTab;
+
+	public ProtokolAndProformSearchTabs protokolAndProformSearchTabs;
 
 	public AcquittanceFrame() {
 		JTabbedPane tabbedPane = new JTabbedPane();
 
-		acqTab = new ArtikulTab2();
-
-		tabbedPane.add("¿–“» ”À»", acqTab);
+		greyArtikulTab = new GreyArtikulTab();
+		protokolAndProformSearchTabs = new ProtokolAndProformSearchTabs(true);
+		tabbedPane.add("œŒ∆¿–Œ√¿—»“≈À» » ¿–“» ”À»", protokolAndProformSearchTabs);
+		tabbedPane.add("¿–“» ”À»", greyArtikulTab);
 		this.add(tabbedPane);
 	}
 

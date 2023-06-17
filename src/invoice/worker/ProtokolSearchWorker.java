@@ -39,10 +39,6 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 		this.fromInvoiceTableModel = dftm;
 	}
 
-	/*
-	 * public ProtokolSearcher(String protokolNum, DefaultTableModel dftm) {
-	 * this.protokolNum = protokolNum; this.fromInvoiceTableModel = dftm; }
-	 */
 	@Override
 	public Boolean doInBackground() throws Exception {
 		// TODO Auto-generated method stub

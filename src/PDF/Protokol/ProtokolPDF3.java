@@ -221,7 +221,6 @@ public class ProtokolPDF3 extends PdfCreator {
 
 		// изпитване
 		for (int row = 0; row < endIndex; row++) {
-		//	toRows++;
 			String _tehnichesko = dm.getValueAt(row + startIndex, 7)
 					+ ""; // техническо обслужване
 			String _prezarejdane = dm.getValueAt(row + startIndex, 8) + ""; // презареждане
@@ -323,7 +322,7 @@ public class ProtokolPDF3 extends PdfCreator {
 						Obslujvane = "Техническо обслужвне";
 					} else if(j == 1) {
 						Obslujvane = "Презареждане";
-					} else if(j == 2) {
+					} else {
 						String differenceDayHI = MyGetDate.getUrgentDays(
 								MyGetDate.getReversedSystemDate(),
 								doing[j]);
@@ -359,7 +358,7 @@ public class ProtokolPDF3 extends PdfCreator {
 								nomerRazreshitelno = "ABC";
 							} else if (j == 1) {
 								nomerRazreshitelno = "Кобра ABC";
-							} else if (j == 2) {
+							} else {
 								nomerRazreshitelno = "Изпитан";
 							}
 						}
@@ -370,7 +369,7 @@ public class ProtokolPDF3 extends PdfCreator {
 								nomerRazreshitelno = "Вода";
 							} else if (j == 1) {
 								nomerRazreshitelno = "Вода";
-							} else if (j == 2) {
+							} else {
 								nomerRazreshitelno = "Изпитан";
 							}
 						}
@@ -381,7 +380,7 @@ public class ProtokolPDF3 extends PdfCreator {
 								nomerRazreshitelno = "STHAMEX";
 							} else if (j == 1) {
 								nomerRazreshitelno = "STHAMEX";
-							} else if (j == 2) {
+							} else {
 								nomerRazreshitelno = "Изпитан";
 							}
 						}
@@ -392,7 +391,7 @@ public class ProtokolPDF3 extends PdfCreator {
 								nomerRazreshitelno = "CO2";
 							} else if (j == 1) {
 								nomerRazreshitelno = "CO2";
-							} else if (j == 2) {
+							} else {
 								nomerRazreshitelno = "Изпитан";
 							}
 						}
@@ -539,7 +538,7 @@ public class ProtokolPDF3 extends PdfCreator {
 				sumOfRows += dynamicTable.getRowHeight(row + 2);
 
 				if (row == endIndex - 1 || ((Y - 5) - sumOfRows) < document.bottom()) {
-					// System.out.println("fAK YOU 1");
+
 					dynamicTable.writeSelectedRows(0, -1, fromRows, toRows, x,
 							Y - 5, writer.getDirectContent());
 					if ((Y - 5) - sumOfRows < document.bottom()) {

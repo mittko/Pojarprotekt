@@ -72,7 +72,7 @@ public class RemoveTable extends MainPanel {
 	}
 
 	public static int deleteClient(String client, String destination,
-			String name) {
+								   String name) {
 		Connection connect = null;
 		PreparedStatement stat = null;
 		int delete = 0;
@@ -140,6 +140,10 @@ public class RemoveTable extends MainPanel {
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		RemoveTable r = new RemoveTable();
+		int rw = r.deleteDocument(PROTOKOL, "0018817");
+		System.out.println("document deleted " + rw);
+
+
 		// r.deleteDocument(MainPanel.PROTOKOL,"0016979");
 		// r.deleteTable(PARTS_PRICE);
 		// r.deleteTable(PROTOKOL_NUMBER);
@@ -163,9 +167,10 @@ public class RemoveTable extends MainPanel {
 		// r.deleteTable(MainPanel.PARTS_QUANTITY);
 		// r.deleteTable(SALES);
 		// r.deleteTable(NEW_EXTINGUISHERS);
-		// int rw = r.deleteDocument(PROTOKOL, "0010636");
 
-		deleteClient(MainPanel.FIRM,"'мхйнк-ел 2015'еннд");
+		//deleteClient(MainPanel.FIRM,"'мхйнк-ел 2015'еннд");
+
+
 		// System.out.println(rw);
 	}
 

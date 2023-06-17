@@ -4,10 +4,15 @@ import Exceptions.DBException;
 import NewExtinguisher.NewExtinguisherWindow;
 import WorkingBook.View;
 import WorkingBook.WorkingBook;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.read.biff.BiffException;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
 import javax.swing.table.DefaultTableModel;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -731,7 +736,102 @@ public class ProtokolTable extends MainPanel {
 
 	//	pt.getSchemas();
 	//	pt.getSchemaTables("APP");
-		pt.getLastTableRecord();
+	//	pt.getLastTableRecord();
+
+		pt.readFromProtExcelInsertIntoProtokol("»‚‡ Ë  ÓÒ.xls");
+	}
+	public void readFromProtExcelInsertIntoProtokol(String fileName) {
+		int result = -1;
+		try {
+			Connection connection = null;
+			PreparedStatement ps = null;
+			String preparedCommand = "insert into "
+					+ PROTOKOL
+					+
+					" (client, type, wheight, barcod, serial, category, brand, T_O, P, HI , parts, value, number, person, date," +
+					" kontragent, invoiceByKontragent, additional_data) VALUES"
+					+ " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			connection.setAutoCommit(false);
+
+			ps = connection.prepareStatement(preparedCommand);
+
+			File f = new File(fileName);
+			Workbook workBook = Workbook.getWorkbook(f.getAbsoluteFile());
+			Sheet sheet = workBook.getSheet(0);
+			for (int row = 1; row < sheet.getRows(); row++) {
+				if (sheet.getCell(1, row).getContents()
+						.contains("Œ¡—À”∆≈Õ»") || (sheet.getCell(0, row).getContents().isEmpty())) {
+					break;
+				}
+				String client = sheet.getCell(0, row).getContents();
+				String type = sheet.getCell(1, row).getContents();
+				String wheight = sheet.getCell(2, row).getContents();
+				String barcod = sheet.getCell(3, row).getContents();
+				String serial = sheet.getCell(4, row).getContents();
+				String category = sheet.getCell(5, row).getContents();
+				String brand = sheet.getCell(6, row).getContents();
+				String TO = sheet.getCell(7, row).getContents();
+				String P = sheet.getCell(8, row).getContents();
+				String HI = sheet.getCell(9, row).getContents();
+				String parts = sheet.getCell(10, row).getContents().trim();
+				String value = sheet.getCell(11, row).getContents();
+				String number = sheet.getCell(12, row).getContents();
+				String tehnik = sheet.getCell(13, row).getContents();
+				String date = sheet.getCell(14, row).getContents();
+				String kontragent = sheet.getCell(15,row).getContents();// "œŒ∆¿–œ–Œ“≈ “ 00ƒ";
+				String invoiceByKontragent = sheet.getCell(16,row).getContents();// "0000001";
+				String registration_number = sheet.getCell(17,row).getContents();
+
+				client="»¬¿ »  Œ— - 2023 ≈ŒŒƒ";
+				loopBatch(ps,//
+						client,// client
+						type, // type
+						wheight, // wheight
+						barcod, // barcod
+						serial, // serial
+						category, // category
+						brand, // brand
+						TO, // TO Date
+						P, // P Date
+						HI, // HI Date
+						parts, // parts
+						value,// value+"",
+						// // value
+						number, // number
+						tehnik, // techik
+						date, // datÂ
+						kontragent, invoiceByKontragent,registration_number);
+
+				System.out.printf(
+						"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s\n",
+						client,// client
+						type, // type
+						wheight, // wheight
+						barcod, // barcod
+						serial, // serial
+						category, // category
+						brand, // brand
+						TO, // TO Date
+						P, // P  Date
+						HI, // H  Date
+						parts, // parts
+						value,// value+"",
+						number, // number
+						tehnik, // techik
+						date, // datÂ
+						kontragent,
+						invoiceByKontragent,
+						registration_number);
+			}
+			System.out.print("\n");
+				ps.executeBatch();
+				connection.commit();
+		} catch (BiffException | IOException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void getSchemas() throws SQLException {
@@ -883,110 +983,7 @@ public class ProtokolTable extends MainPanel {
 		}
 	}
 
-	// public void readFromExcelInsertIntoProtokol(String fileName) {
-	// int result = -1;
-	// try {
-	// Connection connection = null;
-	// PreparedStatement ps = null;
-	// String preparedCommand = "insert into "
-	// + PROTOKOL
-	// +
-	// " (client, type, wheight, barcod, serial, category, brand, T_O, P, HI , parts, value, number, person, date, kontragent, invoiceByKontragent) VALUES"
-	// + " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	//
-	// connection = DriverManager.getConnection(getCurrentIP.DB_PATH);
-	// connection.setAutoCommit(false);
-	//
-	// ps = connection.prepareStatement(preparedCommand);
-	//
-	// File f = new File(fileName);
-	// Workbook workBook = Workbook.getWorkbook(f.getAbsoluteFile());
-	// Sheet sheet = workBook.getSheet(0);
-	// for (int row = 1; row < sheet.getRows(); row++) {
-	// if (sheet.getCell(1, row).getContents().toString()
-	// .contains("Œ¡—À”∆≈Õ»")
-	// || (sheet.getCell(0, row).getContents().toString()
-	// .isEmpty()))
-	// break;
-	// String client = sheet.getCell(0, row).getContents().toString();
-	// String type = sheet.getCell(1, row).getContents().toString();
-	// String wheight = sheet.getCell(2, row).getContents().toString();
-	// String barcod = sheet.getCell(3, row).getContents().toString();
-	// String serial = sheet.getCell(4, row).getContents().toString();
-	// String category = sheet.getCell(5, row).getContents()
-	// .toString();
-	// String brand = sheet.getCell(6, row).getContents().toString();
-	// String TO = sheet.getCell(7, row).getContents().toString();
-	// String P = sheet.getCell(8, row).getContents().toString();
-	// String HI = sheet.getCell(9, row).getContents().toString();
-	// String parts = sheet.getCell(10, row).getContents().toString()
-	// .trim();
-	// String value = sheet.getCell(11, row).getContents().toString();
-	// String number = sheet.getCell(12, row).getContents().toString();
-	// String tehnik = sheet.getCell(13, row).getContents().toString();
-	// String date = sheet.getCell(14, row).getContents().toString();
-	// String kontragent = "œŒ∆¿–œ–Œ“≈ “ 00ƒ";
-	// String invoiceByKontragent = "0000001";
-	// // for (int column = 0; column < sheet.getColumns(); column++) {
-	//
-	// loopBatch(ps,//
-	// client,// client
-	// type, // type
-	// wheight, // wheight
-	// barcod, // barcod
-	// serial, // serial
-	// category, // category
-	// brand, // brand
-	// TO, // TO //
-	// // Date
-	// P, // P //
-	// // Date
-	// HI, // H //
-	// // Date
-	// parts, // parts
-	// value,// value+"",
-	// // //
-	// // value
-	// number, // number
-	// tehnik, // techik
-	// date, // datÂ
-	// kontragent, invoiceByKontragent);
-	//
-	// // System.out.printf(
-	// // "%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s\n",//
-	// // client,// client
-	// // type, // type
-	// // wheight, // wheight
-	// // barcod, // barcod
-	// // serial, // serial
-	// // category, // category
-	// // brand, // brand
-	// // TO, // TO //
-	// // // Date
-	// // P, // P //
-	// // // Date
-	// // HI, // H //
-	// // // Date
-	// // parts, // parts
-	// // value,// value+"",
-	// // // //
-	// // // value
-	// // number, // number
-	// // tehnik, // techik
-	// // date, // datÂ
-	// // kontragent, invoiceByKontragent);
-	//
-	// // }
-	// // System.out.printf("\n");
-	// }
-	// ps.executeBatch();
-	// connection.commit();
-	// } catch (BiffException | IOException | SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	//
-	// }
+
 
 	// public static int[] batchInsertFromExcellIntoProtokol(
 	// DefaultTableModel protokolTableModel, String number, String tehnik,

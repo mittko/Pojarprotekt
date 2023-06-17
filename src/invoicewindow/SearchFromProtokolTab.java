@@ -1,5 +1,8 @@
 package invoicewindow;
 
+import acquittance.sklad.workers.GreySkladArtikulFrame;
+import acquittance.sklad.workers.LoadAllGreyArtikulsFromAcquittanceWorker;
+import acquittance.windows.SaveInAcquittanceDBDialog;
 import invoice.Fiskal.CreateBonFPrint;
 import invoice.InvoiceRenderer.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
@@ -70,7 +73,7 @@ public class SearchFromProtokolTab extends MainPanel {
 	final JPopupMenu popupMenu = new JPopupMenu();
 	private String protokolNumber = "";
 
-	public SearchFromProtokolTab() {
+	public SearchFromProtokolTab(final boolean isGrey) {
 
 		INVOICE_CURRENT_CLIENT = "";
 		// moreProtokolsList.clear();
@@ -161,7 +164,7 @@ public class SearchFromProtokolTab extends MainPanel {
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.75)));
 
-		skladButton.setAutoSizedIcon(skladButton, new LoadIcon().setIcons(artikuliImage));
+		skladButton.setAutoSizedIcon(skladButton, new LoadIcon().setIcons(isGrey ? greyArtikuliImage : artikuliImage));
 		skladButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -174,21 +177,42 @@ public class SearchFromProtokolTab extends MainPanel {
 
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				SkladArtikulFrame skladArtikulFrame = new SkladArtikulFrame(
-						invoiceTableModel/*
-										 * , sumField8
-										 */, Double.parseDouble(discountField
-								.getText()), choiceDiscountButton.isSelected());
+				if(isGrey) {
+					GreySkladArtikulFrame greySkladArtikulFrame = new GreySkladArtikulFrame(
+							invoiceTableModel/*
+					 * , sumField
+					 */, discountField.getText().isEmpty() ? 0 : Double
+							.parseDouble(discountField.getText()),
+							choiceDiscountButton.isSelected());
 
-				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
-						jd);// (JDialog)SwingUtilities.getWindowAncestor(searchFromProtokol.this));
-				loader.execute();
+					LoadAllGreyArtikulsFromAcquittanceWorker loader = new LoadAllGreyArtikulsFromAcquittanceWorker(
+							jd);
+					loader.execute();
 
-				JDialoger jDialog = new JDialoger();
-				jDialog.setContentPane(skladArtikulFrame);
-				jDialog.setTitle("Артикули");
-				jDialog.setResizable(false);
-				jDialog.Show();
+					JDialoger jDialog = new JDialoger();
+					jDialog.setContentPane(greySkladArtikulFrame);
+					jDialog.setTitle("Артикули");
+					jDialog.setResizable(false);
+					jDialog.Show();
+				} else {
+					SkladArtikulFrame skladArtikulFrame = new SkladArtikulFrame(
+							invoiceTableModel/*
+					 * , sumField8
+					 */, Double.parseDouble(discountField
+							.getText()), choiceDiscountButton.isSelected());
+
+					LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
+							jd);
+					loader.execute();
+
+					JDialoger jDialog = new JDialoger();
+					jDialog.setContentPane(skladArtikulFrame);
+					jDialog.setTitle("Артикули");
+					jDialog.setResizable(false);
+					jDialog.Show();
+				}
+
+
 			}
 
 		});
@@ -263,24 +287,54 @@ public class SearchFromProtokolTab extends MainPanel {
 					return;
 				}
 
-				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(INVOICE_PARENT,INVOICE_CHILD
-						,protokolNumber,
-						INVOICE_CURRENT_CLIENT, paymenCombo.getSelectedItem()
-								.toString(), discountField.getText(), MyMath
-								.round(getDanOsnova(), 2) + "", personName,
-						dateField.getText(),
-						true, // invoice
-						false, // proform
-						true, // acquittance
-						invoiceTableModel, invoiceNumberLabel, proformNumLabel,
-						null, registrationVatCheckBox.isSelected());
+				if(!isGrey) {
+					SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(
+							INVOICE_PARENT,
+							INVOICE_CHILD
+							,protokolNumber,
+							INVOICE_CURRENT_CLIENT,
+							paymenCombo.getSelectedItem().toString(),
+							discountField.getText(),
+							MyMath.round(getDanOsnova(), 2) + "",
+							personName,
+							dateField.getText(),
+							true, // invoice
+							false, // proform
+							true, // acquittance
+							invoiceTableModel,
+							invoiceNumberLabel,
+							proformNumLabel,
+							null,
+							registrationVatCheckBox.isSelected());
 
-				// clear protokol number to avoid mess
-				protokolNumber = "";
+					// clear protokol number to avoid mess
+					protokolNumber = "";
 
-				JDialoger jDialoger = new JDialoger();
-				jDialoger.setContentPane(save);
-				jDialoger.Show();
+					JDialoger jDialoger = new JDialoger();
+					jDialoger.setContentPane(save);
+					jDialoger.Show();
+				} else {
+					SaveInAcquittanceDBDialog save = new SaveInAcquittanceDBDialog(
+							protokolNumber,// here protokol
+							// number is not
+							// needed and is
+							// marked as -
+							// (without
+							// protokol)
+							INVOICE_CURRENT_CLIENT, paymenCombo
+							.getSelectedItem().toString(), discountField
+							.getText(), MyMath.round(getDanOsnova(), 2) + "",
+							personName,
+							MyGetDate.getReversedSystemDate(),
+							true, // invoice
+							false, // proform
+							invoiceTableModel, null, // there is invoice num label
+							null, // there is no proform num label
+							null); // acquittance num label
+					JDialoger jDialoger = new JDialoger();
+					jDialoger.setContentPane(save);
+					jDialoger.Show();
+				}
 
 			}
 
@@ -300,8 +354,6 @@ public class SearchFromProtokolTab extends MainPanel {
 				return false;
 			}
 		};
-		// artikuliModel = new DefaultTableModel(
-		// new String[] { "Артикули", "К-во" }, 0);
 
 		invoiceTable = new JTable(invoiceTableModel);
 
@@ -364,18 +416,12 @@ public class SearchFromProtokolTab extends MainPanel {
 		invoiceTable.getColumnModel().getColumn(7).setMinWidth(0);
 		invoiceTable.getColumnModel().getColumn(7).setMaxWidth(0);
 		invoiceTable.getColumnModel().getColumn(7).setWidth(0);
-		// JTable rowTable = new CommonResources.RowNumberTable(invoiceTable);
-		// // ****
 
 		JScrollPane scroll = new JScrollPane(invoiceTable,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setPreferredSize(new Dimension((int) (this.WIDTH * 1.0) - 20,
 				(int) (this.HEIGHT * 0.57)));
-
-		// scroll.setRowHeaderView(rowTable); // ****
-		// scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER,// ****
-		// rowTable.getTableHeader());// ****
 
 		centerPanel.add(scroll);
 
@@ -402,23 +448,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		clientLabel = new BevelLabel();
 		clientLabel.setTitle("Клиент : ");
 		clientLabel.setName("");
-//		clientLabel.setPreferredSize(new Dimension((int) (northPanel
-//				.getPreferredSize().getWidth() * 0.25), (int) (northPanel
-//				.getPreferredSize().getHeight() * 0.7)));
 
-//		registrationVatCheckBox.setSelected(false);
-//		registrationVatCheckBox.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(!registrationVatCheckBox.isSelected()) {
-//					setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
-//					registrationVatCheckBox.setSelected(true);
-//				} else {
-//					registrationVatCheckBox.setIcon(null);
-//					registrationVatCheckBox.setSelected(false);
-//				}
-//			}
-//		});
 		registrationVatCheckBox.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.75)));
@@ -449,51 +479,23 @@ public class SearchFromProtokolTab extends MainPanel {
 		sumFieldNoTax.setPreferredSize(new Dimension((int) (southPanel
 				.getPreferredSize().getWidth() * 0.2), (int) (southPanel
 				.getPreferredSize().getHeight() * 0.8)));
-		/*
-		 * invoiceNumberLabel = new BevelLabel();
-		 * invoiceNumberLabel.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.2),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 * invoiceNumberLabel.setTitle("Фактура \u2116 ");
-		 * invoiceNumberLabel.setName("");
-		 */
 
-		/*
-		 * proformNumLabel = new BevelLabel();
-		 * proformNumLabel.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.2),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 * proformNumLabel.setTitle("Проформа \u2116 ");
-		 * proformNumLabel.setName("");
-		 */
 
 		float labelHeight = (int) (southPanel.getPreferredSize().getHeight() * 0.8);
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
-		/*
-		 * sallerLabel.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.25),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 */
+
 		sallerLabel.setTitle(Enums.Оператор.name() + ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel sumLabel = new BevelLabel(labelHeight);
 		sumLabel.setTitle("");
 		sumLabel.setName("Сума с ДДС : ");
-		/*
-		 * sumLabel.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.17),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 */
+
 
 		BevelLabel sumLabel2 = new BevelLabel(labelHeight);
 		sumLabel2.setTitle("");
 		sumLabel2.setName("Сума без ДДС : ");
-		/*
-		 * sumLabel2.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.17),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 */
+
 
 		TooltipButton daysAccountButton = new TooltipButton();
 		daysAccountButton
@@ -504,9 +506,7 @@ public class SearchFromProtokolTab extends MainPanel {
 
 		daysAccountButton.setAutoSizedIcon(daysAccountButton,
 				new LoadIcon().setIcons("ac9.png"));
-		// daysAccountButton.setPreferredSize(new Dimension(50,50));
-		// daysAccountButton.setAutoSizedIcon(daysAccountButton,
-		// setIcons("ac8.png"));
+
 		daysAccountButton.addActionListener(new ActionListener() {
 
 			@Override

@@ -27,14 +27,12 @@ public class ArtikulTab extends MainPanel {
 	private static JButton registrationVatCheckBox;
 	final ImageIcon selectedIcon = new LoadIcon().setIcons(yesImage);
 	private static JComboBox<String> paymentCombo;
-	// private String discount;
+
 	private final TooltipButton skladButton;
 	public static DefaultTableModel dftm;
-	// private DefaultTableModel artikuliModel;
 	private final JTable onlyArticulsTable;
 	private static JTextField sumFieldNoTax;
 	private static JTextField sumField;
-	// private BevelLabel acquittanceNumLabel;
 
 	final JPopupMenu popupMenu = new JPopupMenu();
 

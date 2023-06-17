@@ -22,7 +22,6 @@ import utils.MainPanel;
 
 public class ReportRequest extends MainPanel
 {
-	private static final String accountingCode = "666";
 
 	public static ArrayList<Object[]> getReports(final String command) {
 		Connection connect = null;
@@ -39,16 +38,17 @@ public class ReportRequest extends MainPanel
 				for (int c = 0; c < rsmd.getColumnCount(); ++c) {
 					elem.add(rs.getString(c + 1));
 				}
+				if(elem.get(0).toString().toLowerCase().contains("ÃÅÎÐÃÈ ÃÐÀÕÎÂÑÊÈ".toLowerCase())) {
+					System.out.println("elem size " + elem.get(0));
+				}
 				list.add(elem.toArray());
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
-		}
-		finally {
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -59,8 +59,7 @@ public class ReportRequest extends MainPanel
 				if (connect != null) {
 					connect.close();
 				}
-			}
-			catch (SQLException e2) {
+			} catch (SQLException e2) {
 				DB_Err.writeErros(e2.toString());
 				e2.printStackTrace();
 			}
@@ -91,14 +90,12 @@ public class ReportRequest extends MainPanel
 					list.add(elem.toArray());
 				}
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
-		}
-		finally {
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -109,8 +106,7 @@ public class ReportRequest extends MainPanel
 				if (connect != null) {
 					connect.close();
 				}
-			}
-			catch (SQLException e2) {
+			} catch (SQLException e2) {
 				DB_Err.writeErros(e2.toString());
 				e2.printStackTrace();
 			}
@@ -141,14 +137,12 @@ public class ReportRequest extends MainPanel
 					list.add(elem.toArray());
 				}
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
-		}
-		finally {
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -159,8 +153,7 @@ public class ReportRequest extends MainPanel
 				if (connect != null) {
 					connect.close();
 				}
-			}
-			catch (SQLException e2) {
+			} catch (SQLException e2) {
 				DB_Err.writeErros(e2.toString());
 				e2.printStackTrace();
 			}
@@ -191,14 +184,12 @@ public class ReportRequest extends MainPanel
 					list.add(elem.toArray());
 				}
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
-		}
-		finally {
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -209,8 +200,7 @@ public class ReportRequest extends MainPanel
 				if (connect != null) {
 					connect.close();
 				}
-			}
-			catch (SQLException e2) {
+			} catch (SQLException e2) {
 				DB_Err.writeErros(e2.toString());
 				e2.printStackTrace();
 			}
@@ -227,7 +217,7 @@ public class ReportRequest extends MainPanel
 		final HashMap<String, String> map = new HashMap<String, String>();
 		Connection connect = null;
 		Statement stat = null;
-		final String command = "select artikul, code from " + dbTable;
+		final String command = "select artikul from " + dbTable;
 		ResultSet rs = null;
 		final ArrayList<ArtikulAsCode> result = new ArrayList<ArtikulAsCode>();
 		try {
@@ -239,14 +229,12 @@ public class ReportRequest extends MainPanel
 				final String code = rs.getString(2);
 				map.put(artikul, code);
 			}
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
-		}
-		finally {
+		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
@@ -257,8 +245,7 @@ public class ReportRequest extends MainPanel
 				if (connect != null) {
 					connect.close();
 				}
-			}
-			catch (SQLException e2) {
+			} catch (SQLException e2) {
 				DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e2);
 				DB_Err.writeErros(e2.toString());
 				e2.printStackTrace();
