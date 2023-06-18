@@ -77,11 +77,11 @@ public class ServiceOrder extends MainPanel {
 	public JTable table;
 
 	private static HashSet<String> isBarcodAndSerialEntered = null; // static
-																	// because
-																	// is for
-																	// all
-																	// created
-																	// object
+	// because
+	// is for
+	// all
+	// created
+	// object
 
 	public String SERVICE_NUMBER = null;
 
@@ -194,8 +194,6 @@ public class ServiceOrder extends MainPanel {
 		oldExtinguisher.setPreferredSize(new Dimension((int) (north
 				.getPreferredSize().getWidth()), (int) (north
 				.getPreferredSize().getHeight() * 0.5)));
-		// oldExtinguisher.setBorder(BorderFactory.createLineBorder(Color.black));
-		// oldExtinguisher.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 0));
 		oldExtinguisher.setOpaque(false);
 
 		JLabel enteredExtinguisher = new JLabel(" Налични :     ");
@@ -241,8 +239,8 @@ public class ServiceOrder extends MainPanel {
 
 												if (tModel.getRowCount() > 0
 														&& !CURRENT_CLIENT
-																.equals(fromBarcod[0]
-																		.toString())) {
+														.equals(fromBarcod[0]
+																.toString())) {
 													JOptionPane
 															.showMessageDialog(
 																	null,
@@ -340,8 +338,8 @@ public class ServiceOrder extends MainPanel {
 
 												if (tModel.getRowCount() > 0
 														&& !CURRENT_CLIENT
-																.equals(fromSerial[0]
-																		.toString())) {
+														.equals(fromSerial[0]
+																.toString())) {
 													JOptionPane
 															.showMessageDialog(
 																	null,
@@ -740,7 +738,7 @@ public class ServiceOrder extends MainPanel {
 				// TODO Auto-generated method stub
 
 				Object item = type.getSelectedItem();// table.getValueAt(CURRENT_ROW,
-														// 0);
+				// 0);
 				if (item != null) {
 					if (item.equals(type_Prah_BC) || item.equals(type_Prah_ABC)) {
 						wheight.setModel(dustModel);
@@ -806,8 +804,8 @@ public class ServiceOrder extends MainPanel {
 		numberExt_Button = new TooltipButton();
 		numberExt_Button.setPreferredSize(new Dimension((int) (numberPanel
 				.getPreferredSize().getWidth() * 0.3), // -> how width to be
-														// image in the button
-														// area
+				// image in the button
+				// area
 				(int) (numberPanel.getPreferredSize().getHeight() * 0.3)));
 		numberExt_Button.setAutoSizedIcon(numberExt_Button,
 				new LoadIcon().setIcons(enterNumberImage));
@@ -1249,9 +1247,22 @@ public class ServiceOrder extends MainPanel {
 		if(index2 != -1) {
 			brand = brand.substring(0,index2-1);
 		}
+
+		// тъй като килограмите идват от таблица протокол като двойка числа едното
+		// указващо реалните килограми след презареждането и второто килограмите на самият съд
+		// тук в сервизна поръчка трябва да извлечем само втората стойност (килограмите на съда)
+		// иначе в работилницата ще покаже бъг.Трябва да се увеличи рамера на полето weight в база данни Протоколи
+		// защото гърми
+		String weight = object[2].toString();
+		String[] spl = weight.split("/");
+		if(spl.length == 1) {
+			weight = spl[0].trim();
+		} else if(spl.length > 1) {
+			weight = spl[spl.length-1].trim();
+		}
 		Object[] obj = new Object[] {
 				type, // type
-				object[2], // wheight
+				weight,
 				object[3], // barcod
 				object[4], // serial
 				object[5], // category
@@ -1301,7 +1312,7 @@ public class ServiceOrder extends MainPanel {
 		// check if client are same
 		if (tModel.getRowCount() > 0
 				&& !CURRENT_CLIENT.equals(clientCombo.getSelectedItem()
-						.toString())) {
+				.toString())) {
 			JOptionPane.showMessageDialog(null, "Избран е друг клиент "
 					+ clientCombo.getSelectedItem() + "!");
 			clientCombo.setSelectedItem(CURRENT_CLIENT);
