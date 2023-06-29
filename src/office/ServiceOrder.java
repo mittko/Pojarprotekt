@@ -855,7 +855,7 @@ public class ServiceOrder extends MainPanel {
 
 		writerPanel.setOpaque(false);
 
-		TooltipButton serialNumber_Button = new TooltipButton();
+		final TooltipButton serialNumber_Button = new TooltipButton();
 		serialNumber_Button.setText("Въведи номер");
 		serialNumber_Button
 				.setToolTipText(getHTML_Text("ГЕНЕРИРАЙ МОНТАЖЕН НОМЕР"));
@@ -901,7 +901,7 @@ public class ServiceOrder extends MainPanel {
 								public void run() {
 									jd.setCursor(new Cursor(
 											Cursor.DEFAULT_CURSOR));
-									if (!serial.equals(null)) {
+									if (serial != null) {
 										tModel.setValueAt(serial, CURRENT_ROW,
 												3);
 									}
@@ -1046,12 +1046,7 @@ public class ServiceOrder extends MainPanel {
 				"Баркод", "Монтажен номер", "Категория", "Марка", "ТО", "П",
 				"ХИ", "Обработен", "Номер на Сервизна Поръчка", "Продавач",
 				"Дата", "Допълнителни данни" }, 0) {// , "Допълнителни данни"
-			/*
-			 * new DefaultTableModel(new String[] { "Вид", "Вместимост",
-			 * "Баркод", "Монтажен номер", "Категория", "Марка", "ТО", "П",
-			 * "ХИ", "Обработен", "Презаписан", "Номер на Сервизна Поръчка",
-			 * "Продавач", "Дата"
-			 */
+
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -1065,7 +1060,7 @@ public class ServiceOrder extends MainPanel {
 			public void tableChanged(TableModelEvent e) {
 				// TODO Auto-generated method stub
 				if (tModel.getRowCount() == 0)
-					cleaner();
+					clear();
 			}
 
 		});
@@ -1376,7 +1371,7 @@ public class ServiceOrder extends MainPanel {
 	}
 
 	// reset previous init content in jcomponents
-	public void cleaner() {
+	public void clear() {
 
 		// init hashset again ?
 		isBarcodAndSerialEntered.clear();
@@ -1393,6 +1388,7 @@ public class ServiceOrder extends MainPanel {
 		brand.setSelectedItem("");
 
 		updateExtinguisher.clear(); // clear list for brack old barcodes
+		PrintSerialBarcodesWorker.clearEnteredNumbers();
 	}
 
 	// reset type and wheight to previous init content

@@ -5,9 +5,11 @@ import ThermalPrinters.LPQ58Printers.ESCPos;
 
 import javax.swing.*;
 import java.io.ByteArrayOutputStream;
+import java.util.HashSet;
 
 public class PrintSerialBarcodesWorker extends SwingWorker {
 
+	private static HashSet<String> enteredNumbers = new HashSet<>();
 	private String barcode;
     private String clientName;
 	public PrintSerialBarcodesWorker(String barcode, String clientName) {
@@ -29,6 +31,8 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 		final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
 		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"LPQ58(ESC)");
 
+		enteredNumbers.add(barcode);
+
 //		PrintToSerialPort printToSerialPort = new PrintToSerialPort();
 //		if(!PrintToSerialPort.isConnected()) {
 //			PrintToSerialPort.connectToPort();
@@ -37,6 +41,10 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 //			printToSerialPort.sendMessage(barcode);
 //		}
 		return null;
+	}
+
+	public static void clearEnteredNumbers() {
+		enteredNumbers.clear();
 	}
 
 }
