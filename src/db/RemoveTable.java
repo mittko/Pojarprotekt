@@ -136,11 +136,39 @@ public class RemoveTable extends MainPanel {
 		}
 		return update;
 	}
+	private int deleteExtinguisher(String destination, String numOfDocument) {
+		Connection connect = null;
+		Statement stat = null;
+		int update = 0;
+		String sqlCommand = "delete from " + destination + " where barcod = '"
+				+ numOfDocument + "'";
+		try {
+			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			stat = connect.createStatement();
+			update = stat.executeUpdate(sqlCommand);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return update;
+	}
 
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		RemoveTable r = new RemoveTable();
-		int rw = r.deleteDocument(PROTOKOL, "0018817");
+		int rw = r.deleteExtinguisher(PROTOKOL, "7000001438010");
 		System.out.println("document deleted " + rw);
 
 

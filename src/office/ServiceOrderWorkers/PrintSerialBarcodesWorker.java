@@ -20,18 +20,23 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 	protected Object doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
-		final ESCPos escPos = new ESCPos();
-		final int type = 67;
-		final int h = 30;//71;
-		final int w = 3;//2;
-		final int font = 0;
-		final int pos = 1;
-		escPos.escInit();
-		escPos.printBarcode(barcode, type, h, w, font, pos,clientName, (byte)3);
-		final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
-		escPos.printHexBytes(byteArrayOutputStream.toByteArray(),"LPQ58(ESC)");
+		if(!enteredNumbers.contains(barcode)) {
 
-		enteredNumbers.add(barcode);
+			final ESCPos escPos = new ESCPos();
+			final int type = 67;
+			final int h = 30;//71;
+			final int w = 3;//2;
+			final int font = 0;
+			final int pos = 1;
+			escPos.escInit();
+			escPos.printBarcode(barcode, type, h, w, font, pos, clientName, (byte) 3);
+			final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
+			escPos.printHexBytes(byteArrayOutputStream.toByteArray(), "LPQ58(ESC)");
+
+			enteredNumbers.add(barcode);
+		} else {
+			JOptionPane.showMessageDialog(null,"Този номер вече е въведен !");
+		}
 
 //		PrintToSerialPort printToSerialPort = new PrintToSerialPort();
 //		if(!PrintToSerialPort.isConnected()) {
@@ -44,7 +49,9 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 	}
 
 	public static void clearEnteredNumbers() {
-		enteredNumbers.clear();
+		if(enteredNumbers != null) {
+			enteredNumbers.clear();
+		}
 	}
 
 }

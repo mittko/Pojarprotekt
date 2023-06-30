@@ -44,15 +44,12 @@ public class ProtokolTable extends MainPanel {
 	 * e); e.printStackTrace(); } } }
 	 */
 
-	private void createNewProtokolTable() {
+	private void createAutoIncrementProtokolTable() {
 
 		Connection connection = null;
 		Statement statement = null;
-		// client, type, wheight, barcod, serial, category, brand, T_O, P, HI ,
-		// parts, value, number,
-		// person, date, kontragent, invoiceByKontragent, additional_data
 
-		String command = "create table TABLE_NAME "
+		String command = "create table PROTOKOL_TABLE_AUTOINCREMENT "
 				+ "( client varchar(200), type varchar(150),"
 				+ " wheight varchar(30), barcod varchar(30), serial varchar(30), category varchar(20),"
 				+ " brand varchar(50), T_O varchar(20), P varchar(20), HI varchar(20),"
@@ -82,6 +79,8 @@ public class ProtokolTable extends MainPanel {
 			}
 		}
 
+		System.out.println("table created successfully !");
+
 	}
 
 	/*
@@ -106,8 +105,8 @@ public class ProtokolTable extends MainPanel {
 	 * e); e.printStackTrace(); return insert; } } }
 	 */
 	public static int[] batchInsertNewExtinguishers(DefaultTableModel dftm,
-			String currentClient, String TO, String P, String HI, String parts,
-			String protokolNumber, String personName, String date) {
+													String currentClient, String TO, String P, String HI, String parts,
+													String protokolNumber, String personName, String date) {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		String preparedCommand = "insert into "
@@ -141,7 +140,7 @@ public class ProtokolTable extends MainPanel {
 
 				ps.setString(16, dftm.getValueAt(row, 7).toString());// kontragent
 				ps.setString(17, dftm.getValueAt(row, 8).toString());// invoice by
-																	// kontragent
+				// kontragent
 				ps.setString(18, dftm.getValueAt(row, 9).toString());// additional_data
 				ps.addBatch();
 			}
@@ -186,11 +185,11 @@ public class ProtokolTable extends MainPanel {
 
 			for (int index = 0; index < protokolTableModel.getRowCount(); index++) {
 				loopBatch(ps, protokolTableModel.getValueAt(index, 0)
-						.toString(),// client
+								.toString(),// client
 						protokolTableModel.getValueAt(index, 1).toString(), // type
 						protokolTableModel.getValueAt(index, 2).toString()
-						+ " / " +
-						protokolTableModel.getValueAt(index,10), // wheight
+								+ " / " +
+								protokolTableModel.getValueAt(index,10), // wheight
 						protokolTableModel.getValueAt(index, 3).toString(), // barcod
 						protokolTableModel.getValueAt(index, 4).toString(), // serial
 						protokolTableModel.getValueAt(index, 5).toString(), // category
@@ -209,7 +208,7 @@ public class ProtokolTable extends MainPanel {
 						"-",// ПОЖАРПРОТЕКТ 00Д
 						"-", // 0000001
 						protokolTableModel.getValueAt(index, 11).toString()// допълнителни
-																			// данни
+						// данни
 				);
 			}
 
@@ -263,11 +262,11 @@ public class ProtokolTable extends MainPanel {
 	}
 
 	private static void loopBatch(PreparedStatement ps, String client,
-			String type, String wheight, String barcod, String serial,
-			String category, String brand, String T_O, String P, String HI,
-			String parts, String value, String number, String tehnik,
-			String date, String kontragent, String invoiceByKontragent,
-			String registration_number) throws SQLException {
+								  String type, String wheight, String barcod, String serial,
+								  String category, String brand, String T_O, String P, String HI,
+								  String parts, String value, String number, String tehnik,
+								  String date, String kontragent, String invoiceByKontragent,
+								  String registration_number) throws SQLException {
 		ps.setString(1, client);
 		ps.setString(2, type);
 		ps.setString(3, wheight);
@@ -383,6 +382,7 @@ public class ProtokolTable extends MainPanel {
 		}
 
 	}
+
 	public static void resetExtinguisherDoneWithBatch(
 			ArrayList<String> updateExtinguishersList) {
 
@@ -717,6 +717,7 @@ public class ProtokolTable extends MainPanel {
 			}
 		}
 	}
+
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		ProtokolTable pt = new ProtokolTable();
@@ -734,12 +735,15 @@ public class ProtokolTable extends MainPanel {
 		// pt.readFromExcelInsertIntoProtokol("Протокол2000323.xls");
 		//pt.addColumn("additional_data");
 
-	//	pt.getSchemas();
-	//	pt.getSchemaTables("APP");
-	//	pt.getLastTableRecord();
 
-		pt.readFromProtExcelInsertIntoProtokol("Ива и Кос.xls");
+		//	pt.readFromProtExcelInsertIntoProtokol("Ива и Кос.xls");
+
+		//	pt.getSchemas();
+		//pt.getSchemaTables("APP");
+		//	pt.getLastTableRecord();
 	}
+
+
 	public void readFromProtExcelInsertIntoProtokol(String fileName) {
 		int result = -1;
 		try {
@@ -784,25 +788,24 @@ public class ProtokolTable extends MainPanel {
 				String invoiceByKontragent = sheet.getCell(16,row).getContents();// "0000001";
 				String registration_number = sheet.getCell(17,row).getContents();
 
-				client="ИВА И КОС - 2023 ЕООД";
-				loopBatch(ps,//
-						client,// client
-						type, // type
-						wheight, // wheight
-						barcod, // barcod
-						serial, // serial
-						category, // category
-						brand, // brand
-						TO, // TO Date
-						P, // P Date
-						HI, // HI Date
-						parts, // parts
-						value,// value+"",
-						// // value
-						number, // number
-						tehnik, // techik
-						date, // datе
-						kontragent, invoiceByKontragent,registration_number);
+//				loopBatch(ps,//
+//						client,// client
+//						type, // type
+//						wheight, // wheight
+//						barcod, // barcod
+//						serial, // serial
+//						category, // category
+//						brand, // brand
+//						TO, // TO Date
+//						P, // P Date
+//						HI, // HI Date
+//						parts, // parts
+//						value,// value+"",
+//						// // value
+//						number, // number
+//						tehnik, // techik
+//						date, // datе
+//						kontragent, invoiceByKontragent,registration_number);
 
 				System.out.printf(
 						"%s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s %s\n",
@@ -826,8 +829,8 @@ public class ProtokolTable extends MainPanel {
 						registration_number);
 			}
 			System.out.print("\n");
-				ps.executeBatch();
-				connection.commit();
+			ps.executeBatch();
+			connection.commit();
 		} catch (BiffException | IOException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -846,6 +849,7 @@ public class ProtokolTable extends MainPanel {
 		}
 		rs.close();
 	}
+
 	private void getSchemaTables(String schemaPattern) throws SQLException {
 		Connection connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 		// get database metadata
@@ -861,10 +865,12 @@ public class ProtokolTable extends MainPanel {
 			String tableName = rs.getString(3);
 
 			tables.add(tableName);
-			getTableColumns(schemaPattern,tableName);
+			if(tableName.equals(PROTOKOL.toUpperCase()))
+				getTableColumns(schemaPattern,tableName);
 		}
 		rs.close();
 	}
+
 	private void getTableColumns(String schemaPattern, String tableName) throws SQLException {
 		Connection connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 		// get data base metadata
@@ -936,6 +942,7 @@ public class ProtokolTable extends MainPanel {
 			}
 		}
 	}
+
 	public void inspectProtokol(String number) {
 		Connection connect = null;
 		Statement stat = null;
@@ -982,7 +989,6 @@ public class ProtokolTable extends MainPanel {
 			}
 		}
 	}
-
 
 
 	// public static int[] batchInsertFromExcellIntoProtokol(

@@ -117,6 +117,7 @@ public class ServiceOrder extends MainPanel {
 
 	public ServiceOrder(String serviceNumber) {
 		// first init
+		PrintSerialBarcodesWorker.clearEnteredNumbers();
 
 		SERVICE_NUMBER = serviceNumber;
 
