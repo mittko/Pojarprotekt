@@ -49,18 +49,19 @@ public class ProtokolTable extends MainPanel {
 		Connection connection = null;
 		Statement statement = null;
 
-		String command = "create table PROTOKOL_TABLE_AUTOINCREMENT "
-				+ "( client varchar(200), type varchar(150),"
+		String command = "create table PROTOCOL_TABLE_AUTOINCREMENT2 "
+				+ "(number INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)"
+				+ " ,client varchar(200), type varchar(150),"
 				+ " wheight varchar(30), barcod varchar(30), serial varchar(30), category varchar(20),"
 				+ " brand varchar(50), T_O varchar(20), P varchar(20), HI varchar(20),"
-				+ " parts varchar(1000), value double, "
-				+ "number INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+				+ " parts varchar(1000), value varchar(20), "
 				+ " person varchar(100), date varchar(20), kontragent varchar(200),"
 				+ " invoiceByKontragent varchar(20) , additional_data varchar(200) )";
 		try {
 			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			statement = connection.createStatement();
 			statement.execute(command);
+			System.out.println("table created successfully !");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,31 +80,82 @@ public class ProtokolTable extends MainPanel {
 			}
 		}
 
-		System.out.println("table created successfully !");
+
 
 	}
 
-	/*
-	 * public static int insertIntoProtokolTableDB(String client,String
-	 * type,String wheight,String barcod, String serial,String category,String
-	 * brand,String T_O,String P,String HI,String parts, double value,String
-	 * double_written,String number,String tehnik,String date) { Connection
-	 * connect = null; Statement stat = null; String command = "insert into " +
-	 * PROTOKOL + " values ('" + client + "','" + type + "','" + wheight + "','"
-	 * + barcod + "','" + serial + "','" + category + "','" + brand + "','" +
-	 * T_O + "','" + P + "','" + HI + "','" + parts + "'," + value + ",'" +
-	 * double_written + "','" + number + "','" + tehnik + "','" + date + "')";
-	 * int insert = 0; try { connect =
-	 * DriverManager.getConnection(getCurrentIP.DB_PATH); stat =
-	 * connect.createStatement(); insert = stat.executeUpdate(command); return
-	 * insert; } catch (SQLException e) { // TODO Auto-generated catch block
-	 * Log.DB_Err.writeErros(e.toString()); DBException.DBExceptions("Грешка",
-	 * e); e.printStackTrace(); return insert; } finally { try { if(stat !=
-	 * null) { stat.close(); } if(connect != null) { connect.close(); } } catch
-	 * (SQLException e) { // TODO Auto-generated catch block
-	 * Log.DB_Err.writeErros(e.toString()); DBException.DBExceptions("Грешка",
-	 * e); e.printStackTrace(); return insert; } } }
-	 */
+	public static int[] insertIntoProtokolTableDB(DefaultTableModel protokolTableModel, String number, String tehnik,
+										  String date) {
+		int[] result = new int[protokolTableModel.getRowCount()];
+		for (int index = 0; index < protokolTableModel.getRowCount(); index++) {
+			// code here
+
+			String currentClient = protokolTableModel.getValueAt(index, 0).toString();// client
+				String type = protokolTableModel.getValueAt(index, 1).toString(); // type
+				String weight =	protokolTableModel.getValueAt(index, 2).toString()
+							+ " / " +
+							protokolTableModel.getValueAt(index,10); // weight
+				String barcod =	protokolTableModel.getValueAt(index, 3).toString(); // barcod
+				String serialNumber = protokolTableModel.getValueAt(index, 4).toString(); // serial
+				String category = protokolTableModel.getValueAt(index, 5).toString(); // category
+				String brand =	protokolTableModel.getValueAt(index, 6).toString(); // brand
+				String TO =	protokolTableModel.getValueAt(index, 7).toString(); // TO Date
+				String P = 	protokolTableModel.getValueAt(index, 8).toString(); // P Date
+				String HI =	protokolTableModel.getValueAt(index, 9).toString(); // HI Date
+				String parts = 	getParts(index); // parts
+				double value =	0; // value
+				String kontragent = "-";// ПОЖАРПРОТЕКТ 00Д
+				String invoiceByKontragent ="-";// 0000001
+				String additional_data = protokolTableModel.getValueAt(index, 11).toString();// допълнителни данни
+
+			result[index] = insert(currentClient,type,weight, barcod, serialNumber, category,
+					brand, TO, P, HI,parts, value,number,tehnik, date, kontragent,
+					 invoiceByKontragent, additional_data);
+		}
+		return result;
+	}
+
+	  private static int insert(String client,String
+	  type,String wheight,String barcod, String serial,String category,String
+	  brand,String T_O,String P,String HI,String parts, double value,String number,
+								String tehnik, String date, String kontragent,
+								String invoiceByKontragent, String additional_data) {
+		Connection connect = null;
+		Statement stat = null;
+
+		String command = "insert into " + PROTOKOL +
+	   " values ('" + client + "','" + type + "','" + wheight + "','"
+	  + barcod + "','" + serial + "','" + category + "','" + brand + "','" +
+	  T_O + "','" + P + "','" + HI + "','" + parts + "'," + value + ",'" +
+			number + "','" + tehnik + "','" + date +   "','" + "null" + "','" +  kontragent
+				+ "','" + invoiceByKontragent + "','" + additional_data + "')";
+	  int insert = 0;
+	  try {
+		  connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+		  stat = connect.createStatement();
+		  insert = stat.executeUpdate(command);
+		  return insert;
+	  } catch (SQLException e) { // TODO Auto-generated catch block
+	  Log.DB_Err.writeErros(e.toString());
+	  DBException.DBExceptions("Грешка", e);
+	  e.printStackTrace();
+	  return insert;
+	  } finally {
+		  try {
+			if(stat != null) {
+			stat.close();
+		    }
+			if(connect != null) {
+				connect.close();
+			}
+		} catch (SQLException e) { // TODO Auto-generated catch block
+	      Log.DB_Err.writeErros(e.toString());
+	      DBException.DBExceptions("Грешка", e);
+	      e.printStackTrace();
+		  }
+	  }
+	}
+
 	public static int[] batchInsertNewExtinguishers(DefaultTableModel dftm,
 													String currentClient, String TO, String P, String HI, String parts,
 													String protokolNumber, String personName, String date) {
@@ -736,11 +788,11 @@ public class ProtokolTable extends MainPanel {
 		//pt.addColumn("additional_data");
 
 
+		//	pt.getSchemas();
+		pt.getSchemaTables("APP");
+		//	pt.getLastTableRecord();
 		//	pt.readFromProtExcelInsertIntoProtokol("Ива и Кос.xls");
 
-		//	pt.getSchemas();
-		//pt.getSchemaTables("APP");
-		//	pt.getLastTableRecord();
 	}
 
 

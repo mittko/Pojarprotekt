@@ -10,6 +10,7 @@ import mydate.MyGetDate;
 import utils.MainPanel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.TreeMap;
@@ -35,11 +36,16 @@ public class SaveInProtokolWorker extends SwingWorker {
 
 		try {
 
-			  int[] results = ProtokolTable.batchInsertIntoProtokol(
-					  View.dtm_Extinguisher, 	
-                      FIXED_PROTOKOL_NUMBER, // protokolNumber
-                      MainPanel.personName,
-                      MyGetDate.getReversedSystemDate());
+			int[] results = ProtokolTable.insertIntoProtokolTableDB(View.dtm_Extinguisher,
+					FIXED_PROTOKOL_NUMBER, // protokolNumber
+					MainPanel.personName,
+					MyGetDate.getReversedSystemDate());
+
+//			  int[] results = ProtokolTable.batchInsertIntoProtokol(
+//					  View.dtm_Extinguisher,
+//                      FIXED_PROTOKOL_NUMBER, // protokolNumber
+//                      MainPanel.personName,
+//                      MyGetDate.getReversedSystemDate());
 			  
 			  ArrayList<String> updateExtinguishersList = new ArrayList<String>();
 			  for(int row = 0;row < results.length;row++) {
