@@ -353,6 +353,7 @@ public class WorkingBook extends MainPanel {
                 String category = tModel.getValueAt(0, 5).toString();
 
                 if (doing.equals("Обслужване")) {
+					switchPanel(type);
                     return;
                 }
                 if (doing.equals(Брак)) {
@@ -363,7 +364,7 @@ public class WorkingBook extends MainPanel {
                 }
 
                 // set value doings int table
-				  setNewDate(doing, type);
+				setNewDate(doing, type);
              //   setNewDate2(comboDoings.getSelectedItem().toString(), tModel.getValueAt(0,1).toString());
                 penButton.setEnabled(true);
 			}
@@ -423,8 +424,8 @@ public class WorkingBook extends MainPanel {
 						// System.out.println("all value = " + getExtValue());
 					}
 					writeInTableModel(key, getUserDetailsInput()); // write in
-																	// table
-																	// (->View)
+					// table
+					// (->View)
 					returnPreviousButtonState(false);//
 					clear();
 
@@ -432,7 +433,6 @@ public class WorkingBook extends MainPanel {
 
 			}
 		});
-
 
 
 		int labelWidth = (int) (north.getPreferredSize().getWidth() * 0.4);
@@ -475,7 +475,7 @@ public class WorkingBook extends MainPanel {
 				"Реална маса", "Допълнителни данни" };
 
 		Object[][] rows = { // { "", "", "", "", "", "", "", "","","" },
-		{ "", "", "", "", "", "", "", "", "", "", "", "" } };
+				{ "", "", "", "", "", "", "", "", "", "", "", "" } };
 
 		tModel = new DefaultTableModel(rows, titles) {
 
@@ -657,8 +657,8 @@ public class WorkingBook extends MainPanel {
 	void writeInTableModel(String key, ArrayList<Object> userChoice) {
 
 		Object[] newRow = new Object[12]; // -> 12? this is row to be inserted
-											// in
-											// models
+		// in
+		// models
 		newRow[0] = tModel.getValueAt(0, 0);
 		newRow[1] = tModel.getValueAt(0, 1);
 		newRow[2] = tModel.getValueAt(0, 2).toString().replace(",", ".");
@@ -686,20 +686,20 @@ public class WorkingBook extends MainPanel {
 
 			if (!ext_parts.containsKey(key)) {
 				ext_parts.put(key, userChoice);// this is spare parts
-												// of chiced
-												// extinguisher
+				// of chiced
+				// extinguisher
 			}
 			View.dtm_Extinguisher.insertRow(0, newRow); // add to view models
 
 			// call sticker jdialog to choice sticker
 			boolean TO = comboDoings.getSelectedItem().toString().contains(ТО);// get from TO date -> !tModel.getValueAt(0,
-							// 7).toString().equals("не") ? true: false;
+			// 7).toString().equals("не") ? true: false;
 
 			boolean P = comboDoings.getSelectedItem().toString().contains(П);// get from TO date -> !tModel.getValueAt(0,
-							// 8).toString().equals("не") ? true : false;
+			// 8).toString().equals("не") ? true : false;
 
 			boolean HI = comboDoings.getSelectedItem().toString().contains(ХИ);// get from TO date -> !tModel.getValueAt(0,
-							// 9).toString().equals("не") ? true : false;
+			// 9).toString().equals("не") ? true : false;
 
 			if (TO || P || HI) { // without HI ????
 				final JDialoger jdialog = new JDialoger();
@@ -719,8 +719,8 @@ public class WorkingBook extends MainPanel {
 										"", JOptionPane.YES_NO_OPTION,
 										JOptionPane.QUESTION_MESSAGE, null,
 										new String[] { "Да", "Не" }, // this is
-																		// the
-																		// array
+										// the
+										// array
 										"default");
 						if (yes_no == 0) {
 							jdialog.dispose();
@@ -758,8 +758,8 @@ public class WorkingBook extends MainPanel {
 
 			if (!reasons_map.containsKey(key)) {
 				reasons_map.put(key, userChoice); // this is reasons
-													// of scrab of
-													// extinguisher
+				// of scrab of
+				// extinguisher
 			}
 			Brack.dtm_Scrab.insertRow(0, newRow); // add to scrab models
 		}
@@ -772,13 +772,13 @@ public class WorkingBook extends MainPanel {
 		if (!comboDoings.getSelectedItem().equals(Брак)) {
 
 			Component[] child = centerCenter.getComponents();
-			ArrayList<CustomButton> list = null;
+			ArrayList<PartButton> list = null;
 
 			for (Component component : child) {
 
 				if (component.getName().equals("dust") && component.isShowing()) {
 					list = dust.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 
 						if (cm.choiced) {
 							parts.add(cm.getName());
@@ -787,7 +787,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("water")
 						&& component.isShowing()) {
 					list = water.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						if (cm.choiced) {
 							parts.add(cm.getName());
 						}
@@ -795,7 +795,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("vodopenen")
 						&& component.isShowing()) {
 					list = vodopenen.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						if (cm.choiced) {
 							parts.add(cm.getName());
 						}
@@ -803,7 +803,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("co2")
 						&& component.isShowing()) {
 					list = co2.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						if (cm.choiced) {
 							parts.add(cm.getName());
 						}
@@ -828,7 +828,7 @@ public class WorkingBook extends MainPanel {
 	}
 
 	private void setButtonState2(String doing, String type, String wheight,
-			String category) {
+								 String category) {
 		boolean isTO = comboDoings.getSelectedItem().equals(ТО);
 		switch (doing) {
 			case ХИ:
@@ -836,16 +836,16 @@ public class WorkingBook extends MainPanel {
 				break;
 			case ТО:
 				returnPreviousButtonState(true);
-				WorkerState.setPlomba(type, isTO);
-				WorkerState.setEntity(type, false);
+				WorkerState.markPlomba(type, isTO);
+				WorkerState.markEntity(type, false);
 				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
 						category);
 				break;
 			case ТО_П:
 			case ТО_П_ХИ:
 				returnPreviousButtonState(true);
-				WorkerState.setPlomba(type, isTO);
-				WorkerState.setEntity(type, true);
+				WorkerState.markPlomba(type, isTO);
+				WorkerState.markEntity(type, true);
 				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
 						category);
 				break;
@@ -897,13 +897,13 @@ public class WorkingBook extends MainPanel {
 		if (!comboDoings.getSelectedItem().equals(Брак)) {
 
 			Component[] child = centerCenter.getComponents();
-			ArrayList<CustomButton> list = null;
+			ArrayList<PartButton> list = null;
 
 			for (Component component : child) {
 
 				if (component.getName().equals("dust") && component.isShowing()) {
 					list = dust.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -911,7 +911,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("water")
 						&& component.isShowing()) {
 					list = water.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -919,7 +919,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("vodopenen")
 						&& component.isShowing()) {
 					list = vodopenen.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -927,7 +927,7 @@ public class WorkingBook extends MainPanel {
 				} else if (component.getName().equals("co2")
 						&& component.isShowing()) {
 					list = co2.list;
-					for (CustomButton cm : list) {
+					for (PartButton cm : list) {
 						cm.choiced = false;
 						cm.setBorder(cm.defaultBorder);
 						cm.setEnabled(enabled);
@@ -993,10 +993,10 @@ public class WorkingBook extends MainPanel {
 			}
 			String godnostNaPovarogasitelnoWeshtestwoo =
 					new GetAgentFitWorker(agent/*agent*/).doInBackground();
-		   String urgentDays = MyGetDate.getUrgentDays(
-            		MyGetDate.getReversedSystemDate()
-			, godnostNaPovarogasitelnoWeshtestwoo);
-		    int daysAsInt = 0;
+			String urgentDays = MyGetDate.getUrgentDays(
+					MyGetDate.getReversedSystemDate()
+					, godnostNaPovarogasitelnoWeshtestwoo);
+			int daysAsInt = 0;
             try {
 				daysAsInt = Integer.parseInt(urgentDays);
 			}catch (Exception e) {

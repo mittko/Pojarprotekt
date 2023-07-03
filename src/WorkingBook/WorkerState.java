@@ -1,333 +1,373 @@
 package WorkingBook;
 
+import Parts.CO2;
 import Parts.Dust;
 import Parts.Vodopenen;
 import Parts.Water;
 import utils.MainPanel;
 
+import static utils.MainPanel.type_Prah_BC;
+
 public class WorkerState extends MainPanel {
 
 	public WorkerState() {
-		
-	}
-	  public static void setButtonStateAccordinglyCategory(String type,String wheight,String category) {
 
-	        if(type.equals(type_Prah_BC) || type.equals(type_Prah_ABC)) {
-	      
-			// category check
-			 if(category.equals(category2)) {
-				setButtonStateAccordinglyWheight(wheight,category2);
-			 } else if(category.equals(category4)) {
-				setButtonStateAccordinglyWheight(wheight,category4);
-			 }
-			
-	         } else if(type.equals(type_Water)) {
-	     
-			// category check
-			 if(category.equals(category1)) {
-				 Water.патрон.setEnabled(false);
-				 Water.патрон.choiced = false;
-				 Water.патрон.setBorder(Water.патрон.defaultBorder);
-			 } else if(category.equals(category3)) {
-				 Water.манометър.setEnabled(false);
-				 Water.манометър.choiced = false;
-				 Water.манометър.setBorder(Water.манометър.defaultBorder);
-				 
-				 Water.игличка.setEnabled(false);
-				 Water.игличка.choiced = false;
-				 Water.игличка.setBorder(Water.игличка.defaultBorder);
-				 
-				 Water.капачка.setEnabled(false);
-				 Water.капачка.choiced = false;
-				 Water.капачка.setBorder(Water.капачка.defaultBorder);
-			 }
-			
-			
-	        } else
-	        if(type.equals(type_Water_Fame)) {
-	       
-			// category check
-			 if(category.equals(category1)) {
-				 Vodopenen.патрон.setEnabled(false);
-				 Vodopenen.патрон.choiced = false;
-				 Vodopenen.патрон.setBorder(Vodopenen.патрон.defaultBorder);
-			 } else if(category.equals(category3)) {
-				 Vodopenen.манометър.setEnabled(false);
-				 Vodopenen.манометър.choiced = false;
-				 Vodopenen.манометър.setBorder(Vodopenen.манометър.defaultBorder);
-				 
-				 Vodopenen.игличка.setEnabled(false);
-				 Vodopenen.игличка.choiced = false;
-				 Vodopenen.игличка.setBorder(Vodopenen.игличка.defaultBorder);
-				 
-				 Vodopenen.капачка.setEnabled(false);
-				 Vodopenen.капачка.choiced = false;
-				 Vodopenen.капачка.setBorder(Vodopenen.капачка.defaultBorder);
-			 }
-	      } 
-	    }
-	  private static void setButtonStateAccordinglyWheight(String wheight,String category) {
-	    	 if(category.equals(category2)) {
-				 if(wheight.equals("1 кг") || wheight.equals("2 кг") || wheight.equals("3 кг")) {
-					 Dust.патрон.setEnabled(false);
-					 Dust.патрон.choiced = false;
-					 Dust.патрон.setBorder(Dust.патрон.defaultBorder);
-					 
-					 Dust.маркуч.setEnabled(false);
-					 Dust.маркуч.choiced = false;
-					 Dust.маркуч.setBorder(Dust.маркуч.defaultBorder);
-					 
-					 Dust.държачЗаМаркуч.setEnabled(false);
-					 Dust.държачЗаМаркуч.choiced = false;
-					 Dust.държачЗаМаркуч.setBorder(Dust.държачЗаМаркуч.defaultBorder);
-					 
-					 Dust.струйник4.setEnabled(false);
-					 Dust.струйник4.choiced = false;
-					 Dust.струйник4.setBorder(Dust.струйник4.defaultBorder);
-					 
-					 Dust.твърдоХодовоКолело.setEnabled(false);
-					 Dust.твърдоХодовоКолело.choiced = false;
-					 Dust.твърдоХодовоКолело.setBorder(Dust.твърдоХодовоКолело.defaultBorder);
-					 
-					 Dust.колелоЗаВисокоТегло.setEnabled(false);
-					 Dust.колелоЗаВисокоТегло.choiced = false;
-					 Dust.колелоЗаВисокоТегло.setBorder(Dust.колелоЗаВисокоТегло.defaultBorder);
-					 
-					 Dust.ремонтНаКоличка.setEnabled(false);
-					 Dust.ремонтНаКоличка.choiced = false;
-					 Dust.ремонтНаКоличка.setBorder(Dust.ремонтНаКоличка.defaultBorder);
-					 
-					 Dust.боядисванеНаКоличка.setEnabled(false);
-					 Dust.боядисванеНаКоличка.choiced = false;
-					 Dust.боядисванеНаКоличка.setBorder(Dust.боядисванеНаКоличка.defaultBorder);
-				 } else if(wheight.equals("6 кг") || wheight.equals("9 кг") || wheight.equals("12 кг")) {
-					 Dust.патрон.setEnabled(false);
-					 Dust.патрон.choiced = false;
-					 Dust.патрон.setBorder(Dust.патрон.defaultBorder);
-					 
-					 Dust.струйник4.setEnabled(false);
-					 Dust.струйник4.choiced = false;
-					 Dust.струйник4.setBorder(Dust.струйник4.defaultBorder);
-					 
-					 Dust.твърдоХодовоКолело.setEnabled(false);
-					 Dust.твърдоХодовоКолело.choiced = false;
-					 Dust.твърдоХодовоКолело.setBorder(Dust.твърдоХодовоКолело.defaultBorder);
-					 
-					 Dust.колелоЗаВисокоТегло.setEnabled(false);
-					 Dust.колелоЗаВисокоТегло.choiced = false;
-					 Dust.колелоЗаВисокоТегло.setBorder(Dust.колелоЗаВисокоТегло.defaultBorder);
-					 
-					 Dust.ремонтНаКоличка.setEnabled(false);
-					 Dust.ремонтНаКоличка.choiced = false;
-					 Dust.ремонтНаКоличка.setBorder(Dust.ремонтНаКоличка.defaultBorder);
-					 
-					 Dust.боядисванеНаКоличка.setEnabled(false);
-					 Dust.боядисванеНаКоличка.choiced = false;
-					 Dust.боядисванеНаКоличка.setBorder(Dust.боядисванеНаКоличка.defaultBorder);
-				 } else if(wheight.equals("25 кг") || wheight.equals("50 кг") || wheight.equals("100 кг")) {
-					 Dust.патрон.setEnabled(false);
-					 Dust.патрон.choiced = false;
-					 Dust.патрон.setBorder(Dust.патрон.defaultBorder);
-				 }
-				
-			 } else if(category.equals(category4)) {
-				 if(wheight.equals("1 кг") || wheight.equals("2 кг") || wheight.equals("3 кг")) {
-					 Dust.манометър.setEnabled(false);
-					 Dust.манометър.choiced = false;
-					 Dust.манометър.setBorder(Dust.манометър.defaultBorder);
-					 
-					 Dust.игличка.setEnabled(false);
-					 Dust.игличка.choiced = false;
-					 Dust.игличка.setBorder(Dust.игличка.defaultBorder);
-					 
-					 Dust.капачка.setEnabled(false);
-					 Dust.капачка.choiced = false;
-					 Dust.капачка.setBorder(Dust.капачка.defaultBorder);
-					 
-					 Dust.маркуч.setEnabled(false);
-					 Dust.маркуч.choiced = false;
-					 Dust.маркуч.setBorder(Dust.маркуч.defaultBorder);
-					 
-					 Dust.държачЗаМаркуч.setEnabled(false);
-					 Dust.държачЗаМаркуч.choiced = false;
-					 Dust.държачЗаМаркуч.setBorder(Dust.държачЗаМаркуч.defaultBorder);
-					 
-					 Dust.твърдоХодовоКолело.setEnabled(false);
-					 Dust.твърдоХодовоКолело.choiced = false;
-					 Dust.твърдоХодовоКолело.setBorder(Dust.твърдоХодовоКолело.defaultBorder);
-					 
-					 Dust.колелоЗаВисокоТегло.setEnabled(false);
-					 Dust.колелоЗаВисокоТегло.choiced = false;
-					 Dust.колелоЗаВисокоТегло.setBorder(Dust.колелоЗаВисокоТегло.defaultBorder);
-					 
-					 Dust.ремонтНаКоличка.setEnabled(false);
-					 Dust.ремонтНаКоличка.choiced = false;
-					 Dust.ремонтНаКоличка.setBorder(Dust.ремонтНаКоличка.defaultBorder);
-					 
-					 Dust.боядисванеНаКоличка.setEnabled(false);
-					 Dust.боядисванеНаКоличка.choiced = false;
-					 Dust.боядисванеНаКоличка.setBorder(Dust.боядисванеНаКоличка.defaultBorder);
-				 } else if(wheight.equals("6 кг") || wheight.equals("9 кг") || wheight.equals("12 кг")) {
-					 Dust.манометър.setEnabled(false);
-					 Dust.манометър.choiced = false;
-					 Dust.манометър.setBorder(Dust.манометър.defaultBorder);
-					 
-					 Dust.игличка.setEnabled(false);
-					 Dust.игличка.choiced = false;
-					 Dust.игличка.setBorder(Dust.игличка.defaultBorder);
-					 
-					 Dust.капачка.setEnabled(false);
-					 Dust.капачка.choiced = false;
-					 Dust.капачка.setBorder(Dust.капачка.defaultBorder);
-					 
-					 Dust.струйник4.setEnabled(false);
-					 Dust.струйник4.choiced = false;
-					 Dust.струйник4.setBorder(Dust.струйник4.defaultBorder);
-					 
-					 Dust.твърдоХодовоКолело.setEnabled(false);
-					 Dust.твърдоХодовоКолело.choiced = false;
-					 Dust.твърдоХодовоКолело.setBorder(Dust.твърдоХодовоКолело.defaultBorder);
-					 
-					 Dust.колелоЗаВисокоТегло.setEnabled(false);
-					 Dust.колелоЗаВисокоТегло.choiced = false;
-					 Dust.колелоЗаВисокоТегло.setBorder(Dust.колелоЗаВисокоТегло.defaultBorder);
-					 
-					 Dust.ремонтНаКоличка.setEnabled(false);
-					 Dust.ремонтНаКоличка.choiced = false;
-					 Dust.ремонтНаКоличка.setBorder(Dust.ремонтНаКоличка.defaultBorder);
-					 
-					 Dust.боядисванеНаКоличка.setEnabled(false);
-					 Dust.боядисванеНаКоличка.choiced = false;
-					 Dust.боядисванеНаКоличка.setBorder(Dust.боядисванеНаКоличка.defaultBorder);
-				 } else if(wheight.equals("25 кг") || wheight.equals("50 кг") || wheight.equals("100 кг")) {
-					 Dust.манометър.setEnabled(false);
-					 Dust.манометър.choiced = false;
-					 Dust.манометър.setBorder(Dust.манометър.defaultBorder);
-					 
-					 Dust.игличка.setEnabled(false);
-					 Dust.игличка.choiced = false;
-					 Dust.игличка.setBorder(Dust.игличка.defaultBorder);
-					 
-					 Dust.капачка.setEnabled(false);
-					 Dust.капачка.choiced = false;
-					 Dust.капачка.setBorder(Dust.капачка.defaultBorder);
-					 
-				 }
-				
-			 }
-			
-	    }
-	    public static void setPlomba(String type,boolean isTO) {
-	    	if(type.equals(type_Prah_BC) || type.equals(type_Prah_ABC)) {
-	    		// choiced bydefault
-	    		Dust.пломба.setEnabled(true);
-	    		Dust.пломба.choiced = true;
-	    		Dust.пломба.setBorder(Dust.пломба.choiceBorder);
-	    	} else if(type.equals(type_Water)) {
-	    		// choiced by default
-	    		Water.пломба.setEnabled(true);
-	    		Water.пломба.choiced = true;
-	    		Water.пломба.setBorder(Dust.пломба.choiceBorder);
-	    	} else if(type.equals(type_Water_Fame)) {
-	    		// choiced by default
-	    		Vodopenen.пломба.setEnabled(true);
-	    		Vodopenen.пломба.choiced = true;
-	    		Vodopenen.пломба.setBorder(Dust.пломба.choiceBorder);
-	    	} else if(type.equals(type_CO2)) {
-	    		if(isTO) {
-	    		Parts.CO2.пломба.setEnabled(true);
-	    		Parts.CO2.пломба.isEditable = true;
-	    		Parts.CO2.пломба.choiced = false;
-	    		Parts.CO2.пломба.setBorder(Parts.CO2.пломба.defaultBorder);
-	    		} else {
-	    			// choiced by default
-	    		Parts.CO2.пломба.setEnabled(true);
-	    		Parts.CO2.пломба.isEditable = false;
-	    		Parts.CO2.пломба.choiced = true;
-	    		Parts.CO2.пломба.setBorder(Dust.пломба.choiceBorder);
-	    		}
-	    	}
-	    }
-	    public static void setEntity(String type,boolean enabled) {
-			if(type.equals(type_Prah_BC)) {
-				if(enabled) {
-					// choiced by default
-				Dust.прах_BC.setEnabled(true);
-				Dust.прах_BC.choiced = true;
-				Dust.прах_BC.setBorder(Dust.прах_BC.choiceBorder);
-				
-				// enabled false by default
-				Dust.прах_ABC.setEnabled(false);
-				Dust.прах_ABC.choiced = false;
-				Dust.прах_ABC.setBorder(Dust.прах_ABC.defaultBorder);
-				} else {
-					// enabled false both by default
-					Dust.прах_BC.setEnabled(false);
-					Dust.прах_BC.choiced = false;
-					Dust.прах_BC.setBorder(Dust.прах_BC.defaultBorder);
-					
-					Dust.прах_ABC.setEnabled(false);
-					Dust.прах_ABC.choiced = false;
-					Dust.прах_ABC.setBorder(Dust.прах_ABC.defaultBorder);
+	}
+	public static void setButtonStateAccordinglyCategory(String type,String wheight,String category) {
+
+		switch (type) {
+			case type_Prah_BC:
+			case type_Prah_ABC:
+
+				// category check
+				if (category.equals(category2)) {
+					setButtonStateAccordinglyWheight(wheight, category2);
+				} else if (category.equals(category4)) {
+					setButtonStateAccordinglyWheight(wheight, category4);
 				}
-			} else if(type.equals(type_Prah_ABC)) {
-				if(enabled) {
-					// choiced by default
-				Dust.прах_ABC.setEnabled(true);
-				Dust.прах_ABC.choiced = true;
-				Dust.прах_ABC.setBorder(Dust.прах_BC.choiceBorder);
-				// enabled false by default
-				Dust.прах_BC.setEnabled(false);
-				Dust.прах_BC.choiced = false;
-				Dust.прах_BC.setBorder(Dust.прах_BC.defaultBorder);
-				} else {
-					// enabled false both by default
-					Dust.прах_ABC.setEnabled(false);
-					Dust.прах_ABC.choiced = false;
-					Dust.прах_ABC.setBorder(Dust.прах_BC.defaultBorder);
-					
-					Dust.прах_BC.setEnabled(false);
-					Dust.прах_BC.choiced = false;
-					Dust.прах_BC.setBorder(Dust.прах_BC.defaultBorder);
+
+				break;
+			case type_Water:
+
+				// category check
+				if (category.equals(category1)) {
+					Water.patron.setEnabled(false);
+					Water.patron.choiced = false;
+					Water.patron.setBorder(Water.patron.defaultBorder);
+				} else if (category.equals(category3)) {
+					Water.manometer.setEnabled(false);
+					Water.manometer.choiced = false;
+					Water.manometer.setBorder(Water.manometer.defaultBorder);
+
+					Water.iglichka.setEnabled(false);
+					Water.iglichka.choiced = false;
+					Water.iglichka.setBorder(Water.iglichka.defaultBorder);
+
+					Water.kapachka.setEnabled(false);
+					Water.kapachka.choiced = false;
+					Water.kapachka.setBorder(Water.kapachka.defaultBorder);
 				}
-			} else if(type.equals(type_Water)) {
-				if(enabled) {
-					// choiced by default
-				Water.вода.setEnabled(true);
-				Water.вода.choiced = true;
-				Water.вода.setBorder(Water.вода.choiceBorder);
-				} else {
-					// enabled false by default
-					Water.вода.setEnabled(false);
-					Water.вода.choiced = false;
-					Water.вода.setBorder(Water.вода.defaultBorder);
+
+
+				break;
+			case type_Water_Fame:
+
+				// category check
+				if (category.equals(category1)) {
+					Vodopenen.patron.setEnabled(false);
+					Vodopenen.patron.choiced = false;
+					Vodopenen.patron.setBorder(Vodopenen.patron.defaultBorder);
+				} else if (category.equals(category3)) {
+					Vodopenen.manometer.setEnabled(false);
+					Vodopenen.manometer.choiced = false;
+					Vodopenen.manometer.setBorder(Vodopenen.manometer.defaultBorder);
+
+					Vodopenen.iglichka.setEnabled(false);
+					Vodopenen.iglichka.choiced = false;
+					Vodopenen.iglichka.setBorder(Vodopenen.iglichka.defaultBorder);
+
+					Vodopenen.kapachka.setEnabled(false);
+					Vodopenen.kapachka.choiced = false;
+					Vodopenen.kapachka.setBorder(Vodopenen.kapachka.defaultBorder);
 				}
-			} else if(type.equals(type_Water_Fame)) {
-				if(enabled) {
-					// choiced by default
-				Vodopenen.вода_пяна.setEnabled(true);
-				Vodopenen.вода_пяна.choiced = true;
-				Vodopenen.вода_пяна.setBorder(Water.вода.choiceBorder);
-				} else {
-					// enabled false by default
-				Vodopenen.вода_пяна.setEnabled(false);
-				Vodopenen.вода_пяна.choiced = false;
-				Vodopenen.вода_пяна.setBorder(Water.вода.defaultBorder);
-				}
-			} else if(type.equals(type_CO2)) {
-				if(enabled) {
-					// choiced by default
-				Parts.CO2.въглероден_диоксид.setEnabled(true);
-				Parts.CO2.въглероден_диоксид.choiced = true;
-				Parts.CO2.въглероден_диоксид.setBorder(Parts.CO2.въглероден_диоксид.choiceBorder);
-				} else {
-					// enabled false by default
-				Parts.CO2.въглероден_диоксид.setEnabled(false);
-				Parts.CO2.въглероден_диоксид.choiced = false;
-				Parts.CO2.въглероден_диоксид.setBorder(Parts.CO2.въглероден_диоксид.defaultBorder);
-				}
-			}
+				break;
 		}
+	}
+	private static void setButtonStateAccordinglyWheight(String wheight,String category) {
+		if(category.equals(category2)) {
+			switch (wheight) {
+				case "1 ??":
+				case "2 ??":
+				case "3 ??":
+					Dust.patron.setEnabled(false);
+					Dust.patron.choiced = false;
+					Dust.patron.setBorder(Dust.patron.defaultBorder);
+
+					Dust.markuch.setEnabled(false);
+					Dust.markuch.choiced = false;
+					Dust.markuch.setBorder(Dust.markuch.defaultBorder);
+
+					Dust.durjachZaMarkuch.setEnabled(false);
+					Dust.durjachZaMarkuch.choiced = false;
+					Dust.durjachZaMarkuch.setBorder(Dust.durjachZaMarkuch.defaultBorder);
+
+					Dust.struinki4.setEnabled(false);
+					Dust.struinki4.choiced = false;
+					Dust.struinki4.setBorder(Dust.struinki4.defaultBorder);
+
+					Dust.twurdoHodowoKolelo.setEnabled(false);
+					Dust.twurdoHodowoKolelo.choiced = false;
+					Dust.twurdoHodowoKolelo.setBorder(Dust.twurdoHodowoKolelo.defaultBorder);
+
+					Dust.koleloZaWisokoTeglo.setEnabled(false);
+					Dust.koleloZaWisokoTeglo.choiced = false;
+					Dust.koleloZaWisokoTeglo.setBorder(Dust.koleloZaWisokoTeglo.defaultBorder);
+
+					Dust.remontNaKolichka.setEnabled(false);
+					Dust.remontNaKolichka.choiced = false;
+					Dust.remontNaKolichka.setBorder(Dust.remontNaKolichka.defaultBorder);
+
+					Dust.boqdiswaneNaKolichka.setEnabled(false);
+					Dust.boqdiswaneNaKolichka.choiced = false;
+					Dust.boqdiswaneNaKolichka.setBorder(Dust.boqdiswaneNaKolichka.defaultBorder);
+					break;
+				case "6 ??":
+				case "9 ??":
+				case "12 ??":
+					Dust.patron.setEnabled(false);
+					Dust.patron.choiced = false;
+					Dust.patron.setBorder(Dust.patron.defaultBorder);
+
+					Dust.struinki4.setEnabled(false);
+					Dust.struinki4.choiced = false;
+					Dust.struinki4.setBorder(Dust.struinki4.defaultBorder);
+
+					Dust.twurdoHodowoKolelo.setEnabled(false);
+					Dust.twurdoHodowoKolelo.choiced = false;
+					Dust.twurdoHodowoKolelo.setBorder(Dust.twurdoHodowoKolelo.defaultBorder);
+
+					Dust.koleloZaWisokoTeglo.setEnabled(false);
+					Dust.koleloZaWisokoTeglo.choiced = false;
+					Dust.koleloZaWisokoTeglo.setBorder(Dust.koleloZaWisokoTeglo.defaultBorder);
+
+					Dust.remontNaKolichka.setEnabled(false);
+					Dust.remontNaKolichka.choiced = false;
+					Dust.remontNaKolichka.setBorder(Dust.remontNaKolichka.defaultBorder);
+
+					Dust.boqdiswaneNaKolichka.setEnabled(false);
+					Dust.boqdiswaneNaKolichka.choiced = false;
+					Dust.boqdiswaneNaKolichka.setBorder(Dust.boqdiswaneNaKolichka.defaultBorder);
+					break;
+				case "25 ??":
+				case "50 ??":
+				case "100 ??":
+					Dust.patron.setEnabled(false);
+					Dust.patron.choiced = false;
+					Dust.patron.setBorder(Dust.patron.defaultBorder);
+					break;
+			}
+
+		} else if(category.equals(category4)) {
+			switch (wheight) {
+				case "1 ??":
+				case "2 ??":
+				case "3 ??":
+					Dust.manometer.setEnabled(false);
+					Dust.manometer.choiced = false;
+					Dust.manometer.setBorder(Dust.manometer.defaultBorder);
+
+					Dust.iglichka.setEnabled(false);
+					Dust.iglichka.choiced = false;
+					Dust.iglichka.setBorder(Dust.iglichka.defaultBorder);
+
+					Dust.kapachka.setEnabled(false);
+					Dust.kapachka.choiced = false;
+					Dust.kapachka.setBorder(Dust.kapachka.defaultBorder);
+
+					Dust.markuch.setEnabled(false);
+					Dust.markuch.choiced = false;
+					Dust.markuch.setBorder(Dust.markuch.defaultBorder);
+
+					Dust.durjachZaMarkuch.setEnabled(false);
+					Dust.durjachZaMarkuch.choiced = false;
+					Dust.durjachZaMarkuch.setBorder(Dust.durjachZaMarkuch.defaultBorder);
+
+					Dust.twurdoHodowoKolelo.setEnabled(false);
+					Dust.twurdoHodowoKolelo.choiced = false;
+					Dust.twurdoHodowoKolelo.setBorder(Dust.twurdoHodowoKolelo.defaultBorder);
+
+					Dust.koleloZaWisokoTeglo.setEnabled(false);
+					Dust.koleloZaWisokoTeglo.choiced = false;
+					Dust.koleloZaWisokoTeglo.setBorder(Dust.koleloZaWisokoTeglo.defaultBorder);
+
+					Dust.remontNaKolichka.setEnabled(false);
+					Dust.remontNaKolichka.choiced = false;
+					Dust.remontNaKolichka.setBorder(Dust.remontNaKolichka.defaultBorder);
+
+					Dust.boqdiswaneNaKolichka.setEnabled(false);
+					Dust.boqdiswaneNaKolichka.choiced = false;
+					Dust.boqdiswaneNaKolichka.setBorder(Dust.boqdiswaneNaKolichka.defaultBorder);
+					break;
+				case "6 ??":
+				case "9 ??":
+				case "12 ??":
+					Dust.manometer.setEnabled(false);
+					Dust.manometer.choiced = false;
+					Dust.manometer.setBorder(Dust.manometer.defaultBorder);
+
+					Dust.iglichka.setEnabled(false);
+					Dust.iglichka.choiced = false;
+					Dust.iglichka.setBorder(Dust.iglichka.defaultBorder);
+
+					Dust.kapachka.setEnabled(false);
+					Dust.kapachka.choiced = false;
+					Dust.kapachka.setBorder(Dust.kapachka.defaultBorder);
+
+					Dust.struinki4.setEnabled(false);
+					Dust.struinki4.choiced = false;
+					Dust.struinki4.setBorder(Dust.struinki4.defaultBorder);
+
+					Dust.twurdoHodowoKolelo.setEnabled(false);
+					Dust.twurdoHodowoKolelo.choiced = false;
+					Dust.twurdoHodowoKolelo.setBorder(Dust.twurdoHodowoKolelo.defaultBorder);
+
+					Dust.koleloZaWisokoTeglo.setEnabled(false);
+					Dust.koleloZaWisokoTeglo.choiced = false;
+					Dust.koleloZaWisokoTeglo.setBorder(Dust.koleloZaWisokoTeglo.defaultBorder);
+
+					Dust.remontNaKolichka.setEnabled(false);
+					Dust.remontNaKolichka.choiced = false;
+					Dust.remontNaKolichka.setBorder(Dust.remontNaKolichka.defaultBorder);
+
+					Dust.boqdiswaneNaKolichka.setEnabled(false);
+					Dust.boqdiswaneNaKolichka.choiced = false;
+					Dust.boqdiswaneNaKolichka.setBorder(Dust.boqdiswaneNaKolichka.defaultBorder);
+					break;
+				case "25 ??":
+				case "50 ??":
+				case "100 ??":
+					Dust.manometer.setEnabled(false);
+					Dust.manometer.choiced = false;
+					Dust.manometer.setBorder(Dust.manometer.defaultBorder);
+
+					Dust.iglichka.setEnabled(false);
+					Dust.iglichka.choiced = false;
+					Dust.iglichka.setBorder(Dust.iglichka.defaultBorder);
+
+					Dust.kapachka.setEnabled(false);
+					Dust.kapachka.choiced = false;
+					Dust.kapachka.setBorder(Dust.kapachka.defaultBorder);
+
+					break;
+			}
+
+		}
+
+	}
+
+	public static void markPlomba(String type,boolean isTO) {
+		switch (type) {
+			case type_Prah_BC:
+			case type_Prah_ABC:
+				// choiced bydefault
+				Dust.plomba.setEnabled(true);
+				Dust.plomba.choiced = true;
+				Dust.plomba.setBorder(Dust.plomba.choiceBorder);
+				break;
+			case type_Water:
+				// choiced by default
+				Water.plomba.setEnabled(true);
+				Water.plomba.choiced = true;
+				Water.plomba.setBorder(Dust.plomba.choiceBorder);
+				break;
+			case type_Water_Fame:
+				// choiced by default
+				Vodopenen.plomba.setEnabled(true);
+				Vodopenen.plomba.choiced = true;
+				Vodopenen.plomba.setBorder(Dust.plomba.choiceBorder);
+				break;
+			case type_CO2:
+				if (isTO) {
+					Parts.CO2.plomba.setEnabled(true);
+					Parts.CO2.plomba.isEditable = true;
+					Parts.CO2.plomba.choiced = false;
+					Parts.CO2.plomba.setBorder(Parts.CO2.plomba.defaultBorder);
+				} else {
+					// choiced by default
+					Parts.CO2.plomba.setEnabled(true);
+					Parts.CO2.plomba.isEditable = false;
+					Parts.CO2.plomba.choiced = true;
+					Parts.CO2.plomba.setBorder(Dust.plomba.choiceBorder);
+				}
+				break;
+		}
+	}
+	public static void markEntity(String type,boolean enabled) {
+		switch (type) {
+			case type_Prah_BC:
+				if (enabled) {
+					// choiced by default
+					Dust.prah_BC.setEnabled(true);
+					Dust.prah_BC.choiced = true;
+					Dust.prah_BC.setBorder(Dust.prah_BC.choiceBorder);
+
+					// enabled false by default
+					Dust.prah_ABC.setEnabled(false);
+					Dust.prah_ABC.choiced = false;
+					Dust.prah_ABC.setBorder(Dust.prah_ABC.defaultBorder);
+				} else {
+					// enabled false both by default
+					Dust.prah_BC.setEnabled(false);
+					Dust.prah_BC.choiced = false;
+					Dust.prah_BC.setBorder(Dust.prah_BC.defaultBorder);
+
+					Dust.prah_ABC.setEnabled(false);
+					Dust.prah_ABC.choiced = false;
+					Dust.prah_ABC.setBorder(Dust.prah_ABC.defaultBorder);
+				}
+				break;
+			case type_Prah_ABC:
+				if (enabled) {
+					// choiced by default
+					Dust.prah_ABC.setEnabled(true);
+					Dust.prah_ABC.choiced = true;
+					Dust.prah_ABC.setBorder(Dust.prah_BC.choiceBorder);
+					// enabled false by default
+					Dust.prah_BC.setEnabled(false);
+					Dust.prah_BC.choiced = false;
+					Dust.prah_BC.setBorder(Dust.prah_BC.defaultBorder);
+				} else {
+					// enabled false both by default
+					Dust.prah_ABC.setEnabled(false);
+					Dust.prah_ABC.choiced = false;
+					Dust.prah_ABC.setBorder(Dust.prah_BC.defaultBorder);
+
+					Dust.prah_BC.setEnabled(false);
+					Dust.prah_BC.choiced = false;
+					Dust.prah_BC.setBorder(Dust.prah_BC.defaultBorder);
+				}
+				break;
+			case type_Water:
+				if (enabled) {
+					// choiced by default
+					Water.woda.setEnabled(true);
+					Water.woda.choiced = true;
+					Water.woda.setBorder(Water.woda.choiceBorder);
+				} else {
+					// enabled false by default
+					Water.woda.setEnabled(false);
+					Water.woda.choiced = false;
+					Water.woda.setBorder(Water.woda.defaultBorder);
+				}
+				break;
+			case type_Water_Fame:
+				if (enabled) {
+					// choiced by default
+					Vodopenen.woda_pqna.setEnabled(true);
+					Vodopenen.woda_pqna.choiced = true;
+					Vodopenen.woda_pqna.setBorder(Water.woda.choiceBorder);
+				} else {
+					// enabled false by default
+					Vodopenen.woda_pqna.setEnabled(false);
+					Vodopenen.woda_pqna.choiced = false;
+					Vodopenen.woda_pqna.setBorder(Water.woda.defaultBorder);
+				}
+				break;
+			case type_CO2:
+				if (enabled) {
+					// choiced by default
+					Parts.CO2.wugleroden_dioksid.setEnabled(true);
+					Parts.CO2.wugleroden_dioksid.choiced = true;
+					Parts.CO2.wugleroden_dioksid.setBorder(Parts.CO2.wugleroden_dioksid.choiceBorder);
+				} else {
+					// enabled false by default
+					Parts.CO2.wugleroden_dioksid.setEnabled(false);
+					Parts.CO2.wugleroden_dioksid.choiced = false;
+					Parts.CO2.wugleroden_dioksid.setBorder(Parts.CO2.wugleroden_dioksid.defaultBorder);
+				}
+				break;
+		}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

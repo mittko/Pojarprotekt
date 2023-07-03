@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 import db.PartsPrice.PriceTable;
 
-public class CustomButton extends DynamicButton implements ActionListener{
+public class PartButton extends DynamicButton implements ActionListener{
 	
     public boolean choiced = false;
     public boolean isEditable = true;
@@ -23,7 +23,7 @@ public class CustomButton extends DynamicButton implements ActionListener{
     private double price;
   
     
-	public CustomButton() {
+	public PartButton() {
 		super();
 		this.addActionListener(this);
 		defaultBorder = this.getBorder();
