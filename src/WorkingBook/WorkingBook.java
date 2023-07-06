@@ -692,13 +692,13 @@ public class WorkingBook extends MainPanel {
 			View.dtm_Extinguisher.insertRow(0, newRow); // add to view models
 
 			// call sticker jdialog to choice sticker
-			boolean TO = comboDoings.getSelectedItem().toString().contains(ÒΞ);// get from TO date -> !tModel.getValueAt(0,
+			boolean TO = !tModel.getValueAt(0,7).toString().equals("νε") ;// comboDoings.getSelectedItem().toString().contains(ÒΞ);// get from TO date -> !tModel.getValueAt(0,
 			// 7).toString().equals("νε") ? true: false;
 
-			boolean P = comboDoings.getSelectedItem().toString().contains(Ο);// get from TO date -> !tModel.getValueAt(0,
+			boolean P = !tModel.getValueAt(0,8).toString().equals("νε");;//comboDoings.getSelectedItem().toString().contains(Ο);// get from TO date -> !tModel.getValueAt(0,
 			// 8).toString().equals("νε") ? true : false;
 
-			boolean HI = comboDoings.getSelectedItem().toString().contains(ΥΘ);// get from TO date -> !tModel.getValueAt(0,
+			boolean HI = !tModel.getValueAt(0,9).toString().equals("νε");//comboDoings.getSelectedItem().toString().contains(ΥΘ);// get from TO date -> !tModel.getValueAt(0,
 			// 9).toString().equals("νε") ? true : false;
 
 			if (TO || P || HI) { // without HI ????
