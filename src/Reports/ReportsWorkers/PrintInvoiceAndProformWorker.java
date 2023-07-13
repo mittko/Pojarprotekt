@@ -71,12 +71,17 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 			int[] copies = { 1, 1 };
 			for (int i = 0; i < 2; i++) {
 				InvoicePDFFromReports pdf = new InvoicePDFFromReports();
-				DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
+
+				// this solution merge artikuls with same names but
+				// may lead to errors if artikuls with same names have
+				// different prices !!!
+//				DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
 //				isCreated = pdf.createInvoicePDF(clientInfo, Number,
 //						timeStamps[i], datePdf, payment,mergedTableModel, PATH + "\\"
 //								+ TITLE + "-", TITLE, ÄÓÁËÈÊÀÒ[i], 0,
 //						mergedTableModel.getRowCount()/*endIndex*/, saller);
 
+				// this solution has no errors but don't merge same artikuls !!!
 				isCreated = pdf.createInvoicePDF(clientInfo, Number,
 						timeStamps[i], datePdf, payment,dftm, PATH + "\\"
 								+ TITLE + "-", TITLE, ÄÓÁËÈÊÀÒ[i], 0,

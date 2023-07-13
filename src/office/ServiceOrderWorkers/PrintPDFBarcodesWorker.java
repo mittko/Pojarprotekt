@@ -20,7 +20,7 @@ public class PrintPDFBarcodesWorker extends SwingWorker {
 		
 		if(GenerateBarcod.generateBarcodAsPDF(barcode, clientName,barcode + "-етикет.pdf") ) {
 
-		PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,barcode + "-етикет.pdf");
+		PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,barcode + "-етикет.pdf",false);
 			//		runPDF.pdfRunner("C:/Program1/BarcodeImage/" + number
 			//			+ ".pdf");
 		}

@@ -7,14 +7,12 @@ import Log.IOErrorsWriter;
 import Log.PdfErr;
 import PDF.OpenPDFDocument;
 import PDF.PdfCreator;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 import mydate.MyGetDate;
 import utils.MainPanel;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -35,8 +33,8 @@ public class GenerateBarcod {
 		File f = new File(MainPanel.BARCODE_PDF_PATH + out);
 		System.out.println(f.getAbsolutePath());
 		if (f.exists()) {
-			//	JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
-			//	return false;
+				JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
+				return false;
 		}
 
 		// this hardcoded values are due to trial errors
@@ -88,9 +86,9 @@ public class GenerateBarcod {
 		cb.showText(clientName);
 		cb.endText();
 
+
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
-
 			img.setAbsolutePosition(40,45);//45
 			// 0,0 is on the left bottom angle on the label
 			// x value move from left to right
@@ -109,6 +107,78 @@ public class GenerateBarcod {
 		return true;
 	}
 
+	public static boolean generateRotatedBarcodAsPDF(String code,String clientName, String out) {
+		// LABEL PRINTING DEPENDS FROM generateRotatedBarcodAsPDF() and PrintBarcod.printPDF() !!!
+		File f = new File(MainPanel.BARCODE_PDF_PATH + out);
+		System.out.println(f.getAbsolutePath());
+		if (f.exists()) {
+				JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
+				return false;
+		}
+
+		// this hardcoded values are due to trial errors
+		Document document = new Document(new Rectangle(80f, 100));
+		// work
+		// configure
+		// barcod
+		// paper
+		// size
+		// 100,45
+
+		PdfWriter writer = null;
+		try {
+			writer = PdfWriter.getInstance(document, new FileOutputStream(
+					MainPanel.BARCODE_PDF_PATH + out));
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			InOutException.showIOException(e);
+			IOErrorsWriter.writeIO(e.toString());
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			PDFException.showPDFException(e);
+			PdfErr.pdfErros(e.toString());
+			e.printStackTrace();
+		}
+		document.open();
+
+		PdfContentByte cb = writer.getDirectContent();
+		cb.setLineWidth(1f);
+		BaseFont bf = PdfCreator.getCyrilycBaseFont("arial");
+		//cb.setFontAndSize(bf,8);
+
+		BarcodeEAN codeEAN = new BarcodeEAN();
+
+		codeEAN.setCodeType(Barcode.EAN13);
+		codeEAN.setCode(code);
+
+		try {
+			Image img = codeEAN.createImageWithBarcode(cb, null, null);
+
+			img.setRotationDegrees(90);
+			img.setAbsolutePosition(15,-90);//45
+			// 0,0 is on the left bottom angle on the label
+			// x value move from left to right
+			// y value move from down to up
+
+			document.add(img);
+
+			Font font=new Font(bf,12,Font.NORMAL);
+			ColumnText.showTextAligned(cb,
+					Element.ALIGN_CENTER, new Phrase(clientName,font), 70, -60, 90);
+			ColumnText.showTextAligned(cb,
+					Element.ALIGN_CENTER, new Phrase(MyGetDate.getDate_Days_Hours()), 90, -60, 90);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			PDFException.showPDFException(e);
+			PdfErr.pdfErros(e.toString());
+			e.printStackTrace();
+		}
+		document.close();
+
+		return true;
+	}
 	private static void drawLine(int x1, int y1, int x2, int y2,
 								 PdfContentByte canvas, float lineWidth) {
 		canvas.setLineWidth(lineWidth);
@@ -335,8 +405,13 @@ public class GenerateBarcod {
 		// generateBarcodAsPDF("4858484884122","test.pdf");
 		// runPDF.pdfRunner("C:/Program1/tmp/BarcodeImage/"+"test.pdf");
 		//	generateBarcodOnStickerAsPDF("4858484884122", "test1.pdf", "01.01.2019");
-		generateBarcodAsPDF("1234567891234","5555555555","1234567891234-етикет.pdf");
-		PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,"1234567891234-етикет.pdf");
+
+		//generateRotatedBarcodAsPDF("1234567891234","Петранка Попова","1234567891234-етикет.pdf");
+		//PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,"1234567891234-етикет.pdf",true);
+		//	OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH+"\\"+"1234567891234-етикет.pdf");
+
+		generateBarcodAsPDF("1234567891234","Петранка Попова","1234567891234-етикет.pdf");
+		PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,"1234567891234-етикет.pdf",false);
 		//	OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH+"\\"+"1234567891234-етикет.pdf");
 	}
 

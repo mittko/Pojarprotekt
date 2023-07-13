@@ -46,7 +46,7 @@ public class PrintBarcod {
 	// fin.close();
 	// }
 
-	public static void printPDF(String target, String pdf) {
+	public static void printPDF(String target, String pdf,boolean documentRotated) {
 		File f = new File(target + pdf);
 		FileInputStream fis = null;
 		try {
@@ -95,9 +95,20 @@ public class PrintBarcod {
 
 		// cinfigure where to positioning image on label
 
-		paper.setSize(180,70);// this code fix problem with printing long paper gap after text !!!
-		// this hardcoded values are due to trial errors
-		paper.setImageableArea(0,0,180,70);//(0,0,180,70)
+
+		// paper.setSize() and paper.setImageableArea() are methods that
+		// help to manipulate and manage label size and printing
+		// typically after trial errors
+		if(documentRotated) {
+			paper.setSize(80,200);// this code fix problem with printing long paper gap after text !!!
+			// this hardcoded values are due to trial errors
+			paper.setImageableArea(0,0,90,210);//(0,0,180,70)
+		} else {
+			paper.setSize(180, 70);// this code fix problem with printing long paper gap after text !!!
+			// this hardcoded values are due to trial errors
+			paper.setImageableArea(0,0,180,70);//(0,0,180,70)
+		}
+
 
 
 		pf.setPaper(paper);
@@ -175,7 +186,7 @@ public class PrintBarcod {
 		PrintBarcod pb = new PrintBarcod();
 		 GenerateBarcod.generateBarcodAsPDF("1000000093018","Пожарпротект ЕООД", "1000000093018" +
 		 ".pdf");
-		 printPDF(MainPanel.BARCODE_PDF_PATH, "1000000093018.pdf");
+		 printPDF(MainPanel.BARCODE_PDF_PATH, "1000000093018.pdf",false);
 		//getPrintService();
 		// pb.printBarcodes();
 	}
