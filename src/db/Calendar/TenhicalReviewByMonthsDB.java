@@ -100,10 +100,13 @@ public class TenhicalReviewByMonthsDB extends MainPanel {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ArrayList<Object[]> result = getDetailsFrom_To("01.01.2018",
-				"31.01.2018");
+		ArrayList<Object[]> result = getDetailsFrom_To("01.06.2023",
+				"30.06.2023");
 		for (int i = 0; i < result.size(); i++) {
-			System.out.println(result.get(i)[6]);
+			String client = result.get(i)[0].toString();
+			if(client.equals("Грейнстор Трейдинг АД")) {
+				System.out.println(result.get(i)[0]);
+			}
 		}
 	}
 

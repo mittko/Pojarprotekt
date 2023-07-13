@@ -2,6 +2,7 @@ package generators;
 
 import Exceptions.InOutException;
 import Exceptions.PDFException;
+import JPrinter.Print.PrintBarcod;
 import Log.IOErrorsWriter;
 import Log.PdfErr;
 import PDF.OpenPDFDocument;
@@ -32,13 +33,14 @@ public class GenerateBarcod {
 	public static boolean generateBarcodAsPDF(String code,String clientName, String out) {
 
 		File f = new File(MainPanel.BARCODE_PDF_PATH + out);
+		System.out.println(f.getAbsolutePath());
 		if (f.exists()) {
-		//	JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
-		//	return false;
+			//	JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
+			//	return false;
 		}
 
 		// this hardcoded values are due to trial errors
-		Document document = new Document(new Rectangle(120f, 80f)); // 100 40
+		Document document = new Document(new Rectangle(120f, 80));//80f)); // 100 40
 		// work
 		// configure
 		// barcod
@@ -74,29 +76,27 @@ public class GenerateBarcod {
 
 
 		cb.beginText();
-		cb.moveText(0,22);
+		cb.moveText(0,35);
 		BaseFont bf = PdfCreator.getCyrilycBaseFont("arial");
 		cb.setFontAndSize(bf,8f);
 		cb.showText(MyGetDate.getDate_Days_Hours());
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(60,22);
+		cb.moveText(80,35);
 		cb.setFontAndSize(bf,8f);
 		cb.showText(clientName);
 		cb.endText();
 
-
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
 
-			img.setAbsolutePosition(10,30);//
+			img.setAbsolutePosition(40,45);//45
 			// 0,0 is on the left bottom angle on the label
 			// x value move from left to right
 			// y value move from down to up
 
 			document.add(img);
-
 
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
@@ -110,7 +110,7 @@ public class GenerateBarcod {
 	}
 
 	private static void drawLine(int x1, int y1, int x2, int y2,
-			PdfContentByte canvas, float lineWidth) {
+								 PdfContentByte canvas, float lineWidth) {
 		canvas.setLineWidth(lineWidth);
 		canvas.moveTo(x1, y1);
 		canvas.lineTo(x2, y2);
@@ -119,7 +119,7 @@ public class GenerateBarcod {
 	}
 
 	private static void drawCircle(float x, float y, float radius,
-			PdfContentByte cb) {
+								   PdfContentByte cb) {
 		cb.circle(x, y, radius);
 		cb.fill();
 		// cb.stroke();
@@ -128,7 +128,7 @@ public class GenerateBarcod {
 	private static PdfTemplate createText(String text, PdfContentByte cb,
 										  BaseFont bf, int fontSize) {
 		PdfTemplate template = cb.createTemplate(200, 200);// (100,1009 (200,
-															// 200);
+		// 200);
 		template.beginText();
 		template.setFontAndSize(bf, fontSize);
 		template.showText(text);
@@ -137,16 +137,16 @@ public class GenerateBarcod {
 	}
 
 	public static boolean generateBarcodOnStickerAsPDF(String code, String out,
-			String nextDate) {
+													   String nextDate) {
 		Document document = new Document(new Rectangle(120f, 360f)); // local
-																		// new
-																		// Document(new
-																		// Rectangle(120f
-																		// ,
-																		// 720f)
-																		// );
+		// new
+		// Document(new
+		// Rectangle(120f
+		// ,
+		// 720f)
+		// );
 
-		/*File f = new File(MainPanel.BARCODE_PDF_PATH + out);
+        /*File f = new File(MainPanel.BARCODE_PDF_PATH + out);
 		if (f.exists()) {
 			JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
 			return false;
@@ -255,8 +255,8 @@ public class GenerateBarcod {
 		 * yScale,x+20f, y + 2);// ТО drawLine((int)x+13, (int)y - 20,(int) x +
 		 * 50,(int) y - 20,cb,1.0f);// разделителна линия
 		 */// вътрешна разделителна линия
-			// drawLine((int)x+20, (int)y + 6,(int) x + 50,(int) y + 6,cb,
-			// 0.5f);// разделителна линия
+		// drawLine((int)x+20, (int)y + 6,(int) x + 50,(int) y + 6,cb,
+		// 0.5f);// разделителна линия
 
 		// презареждане
 		/*
@@ -334,9 +334,10 @@ public class GenerateBarcod {
 		// TODO Auto-generated method stub
 		// generateBarcodAsPDF("4858484884122","test.pdf");
 		// runPDF.pdfRunner("C:/Program1/tmp/BarcodeImage/"+"test.pdf");
-	//	generateBarcodOnStickerAsPDF("4858484884122", "test1.pdf", "01.01.2019");
-		generateBarcodAsPDF("4858484884122","Пожарпротект ЕООД","test1.pdf");
-		OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH+"\\"+"test1.pdf");
+		//	generateBarcodOnStickerAsPDF("4858484884122", "test1.pdf", "01.01.2019");
+		generateBarcodAsPDF("1234567891234","5555555555","1234567891234-етикет.pdf");
+		PrintBarcod.printPDF(MainPanel.BARCODE_PDF_PATH,"1234567891234-етикет.pdf");
+		//	OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH+"\\"+"1234567891234-етикет.pdf");
 	}
 
 }

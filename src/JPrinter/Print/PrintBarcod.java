@@ -95,8 +95,10 @@ public class PrintBarcod {
 
 		// cinfigure where to positioning image on label
 
+		paper.setSize(180,70);// this code fix problem with printing long paper gap after text !!!
 		// this hardcoded values are due to trial errors
-		paper.setImageableArea(0,0,180,105);//(5, -20, 400, 60); // original
+		paper.setImageableArea(0,0,180,70);//(0,0,180,70)
+
 
 		pf.setPaper(paper);
 
@@ -146,7 +148,7 @@ public class PrintBarcod {
 		if (ps != null) {
 			PrintService printService = null;
 			for (PrintService p : ps) {
-				if(p.getName().toLowerCase().contains(MainPanel.LABEL_PRINTER1.toLowerCase())) {
+				if(p.getName().toLowerCase().contains("Brother QL-500".toLowerCase())) {//(MainPanel.LABEL_PRINTER1.toLowerCase())) {
 					// System.out.println("Contains LPQ58");
 					// JOptionPane.showMessageDialog(null, ps[i].getName());
 					printService = p;

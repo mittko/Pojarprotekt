@@ -72,11 +72,15 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 			for (int i = 0; i < 2; i++) {
 				InvoicePDFFromReports pdf = new InvoicePDFFromReports();
 				DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
-				isCreated = pdf.createInvoicePDF(clientInfo, Number,
-						timeStamps[i], datePdf, payment, mergedTableModel, PATH + "\\"
-								+ TITLE + "-", TITLE, ÄÓÁËÈÊÀÒ[i], 0,
-						mergedTableModel.getRowCount()/*endIndex*/, saller);
+//				isCreated = pdf.createInvoicePDF(clientInfo, Number,
+//						timeStamps[i], datePdf, payment,mergedTableModel, PATH + "\\"
+//								+ TITLE + "-", TITLE, ÄÓÁËÈÊÀÒ[i], 0,
+//						mergedTableModel.getRowCount()/*endIndex*/, saller);
 
+				isCreated = pdf.createInvoicePDF(clientInfo, Number,
+						timeStamps[i], datePdf, payment,dftm, PATH + "\\"
+								+ TITLE + "-", TITLE, ÄÓÁËÈÊÀÒ[i], 0,
+						endIndex, saller);
 				// update invoice number
 				if (isCreated) {
 
