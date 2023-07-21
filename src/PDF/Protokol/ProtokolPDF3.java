@@ -577,14 +577,14 @@ public class ProtokolPDF3 extends PdfCreator {
 
 	private void setFootText(int total, float x, float y, String[] clData) {
 		float[] footX = new float[] { 30, 30, 30, 30, 30, 30, 100, 350, 30, 38, 29,
-				170, 170, 170, 300, 300, 420, 400, 400, 30, 30 };
+				170, 170, 170, 300, 300, 420, 400, 400, 30, 30, 30 };
 //		float[] footY = new float[] { 5, 20, 35, 50, 85, 100, 100, 115, 130,
 //				145, 115, 145, 160, 115, 130, 115, 145, 160, 175, 190 };
 //		for (int s = 4; s < footY.length; s++) { // ???????
 //			footY[s] -= 20;
 //		}
 		float[] footY = new float[] { 5,  20, 35, 50, 65, 100, 115, 115, 130, 145,
-				160, 130, 160, 175, 130, 145, 130, 160, 175, 190, 205 };
+				160, 130, 160, 175, 130, 145, 130, 160, 175, 190, 205, 220 };
 
 		for (int s = 5; s < footY.length; s++) {
 			footY[s] -= 20;
@@ -725,6 +725,12 @@ public class ProtokolPDF3 extends PdfCreator {
 		setText("или хидростатично изпитване на устойчивост на налягане.", footX[20], y - footY[20],
 				arial, 9);
 
+		if (y - footY[21] <= document.bottom()) {
+			document.newPage();
+			y = document.top();
+		}
+		setText("Заменените стари негодни части и материали са предадени на клиента.", footX[21], y - footY[21],
+				arial, 9);
 		// };
 
 		// boolean newPage = false;
