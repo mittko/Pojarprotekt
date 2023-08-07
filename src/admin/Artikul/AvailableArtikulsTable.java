@@ -400,8 +400,8 @@ public class AvailableArtikulsTable extends MainPanel {
 
 		northPanel.add(searchField,gbc00);
 		northPanel.add(loadButton, gbc20);
-	//	northPanel.add(editArtikulNameButton, gbc30);
-		northPanel.add(editQuantityButton,gbc30);
+		northPanel.add(editArtikulNameButton, gbc30);
+		northPanel.add(editQuantityButton,gbc40);
 		// northPanel.add(viewButton);
 		northPanel.add(editPriceButton,gbc01);
 		northPanel.add(deleteButton,gbc11);

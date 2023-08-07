@@ -528,6 +528,13 @@ public class ReportDialog extends MainPanel {
 								break;
 							}
 							case SELLS: {
+								if (fromDate.getText().isEmpty()
+										|| toDate.getText().isEmpty()) {
+									JOptionPane.showMessageDialog(null,
+											"Не е избрана начална и крайна дата");
+									jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+									return null;
+								}
 								// също трябва да се добави проверка продажбата да е след датата на доставката !!!
 								String from = fromDate.getText();
 								String to = toDate.getText();
@@ -546,11 +553,11 @@ public class ReportDialog extends MainPanel {
 								break;
 							}
 							case AVAILABILITY: {
-
 								if (fromDate.getText().isEmpty()
 										|| toDate.getText().isEmpty()) {
 									JOptionPane.showMessageDialog(null,
-											"Не е избрана дата");
+											"Не е избрана начална и крайна дата");
+									jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 									return null;
 								}
 								String from = fromDate.getText();

@@ -1172,12 +1172,12 @@ public class Artikuli_DB extends MainPanel {
 		return update;
 	}
 
-	public static int editArtikulName(String table, String oldArtikulName,
+	public static int editArtikulName(String table,String tableField, String oldArtikulName,
 									  String newArtikulName) {
 		Connection connect = null;
 		Statement stat = null;
-		String command = "update " + table + " set artikul = '"
-				+ newArtikulName + "' where artikul = '" + oldArtikulName + "'";
+		String command = "update " + table + " set " + tableField + " = '" // artikul
+				+ newArtikulName + "' where " + tableField + " = '" + oldArtikulName + "'";
 		int update = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
