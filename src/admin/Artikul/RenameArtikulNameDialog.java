@@ -22,6 +22,7 @@ public class RenameArtikulNameDialog extends MainPanel {
 
         JLabel newNameLabel = new JLabel("Преименувай");
         final JTextField newNameJTextField = new JTextField(40);
+        newNameJTextField.setText(oldArtikulName);
 
         JButton saveButton = new JButton("Запиши");
         saveButton.addActionListener(new ActionListener() {
