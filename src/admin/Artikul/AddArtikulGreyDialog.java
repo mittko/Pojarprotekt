@@ -81,6 +81,7 @@ public class AddArtikulGreyDialog extends MainPanel
 		final JLabel invoiceLabel = new JLabel("Фактура No:");
 		final JLabel artikulLabel = new JLabel("Артикул");
 		final JLabel skladLabel = new JLabel("Брой");
+		final JLabel dateLabel = new JLabel(MyGetDate.getReversedSystemDate());
 		final JLabel medLabel = new JLabel("Мер. единица  ");
 		final JLabel artikulCodeLabel = new JLabel("Код");
 		final JLabel deliveryValueLabel = new JLabel("Доставна цена");
@@ -353,8 +354,8 @@ public class AddArtikulGreyDialog extends MainPanel
 		rightPanel.add(this.skladField, gbc12);
 		rightPanel.add(medLabel, gbc14);
 		rightPanel.add(this.medField, gbc15);
-		rightPanel.add(artikulCodeLabel, gbc18);
-		rightPanel.add(this.artikulCodeField, gbc19);
+	//	rightPanel.add(artikulCodeLabel, gbc18);
+	//	rightPanel.add(this.artikulCodeField, gbc19);
 		final JPanel percentProfitPanel = new JPanel();
 		percentProfitPanel.setLayout(new FlowLayout(0));
 		percentProfitPanel.add(new JLabel("% Печалба"));
