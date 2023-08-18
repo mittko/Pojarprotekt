@@ -295,14 +295,14 @@ public class AvailableArtikulsTable extends MainPanel {
 				String operatorItem = "";
 				String percentProfitItem = "";
 					if (CURRENT_ROW >= 0) {
-					artikulItem = table.getValueAt(CURRENT_ROW, 1).toString();
+					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
 					// skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
-					medItem = table.getValueAt(CURRENT_ROW, 3).toString();
+					medItem = table.getValueAt(CURRENT_ROW, 2).toString();
 					valueItem = "0";
 					dateItem = MyGetDate.getReversedSystemDate();// table.getValueAt(CURRENT_ROW,
 					// 6).toString();
-					operatorItem = table.getValueAt(CURRENT_ROW, 8).toString();
-					percentProfitItem = table.getValueAt(CURRENT_ROW, 9)
+					operatorItem = table.getValueAt(CURRENT_ROW, 7).toString();
+					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
 							.toString();
 				}
 				fakturaItem = "0000001";
