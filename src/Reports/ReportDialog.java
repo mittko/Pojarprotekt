@@ -25,11 +25,12 @@ public class ReportDialog extends MainPanel {
 	private JRadioButtonMenuItem rbmi6 = null;
 	private JRadioButtonMenuItem rbmi7 = null;
 	private JRadioButtonMenuItem rbmi8 = null;
-	// private JMenu deliveryMenu = new JMenu("Доставки");
 	private JRadioButtonMenuItem rbmi9 = null;
-	private JRadioButtonMenuItem rbmi9А = null;
+	private JRadioButtonMenuItem rbmi9A = null;
 	private JRadioButtonMenuItem rbmi10 = null;
 	private JRadioButtonMenuItem rbmi11 = null;
+
+	private JRadioButtonMenuItem rbm12 = null;
 
 	private EditableField fromDate = null;
 	private EditableField toDate = null;
@@ -85,6 +86,9 @@ public class ReportDialog extends MainPanel {
 		menu.setBorder(BorderFactory.createRaisedBevelBorder());
 
 		ButtonGroup bGroup = new ButtonGroup();
+
+
+
 		rbmi = new JRadioButtonMenuItem("Сервизна Поръчка");
 		rbmi.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbmi.addActionListener(new ActionListener() {
@@ -218,14 +222,14 @@ public class ReportDialog extends MainPanel {
 			}
 
 		});
-		rbmi9А = new JRadioButtonMenuItem("Доставки Нови Пожарогасители");
-		rbmi9А.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		rbmi9А.addActionListener(new ActionListener() {
+		rbmi9A = new JRadioButtonMenuItem("Доставки Нови Пожарогасители");
+		rbmi9A.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		rbmi9A.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				title = rbmi9А.getText();
+				title = rbmi9A.getText();
 				destination = DELIVERY_ARTIKULS;
 				setComponentState(false, false, true, false, false, false,
 						true, false, false, false, false, false, false);
@@ -274,6 +278,17 @@ public class ReportDialog extends MainPanel {
 			}
 
 		});
+		rbm12 = new JRadioButtonMenuItem("Кредитно Известие");
+		rbm12.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		rbm12.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				destination = CREDIT_NOTE;
+				title = rbm12.getText();
+				setComponentState(false, false, true, false, false, false,
+						true, false, false, false, false, false, false);
+			}
+		});
 		bGroup.add(rbmi);
 		menu.add(rbmi);
 
@@ -307,9 +322,6 @@ public class ReportDialog extends MainPanel {
 		menu.add(rbmi8);
 		menu.addSeparator();
 
-		// deliveryMenu.add(rbmi9);
-		// deliveryMenu.add(rbmi9А);
-
 		bGroup.add(rbmi9);
 		menu.add(rbmi9);
 		menu.addSeparator();
@@ -320,6 +332,10 @@ public class ReportDialog extends MainPanel {
 
 		bGroup.add(rbmi11);
 		menu.add(rbmi11);
+		menu.addSeparator();
+
+		bGroup.add(rbm12);
+		menu.add(rbm12);
 
 		menuBar.add(menu);
 

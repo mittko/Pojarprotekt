@@ -126,6 +126,8 @@ public class MainPanel extends JPanel {
 	public static final String BRACK = "BrackTableDB2";
 	public static final String INVOICE_PARENT = "InvoiceParentDB5";
 	public static final String INVOICE_CHILD = "InvoiceChildDB7";
+
+	public static final String CREDIT_NOTE = "CreditNoteDB";
 	public static final String PROFORM_PARENT = "ProformParentDB";
 	public static final String PROFORM_CHILD = "ProformChildDB2";
 	public static final String ACQUITTANCE_PARENT = "AcquittanceParentDB";
@@ -181,6 +183,9 @@ public class MainPanel extends JPanel {
 			+ "\\tmp\\PDF\\Протокол Брак");
 	public static final String INVOICE_PDF_PATH = createFolder(DOCUMENTS_PATH
 			+ "\\tmp\\PDF\\Фактура");
+
+	public static final String CREDIT_NOTE_PDF_PATH = createFolder(
+			DOCUMENTS_PATH+"\\tmp\\PDF\\Кредитно Известие");
 	public static final String PROFORM_PDF_PATH = createFolder(DOCUMENTS_PATH
 			+ "\\tmp\\PDF\\Проформа");
 	public static final String ACQUITTANCE_PDF_PATH = createFolder(DOCUMENTS_PATH

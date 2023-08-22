@@ -3,8 +3,10 @@ package Reports;
 import Reports.ReportsRenderers.InvoiceTableRenderer;
 import Reports.ReportsWorkers.ExportToExcellWorkerInvocie;
 import Reports.ReportsWorkers.PrintInvoiceAndProformWorker;
+import run.JDialoger;
 import utils.LoadIcon;
 import utils.MainPanel;
+import utils.MyCallback;
 import utils.TooltipButton;
 
 import javax.swing.*;
@@ -33,6 +35,8 @@ public class ReportTableInvoice extends MainPanel {
 	public static int MOUSE_MOTION_ROW = -1;
 	private TooltipButton printerButton = null;
 	private TooltipButton exportToExcellButton = null;
+
+	private TooltipButton creditNoteButton;
 
 	public ReportTableInvoice(ArrayList<Object[]> childData) {
 		MOUSE_MOTION_ROW = -1;
@@ -63,14 +67,14 @@ public class ReportTableInvoice extends MainPanel {
 						.getWindowAncestor(ReportTableInvoice.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			//	PrintService ps = ChoisePrinterDialog.showPrinters();
-			//	if (ps == null) {
-			//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-			//		return;
-			//	}
-			//	if (ps != null) {
+				//	PrintService ps = ChoisePrinterDialog.showPrinters();
+				//	if (ps == null) {
+				//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				//		return;
+				//	}
+				//	if (ps != null) {
 
-					switch (jd.getTitle()) {
+				switch (jd.getTitle()) {
 					case "Справки Фактура ПОЖАРПРОТЕКТ":
 						TITLE = "ФАКТУРА";
 						PATH = MainPanel.INVOICE_PDF_PATH;
@@ -82,17 +86,17 @@ public class ReportTableInvoice extends MainPanel {
 						break;
 					default:
 						break;
-					}
-
-					Integer[] selectedIndexes = getSelectedIndexes(
-							SELECTED_INDEX, 0);
-					PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
-							null, dftm, jd, selectedIndexes[0],
-							selectedIndexes.length, TITLE, PATH);//
-					invoiceAndProformWorker.execute();
-
 				}
-		//	}
+
+				Integer[] selectedIndexes = getSelectedIndexes(
+						SELECTED_INDEX, 0);
+				PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
+						null, dftm, jd, selectedIndexes[0],
+						selectedIndexes.length, TITLE, PATH);//
+				invoiceAndProformWorker.execute();
+
+			}
+			//	}
 
 		});
 
@@ -100,7 +104,6 @@ public class ReportTableInvoice extends MainPanel {
 		exportToExcellButton.setPreferredSize(new Dimension(
 				(int) (printerButton.getPreferredSize().getWidth() * 0.3),
 				(int) (printerButton.getPreferredSize().getHeight())));
-		;
 		exportToExcellButton.setToolTipText(getHTML_Text("ЗАПИШИ В EXCEL"));
 		exportToExcellButton.setAutoSizedIcon(exportToExcellButton,
 				new LoadIcon().setIcons(excellImage));
@@ -115,14 +118,14 @@ public class ReportTableInvoice extends MainPanel {
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 				String outputFile = null;
 				switch (jd.getTitle()) {
-				case "Справки " + "Фактура ПОЖАРПРОТЕКТ":
-					outputFile = "Фактури ПОЖАРПРОТЕКТ.xls";
-					break;
-				case "Справки " + "Проформа ПОЖАРПРОТЕКТ":
-					outputFile = "Проформи ПОЖАРПРОТЕКТ.xls";
-					break;
-				default:
-					break;
+					case "Справки " + "Фактура ПОЖАРПРОТЕКТ":
+						outputFile = "Фактури ПОЖАРПРОТЕКТ.xls";
+						break;
+					case "Справки " + "Проформа ПОЖАРПРОТЕКТ":
+						outputFile = "Проформи ПОЖАРПРОТЕКТ.xls";
+						break;
+					default:
+						break;
 				}
 				ExportToExcellWorkerInvocie export = new ExportToExcellWorkerInvocie(
 						dftm, outputFile, jd);
@@ -131,11 +134,67 @@ public class ReportTableInvoice extends MainPanel {
 			}
 
 		});
+		creditNoteButton = new TooltipButton();
+		creditNoteButton.setPreferredSize(new Dimension(
+				(int)(printerButton.getPreferredSize().getWidth() * 0.3),
+				(int)(printerButton.getPreferredSize().getHeight())));
+		creditNoteButton.setToolTipText(getHTML_Text("Кредитно Известие"));
+		creditNoteButton.setAutoSizedIcon(creditNoteButton,new LoadIcon().setIcons(invoiceImage));
+		creditNoteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JDialoger dialoger = new JDialoger();
+				CreditNoteDialog creditNoteDialog = new CreditNoteDialog(new MyCallback<String>() {
+					@Override
+					public void call(String cmd) {
+						if(cmd.equals("Потвърди")) {
+							System.out.println("Потвърди");
+						} else if(cmd.equals("Принтирай")) {
+							System.out.println("Принтирай");
+							if (SELECTED_INDEX == -1) {
+								return;
+							}
+							JDialog jd = (JDialog) SwingUtilities
+									.getWindowAncestor(ReportTableInvoice.this);
+							jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+							//	PrintService ps = ChoisePrinterDialog.showPrinters();
+							//	if (ps == null) {
+							//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							//		return;
+							//	}
+							//	if (ps != null) {
+
+							if (jd.getTitle().equals("Справки Фактура ПОЖАРПРОТЕКТ")) {
+								TITLE = "Кредитно Известие";
+								PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
+								// System.out.printf("%s %s\n", TITLE, PATH);
+								//								case "Справки Проформа ПОЖАРПРОТЕКТ":
+//									TITLE = "Кредитно Известие";
+//									PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
+//									break;
+								Integer[] selectedIndexes = getSelectedIndexes(
+										SELECTED_INDEX, 0);
+								PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
+										null, dftm, jd, selectedIndexes[0],
+										selectedIndexes.length, TITLE, PATH);//
+								invoiceAndProformWorker.execute();
+							} else {
+								jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							}
+						}
+					}
+				});
+				dialoger.setContentPane(creditNoteDialog);
+				dialoger.Show();
+			}
+		});
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setOpaque(false);
 
 		buttonPanel.add(printerButton);
 		buttonPanel.add(exportToExcellButton);
+		buttonPanel.add(creditNoteButton);
 
 		northPanel.add(buttonPanel);
 

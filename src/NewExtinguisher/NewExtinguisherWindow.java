@@ -89,11 +89,7 @@ public class NewExtinguisherWindow extends MainPanel {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				// TODO Auto-generated method stub
-				if (e.getItem().toString().length() > 0) {
-					skladButton.setEnabled(true);
-				} else {
-					skladButton.setEnabled(false);
-				}
+				skladButton.setEnabled(e.getItem().toString().length() > 0);
 			}
 
 		});
