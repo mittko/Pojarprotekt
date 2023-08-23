@@ -48,8 +48,6 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 
 					String invoiceByKontragent = artikulModel
 							.getValueAt(row, 7).toString();
-					// System.out.printf("контрагент = %s фактура = %s\n",
-					// kontragent, invoiceByKontragent);
 
 					ArrayList<ArtikulInfo> availableArtikuls = Artikuli_DB
 							.getAvailableArtikulsByInvoiceAndKontragent(
@@ -58,23 +56,12 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 					// this method returns artikuls sorted !!!!
 					for (ArtikulInfo art : availableArtikuls) {
 
-						// System.out.printf("%s %s %s %d %s\n",
-						// art.getInvoice(),
-						// art.getClient(), art.getArtikulName(),
-						// art.getQuantity(), art.getDate());
-
 						if (quantityToDecrease > art.getQuantity()) {
 							// decrease art.getQuantity
 							Artikuli_DB.decreaseArtikul_Quantity(dbTable,
 									art.getArtikulName(), art.getKontragent(),
 									art.getInvoiceByKontragent(),
 									art.getQuantity());
-
-							// System.out.printf("%s %s %s %d %d %s",
-							// art.getArtikulName(), art.getKontragent(),
-							// art.getInvoiceByKontragent(),
-							// art.getQuantity(), 0,
-							// GetDate.getReversedSystemDate());
 
 							quantityToDecrease -= art.getQuantity();
 

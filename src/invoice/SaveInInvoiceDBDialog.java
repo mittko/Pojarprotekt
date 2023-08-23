@@ -165,7 +165,6 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 				// TODO Auto-generated method stub
 				invoiceRadioButton.setEnabled(!fiskalRadioButton.isSelected());
 				invoiceRadioButton.setSelected(false);
-
 //				    if(!payment.equals("В брой")) { // is not proform window
 //						proformRadioButton.setEnabled(!fiskalRadioButton.isSelected());
 //					}

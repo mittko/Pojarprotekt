@@ -3,6 +3,7 @@ package Reports;
 import Reports.ReportsRenderers.InvoiceTableRenderer;
 import Reports.ReportsWorkers.ExportToExcellWorkerInvocie;
 import Reports.ReportsWorkers.PrintInvoiceAndProformWorker;
+import Reports.ReportsWorkers.RestoreQuantity;
 import run.JDialoger;
 import utils.LoadIcon;
 import utils.MainPanel;
@@ -149,6 +150,24 @@ public class ReportTableInvoice extends MainPanel {
 					public void call(String cmd) {
 						if(cmd.equals("Потвърди")) {
 							System.out.println("Потвърди");
+							Integer[] selectedIndexes = getSelectedIndexes(
+									SELECTED_INDEX, 0);
+							for(int i = 0;i < selectedIndexes.length;i++) {
+								String clientTets = dftm.getValueAt(i+selectedIndexes[0],4).toString();
+								String artikul = dftm.getValueAt(i+selectedIndexes[0],9).toString();
+								String kontragent = dftm.getValueAt(i+selectedIndexes[0],15).toString();
+								String invoiceByKontragent = dftm.getValueAt(i+selectedIndexes[0],16).toString();
+								String quantityAsString = dftm.getValueAt(i+selectedIndexes[0],11).toString();
+
+								RestoreQuantity restoreQuantity =
+									new RestoreQuantity(AVAILABLE_ARTIKULS,
+											artikul,kontragent,invoiceByKontragent,
+											quantityAsString);
+								restoreQuantity.execute();
+							}
+
+
+
 						} else if(cmd.equals("Принтирай")) {
 							System.out.println("Принтирай");
 							if (SELECTED_INDEX == -1) {
@@ -173,8 +192,11 @@ public class ReportTableInvoice extends MainPanel {
 //									TITLE = "Кредитно Известие";
 //									PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
 //									break;
+
+
 								Integer[] selectedIndexes = getSelectedIndexes(
 										SELECTED_INDEX, 0);
+								System.out.println(selectedIndexes[0] + " " + selectedIndexes.length);
 								PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
 										null, dftm, jd, selectedIndexes[0],
 										selectedIndexes.length, TITLE, PATH);//
@@ -214,8 +236,8 @@ public class ReportTableInvoice extends MainPanel {
 		};
 
 		System.out.println("продажби = " + childData.size());
-		for (int row = 0; row < childData.size(); row++) {
-			dftm.addRow(childData.get(row));
+		for (Object[] childDatum : childData) {
+			dftm.addRow(childDatum);
 		}
 
 		table = new JTable(dftm);
@@ -238,17 +260,11 @@ public class ReportTableInvoice extends MainPanel {
 
 		resizeColumnWidth(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		// JTable rowTable = new RowNumberTable(table); //****
 
 		JScrollPane scroll = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setPreferredSize(new Dimension(WIDTH - 50, (HEIGHT - 70)));
-		// scroll.getVerticalScrollBar().setUI(new YourUI());
-		// scroll.getHorizontalScrollBar().setUI(new YourUI());
-		// scroll.setRowHeaderView(rowTable); //****
-		// scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER,//****
-		// rowTable.getTableHeader());//****
 
 		basePanel.add(northPanel, BorderLayout.NORTH);
 		basePanel.add(scroll, BorderLayout.CENTER);

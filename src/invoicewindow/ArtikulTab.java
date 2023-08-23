@@ -75,7 +75,6 @@ public class ArtikulTab extends MainPanel {
 								String discount = new GetDiscountWorker(
 										clientCombo.getSelectedItem()
 												.toString()).doInBackground();
-
 								discountField.setText(discount);
 								choiceDiscountButton.setDefaultIcon();
 
@@ -131,7 +130,6 @@ public class ArtikulTab extends MainPanel {
 							"Не е въведена отстъпка!");
 					return;
 				}
-
 				SkladArtikulFrame skladArtikulFrame = new SkladArtikulFrame(
 						dftm/*
 							 * , sumField
@@ -212,7 +210,6 @@ public class ArtikulTab extends MainPanel {
 		});
 
 		TooltipButton eraserButton = new TooltipButton();
-		// eraserButton.setPreferredSize(new Dimension(55,55));
 		eraserButton.setToolTipText(getHTML_Text("ИЗТРИЙ  ДАННИТЕ"));
 		eraserButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
@@ -279,8 +276,6 @@ public class ArtikulTab extends MainPanel {
 			}
 
 		});
-		// artikuliModel = new DefaultTableModel(new String[] {"Артикули",
-		// "К-во" },0);
 
 		onlyArticulsTable = new JTable(dftm);
 		// скрий кoлoни фактура и кoнтрагент
@@ -390,53 +385,27 @@ public class ArtikulTab extends MainPanel {
 		northPanel.add(eraserButton);
 		northPanel.add(dbButton);
 
-		/*
-		 * acquittanceNumLabel = new BevelLabel();
-		 * acquittanceNumLabel.setPreferredSize( (new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.3),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
-		 * acquittanceNumLabel.setTitle("Стокова Разписка \u2116 ");
-		 * acquittanceNumLabel.setName("");
-		 */
+
 		float labelHeight = (int) (southPanel.getPreferredSize().getHeight() * 0.8);
 
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
-		/*
-		 * sallerLabel.setPreferredSize( (new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.3),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
-		 */
+
 		sallerLabel.setTitle(Enums.Оператор.name() +  ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);
-		/*
-		 * dateLabel.setPreferredSize( (new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.15),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
-		 */
+
 		dateLabel.setTitle("Дата : ");
 		dateLabel.setName(MyGetDate.getReversedSystemDate());
 
 		BevelLabel sumLabel1 = new BevelLabel(labelHeight);
 		sumLabel1.setTitle("");
 		sumLabel1.setName("Сума без ДДС : ");
-		/*
-		 * sumLabel1.setPreferredSize( (new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.1),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
-		 */
 
 		BevelLabel sumLabel2 = new BevelLabel(labelHeight);
 		sumLabel2.setTitle("");
 		sumLabel2.setName("Сума с ДДС : ");
-		/*
-		 * sumLabel2.setPreferredSize( (new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.1),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8))));
-		 */
 
-		// southPanel.add(acquittanceNumLabel);
 		southPanel.add(sallerLabel);
 		southPanel.add(dateLabel);
 		southPanel.add(sumLabel1);

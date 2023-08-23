@@ -84,7 +84,7 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 				// this solution has no errors but don't merge same artikuls !!!
 				isCreated = pdf.createInvoicePDF(clientInfo, Number,
 						timeStamps[i], datePdf, payment,dftm, PATH + "\\"
-								+ TITLE + "-", TITLE, ƒ”¡À» ¿“[i], 0,
+								+ TITLE + "-", TITLE, ƒ”¡À» ¿“[i], startIndex,
 						endIndex, saller);
 				// update invoice number
 				if (isCreated) {
