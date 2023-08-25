@@ -631,14 +631,13 @@ public class Artikuli_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return null;
 			}
 		}
 	}
 
-	// this method update artikuls quantity
-	public static int decreaseArtikul_Quantity(String dbTable, String artikul, String client,
-											   String invoice, int i) {
+	public static int markInvoiceAsCreditNote(String dbTable, String artikul, String kontragent,
+											  String kontragentColumn, String invoiceByKontragent,
+											  String invoiceByKontragentColumn,String invoiceNumOfDocument,  int i) {
 		Connection connect = null;
 		Statement stat = null;
 		PreparedStatement ps = null;
@@ -648,8 +647,60 @@ public class Artikuli_DB extends MainPanel {
 		 * + "'";
 		 */
 		String command = "update "
-				+ dbTable
-				+ " set quantity = (quantity - ?) where (artikul = ? and client = ? and invoice = ?) and (quantity > 0)";
+					+ dbTable
+					+ " set quantity = ? where (artikul = ? and " + kontragentColumn +
+					" = ? and " + invoiceByKontragentColumn + " = ?) and (InvoiceChildDB7.id = ?)";
+
+		int update = 0;
+		try {
+			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			ps = connect.prepareStatement(command);
+			ps.setString(1, i + "");
+			ps.setString(2, artikul);
+			ps.setString(3, kontragent);
+			ps.setString(4, invoiceByKontragent);
+			ps.setString(5,invoiceNumOfDocument);
+			update = ps.executeUpdate();
+			// stat = connect.createStatement();
+			// update = stat.executeUpdate(command);
+			return update;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			DBException.DBExceptions("Грешка", e);
+			DB_Err.writeErros(e.toString());
+			e.printStackTrace();
+			return update;
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				DBException.DBExceptions("Грешка", e);
+				DB_Err.writeErros(e.toString());
+				e.printStackTrace();
+			}
+		}
+	}
+	// this method update artikuls quantity
+	public static int decreaseArtikul_Quantity(String dbTable, String artikul, String client,
+											   String clientColumn, String invoice, String invoiceColumn, int i) {
+		Connection connect = null;
+		Statement stat = null;
+		PreparedStatement ps = null;
+		/*
+		 * String command2 = "update " + ARTIKULS +
+		 * " set quantity = quantity - " + i + " where artikul like '" + artikul
+		 * + "'";
+		 */
+		String command = "update "
+					+ dbTable
+					+ " set quantity = (quantity - ?) where (artikul = ? and " + clientColumn +
+					" = ? and " + invoiceColumn + " = ?) and (quantity > 0)";
 		int update = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
@@ -681,7 +732,6 @@ public class Artikuli_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return update;
 			}
 		}
 	}

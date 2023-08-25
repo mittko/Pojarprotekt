@@ -59,18 +59,16 @@ public class DecreaseArtikulQuantityWorker extends SwingWorker {
 						if (quantityToDecrease > art.getQuantity()) {
 							// decrease art.getQuantity
 							Artikuli_DB.decreaseArtikul_Quantity(dbTable,
-									art.getArtikulName(), art.getKontragent(),
-									art.getInvoiceByKontragent(),
-									art.getQuantity());
+									art.getArtikulName(), art.getKontragent(),"client" ,
+                                    art.getInvoiceByKontragent(),"invoice" , art.getQuantity());
 
 							quantityToDecrease -= art.getQuantity();
 
 						} else if (quantityToDecrease <= art.getQuantity()) {
 							// decrease quantity
 							Artikuli_DB.decreaseArtikul_Quantity(dbTable,
-									art.getArtikulName(), art.getKontragent(),
-									art.getInvoiceByKontragent(),
-									quantityToDecrease);
+									art.getArtikulName(), art.getKontragent(),"client" ,
+                                    art.getInvoiceByKontragent(), "invoice", quantityToDecrease);
 
 							// System.out.printf("%s %s %s %d %d %s",
 							// art.getArtikulName(), art.getKontragent(),

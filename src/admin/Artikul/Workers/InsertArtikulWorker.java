@@ -94,40 +94,6 @@ public class InsertArtikulWorker extends SwingWorker
 		this.jd = jd;
 	}
 
-	public InsertArtikulWorker(final String artikul, final int quantity, final String med, final String deliveryValue, final String saleValue, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit, final JDialog jd) {
-		this.artikul = null;
-		this.quantity = 0;
-		this.med = null;
-		this.saleValue = null;
-		this.invoiceNumber = null;
-		this.client = null;
-		this.seller = null;
-		this.percentProfit = null;
-		this.insertIntoArtikuls = 0;
-		this.insertIntoDeliveryArtikuls = 0;
-		this.clientsComboBox = null;
-		this.artikulsComboBox = null;
-		this.skladField = null;
-		this.medField = null;
-		this.deliveryValueField = null;
-		this.bigFinalValueField = null;
-		this.invoiceField = null;
-		this.dateField = null;
-		this.personField = null;
-		this.percentProfitField = null;
-		this.jd = null;
-		this.artikul = artikul;
-		this.quantity = quantity;
-		this.med = med;
-		this.deliveryValue = deliveryValue;
-		this.saleValue = saleValue;
-		this.invoiceNumber = invoiceNumber;
-		this.client = client;
-		this.date = date;
-		this.seller = seller;
-		this.percentProfit = percentProfit;
-		this.jd = jd;
-	}
 
 	@Override
 	protected Object doInBackground() throws Exception {

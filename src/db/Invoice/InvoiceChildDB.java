@@ -8,6 +8,9 @@ import java.sql.*;
 
 public class InvoiceChildDB extends MainPanel {
 
+	public void clearInvoiceArtikuls(String artikul, String kontragent, String invoiceByKontragent) {
+		String command = "";
+	}
 	private void createInvoiceChildDB() {
 		Connection connect = null;
 		Statement stat = null;

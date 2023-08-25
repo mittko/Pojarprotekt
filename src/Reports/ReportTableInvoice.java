@@ -153,19 +153,38 @@ public class ReportTableInvoice extends MainPanel {
 							Integer[] selectedIndexes = getSelectedIndexes(
 									SELECTED_INDEX, 0);
 							for(int i = 0;i < selectedIndexes.length;i++) {
+								String invoiceNumOfDocument = dftm.getValueAt(i+selectedIndexes[0],0).toString();
 								String clientTets = dftm.getValueAt(i+selectedIndexes[0],4).toString();
 								String artikul = dftm.getValueAt(i+selectedIndexes[0],9).toString();
 								String kontragent = dftm.getValueAt(i+selectedIndexes[0],15).toString();
 								String invoiceByKontragent = dftm.getValueAt(i+selectedIndexes[0],16).toString();
 								String quantityAsString = dftm.getValueAt(i+selectedIndexes[0],11).toString();
 
-								RestoreQuantity restoreQuantity =
-									new RestoreQuantity(AVAILABLE_ARTIKULS,
-											artikul,kontragent,invoiceByKontragent,
-											quantityAsString);
-								restoreQuantity.execute();
-							}
+//								RestoreQuantity restoreQuantity =
+//									new RestoreQuantity(AVAILABLE_ARTIKULS,
+//											artikul,kontragent,"client",invoiceByKontragent,
+//											"invoice",
+//											quantityAsString);
+//								restoreQuantity.execute();
 
+//								RestoreQuantity restoreQuantity2 =
+//										new RestoreQuantity(DELIVERY_ARTIKULS,
+//												artikul,kontragent,"kontragent",invoiceByKontragent,
+//												"invoiceByKontragent",
+//												quantityAsString);
+//								restoreQuantity2.execute();
+
+								RestoreQuantity restoreQuantity3 =
+										new RestoreQuantity(INVOICE_CHILD,
+												artikul,
+												kontragent,
+												"kontragent",
+												invoiceByKontragent,
+												"invoiceByKontragent",
+												invoiceNumOfDocument,
+												"0");
+								restoreQuantity3.execute();
+							}
 
 
 						} else if(cmd.equals("Принтирай")) {
