@@ -1,6 +1,7 @@
 package ThermalPrinters.CitizenPrinters;
 
 import mydate.MyGetDate;
+import utils.MainPanel;
 
 import javax.print.*;
 import javax.print.attribute.HashAttributeSet;
@@ -219,7 +220,7 @@ public class CitizenPrinterManager {
                setPrintingAngle(horizontalAngle);
                setRowAddress(new byte[]{0, 2, 7, 3});   // move on top/down on portrait model
                setColumnAddress(new byte[]{0, 0, 5, 2});// move on left/right on portrait mode
-               byteArrayOutputStream.write(constructBarcodeDataToSend(barcode).getBytes());
+               byteArrayOutputStream.write( (constructBarcodeDataToSend(barcode)).getBytes());
                byteArrayOutputStream.write(CR);
            } catch (ParseException e) {
                System.out.println(e.getMessage());
@@ -251,7 +252,7 @@ public class CitizenPrinterManager {
                // БАРКОД ПРЕЗАРЕЖДАНЕ !!!
                setRowAddress(new byte[]{0, 1, 4, 6});   // move on top/down on portrait model
                setColumnAddress(new byte[]{0, 0, 5, 2});// move on left/right on portrait mode
-               byteArrayOutputStream.write(constructBarcodeDataToSend(barcode).getBytes());//"1F6405000200040111111111111".getBytes());
+               byteArrayOutputStream.write((constructBarcodeDataToSend(barcode)).getBytes());//"1F6405000200040111111111111".getBytes());
                byteArrayOutputStream.write(CR); /*data for printing data format is delimeted by A CR and then transmitted*/
            } catch (ParseException e) {
                System.out.println(e.getMessage());
@@ -283,7 +284,7 @@ public class CitizenPrinterManager {
                setPrintingAngle(horizontalAngle);
                setRowAddress(new byte[]{0, 0, 1, 8});   // move on top/down on portrait model
                setColumnAddress(new byte[]{0, 0, 5, 2});// move on left/right on portrait mode
-               byteArrayOutputStream.write(constructBarcodeDataToSend(barcode).getBytes());
+               byteArrayOutputStream.write( (constructBarcodeDataToSend(barcode)).getBytes());
                byteArrayOutputStream.write(CR);
            } catch (ParseException e) {
                System.out.println(e.getMessage());

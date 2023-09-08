@@ -378,8 +378,7 @@ public class WorkingBook extends MainPanel {
 
 
 		penButton = new TooltipButton();
-		// penButton.setIcon(setIcons(penImage));
-		// penButton.setPreferredSize(new Dimension(55,55));
+
 		penButton.setEnabled(false);
 
 		penButton.setToolTipText(getHTML_Text("«¿œ»ÿ» ¬ Œ¡–¿¡Œ“≈Õ»"));
@@ -514,8 +513,6 @@ public class WorkingBook extends MainPanel {
 
 		table.setDefaultRenderer(Object.class, new MyTableRenderer(table));
 		table.setRowHeight(Common.getFontSize() + 15);
-		// table.getColumnModel().getColumn(2).setCellEditor(
-		// new Work_TableCellEditor(new CustomTextField()));
 
 		table.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 
@@ -528,9 +525,6 @@ public class WorkingBook extends MainPanel {
 
 		Dimension dim = new Dimension(this.WIDTH - 20,
 				(int) (this.HEIGHT * 0.57));
-		// this.HEIGHT -
-		// north.getPreferredSize().height -
-		// scroll.getPreferredSize().height - southHeight);
 
 		centerCenter.setPreferredSize(dim);
 
@@ -578,7 +572,6 @@ public class WorkingBook extends MainPanel {
 
 		south.setPreferredSize(new Dimension((int) (this.WIDTH * 1.0) - 20,
 				(int) (this.HEIGHT * 0.09)));// southHeight -100) );
-		// setSizeOfSouthPanel(centerCenter.getPreferredSize().height);
 
 		int labHeight = (int) (north.getPreferredSize().getHeight() * 0.9);
 		BevelLabel tehnikLabel = new BevelLabel(labHeight);

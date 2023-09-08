@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class GetCurrentIP {
 	// 78.142.42.215 Public IP
-	public static String DB_PATH="jdbc:derby://78.142.42.215:1527/D:/RealDB";
+	public static String DB_PATH="jdbc:derby://78.142.42.215:1527/D:/RealDB";//78.142.42.215
 	public static String LPS_DB_PATH="jdbc:derby://78.142.42.215:1527/D:/RealDBLPS";
 
 	// = "jdbc:derby://127.0.0.1:1527/C:/Local/RealDB";

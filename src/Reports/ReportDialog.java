@@ -5,6 +5,7 @@ import Reports.gui_edt.*;
 import db.Common;
 import db.NewExtinguisher.NewExtinguishers_DB;
 import db.Report.ReportRequest;
+import db.creditnote.CreditNoteTable;
 import mydate.MyGetDate;
 import run.JustFrame;
 import utils.*;
@@ -86,7 +87,6 @@ public class ReportDialog extends MainPanel {
 		menu.setBorder(BorderFactory.createRaisedBevelBorder());
 
 		ButtonGroup bGroup = new ButtonGroup();
-
 
 
 		rbmi = new JRadioButtonMenuItem("Сервизна Поръчка");
@@ -604,6 +604,11 @@ public class ReportDialog extends MainPanel {
 										+ " - " + to);
 								SwingUtilities.invokeLater(edt);
 								break;
+							} case CREDIT_NOTE: {
+								ArrayList<ArrayList<Object>> notes =
+										CreditNoteTable.getCreditNotes();
+								EDTCreditNote edtCreditNote = new EDTCreditNote(notes,jDialog,"Кредитно Известие");
+								SwingUtilities.invokeLater(edtCreditNote);
 							}
 						}
 
@@ -686,19 +691,19 @@ public class ReportDialog extends MainPanel {
 		int selectedCriterii = 0;
 		String selectWhat = "";
 		switch (dest) {
-		case SERVICE:
-			selectWhat = "select client, type, wheight, barcod, serial, category, brand, "
-					+ "T_O, P, HI, done, number, person, date , additional_data from ";
-			break;
-		case PROTOKOL:
-			selectWhat = "select client, type, wheight, barcod, serial, category, brand,"
-					+ " T_O, P, HI, parts, value, number, person, date , kontragent, invoiceByKontragent, additional_data, uptodate from ";
-			break;
-		case BRACK:
-			selectWhat = "select * from ";
-			break;
-		default:
-			break;
+			case SERVICE:
+				selectWhat = "select client, type, wheight, barcod, serial, category, brand, "
+						+ "T_O, P, HI, done, number, person, date , additional_data from ";
+				break;
+			case PROTOKOL:
+				selectWhat = "select client, type, wheight, barcod, serial, category, brand,"
+						+ " T_O, P, HI, parts, value, number, person, date , kontragent, invoiceByKontragent, additional_data, uptodate from ";
+				break;
+			case BRACK:
+				selectWhat = "select * from ";
+				break;
+			default:
+				break;
 		}
 
 		mainCommand1.append(selectWhat).append(dest); // "select * from "
@@ -970,7 +975,7 @@ public class ReportDialog extends MainPanel {
 			mainCommand1.append("date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
 			selectedCriterii++;
 		}
-		 mainCommand1.append(" order by CAST(date as DATE) desc");
+		mainCommand1.append(" order by CAST(date as DATE) desc");
 		return mainCommand1.toString();
 	}
 
@@ -1110,10 +1115,10 @@ public class ReportDialog extends MainPanel {
 	private String buildCommandForInvoiceFromTo(String from, String to) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("select InvoiceChildDB7.artikul, InvoiceChildDB7.quantity," +
-				" InvoiceChildDB7.price, InvoiceParentDB5.date from " +
-				INVOICE_CHILD + "," + INVOICE_PARENT +
-				" where InvoiceParentDB5.id = InvoiceChildDB7.id" +
-				" and InvoiceParentDB5.date between " + "Date('")
+						" InvoiceChildDB7.price, InvoiceParentDB5.date from " +
+						INVOICE_CHILD + "," + INVOICE_PARENT +
+						" where InvoiceParentDB5.id = InvoiceChildDB7.id" +
+						" and InvoiceParentDB5.date between " + "Date('")
 				.append(from).append("')").append(" and ").append("Date('").append(to).append("')");
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
 			sb.append(" and  InvoiceChildDB7.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
@@ -1122,9 +1127,9 @@ public class ReportDialog extends MainPanel {
 	}
 
 	private void setComponentState(boolean so, boolean prot, boolean fact,
-			boolean acq, boolean ser, boolean bar, boolean artikul,
-			boolean newExtinguisher, boolean type, boolean whei, boolean cat,
-			boolean brand, boolean doing) {
+								   boolean acq, boolean ser, boolean bar, boolean artikul,
+								   boolean newExtinguisher, boolean type, boolean whei, boolean cat,
+								   boolean brand, boolean doing) {
 		so_field.setEditable(so);
 		prot_field.setEditable(prot);
 		fact_field.setEditable(fact);

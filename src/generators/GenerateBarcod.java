@@ -8,14 +8,23 @@ import Log.PdfErr;
 import PDF.OpenPDFDocument;
 import PDF.PdfCreator;
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
+import com.itextpdf.text.pdf.qrcode.EncodeHintType;
+import com.itextpdf.text.pdf.qrcode.ErrorCorrectionLevel;
+import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
 import mydate.MyGetDate;
 import utils.MainPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GenerateBarcod {
 	Image img;
@@ -33,8 +42,8 @@ public class GenerateBarcod {
 		File f = new File(MainPanel.BARCODE_PDF_PATH + out);
 		System.out.println(f.getAbsolutePath());
 		if (f.exists()) {
-				JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
-				return false;
+			JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
+			return false;
 		}
 
 		// this hardcoded values are due to trial errors
@@ -112,8 +121,8 @@ public class GenerateBarcod {
 		File f = new File(MainPanel.BARCODE_PDF_PATH + out);
 		System.out.println(f.getAbsolutePath());
 		if (f.exists()) {
-				JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
-				return false;
+			JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
+			return false;
 		}
 
 		// this hardcoded values are due to trial errors
@@ -179,6 +188,7 @@ public class GenerateBarcod {
 
 		return true;
 	}
+
 	private static void drawLine(int x1, int y1, int x2, int y2,
 								 PdfContentByte canvas, float lineWidth) {
 		canvas.setLineWidth(lineWidth);
@@ -204,6 +214,72 @@ public class GenerateBarcod {
 		template.showText(text);
 		template.endText();
 		return template;
+	}
+
+	public static boolean generateQRStickerAsPdf(String code, String out, String nextDate) {
+		Document document = new Document(new Rectangle(120f, 360f)); // local
+		// new
+		// Document(new
+		// Rectangle(120f
+		// ,
+		// 720f)
+		// );
+
+        /*File f = new File(MainPanel.BARCODE_PDF_PATH + out);
+		if (f.exists()) {
+			JOptionPane.showMessageDialog(null, "Този номер е използван !!!");
+			return false;
+		}*/
+
+		PdfWriter writer = null;
+		try {
+			writer = PdfWriter.getInstance(document, new FileOutputStream(
+					MainPanel.BARCODE_PDF_PATH + out));
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			InOutException.showIOException(e);
+			IOErrorsWriter.writeIO(e.toString());
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			PDFException.showPDFException(e);
+			PdfErr.pdfErros(e.toString());
+			e.printStackTrace();
+		}
+		document.open();
+
+		PdfContentByte cb = writer.getDirectContent();
+
+
+		BarcodeQRCode barcodeQRCode = new BarcodeQRCode("IText Barcode tutorials from BE THE CODER",
+				50, 50, null);
+		Image codeQrImage = null;
+		try {
+			codeQrImage = barcodeQRCode.getImage();
+			float imgX = 65;
+			float imgY = document.getPageSize().getHeight() - 107;// 35 local
+			codeQrImage.setAbsolutePosition(imgX, imgY - 385);//368);// 368);
+			//codeQrImage.scaleAbsolute(100, 50);
+			document.add(codeQrImage);
+		} catch (DocumentException e) {
+			PDFException.showPDFException(e);
+			PdfErr.pdfErros(e.toString());
+			e.printStackTrace();
+		}
+
+		// pasteText(writer.getDirectContent(), nextDate, 90);
+
+		//pasteText(writer.getDirectContent(), nextDate, 65);
+
+		// pasteText(writer.getDirectContent(), nextDate, 50);
+
+		// pasteText(writer.getDirectContent(), nextDate, 30);
+
+		// pasteText(writer.getDirectContent(), nextDate, 0);
+		document.close();
+
+		return true;
 	}
 
 	public static boolean generateBarcodOnStickerAsPDF(String code, String out,
@@ -246,14 +322,25 @@ public class GenerateBarcod {
 		codeEAN.setCodeType(Barcode.EAN13);
 		codeEAN.setCode(code);
 
+		BarcodeEAN barcodeEAN2 = new BarcodeEAN();
+		barcodeEAN2.setCodeType(Barcode.SUPP2);
+		barcodeEAN2.setCode("12");
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
 			float imgX = 5;
 			float imgY = document.getPageSize().getHeight() - 107;// 35 local
-			img.setAbsolutePosition(imgX, imgY - 368);// 370);
-			img.scaleToFit(70, 370);// local (150, 370);
+			img.setAbsolutePosition(imgX, imgY - 200);// 368);
+			img.scaleToFit(60, 370);// local (150, 370);
 
 			document.add(img);
+
+			Image img2 = barcodeEAN2.createImageWithBarcode(cb, null, null);
+			float imgX2 = 70;
+			float imgY2 = document.getPageSize().getHeight() - 107;// 35 local
+			img2.setAbsolutePosition(imgX2, imgY2 - 200);// 368);
+			img2.scaleToFit(40, 25);// local (150, 370);
+
+			document.add(img2);
 
 			System.out.println("pos = " + (imgY - 370));// -117.0
 		} catch (DocumentException e) {
@@ -297,7 +384,7 @@ public class GenerateBarcod {
 		PdfTemplate HI_Text = createText("ХИ", cb, bf, 14);
 		PdfTemplate mechanic = createText("техник", cb, bf, 7);
 
-		float rotate = 90;
+		float rotate = 0;// 0 (horizontal date)  90 (vertical date) ;
 		float x = 6f;// 17f;
 		float y = yy;// rabotti -> 500;// 700;
 		float angle = (float) (rotate * (Math.PI / 180));
@@ -307,7 +394,7 @@ public class GenerateBarcod {
 		float yRot = (float) Math.sin(angle);
 
 		// дата на следващо обслужване
-		cb.addTemplate(nextDateT, xScale, xRot, yRot, yScale, 0f, y + 20);
+		cb.addTemplate(nextDateT, xScale, xRot, yRot, yScale, 0f, y - 170);// y+ 20
 		// дата на текущо обслужване
 		cb.addTemplate(currDateT, xScale, xRot, yRot, yScale, x, y + 10);
 

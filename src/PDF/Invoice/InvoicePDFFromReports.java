@@ -67,9 +67,9 @@ public class InvoicePDFFromReports extends PdfCreator {
 	final float finalSumWidth = 12;
 
 	public boolean createInvoicePDF(ArrayList<String> clientInfo, String num,
-			String timeStamp, String invoiceDate, String payment,
-			DefaultTableModel dftm, String target, String TITLE, String TITLE2,
-			int startIndex, int endIndex, String saller) {
+									String timeStamp, String invoiceDate, String payment,
+									DefaultTableModel dftm, String target, String TITLE, String TITLE2,
+									int startIndex, int endIndex, String saller) {
 		this.startIndex = startIndex;
 		this.endIndex = endIndex;
 		this.invoiceDate = invoiceDate;
@@ -84,8 +84,8 @@ public class InvoicePDFFromReports extends PdfCreator {
 				city = clientInfo.get(1); // 1 -> city
 				address = clientInfo.get(2);// 2 -> address
 				String registraciaDDS = extractOnlyDigit(clientInfo.get(3));// 3
-																			// ->
-																			// EIK
+				// ->
+				// EIK
 				String isVatRegistered = clientInfo.get(clientInfo.size()-1);
 				System.out.println("VAT "+isVatRegistered);
 				if(isVatRegistered.equals("да")) {
@@ -116,9 +116,9 @@ public class InvoicePDFFromReports extends PdfCreator {
 					target + timeStamp + "-" + num + ".pdf"));
 
 			pdfWriter.setBoxSize("art", new Rectangle(36, 44, 559, 788));// (36,
-																			// 54,
-																			// 559,
-																			// 788));
+			// 54,
+			// 559,
+			// 788));
 
 			// set num of each sheet
 			MyPDFEventHandler pdfEventHandler = new MyPDFEventHandler();
@@ -193,7 +193,9 @@ public class InvoicePDFFromReports extends PdfCreator {
 		leftUPTable.writeSelectedRows(0, -1, endX, endY,
 				pdfWriter.getDirectContent());
 
-		setTextWithSpacing(TITLE, 6.5f, 220,
+
+		setTextWithSpacing(TITLE, 6.5f, ( document.right()) / 2 -
+						(float) ((TITLE.length()*13)/2),// try to get middle of document and half from text length to position title in the center
 				endY -= (leftUPTable.getTotalHeight() + 25), "arialbd", 13);
 
 		PdfPTable numTable = new PdfPTable(1);
@@ -201,7 +203,7 @@ public class InvoicePDFFromReports extends PdfCreator {
 		Phrase phrase1 = new Phrase();
 		phrase1.add(new Phrase("Място : Дупница", arial11));
 
-		// Font arial11bditalic = getFontAndSize("italicbd",11);
+
 		Font arialbd11 = getFontAndSize("arialbd", 11);
 
 		phrase1.add(new Phrase(
@@ -231,7 +233,7 @@ public class InvoicePDFFromReports extends PdfCreator {
 		try {
 			mainTable.setWidths(new float[] { nWidth, doingWidth, measureWidth,
 					quantityWidth, priceWidth, finalSumWidth });// No|Вид на
-																// стоката(услугата)|Мярка|К-во|Ед.Цена|Стойност
+			// стоката(услугата)|Мярка|К-во|Ед.Цена|Стойност
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			PDFException.showPDFException(e);
@@ -291,8 +293,8 @@ public class InvoicePDFFromReports extends PdfCreator {
 				obslujvane = obslujvane.replace("литра", "л");
 			}
 			partCell = new PdfPCell(new Phrase(obslujvane, arial10)); // uslugi
-																		// //
-																		// dftm.getValueAt(row+startIndex,column).toString()
+			// //
+			// dftm.getValueAt(row+startIndex,column).toString()
 			partCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 			measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
@@ -334,7 +336,7 @@ public class InvoicePDFFromReports extends PdfCreator {
 		try {
 			mainTable.setWidths(new float[] { nWidth, doingWidth, measureWidth,
 					quantityWidth, priceWidth, finalSumWidth });// No|Вид на
-																// стоката(услугата)|Мярка|К-во|Ед.Цена|Стойност
+			// стоката(услугата)|Мярка|К-во|Ед.Цена|Стойност
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			PDFException.showPDFException(e);
@@ -356,10 +358,10 @@ public class InvoicePDFFromReports extends PdfCreator {
 
 		String slovom = new convertFromDoubleToText().convertToText(String
 				.format("%.2f", MyMath.round(danOsnova, 2))); // without LOCALE
-																// because
-																// convertFromDoubleToText()
-																// work only
-																// with comma
+		// because
+		// convertFromDoubleToText()
+		// work only
+		// with comma
 
 		Font arialbd10 = getFontAndSize("arialbd", 10);
 		Phrase phrase2 = new Phrase();
@@ -385,7 +387,7 @@ public class InvoicePDFFromReports extends PdfCreator {
 
 		leftDDSTable.addCell(new Phrase("Данъчна основа: "
 				+ String.format(Locale.ROOT, "%.2f",
-						MyMath.round(danOsnova / 1.2, 2)), arial10));
+				MyMath.round(danOsnova / 1.2, 2)), arial10));
 		leftDDSTable.addCell(new Phrase("Данъчна ставка (ДДС): 20%", arial10));
 		leftDDSTable.addCell(new Phrase("Размер на данъка: "
 				+ String.format(Locale.ROOT, "%.2f", danak), arial10));
@@ -393,7 +395,7 @@ public class InvoicePDFFromReports extends PdfCreator {
 		leftDDSTable.addCell(new Phrase(
 				"Сума за плащане: "
 						+ String.format(Locale.ROOT, "%.2f",
-								MyMath.round(danOsnova, 2)), arialbd10));
+						MyMath.round(danOsnova, 2)), arialbd10));
 
 		ddsTable.addCell(leftDDSTable);
 
@@ -473,7 +475,7 @@ public class InvoicePDFFromReports extends PdfCreator {
 	 * pcb.endText(); }
 	 */
 	private void setTextWithSpacing(String text, float space, float x, float y,
-			String font, float size) {
+									String font, float size) {
 		pcb.beginText();
 		pcb.moveText(x, y);
 		pcb.setFontAndSize(getBaseFont(font), size);

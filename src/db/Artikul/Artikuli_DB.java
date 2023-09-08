@@ -710,8 +710,8 @@ public class Artikuli_DB extends MainPanel {
 			ps.setString(3, client);
 			ps.setString(4, invoice);
 			update = ps.executeUpdate();
-			// stat = connect.createStatement();
-			// update = stat.executeUpdate(command);
+			//stat = connect.createStatement();
+			//update = stat.executeUpdate(command);
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

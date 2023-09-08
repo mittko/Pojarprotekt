@@ -262,6 +262,10 @@ public class MainPanel extends JPanel {
 // TO DO ->	public static String LABEL_PRINTER2;// Citizen
 	public static final String numeroSign = "\u2116";
 
+	public static String STICK_TO_BARCODE = "";
+	public static String STICK_P_BARCODE = "1";
+
+	public static String STICK_HI_BARCODE = "2";
 
 	@Override
 	public int getWidth() {

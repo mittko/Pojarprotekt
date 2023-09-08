@@ -63,10 +63,6 @@ public class View extends MainPanel {
 
 		PDF_PROTOKOL_NUMBER = DB_PROTOKOL_NUMBER;
 
-	//	ProtokolGenerator protokolGenerator = new ProtokolGenerator();
-
-	//	ProtokolNumber prNumber = new ProtokolNumber();
-
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -88,18 +84,11 @@ public class View extends MainPanel {
 
 		float labelHeight = (int) (northNorth.getPreferredSize().getHeight() * 0.7);
 		BevelLabel label = new BevelLabel(labelHeight);
-		/*
-		 * label.setPreferredSize(new Dimension(
-		 * (int)(northNorth.getPreferredSize().getWidth() * 0.2),
-		 * (int)(northNorth.getPreferredSize().getHeight() * 0.7)));
-		 */
+
 		label.setTitle("Обработени до момента");
 		label.setName("");
 
 		TooltipButton dbButton = new TooltipButton();
-
-		// dbButton.setPreferredSize(new Dimension(55,55));
-		// dbButton.setIcon(setIcons(dbImage));
 
 		dbButton.setToolTipText(getHTML_Text("ЗАПИШИ В БАЗА ДАННИ"));
 		dbButton.setPreferredSize(new Dimension((int) (northNorth

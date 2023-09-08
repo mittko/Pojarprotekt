@@ -4,6 +4,8 @@ import Reports.ReportsRenderers.InvoiceTableRenderer;
 import Reports.ReportsWorkers.ExportToExcellWorkerInvocie;
 import Reports.ReportsWorkers.PrintInvoiceAndProformWorker;
 import Reports.ReportsWorkers.RestoreQuantity;
+import WorkingBook.StickerJDialog;
+import db.creditnote.CreditNoteTable;
 import run.JDialoger;
 import utils.LoadIcon;
 import utils.MainPanel;
@@ -144,46 +146,71 @@ public class ReportTableInvoice extends MainPanel {
 		creditNoteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String client = dftm.getValueAt(SELECTED_INDEX,4).toString();
+				String invoiceNumOfDocument = dftm.getValueAt(SELECTED_INDEX,0).toString();
+
 				JDialoger dialoger = new JDialoger();
-				CreditNoteDialog creditNoteDialog = new CreditNoteDialog(new MyCallback<String>() {
+				CreditNoteDialog creditNoteDialog = new CreditNoteDialog(client,
+						invoiceNumOfDocument, new MyCallback<String>() {
 					@Override
 					public void call(String cmd) {
 						if(cmd.equals("Потвърди")) {
-							System.out.println("Потвърди");
+
 							Integer[] selectedIndexes = getSelectedIndexes(
 									SELECTED_INDEX, 0);
 							for(int i = 0;i < selectedIndexes.length;i++) {
 								String invoiceNumOfDocument = dftm.getValueAt(i+selectedIndexes[0],0).toString();
-								String clientTets = dftm.getValueAt(i+selectedIndexes[0],4).toString();
+								String payment = dftm.getValueAt(i+selectedIndexes[0],1).toString();
+								String discount = dftm.getValueAt(i+selectedIndexes[0],2).toString();
+								String sum = dftm.getValueAt(i+selectedIndexes[0],3).toString();
+								String client = dftm.getValueAt(i+selectedIndexes[0],4).toString();
+								String saller = dftm.getValueAt(i+selectedIndexes[0],5).toString();
+								String date = dftm.getValueAt(i+selectedIndexes[0],6).toString();
+								String protokolNumber = dftm.getValueAt(i+selectedIndexes[0],7).toString();
+
 								String artikul = dftm.getValueAt(i+selectedIndexes[0],9).toString();
+								String med = dftm.getValueAt(i+selectedIndexes[0],10).toString();
+								String quantity = dftm.getValueAt(i+selectedIndexes[0],11).toString();
+								String price = dftm.getValueAt(i+selectedIndexes[0],12).toString();
+								String value = dftm.getValueAt(i+selectedIndexes[0],13).toString();
+
 								String kontragent = dftm.getValueAt(i+selectedIndexes[0],15).toString();
 								String invoiceByKontragent = dftm.getValueAt(i+selectedIndexes[0],16).toString();
-								String quantityAsString = dftm.getValueAt(i+selectedIndexes[0],11).toString();
 
-//								RestoreQuantity restoreQuantity =
-//									new RestoreQuantity(AVAILABLE_ARTIKULS,
-//											artikul,kontragent,"client",invoiceByKontragent,
-//											"invoice",
-//											quantityAsString);
-//								restoreQuantity.execute();
+//								System.out.println("invoiceNumOfDocument " + invoiceNumOfDocument);
+//								System.out.println("payment "+payment);
+//								System.out.println("discount "+discount);
+//								System.out.println("sum "+sum);
+//								System.out.println("client "+client);
+//								System.out.println("saller "+saller);
+//								System.out.println("date "+date);
+//								System.out.println("protokolNumber "+protokolNumber);
+//								System.out.println("artikul "+artikul);
+//								System.out.println("med "+med);
+//								System.out.println("quantity "+quantity);
+//								System.out.println("price "+price);
+//								System.out.println("value "+value);
+//								System.out.println("kontragent "+kontragent);
+//								System.out.println("invoiceByKontragent "+invoiceByKontragent);
 
-//								RestoreQuantity restoreQuantity2 =
-//										new RestoreQuantity(DELIVERY_ARTIKULS,
-//												artikul,kontragent,"kontragent",invoiceByKontragent,
-//												"invoiceByKontragent",
-//												quantityAsString);
-//								restoreQuantity2.execute();
-
-								RestoreQuantity restoreQuantity3 =
-										new RestoreQuantity(INVOICE_CHILD,
-												artikul,
-												kontragent,
-												"kontragent",
-												invoiceByKontragent,
-												"invoiceByKontragent",
-												invoiceNumOfDocument,
-												"0");
-								restoreQuantity3.execute();
+								RestoreQuantity restoreQuantity =
+									new RestoreQuantity(
+											invoiceNumOfDocument,
+											payment,
+											discount,
+											sum,
+											client,
+											saller,
+											date,
+											protokolNumber,
+											artikul,
+											med,
+											quantity,
+											price,
+											value,
+											kontragent,
+											invoiceByKontragent);
+								restoreQuantity.execute();
 							}
 
 
@@ -254,7 +281,7 @@ public class ReportTableInvoice extends MainPanel {
 			}
 		};
 
-		System.out.println("продажби = " + childData.size());
+
 		for (Object[] childDatum : childData) {
 			dftm.addRow(childDatum);
 		}

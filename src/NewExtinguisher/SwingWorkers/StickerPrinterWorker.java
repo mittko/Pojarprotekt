@@ -1,6 +1,9 @@
 package NewExtinguisher.SwingWorkers;
 
+import JPrinter.PrintSticker.PrintSticker;
+import PDF.OpenPDFDocument;
 import ThermalPrinters.CitizenPrinters.CitizenPrinterManager;
+import generators.GenerateBarcod;
 import utils.MainPanel;
 
 import javax.swing.*;
@@ -27,15 +30,20 @@ public class StickerPrinterWorker extends SwingWorker {
 		// Едната дата не я принтира засега остава закоментирано
 
 		System.out.println("("+ nextDateTO + ") (" + nextDateP + ") (" + nextDateHI+")");
-		for(int i = 0;i < numberOfPrints;i++) {
-			citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0,barcod.length()-1),
-					nextDateTO,nextDateP,nextDateHI, MainPanel.personName);
-		}
 
-//	 	boolean pdf = GenerateBarcod.generateBarcodOnStickerAsPDF(barcod, barcod + doing + "-стикер.pdf",nextDate);
+			citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0,barcod.length()-1)
+					, nextDateTO,nextDateP,nextDateHI, MainPanel.personName);
+
+
+//	 	boolean pdf = GenerateBarcod.generateBarcodOnStickerAsPDF(barcod, barcod +
+//				MainPanel.STICK_TO_BARCODE + "-стикер.pdf",nextDateTO);
 //		 if(pdf) {
 //		 	for(int i = 0;i < numberOfPrints;i++) {
-//				PrintSticker.printPDF(MainPanel.BARCODE_PDF_PATH, barcod + doing + "-стикер.pdf");
+//
+//				OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH + barcod +
+//						MainPanel.STICK_TO_BARCODE + "-стикер.pdf");
+////				PrintSticker.printPDF(MainPanel.BARCODE_PDF_PATH, barcod +
+////						MainPanel.STICK_TO_BARCODE + "-стикер.pdf");
 //			}
 //		 }
 	   	return null;

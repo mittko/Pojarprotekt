@@ -15,6 +15,8 @@ public class EDTAcquitance extends MainPanel implements Runnable {
 	private JDialog jd;
 	private String title;
 
+	private MainPanel content;
+
 	public EDTAcquitance(ArrayList<Object[]> data, JDialog jd, String title) {
 		this.data = data;
 		this.jd = jd;
