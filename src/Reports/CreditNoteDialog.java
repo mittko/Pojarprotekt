@@ -22,7 +22,7 @@ public class CreditNoteDialog extends MainPanel {
         BorderLayout borderLayout = new BorderLayout();
         borderLayout.setVgap(20);
         jPanel.setLayout(borderLayout);
-        JLabel titleLabel = new JLabel("КРЕДИТНО ИЗВЕСТИЕ");
+        JLabel titleLabel = new JLabel("Желаете ли да създадете кредитно известие за този документ ?");
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         jPanel.add(titleLabel,BorderLayout.NORTH);
         JLabel clientLabel = new JLabel("Клиент:     " + client);

@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import Exceptions.JustExceptionDialog;
+import Exceptions.ErrorDialog;
 
 public class ExtinguishersInfo implements Comparable<ExtinguishersInfo> {
 
@@ -35,7 +35,7 @@ public class ExtinguishersInfo implements Comparable<ExtinguishersInfo> {
 			this.date = sdf.parse(dateString);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			JustExceptionDialog.showException(e);
+			ErrorDialog.showErrorMessage(e);
 			e.printStackTrace();
 		}
 	}

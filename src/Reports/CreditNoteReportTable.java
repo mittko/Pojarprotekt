@@ -1,5 +1,6 @@
 package Reports;
 
+import Reports.ReportsRenderers.InvoiceTableRenderer;
 import Reports.ReportsWorkers.PrintInvoiceAndProformWorker;
 import utils.MainPanel;
 
@@ -69,6 +70,7 @@ public class CreditNoteReportTable extends MainPanel {
             defaultTableModel.addRow(o.toArray());
         }
         final JTable table = new JTable(defaultTableModel);
+        table.setDefaultRenderer(Object.class, new InvoiceTableRenderer());
        table.addMouseListener(new MouseAdapter() {
            @Override
            public void mouseClicked(MouseEvent e) {

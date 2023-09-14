@@ -115,6 +115,32 @@ public class CreditNoteTable {
        return data;
     }
 
+    public static boolean checkIsDocumentWritten(String numOfDocument) {
+        String command = "select * from CreditNoteTable where id='"+numOfDocument+"'";
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet;
+        try {
+            connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(command);
+            return resultSet.next();
+        } catch (SQLException e) {
+            return false;
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.commit();
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
         CreditNoteTable creditNoteTable = new CreditNoteTable();
        // creditNoteTable.createCreditNoteTable();

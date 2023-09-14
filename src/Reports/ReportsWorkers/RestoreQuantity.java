@@ -1,5 +1,6 @@
 package Reports.ReportsWorkers;
 
+import Exceptions.ErrorDialog;
 import db.Artikul.Artikuli_DB;
 import db.creditnote.CreditNoteTable;
 import utils.MainPanel;
@@ -50,36 +51,51 @@ public class RestoreQuantity extends SwingWorker {
 
     @Override
     protected Object doInBackground() throws Exception {
-        System.out.println( artikul + " " + kontragent + " " + invoiceByKontragent + " " + quantity);
+ //       System.out.println( artikul + " " + kontragent + " " + invoiceByKontragent + " " + quantity);
 
-//        int decrease = Artikuli_DB.decreaseArtikul_Quantity(MainPanel.AVAILABLE_ARTIKULS,artikul, kontragent,"client" ,
-//                invoiceByKontragent, "invoice", quantityAsInt * -1);
-//        System.out.println("decrease quantity");
-
-//        int decrease = Artikuli_DB.decreaseArtikul_Quantity(MainPanel.DELIVERY_ARTIKULS,artikul, kontragent,"kontragent" ,
-//                invoiceByKontragent, "invoiceByKontragent", quantityAsInt * -1);
-//        System.out.println("decrease 2" + decrease);
-//
-//        Artikuli_DB.markInvoiceAsCreditNote(MainPanel.INVOICE_CHILD,artikul, kontragent,"kontragent" ,
-//                invoiceByKontragent, "invoiceByKontragent", invoiceNumOfDocument,0);
-//
-        int insert = CreditNoteTable.insertCreditNote(
-                invoiceNumOfDocument,
-                payment,
-                discount,
-                sum,
-                client,
-                saller,
-                date,
-                protokolNumber,
-                artikul,
-                med,
-                quantity,
-                price,
-                value,
-                kontragent,
-                invoiceByKontragent);
-        System.out.println("credit note insert " + insert);
+        int decrease = Artikuli_DB.decreaseArtikul_Quantity(MainPanel.AVAILABLE_ARTIKULS,
+                artikul, kontragent,"client" ,
+                invoiceByKontragent, "invoice", quantityAsInt * -1);
+        if(decrease == 1) {
+            decrease = Artikuli_DB.decreaseArtikul_Quantity(MainPanel.DELIVERY_ARTIKULS,artikul, kontragent,
+                    "kontragent" ,
+                invoiceByKontragent, "invoiceByKontragent", quantityAsInt * -1);
+            if(decrease == 1) {
+                int update =  Artikuli_DB.markInvoiceAsCreditNote(MainPanel.INVOICE_CHILD,artikul,
+                        kontragent,"kontragent" ,
+                invoiceByKontragent, "invoiceByKontragent", invoiceNumOfDocument,0);
+                if(update == 1) {
+                    int insert = CreditNoteTable.insertCreditNote(
+                            invoiceNumOfDocument,
+                            payment,
+                            discount,
+                            sum,
+                            client,
+                            saller,
+                            date,
+                            protokolNumber,
+                           artikul,
+                            med,
+                            quantity,
+                            price,
+                            value,
+                            kontragent,
+                            invoiceByKontragent);
+                    System.out.println("credit note insert " + insert);
+                    if(insert == 1) {
+                        JOptionPane.showMessageDialog(null,"Кредитното известие е записано успешно");
+                    } else {
+                        ErrorDialog.showErrorMessage("Грешка при записът на кредитното известие");
+                    }
+                } else {
+                    ErrorDialog.showErrorMessage("Грешка при нулиране на количествата във фактурата");
+                }
+            } else {
+                ErrorDialog.showErrorMessage("Грешка при възстановяване на количествата в доставки");
+            }
+        } else {
+            ErrorDialog.showErrorMessage("Грешка при възстановяване на количествата в склада");
+        }
         return null;
     }
 }

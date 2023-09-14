@@ -1,6 +1,6 @@
 package db.Artikul;
 
-import Exceptions.JustExceptionDialog;
+import Exceptions.ErrorDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +27,7 @@ public class ArtikulInfo implements Comparable<ArtikulInfo> {
 			this.date = sdf.parse(dateString);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			JustExceptionDialog.showException(e);
+			ErrorDialog.showErrorMessage(e);
 			e.printStackTrace();
 		}
 	}
