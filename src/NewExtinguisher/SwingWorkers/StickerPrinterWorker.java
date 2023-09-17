@@ -31,21 +31,21 @@ public class StickerPrinterWorker extends SwingWorker {
 
 		System.out.println("("+ nextDateTO + ") (" + nextDateP + ") (" + nextDateHI+")");
 
-			citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0,barcod.length()-1)
-					, nextDateTO,nextDateP,nextDateHI, MainPanel.personName);
+//			citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0,barcod.length()-1)
+//					, nextDateTO,nextDateP,nextDateHI, MainPanel.personName);
 
 
-//	 	boolean pdf = GenerateBarcod.generateBarcodOnStickerAsPDF(barcod, barcod +
-//				MainPanel.STICK_TO_BARCODE + "-стикер.pdf",nextDateTO);
-//		 if(pdf) {
-//		 	for(int i = 0;i < numberOfPrints;i++) {
-//
+	 	boolean pdf = GenerateBarcod.generateBarcodOnStickerAsPDF(barcod, barcod +
+				MainPanel.STICK_TO_BARCODE + "-стикер.pdf",nextDateTO);
+		 if(pdf) {
+		 	for(int i = 0;i < numberOfPrints;i++) {
+
 //				OpenPDFDocument.pdfRunner(MainPanel.BARCODE_PDF_PATH + barcod +
 //						MainPanel.STICK_TO_BARCODE + "-стикер.pdf");
-////				PrintSticker.printPDF(MainPanel.BARCODE_PDF_PATH, barcod +
-////						MainPanel.STICK_TO_BARCODE + "-стикер.pdf");
-//			}
-//		 }
+				PrintSticker.printPDF(MainPanel.BARCODE_PDF_PATH, barcod +
+						MainPanel.STICK_TO_BARCODE + "-стикер.pdf");
+			}
+		 }
 	   	return null;
 	}
 

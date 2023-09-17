@@ -50,17 +50,13 @@ public class RestoreQuantity extends SwingWorker {
 
 
     @Override
-    protected Object doInBackground() throws Exception {
+    public Integer doInBackground() throws Exception {
  //       System.out.println( artikul + " " + kontragent + " " + invoiceByKontragent + " " + quantity);
 
         int decrease = Artikuli_DB.decreaseArtikul_Quantity(MainPanel.AVAILABLE_ARTIKULS,
                 artikul, kontragent,"client" ,
                 invoiceByKontragent, "invoice", quantityAsInt * -1);
         if(decrease == 1) {
-            decrease = Artikuli_DB.decreaseArtikul_Quantity(MainPanel.DELIVERY_ARTIKULS,artikul, kontragent,
-                    "kontragent" ,
-                invoiceByKontragent, "invoiceByKontragent", quantityAsInt * -1);
-            if(decrease == 1) {
                 int update =  Artikuli_DB.markInvoiceAsCreditNote(MainPanel.INVOICE_CHILD,artikul,
                         kontragent,"kontragent" ,
                 invoiceByKontragent, "invoiceByKontragent", invoiceNumOfDocument,0);
@@ -83,19 +79,20 @@ public class RestoreQuantity extends SwingWorker {
                             invoiceByKontragent);
                     System.out.println("credit note insert " + insert);
                     if(insert == 1) {
-                        JOptionPane.showMessageDialog(null,"Кредитното известие е записано успешно");
+                        //JOptionPane.showMessageDialog(null,"Кредитното известие е записано успешно");
+                        return 1;
                     } else {
-                        ErrorDialog.showErrorMessage("Грешка при записът на кредитното известие");
+                        //ErrorDialog.showErrorMessage("Грешка при записът на кредитното известие");
+                        return 0;
                     }
                 } else {
-                    ErrorDialog.showErrorMessage("Грешка при нулиране на количествата във фактурата");
+                    //ErrorDialog.showErrorMessage("Грешка при нулиране на количествата във фактурата");
+                    return 0;
                 }
-            } else {
-                ErrorDialog.showErrorMessage("Грешка при възстановяване на количествата в доставки");
-            }
+
         } else {
-            ErrorDialog.showErrorMessage("Грешка при възстановяване на количествата в склада");
+            //ErrorDialog.showErrorMessage("Грешка при възстановяване на количествата в склада");
+            return 0;
         }
-        return null;
     }
 }

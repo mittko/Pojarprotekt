@@ -284,7 +284,7 @@ public class GenerateBarcod {
 
 	public static boolean generateBarcodOnStickerAsPDF(String code, String out,
 													   String nextDate) {
-		Document document = new Document(new Rectangle(120f, 360f)); // local
+		Document document = new Document(new Rectangle(120f, 360f)); // local (120f, 360f)
 		// new
 		// Document(new
 		// Rectangle(120f
@@ -327,18 +327,18 @@ public class GenerateBarcod {
 		barcodeEAN2.setCode("12");
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
-			float imgX = 5;
-			float imgY = document.getPageSize().getHeight() - 107;// 35 local
-			img.setAbsolutePosition(imgX, imgY - 200);// 368);
-			img.scaleToFit(60, 370);// local (150, 370);
+			float imgX = 12;
+			float imgY = document.getPageSize().getHeight() - 106;// 35 local
+			img.setAbsolutePosition(imgX, imgY - 260);// 368);
+			img.scaleToFit(40, 500);// local (150, 370);
 
 			document.add(img);
 
 			Image img2 = barcodeEAN2.createImageWithBarcode(cb, null, null);
-			float imgX2 = 70;
-			float imgY2 = document.getPageSize().getHeight() - 107;// 35 local
-			img2.setAbsolutePosition(imgX2, imgY2 - 200);// 368);
-			img2.scaleToFit(40, 25);// local (150, 370);
+			float imgX2 = 57;
+			float imgY2 = document.getPageSize().getHeight() - 106;// 35 local
+			img2.setAbsolutePosition(imgX2, imgY2 - 260);// 368);
+			img2.scaleToFit(20, 17);// local (150, 370);
 
 			document.add(img2);
 
@@ -351,7 +351,7 @@ public class GenerateBarcod {
 		}
 		// pasteText(writer.getDirectContent(), nextDate, 90);
 
-		pasteText(writer.getDirectContent(), nextDate, 65);
+		//pasteText(writer.getDirectContent(), nextDate, 65);
 
 		// pasteText(writer.getDirectContent(), nextDate, 50);
 

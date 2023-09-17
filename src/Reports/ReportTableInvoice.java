@@ -150,8 +150,6 @@ public class ReportTableInvoice extends MainPanel {
 				String client = dftm.getValueAt(SELECTED_INDEX,4).toString();
 				final String invoiceNumOfDocument = dftm.getValueAt(SELECTED_INDEX,0).toString();
 
-
-
 				JDialoger dialoger = new JDialoger();
 				CreditNoteDialog creditNoteDialog = new CreditNoteDialog(client,
 						invoiceNumOfDocument, new MyCallback<String>() {
@@ -164,6 +162,7 @@ public class ReportTableInvoice extends MainPanel {
 							System.out.println("isDocumentWritten = " + isDocumentWritten);
 
 							if(!isDocumentWritten) {
+								int results = 0;
 								Integer[] selectedIndexes = getSelectedIndexes(
 										SELECTED_INDEX, 0);
 								for(int i = 0;i < selectedIndexes.length;i++) {
@@ -218,7 +217,20 @@ public class ReportTableInvoice extends MainPanel {
 													value,
 													kontragent,
 													invoiceByKontragent);
-									restoreQuantity.execute();
+									try {
+										results += restoreQuantity.doInBackground();
+										System.out.println("RESULTS = " + results);
+										if(i == selectedIndexes.length - 1) {
+											if (results == selectedIndexes.length) {
+												JOptionPane.showMessageDialog(null,
+														"Кредитното известие е записано успешно");
+											} else {
+												ErrorDialog.showErrorMessage("Възникна грешка при записването на Кредитното известие");
+											}
+										}
+									} catch (Exception ex) {
+										ErrorDialog.showErrorMessage("Възникна грешка при записването на Кредитното известие");
+									}
 								}
 							} else {
 								ErrorDialog.showErrorMessage("Вече има записано кредитно известие за тази фактура");
