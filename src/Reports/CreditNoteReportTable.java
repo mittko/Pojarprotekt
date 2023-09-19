@@ -39,12 +39,12 @@ public class CreditNoteReportTable extends MainPanel {
                 //	}
                 //	if (ps != null) {
 
-
-
                 Integer[] selectedIndexes = getSelectedIndexes(
                         SELECTED_INDEX, 0);
                 PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
-                        null,defaultTableModel , jd, selectedIndexes[0],
+                        null,
+                        defaultTableModel.getValueAt(selectedIndexes[0],16).toString(),
+                        defaultTableModel , jd, selectedIndexes[0],
                         selectedIndexes.length, "Кредитно известие", CREDIT_NOTE_PDF_PATH);//
                 invoiceAndProformWorker.execute();
             }
@@ -52,12 +52,12 @@ public class CreditNoteReportTable extends MainPanel {
         northPanel.add(generateCreditNotePdfButton);
         defaultTableModel = new DefaultTableModel(
         new String[] {
-                "\u2116 на Кредитно Известие", "Начин на плащане", "Отстъпка",
+                "\u2116 на Фактура", "Начин на плащане", "Отстъпка",
                 "Стойност", "Клиент", "Оператор", "Дата", "\u2116 на Протокол",
                 "",
                 "Артикул", "Мерна ед.",
                 "Количество", "Ед. Цена", "Сума", "Контрагент",
-                "Фактура по доставка" }, 0){
+                "Фактура по доставка", "\u2116 на Кредитно Известие", }, 0){
             @Override
             public boolean isCellEditable ( int row, int column){
                 return false;
@@ -75,8 +75,9 @@ public class CreditNoteReportTable extends MainPanel {
            @Override
            public void mouseClicked(MouseEvent e) {
                super.mouseClicked(e);
-               table.repaint();;
-               SELECTED_INDEX = table.getSelectedRow();
+                   SELECTED_INDEX = table.getSelectedRow();
+                   table.repaint();
+
            }
        });
        JScrollPane scrollPane = new JScrollPane(

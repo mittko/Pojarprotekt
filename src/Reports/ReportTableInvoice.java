@@ -23,6 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ReportTableInvoice extends MainPanel {
 
@@ -95,7 +96,9 @@ public class ReportTableInvoice extends MainPanel {
 				Integer[] selectedIndexes = getSelectedIndexes(
 						SELECTED_INDEX, 0);
 				PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
-						null, dftm, jd, selectedIndexes[0],
+						null,
+						dftm.getValueAt(selectedIndexes[0], 0).toString(),
+						dftm, jd, selectedIndexes[0],
 						selectedIndexes.length, TITLE, PATH);//
 				invoiceAndProformWorker.execute();
 
@@ -147,131 +150,79 @@ public class ReportTableInvoice extends MainPanel {
 		creditNoteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String client = dftm.getValueAt(SELECTED_INDEX,4).toString();
+				final String client = dftm.getValueAt(SELECTED_INDEX,4).toString();
 				final String invoiceNumOfDocument = dftm.getValueAt(SELECTED_INDEX,0).toString();
 
 				JDialoger dialoger = new JDialoger();
 				CreditNoteDialog creditNoteDialog = new CreditNoteDialog(client,
-						invoiceNumOfDocument, new MyCallback<String>() {
+						invoiceNumOfDocument,
+						"Желаете ли да създадете кредитно известие за този документ ?",
+						new MyCallback<Object>() {
 					@Override
-					public void call(String cmd) {
-						if(cmd.equals("Потвърди")) {
-
-							boolean isDocumentWritten =
-									CreditNoteTable.checkIsDocumentWritten(invoiceNumOfDocument);
+					public void call(Object cmd) {
+						if(cmd.equals("Да")) {
+							Integer[] selectedIndexes = getSelectedIndexes(
+									SELECTED_INDEX, 0);
+							final HashSet<String> set = CreditNoteTable.getCreditNotesNumberSet();
+                            final String creditNoteNumOfDocument = String.valueOf(set.size()+1);
+							boolean isDocumentWritten = set.contains(invoiceNumOfDocument);
+							//CreditNoteTable.checkIsDocumentWritten(invoiceNumOfDocument);
 							System.out.println("isDocumentWritten = " + isDocumentWritten);
 
 							if(!isDocumentWritten) {
-								int results = 0;
-								Integer[] selectedIndexes = getSelectedIndexes(
-										SELECTED_INDEX, 0);
-								for(int i = 0;i < selectedIndexes.length;i++) {
-									String invoiceNumOfDocument = dftm.getValueAt(i+selectedIndexes[0],0).toString();
-									String payment = dftm.getValueAt(i+selectedIndexes[0],1).toString();
-									String discount = dftm.getValueAt(i+selectedIndexes[0],2).toString();
-									String sum = dftm.getValueAt(i+selectedIndexes[0],3).toString();
-									String client = dftm.getValueAt(i+selectedIndexes[0],4).toString();
-									String saller = dftm.getValueAt(i+selectedIndexes[0],5).toString();
-									String date = dftm.getValueAt(i+selectedIndexes[0],6).toString();
-									String protokolNumber = dftm.getValueAt(i+selectedIndexes[0],7).toString();
+								RestoreQuantity restoreQuantity =
+										new RestoreQuantity(dftm, selectedIndexes[0], selectedIndexes.length,
+												creditNoteNumOfDocument, new MyCallback<Object>() {
+											@Override
+											public void call(Object obj) {
+												JDialoger jDialoger = new JDialoger();
+												CreditNoteDialog creditNoteDialog1 = new CreditNoteDialog(
+														client,
+														invoiceNumOfDocument,
+														"Желаете ли да принтирате кредитно известие ?",
+														new MyCallback<Object>() {
+															@Override
+															public void call(Object s) {
 
-									String artikul = dftm.getValueAt(i+selectedIndexes[0],9).toString();
-									String med = dftm.getValueAt(i+selectedIndexes[0],10).toString();
-									String quantity = dftm.getValueAt(i+selectedIndexes[0],11).toString();
-									String price = dftm.getValueAt(i+selectedIndexes[0],12).toString();
-									String value = dftm.getValueAt(i+selectedIndexes[0],13).toString();
+																JDialog jd = (JDialog) SwingUtilities
+																		.getWindowAncestor(ReportTableInvoice.this);
+																jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-									String kontragent = dftm.getValueAt(i+selectedIndexes[0],15).toString();
-									String invoiceByKontragent = dftm.getValueAt(i+selectedIndexes[0],16).toString();
+																//	PrintService ps = ChoisePrinterDialog.showPrinters();
+																//	if (ps == null) {
+																//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+																//		return;
+																//	}
+																//	if (ps != null) {
 
-//								System.out.println("invoiceNumOfDocument " + invoiceNumOfDocument);
-//								System.out.println("payment "+payment);
-//								System.out.println("discount "+discount);
-//								System.out.println("sum "+sum);
-//								System.out.println("client "+client);
-//								System.out.println("saller "+saller);
-//								System.out.println("date "+date);
-//								System.out.println("protokolNumber "+protokolNumber);
-//								System.out.println("artikul "+artikul);
-//								System.out.println("med "+med);
-//								System.out.println("quantity "+quantity);
-//								System.out.println("price "+price);
-//								System.out.println("value "+value);
-//								System.out.println("kontragent "+kontragent);
-//								System.out.println("invoiceByKontragent "+invoiceByKontragent);
+																	TITLE = "Кредитно Известие";
+																	PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
 
-									RestoreQuantity restoreQuantity =
-											new RestoreQuantity(
-													invoiceNumOfDocument,
-													payment,
-													discount,
-													sum,
-													client,
-													saller,
-													date,
-													protokolNumber,
-													artikul,
-													med,
-													quantity,
-													price,
-													value,
-													kontragent,
-													invoiceByKontragent);
-									try {
-										results += restoreQuantity.doInBackground();
-										System.out.println("RESULTS = " + results);
-										if(i == selectedIndexes.length - 1) {
-											if (results == selectedIndexes.length) {
-												JOptionPane.showMessageDialog(null,
-														"Кредитното известие е записано успешно");
-											} else {
-												ErrorDialog.showErrorMessage("Възникна грешка при записването на Кредитното известие");
+																	Integer[] selectedIndexes = getSelectedIndexes(
+																			SELECTED_INDEX, 0);
+																	PrintInvoiceAndProformWorker invoiceAndProformWorker
+																			= new PrintInvoiceAndProformWorker(
+																			null,
+																			creditNoteNumOfDocument,
+																			dftm, jd, selectedIndexes[0],
+																			selectedIndexes.length, TITLE, PATH);//
+																	invoiceAndProformWorker.execute();
+
+															}
+														}
+												);
+												jDialoger.setContentPane(creditNoteDialog1);
+												jDialoger.Show();
 											}
-										}
-									} catch (Exception ex) {
-										ErrorDialog.showErrorMessage("Възникна грешка при записването на Кредитното известие");
-									}
-								}
+										});
+								restoreQuantity.execute();
+
+
+
 							} else {
-								ErrorDialog.showErrorMessage("Вече има записано кредитно известие за тази фактура");
+								ErrorDialog.showErrorMessage("Вече има записано кредитно известие за този документ");
 							}
 
-						} else if(cmd.equals("Принтирай")) {
-							System.out.println("Принтирай");
-							if (SELECTED_INDEX == -1) {
-								return;
-							}
-							JDialog jd = (JDialog) SwingUtilities
-									.getWindowAncestor(ReportTableInvoice.this);
-							jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-
-							//	PrintService ps = ChoisePrinterDialog.showPrinters();
-							//	if (ps == null) {
-							//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-							//		return;
-							//	}
-							//	if (ps != null) {
-
-							if (jd.getTitle().equals("Справки Фактура ПОЖАРПРОТЕКТ")) {
-								TITLE = "Кредитно Известие";
-								PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
-								// System.out.printf("%s %s\n", TITLE, PATH);
-								//								case "Справки Проформа ПОЖАРПРОТЕКТ":
-//									TITLE = "Кредитно Известие";
-//									PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
-//									break;
-
-
-								Integer[] selectedIndexes = getSelectedIndexes(
-										SELECTED_INDEX, 0);
-								System.out.println(selectedIndexes[0] + " " + selectedIndexes.length);
-								PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
-										null, dftm, jd, selectedIndexes[0],
-										selectedIndexes.length, TITLE, PATH);//
-								invoiceAndProformWorker.execute();
-							} else {
-								jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-							}
 						}
 					}
 				});
@@ -314,8 +265,8 @@ public class ReportTableInvoice extends MainPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				table.repaint();
-				SELECTED_INDEX = table.getSelectedRow();
+					SELECTED_INDEX = table.getSelectedRow();
+					table.repaint();
 			}
 		});
 		// hide dublicate columns

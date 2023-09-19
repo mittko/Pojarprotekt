@@ -33,7 +33,7 @@ public class StickerJDialogOldVersion extends MainPanel {
             helpPanel1.setLayout(new BorderLayout());
             final JPanel labelPanel = new JPanel();
             final JLabel TO_Label = new JLabel("реумхвеяйн наяксфбюме");
-            (this.TO_Button = new StickerButton(isTO, parentDialog, barcod, MainPanel.рн)).setActionCommand("button1");
+            (this.TO_Button = new StickerButton(isTO, parentDialog, barcod, MainPanel.TO)).setActionCommand("button1");
             this.TO_Button.setIcon(new LoadIcon().setIcons("Stiker2.jpg"));
             final int w = this.TO_Button.getIcon().getIconWidth();
             final int h = this.TO_Button.getIcon().getIconHeight();
@@ -50,7 +50,7 @@ public class StickerJDialogOldVersion extends MainPanel {
             helpPanel2.setLayout(new BorderLayout());
             final JPanel labelPanel2 = new JPanel();
             final JLabel TO_P_HI_Label = new JLabel("ухдпнярюрхвмн хгохрбюме");
-            (this.HI_Button = new StickerButton(isHI, parentDialog, barcod, MainPanel.ух)).setPreferredSize(new Dimension(300, 200));
+            (this.HI_Button = new StickerButton(isHI, parentDialog, barcod, MainPanel.HI)).setPreferredSize(new Dimension(300, 200));
             this.HI_Button.setActionCommand("button3");
             this.HI_Button.setIcon(new LoadIcon().setIcons("Stiker2.jpg"));
             final int w2 = this.HI_Button.getIcon().getIconWidth();
@@ -110,7 +110,7 @@ public class StickerJDialogOldVersion extends MainPanel {
             this.setEnabled(false);
             this.setBorder(this.defaultBorder);
             String nextDate = null;
-            if (!doing.equals(MainPanel.ух)) {
+            if (!doing.equals(MainPanel.HI)) {
                 nextDate = MyGetDate.getDateAfterToday(365);
             }
             else {

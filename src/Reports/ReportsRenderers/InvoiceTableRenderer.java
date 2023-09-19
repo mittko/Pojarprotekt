@@ -43,6 +43,8 @@ public class InvoiceTableRenderer extends DefaultTableCellRenderer {
 				this.setBackground(Color.WHITE);
 			}
 		}
+
+
 		// else {
 		//
 		// if (ReportTableInvoice.MOUSE_MOTION_ROW >= 0

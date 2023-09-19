@@ -335,7 +335,7 @@ public class WorkingBook extends MainPanel {
 		pane1.add(serialNumber);
 
 
-		Object[] doings = { "Обслужване", ТО, ХИ, ТО_П, ТО_П_ХИ, Брак };
+		Object[] doings = { "Обслужване", TO, HI, TO_P, TO_P_HI, Scrab};
 		DefaultComboBoxModel<Object> cbm = new DefaultComboBoxModel<Object>(doings);
 		comboDoings = new JComboBox<Object>(cbm);
 		comboDoings.setEnabled(false);
@@ -356,7 +356,7 @@ public class WorkingBook extends MainPanel {
 					switchPanel(type);
                     return;
                 }
-                if (doing.equals(Брак)) {
+                if (doing.equals(Scrab)) {
                     CardLayout cl = (CardLayout) (centerCenter.getLayout());
                     cl.show(centerCenter, SCRAB);
                 } else {
@@ -674,7 +674,7 @@ public class WorkingBook extends MainPanel {
 		// newRow[i] = tModel.getValueAt(0, i);
 		// }
 
-		if (!comboDoings.getSelectedItem().equals(Брак)) {
+		if (!comboDoings.getSelectedItem().equals(Scrab)) {
 			// get parts values and work values
 
 			if (!ext_parts.containsKey(key)) {
@@ -762,7 +762,7 @@ public class WorkingBook extends MainPanel {
 		ArrayList<Object> parts = new ArrayList<Object>();
 		ArrayList<Object> reasons = new ArrayList<Object>();
 
-		if (!comboDoings.getSelectedItem().equals(Брак)) {
+		if (!comboDoings.getSelectedItem().equals(Scrab)) {
 
 			Component[] child = centerCenter.getComponents();
 			ArrayList<PartButton> list = null;
@@ -822,20 +822,20 @@ public class WorkingBook extends MainPanel {
 
 	private void setButtonState2(String doing, String type, String wheight,
 								 String category) {
-		boolean isTO = comboDoings.getSelectedItem().equals(ТО);
+		boolean isTO = comboDoings.getSelectedItem().equals(TO);
 		switch (doing) {
-			case ХИ:
+			case HI:
 				returnPreviousButtonState(false);
 				break;
-			case ТО:
+			case TO:
 				returnPreviousButtonState(true);
 				WorkerState.markPlomba(type, isTO);
 				WorkerState.markEntity(type, false);
 				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
 						category);
 				break;
-			case ТО_П:
-			case ТО_П_ХИ:
+			case TO_P:
+			case TO_P_HI:
 				returnPreviousButtonState(true);
 				WorkerState.markPlomba(type, isTO);
 				WorkerState.markEntity(type, true);
@@ -887,7 +887,7 @@ public class WorkingBook extends MainPanel {
 
 	private void returnPreviousButtonState(boolean enabled) {
 
-		if (!comboDoings.getSelectedItem().equals(Брак)) {
+		if (!comboDoings.getSelectedItem().equals(Scrab)) {
 
 			Component[] child = centerCenter.getComponents();
 			ArrayList<PartButton> list = null;
@@ -1000,27 +1000,27 @@ public class WorkingBook extends MainPanel {
 			fitAgentLabel.setName(godnostNaPovarogasitelnoWeshtestwoo);
 			// item is from combo getSelectedItem();
 			switch (item) {
-				case ТО:
+				case TO:
 					tModel.setValueAt(newDate, 0, 7);
 					tModel.setValueAt("не", 0, 8);
 					tModel.setValueAt(substract_HI_YEAR, 0, 9);
 					break;
-				case П:
+				case P:
 					tModel.setValueAt(newDate, 0, 8);
 					tModel.setValueAt("не", 0, 7);
 					tModel.setValueAt(substract_HI_YEAR, 0, 8);
 					break;
-				case ХИ:
+				case HI:
 					tModel.setValueAt(hiNewDate, 0, 9);
 					tModel.setValueAt("не", 0, 8);
 					tModel.setValueAt("не", 0, 7);
 					break;
-				case ТО_П:
+				case TO_P:
 					tModel.setValueAt(newDate, 0, 7);
 					tModel.setValueAt(newDate, 0, 8);
 					tModel.setValueAt(substract_HI_YEAR, 0, 9);
 					break;
-				case ТО_П_ХИ:
+				case TO_P_HI:
 					tModel.setValueAt(newDate, 0, 7);
 					tModel.setValueAt(newDate, 0, 8);
 					tModel.setValueAt(hiNewDate, 0, 9);

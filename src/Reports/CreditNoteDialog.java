@@ -13,7 +13,7 @@ public class CreditNoteDialog extends MainPanel {
 
     private String client;
     private String invoice;
-    public CreditNoteDialog(String client, String invoice, final MyCallback<String> callback) {
+    public CreditNoteDialog(String client, String invoice,final String title, final MyCallback<Object> callback) {
         this.client = client;
         this.invoice = invoice;
         BorderLayout rootLayout = new BorderLayout();
@@ -22,7 +22,7 @@ public class CreditNoteDialog extends MainPanel {
         BorderLayout borderLayout = new BorderLayout();
         borderLayout.setVgap(20);
         jPanel.setLayout(borderLayout);
-        JLabel titleLabel = new JLabel("Желаете ли да създадете кредитно известие за този документ ?");
+        JLabel titleLabel = new JLabel(title);
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
         jPanel.add(titleLabel,BorderLayout.NORTH);
         JLabel clientLabel = new JLabel("Клиент:     " + client);
@@ -34,25 +34,33 @@ public class CreditNoteDialog extends MainPanel {
         JPanel southPanel = new JPanel();
 
         southPanel.setLayout(new FlowLayout());
-        JButton confirmButton = new JButton("Потвърди");
-        confirmButton.addActionListener(new ActionListener() {
+        JButton okButton = new JButton("Да");
+        okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                callback.call("Потвърди");
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
+
+                callback.call("Да");
             }
         });
 
-        JButton printButton = new JButton("Принтирай");
+        JButton closeButton = new JButton("Отмени");
 
-        printButton.setHorizontalAlignment(JButton.RIGHT);
-        printButton.addActionListener(new ActionListener() {
+        closeButton.setHorizontalAlignment(JButton.RIGHT);
+        closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                callback.call("Принтирай");
+                // close JPanel (Window)
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
+               // callback.call("Отмени");
             }
         });
-        southPanel.add(confirmButton,BorderLayout.WEST);
-        southPanel.add(printButton,BorderLayout.EAST);
+        southPanel.add(okButton,BorderLayout.WEST);
+        southPanel.add(closeButton,BorderLayout.EAST);
         this.add(jPanel,BorderLayout.NORTH);
         this.add(southPanel,BorderLayout.SOUTH);
     }

@@ -635,9 +635,9 @@ public class Artikuli_DB extends MainPanel {
 		}
 	}
 
-	public static int markInvoiceAsCreditNote(String dbTable, String artikul, String kontragent,
-											  String kontragentColumn, String invoiceByKontragent,
-											  String invoiceByKontragentColumn,String invoiceNumOfDocument,  int i) {
+	public static int setArtikulQuantityInInvoiceAsZero(String dbTable, String artikul, String kontragent,
+														String kontragentColumn, String invoiceByKontragent,
+														String invoiceByKontragentColumn, String invoiceNumOfDocument, int i) {
 		Connection connect = null;
 		Statement stat = null;
 		PreparedStatement ps = null;
@@ -700,7 +700,7 @@ public class Artikuli_DB extends MainPanel {
 		String command = "update "
 					+ dbTable
 					+ " set quantity = (quantity - ?) where (artikul = ? and " + clientColumn +
-					" = ? and " + invoiceColumn + " = ?) and (quantity > 0)";
+					" = ? and " + invoiceColumn + " = ?)";//  and (quantity > 0)
 		int update = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);

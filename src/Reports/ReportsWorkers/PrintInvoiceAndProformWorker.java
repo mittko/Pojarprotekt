@@ -5,6 +5,7 @@ import PDF.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;
+import utils.StringUtil;
 
 import javax.print.PrintService;
 import javax.swing.*;
@@ -32,13 +33,16 @@ public class PrintInvoiceAndProformWorker extends SwingWorker {
 	private PrintService ps;
 	private String saller;
 
-	public PrintInvoiceAndProformWorker(PrintService ps,
+	public PrintInvoiceAndProformWorker(PrintService ps,String numberOfDocument,
 			DefaultTableModel dftm, JDialog jd, int startIndex, int endIndex,
 			String TITLE, String pdf_path) {
 		this.ps = ps;
 		this.dftm = dftm;
 		this.currentClient = dftm.getValueAt(startIndex, 4).toString();
-		this.Number = dftm.getValueAt(startIndex, 0).toString();
+		this.Number = !TITLE.equalsIgnoreCase("Кредитно Известие")
+				? numberOfDocument
+		        : StringUtil.padLeft(numberOfDocument,'0',10);
+
 		this.danOsnova = Double.parseDouble(dftm.getValueAt(startIndex, 3)
 				.toString());
 		this.payment = dftm.getValueAt(startIndex, 1).toString();
