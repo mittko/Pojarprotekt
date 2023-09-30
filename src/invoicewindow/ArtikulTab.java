@@ -1,11 +1,13 @@
 package invoicewindow;
 
 import db.Client.FirmTable;
+import invoice.Fiskal.CreateBonFPrint;
 import invoice.InvoiceRenderer.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.Sklad.SkladArtikulFrame;
 import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
 import invoice.worker.GetDiscountWorker;
+import invoice.worker.SellWithFiskalBonWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -134,7 +136,7 @@ public class ArtikulTab extends MainPanel {
 						dftm/*
 							 * , sumField
 							 */, discountField.getText().isEmpty() ? 0 : Double
-								.parseDouble(discountField.getText()),
+						.parseDouble(discountField.getText()),
 						choiceDiscountButton.isSelected());
 
 				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
@@ -191,10 +193,10 @@ public class ArtikulTab extends MainPanel {
 						// (without
 						// protokol)
 						clientCombo.getSelectedItem().toString(), paymentCombo
-								.getSelectedItem().toString(), discountField
-								.getText(), MyMath.round(getDanOsnova(), 2)
-								+ "", personName, MyGetDate
-								.getReversedSystemDate(), true, // invoice
+						.getSelectedItem().toString(), discountField
+						.getText(), MyMath.round(getDanOsnova(), 2)
+						+ "", personName, MyGetDate
+						.getReversedSystemDate(), true, // invoice
 						false, // proform
 						true, // acquittance
 						dftm, null, // there is invoice num label
@@ -260,18 +262,18 @@ public class ArtikulTab extends MainPanel {
 			public void tableChanged(TableModelEvent e) {
 				// TODO Auto-generated method stub
 				switch (e.getType()) {
-				case TableModelEvent.INSERT:
+					case TableModelEvent.INSERT:
 					case TableModelEvent.DELETE:
 						ArrayList<Double> totals = new ArrayList<>();
-					for(int row = 0;row < dftm.getRowCount();row++) {
-						double total = Double.parseDouble(dftm.getValueAt(row,3).toString());
-						totals.add(total);
-					}
-					choiceDiscountButton.setTotals(totals);
-					calcFinalSum();
-					break;
+						for(int row = 0;row < dftm.getRowCount();row++) {
+							double total = Double.parseDouble(dftm.getValueAt(row,3).toString());
+							totals.add(total);
+						}
+						choiceDiscountButton.setTotals(totals);
+						calcFinalSum();
+						break;
 					default:
-					break;
+						break;
 				}
 			}
 
@@ -413,6 +415,47 @@ public class ArtikulTab extends MainPanel {
 		southPanel.add(sumLabel2);
 		southPanel.add(sumField);
 
+		TooltipButton daysAccountButton = new TooltipButton();
+		daysAccountButton
+				.setToolTipText(getHTML_Text("НАПРАВИ ФИСКАЛЕН ОТЧЕТ"));
+		daysAccountButton.setPreferredSize(new Dimension((int) (southPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (southPanel
+				.getPreferredSize().getHeight())));
+
+		daysAccountButton.setAutoSizedIcon(daysAccountButton,
+				new LoadIcon().setIcons("ac9.png"));
+
+		daysAccountButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+				int yes_no = JOptionPane.showOptionDialog(null,
+						"Желаете ли да направите финансов\n"
+								+ " отчет до момента?", "",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, new String[] {
+								"Да", "Не" }, // this is the array
+						"default");
+				if (yes_no != 0) {
+					return;
+				}
+				JDialog jd = (JDialog) (SwingUtilities
+						.getWindowAncestor(ArtikulTab.this));
+				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+				CreateBonFPrint bon = new CreateBonFPrint();
+				ArrayList<String> commandList = bon.doZOrder();
+
+				SellWithFiskalBonWorker sellWorker = new SellWithFiskalBonWorker(
+						commandList, bon, jd);
+				sellWorker.execute();
+			}
+
+		});
+		southPanel.add(daysAccountButton);
+
 		this.setLayout(new BorderLayout());
 		this.add(northPanel, BorderLayout.NORTH);
 		this.add(centerPanel, BorderLayout.CENTER);
@@ -439,7 +482,7 @@ public class ArtikulTab extends MainPanel {
 	}
 
 	public void calcFinalSum() {
-		 double valu = 0.0;
+		double valu = 0.0;
 		for (int row = 0; row < dftm.getRowCount(); row++) {
 			valu += Double.parseDouble(dftm.getValueAt(row, 4).toString());
 		}

@@ -217,7 +217,7 @@ public class GenerateBarcod {
 	}
 
 	public static boolean generateQRStickerAsPdf(String code, String out, String nextDate) {
-		Document document = new Document(new Rectangle(120f, 360f)); // local
+		Document document = new Document(new Rectangle(120f, 200f)); // 360
 		// new
 		// Document(new
 		// Rectangle(120f
@@ -284,7 +284,7 @@ public class GenerateBarcod {
 
 	public static boolean generateBarcodOnStickerAsPDF(String code, String out,
 													   String nextDate) {
-		Document document = new Document(new Rectangle(120f, 360f)); // local (120f, 360f)
+		Document document = new Document(new Rectangle(120f, 360)); // local (120f, 360f)
 		// new
 		// Document(new
 		// Rectangle(120f
@@ -317,7 +317,6 @@ public class GenerateBarcod {
 		document.open();
 
 		PdfContentByte cb = writer.getDirectContent();
-
 		BarcodeEAN codeEAN = new BarcodeEAN();
 		codeEAN.setCodeType(Barcode.EAN13);
 		codeEAN.setCode(code);
@@ -325,24 +324,64 @@ public class GenerateBarcod {
 		BarcodeEAN barcodeEAN2 = new BarcodeEAN();
 		barcodeEAN2.setCodeType(Barcode.SUPP2);
 		barcodeEAN2.setCode("12");
+
 		try {
 			Image img = codeEAN.createImageWithBarcode(cb, null, null);
-			float imgX = 12;
-			float imgY = document.getPageSize().getHeight() - 106;// 35 local
-			img.setAbsolutePosition(imgX, imgY - 260);// 368);
-			img.scaleToFit(40, 500);// local (150, 370);
+
+			// рн
+
+
+		    float imgX = 12;
+			float imgY = document.getPageSize().getHeight() - 106;//
+			img.setAbsolutePosition(imgX, imgY - 260);//
+			img.scaleToFit(40, 500);//
 
 			document.add(img);
 
 			Image img2 = barcodeEAN2.createImageWithBarcode(cb, null, null);
 			float imgX2 = 57;
-			float imgY2 = document.getPageSize().getHeight() - 106;// 35 local
-			img2.setAbsolutePosition(imgX2, imgY2 - 260);// 368);
-			img2.scaleToFit(20, 17);// local (150, 370);
+			float imgY2 = document.getPageSize().getHeight() - 106;//
+			img2.setAbsolutePosition(imgX2, imgY2 - 260);//
+			img2.scaleToFit(20, 17);//
 
 			document.add(img2);
 
-			System.out.println("pos = " + (imgY - 370));// -117.0
+
+        /*	о
+
+		float imgX = 12;
+			float imgY = document.getPageSize().getHeight() - 106;//
+			img.setAbsolutePosition(imgX, imgY - 318);//
+			img.scaleToFit(40, 500);//
+
+			document.add(img);
+
+			barcodeEAN2.setCode("34");
+
+			Image img2 = barcodeEAN2.createImageWithBarcode(cb, null, null);
+			float imgX2 = 57;
+			float imgY2 = document.getPageSize().getHeight() - 106;//
+			img2.setAbsolutePosition(imgX2, imgY2 - 318);//
+			img2.scaleToFit(20, 17);//
+			document.add(img2);*/
+
+
+//			float imgX = 12;
+//			float imgY = document.getPageSize().getHeight() - 106;//
+//			img.setAbsolutePosition(imgX, imgY - 365);//
+//			img.scaleToFit(40, 500);//
+//
+//			document.add(img);
+//
+//			barcodeEAN2.setCode("34");
+//
+//			Image img2 = barcodeEAN2.createImageWithBarcode(cb, null, null);
+//			float imgX2 = 57;
+//			float imgY2 = document.getPageSize().getHeight() - 106;//
+//			img2.setAbsolutePosition(imgX2, imgY2 - 362);//
+//			img2.scaleToFit(20, 17);//
+//			document.add(img2);
+
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			PDFException.showPDFException(e);

@@ -93,7 +93,7 @@ public class AcquittanceAutoSortRenderer extends DefaultTableCellRenderer {
 	//table.getTableHeader().setResizingAllowed(false);
 	table.getColumnModel().getColumn(0).setPreferredWidth(150);
     	table.getTableHeader().getColumnModel().getColumn(0)
-		.setPreferredWidth((new MainPanel().getWidth() * 1) / 3);
+		.setPreferredWidth((new MainPanel().getWidth()) / 3);
        table.getTableHeader().getColumnModel().getColumn(1)
 		.setPreferredWidth(50);
         table.getTableHeader().getColumnModel().getColumn(2)

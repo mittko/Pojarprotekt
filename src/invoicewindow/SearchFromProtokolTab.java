@@ -472,6 +472,7 @@ public class SearchFromProtokolTab extends MainPanel {
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.065)));
 		southPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 
+
 		sumField.setPreferredSize(new Dimension((int) (southPanel
 				.getPreferredSize().getWidth() * 0.2), (int) (southPanel
 				.getPreferredSize().getHeight() * 0.8)));
@@ -482,6 +483,11 @@ public class SearchFromProtokolTab extends MainPanel {
 
 
 		float labelHeight = (int) (southPanel.getPreferredSize().getHeight() * 0.8);
+
+		BevelLabel invoiceNumLabel = new BevelLabel(labelHeight);
+		invoiceNumLabel.setTitle("");
+		invoiceNumLabel.setName("");
+
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
 
 		sallerLabel.setTitle(Enums.Оператор.name() + ": ");

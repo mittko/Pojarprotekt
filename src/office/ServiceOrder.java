@@ -214,7 +214,7 @@ public class ServiceOrder extends MainPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 
-				if (!isBarcodAndSerialEntered.contains(readBarcod.getText())) {
+				if (!isBarcodAndSerialEntered.contains(readBarcod.getText().trim())) {
 
 					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 
@@ -228,7 +228,7 @@ public class ServiceOrder extends MainPanel {
 
 								fromBarcod = GetFromScanner
 										.getBarcodFromProtokolTableDB3(readBarcod
-												.getText());
+												.getText().trim());
 
 							} finally {
 								SwingUtilities.invokeLater(new Runnable() {
@@ -314,7 +314,7 @@ public class ServiceOrder extends MainPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 
-				if (!isBarcodAndSerialEntered.contains(serialNumber.getText())) {
+				if (!isBarcodAndSerialEntered.contains(serialNumber.getText().trim())) {
 					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 
 						@SuppressWarnings("finally")
@@ -327,7 +327,7 @@ public class ServiceOrder extends MainPanel {
 
 								fromSerial = GetFromScanner
 										.getSerialFromProtokolTableDB3(serialNumber
-												.getText());
+												.getText().trim());
 
 							} finally {
 								SwingUtilities.invokeLater(new Runnable() {

@@ -7,8 +7,11 @@ import NewExtinguisher.SwingWorkers.SaveInProtokolFromNewExtinguisherWorker;
 import NewExtinguisher.SwingWorkers.StickerPrinterWorker;
 import admin.SkladExtinguisher.Shop_SkladExtinuisher;
 import admin.SkladExtinguisher.Workers.SeeAllNewExtinguisherWorker;
+import db.Invoice.InvoiceNumber;
 import generators.BarcodGenerator;
 import generators.GenerateSO;
+import menu.MainMenu;
+import menu.RunInvoice;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -131,8 +134,6 @@ public class NewExtinguisherWindow extends MainPanel {
 		});
 
 		dbButton = new TooltipButton();
-		// dbButton.setIcon(new LoadIcon().setIcons(dbImage));
-		// dbButton.setAutoSizedIcon(dbButton, 40, 40,new LoadIcon().setIcons(dbImage));
 		dbButton.setToolTipText(getHTML_Text("ЗАПИШИ В БАЗА ДАННИ"));
 		dbButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
@@ -223,6 +224,7 @@ public class NewExtinguisherWindow extends MainPanel {
 				dftm.removeRow(CURRENT_ROW);
 				// updateQuantityOfExtinguisherModel.removeRow(CURRENT_ROW);
 				CURRENT_ROW = -1;
+				StickerPrinterWorker.clearEnteredNumbers();
 				// this logic clear all table contents
 				/*
 				 * dftm.setRowCount(0);
@@ -238,15 +240,12 @@ public class NewExtinguisherWindow extends MainPanel {
 		});
 
 		printerButton = new TooltipButton();
-		// printerButton.setSizeInPercent(24, 14);
-		// printerButton.setIcon(new LoadIcon().setIcons(printerImage));
 		printerButton.setToolTipText(getHTML_Text("ПРИНТИРАЙ ПРОТОКОЛ 2815"));
 		printerButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.5)));
 
 		printerButton.setAutoSizedIcon(printerButton, new LoadIcon().setIcons(printerImage));
-		// printerButton.setEnabled(false);
 		printerButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -280,8 +279,7 @@ public class NewExtinguisherWindow extends MainPanel {
 				.getPreferredSize().getHeight() * 0.5)));
 		;
 		clientButton.setAutoSizedIcon(clientButton, new LoadIcon().setIcons(clientsImage));
-		// clientButton.setIcon(new LoadIcon().setIcons(clientsImage));
-		// clientButton.setPreferredSize(new Dimension(55,55));
+
 		clientButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -304,8 +302,7 @@ public class NewExtinguisherWindow extends MainPanel {
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.5)));
 		skladButton.setAutoSizedIcon(skladButton, new LoadIcon().setIcons(skladExtImage));
-		// skladButton.setIcon(new LoadIcon().setIcons(skladExtImage));
-		// skladButton.setPreferredSize(new Dimension(55,55));
+
 		skladButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -350,13 +347,43 @@ public class NewExtinguisherWindow extends MainPanel {
 		northPanel.add(eraserButton);
 		northPanel.add(printerButton);
 		northPanel.add(clientButton);
-		// northPanel.add(invoiceButton);
+
+		TooltipButton invoiceButton = new TooltipButton();
+		invoiceButton.setToolTipText(getHTML_Text("ОТВОРИ ФАКТУРИ"));
+		invoiceButton.setPreferredSize(new Dimension((int) (northPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
+				.getPreferredSize().getHeight() * 0.5)));
+		invoiceButton.setAutoSizedIcon(invoiceButton, new LoadIcon().setIcons(invoiceImage));
+		invoiceButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingWorker sw = new SwingWorker() {
+
+					private String invoiceNumber = null;
+					private String proformNumber = null;
+
+					@Override
+					protected Object doInBackground() throws Exception {
+						// TODO Auto-generated method stub
+						try {
+							invoiceNumber = InvoiceNumber.getInvoiceNumber();
+							proformNumber = InvoiceNumber.getProformNumber();
+						} finally {
+							SwingUtilities.invokeLater(new RunInvoice(
+									invoiceNumber, proformNumber, null));
+						}
+						return null;
+					}
+
+				};
+				sw.execute();
+			}
+		});
+		northPanel.add(invoiceButton);
 
 		JPanel centerPanel = new JPanel();
 
-		// updateQuantityOfExtinguisherModel = new DefaultTableModel(new
-		// String[] {
-		// "Вид", "Маса", "Категория", "Марка" }, 0);
+
 
 		dftm = new DefaultTableModel(new String[] { "Вид", "Маса", "Баркод",
 				"Монтаж. номер", "Категория", "Марка", "Ед. Цена",
@@ -386,8 +413,6 @@ public class NewExtinguisherWindow extends MainPanel {
 		table.setDefaultRenderer(Object.class,
 				new NewExtingusherRenderer(table));
 		table.setRowHeight(MainPanel.getFontSize() + 15);
-		// resizeColumnWidth(table);
-		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent me) {
@@ -401,7 +426,6 @@ public class NewExtinguisherWindow extends MainPanel {
 		table.getColumnModel().getColumn(8).setMinWidth(0);
 		table.getColumnModel().getColumn(8).setMaxWidth(0);
 		table.getColumnModel().getColumn(8).setWidth(0);
-		// JTable rowTable = new CommonResources.RowNumberTable(table); //****
 
 		JScrollPane scrollPane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -409,9 +433,6 @@ public class NewExtinguisherWindow extends MainPanel {
 		scrollPane.setPreferredSize(new Dimension(this.WIDTH - 20,
 				(int) (this.HEIGHT * 0.65)));
 
-		// scrollPane.setRowHeaderView(rowTable); //****
-		// scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER,//****
-		// rowTable.getTableHeader());//****
 
 		centerPanel.setLayout(new GridLayout(1, 1));
 		centerPanel.add(scrollPane);
@@ -423,29 +444,17 @@ public class NewExtinguisherWindow extends MainPanel {
 
 		float labelHeight = (int) (southPanel.getPreferredSize().getHeight() * 0.8);
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
-		/*
-		 * sallerLabel.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.3),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 */
+
 		sallerLabel.setTitle(Enums.Оператор.name() +  ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);
-		/*
-		 * dateLabel.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.15),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 */
+
 		dateLabel.setTitle(" Дата : ");
 		dateLabel.setName(MyGetDate.getReversedSystemDate());
 
 		protokolNumLabel = new BevelLabel(labelHeight);
-		/*
-		 * protokolNumLabel.setPreferredSize(new Dimension(
-		 * (int)(southPanel.getPreferredSize().getWidth() * 0.20),
-		 * (int)(southPanel.getPreferredSize().getHeight() * 0.8)));
-		 */
+
 		protokolNumLabel.setTitle(" Протокол \u2116 ");
 		protokolNumLabel.setName(protokolNumber);
 
@@ -458,6 +467,8 @@ public class NewExtinguisherWindow extends MainPanel {
 		basePanel.add(southPanel, BorderLayout.SOUTH);
 
 		this.add(basePanel);
+
+		StickerPrinterWorker.clearEnteredNumbers();
 	}
 
 	public static void main(String[] args) {
@@ -490,17 +501,5 @@ public class NewExtinguisherWindow extends MainPanel {
 		}
 		return true;
 	}
-	// public void resizeColumnWidth(JTable table) {
-	// final TableColumnModel columnModel = table.getColumnModel();
-	// for (int column = 0; column < table.getColumnCount(); column++) {
-	// int width = 50;//300; // Min width
-	// for (int row = 0; row < table.getRowCount(); row++) {
-	// TableCellRenderer renderer = table.getCellRenderer(row, column);
-	// Component comp = table.prepareRenderer(renderer, row, column);
-	// width = Math.max(comp.getPreferredSize().width, width);
-	// }
-	// columnModel.getColumn(column).setPreferredWidth(width + getFontSize());
-	// }
-	//
-	// }
+
 }

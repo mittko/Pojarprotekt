@@ -18,7 +18,7 @@ public class AcquittanceTableCellEditor extends DefaultCellEditor {
     	if(c instanceof JTextField) {
     		tf = (JTextField)c;
     	}
-    	if((Boolean)table.getValueAt(row, 5) == true) {
+    	if((Boolean) table.getValueAt(row, 5)) {
     		tf.setEnabled(true);
     		tf.setEditable(true);
     	} else {

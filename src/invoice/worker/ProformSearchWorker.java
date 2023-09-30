@@ -36,11 +36,11 @@ public class ProformSearchWorker extends SwingWorker<Object, Object> {
 
 			getParentInfo = ProformParent_DB
 					.getParentInfo(SearchFromProformTab.searchProformField
-							.getText());
+							.getText().trim());
 
 			getChildInfo = ProformChildDB
 					.getProformChildInfo(SearchFromProformTab.searchProformField
-							.getText());
+							.getText().trim());
 
 			/*for (Object[] childeInfo : getChildInfo) {
 				for (Object o : childeInfo) {

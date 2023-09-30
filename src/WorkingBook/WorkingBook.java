@@ -125,7 +125,7 @@ public class WorkingBook extends MainPanel {
 					return;
 				}
 
-				if (!isBarcodAndSerialEntered.contains(readBarcod.getText())) {
+				if (!isBarcodAndSerialEntered.contains(readBarcod.getText().trim())) {
 
 					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 
@@ -136,7 +136,7 @@ public class WorkingBook extends MainPanel {
 							try {
 								fromBarcod = GetFromScanner
 										.getBarcodFromServiceTableDB3(readBarcod
-												.getText());
+												.getText().trim());
 							} finally {
 								SwingUtilities.invokeLater(new Runnable() {
 
@@ -236,7 +236,7 @@ public class WorkingBook extends MainPanel {
 
 					return;
 				}
-				if (!isBarcodAndSerialEntered.contains(serialNumber.getText())) {
+				if (!isBarcodAndSerialEntered.contains(serialNumber.getText().trim())) {
 
 					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 
@@ -247,7 +247,7 @@ public class WorkingBook extends MainPanel {
 							try {
 								fromSerial = GetFromScanner
 										.getSerialFromServiceTableDB3(serialNumber
-												.getText());
+												.getText().trim());
 
 								// check if has hydrostatic examination
 

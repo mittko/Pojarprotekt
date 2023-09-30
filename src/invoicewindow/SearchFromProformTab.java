@@ -1,8 +1,10 @@
 package invoicewindow;
 
+import invoice.Fiskal.CreateBonFPrint;
 import invoice.InvoiceRenderer.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.worker.ProformSearchWorker;
+import invoice.worker.SellWithFiskalBonWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -14,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class SearchFromProformTab extends MainPanel {
@@ -312,6 +315,47 @@ public class SearchFromProformTab extends MainPanel {
 		// southPanel.add(dateLabel);
 		southPanel.add(sumLabel);
 		southPanel.add(sumField);
+
+		TooltipButton daysAccountButton = new TooltipButton();
+		daysAccountButton
+				.setToolTipText(getHTML_Text("НАПРАВИ ФИСКАЛЕН ОТЧЕТ"));
+		daysAccountButton.setPreferredSize(new Dimension((int) (southPanel
+				.getPreferredSize().getWidth() * 0.045), (int) (southPanel
+				.getPreferredSize().getHeight())));
+
+		daysAccountButton.setAutoSizedIcon(daysAccountButton,
+				new LoadIcon().setIcons("ac9.png"));
+
+		daysAccountButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+				int yes_no = JOptionPane.showOptionDialog(null,
+						"Желаете ли да направите финансов\n"
+								+ " отчет до момента?", "",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, new String[] {
+								"Да", "Не" }, // this is the array
+						"default");
+				if (yes_no != 0) {
+					return;
+				}
+				JDialog jd = (JDialog) (SwingUtilities
+						.getWindowAncestor(SearchFromProformTab.this));
+				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+				CreateBonFPrint bon = new CreateBonFPrint();
+				ArrayList<String> commandList = bon.doZOrder();
+
+				SellWithFiskalBonWorker sellWorker = new SellWithFiskalBonWorker(
+						commandList, bon, jd);
+				sellWorker.execute();
+			}
+
+		});
+		southPanel.add(daysAccountButton);
 
 		this.setLayout(new BorderLayout());
 		this.add(northPanel, BorderLayout.NORTH);

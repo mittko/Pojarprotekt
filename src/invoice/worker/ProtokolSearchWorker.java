@@ -35,7 +35,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 	public ProtokolSearchWorker(EditableField searchField,
 			DefaultTableModel dftm) {
 		this.copySearchField = searchField;
-		this.protokolNum = copySearchField.getText();
+		this.protokolNum = copySearchField.getText().trim();
 		this.fromInvoiceTableModel = dftm;
 	}
 

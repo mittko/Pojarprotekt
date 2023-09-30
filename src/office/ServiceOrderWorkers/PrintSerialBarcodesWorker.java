@@ -1,6 +1,7 @@
 package office.ServiceOrderWorkers;
 
 
+import Exceptions.ErrorDialog;
 import ThermalPrinters.LPQ58Printers.ESCPos;
 
 import javax.swing.*;
@@ -35,7 +36,7 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 
 			enteredNumbers.add(barcode);
 		} else {
-			JOptionPane.showMessageDialog(null,"Този номер вече е въведен !");
+			ErrorDialog.showErrorMessage("Този номер вече е въведен !");
 		}
 
 //		PrintToSerialPort printToSerialPort = new PrintToSerialPort();
