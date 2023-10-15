@@ -31,9 +31,7 @@ public class NewExtinguisherWindow extends MainPanel {
 	public static TooltipButton dbButton = null;
 	public TooltipButton printerButton = null;
 	private TooltipButton skladButton = null;
-	// private TooltipButton invoiceButton = null;
 
-	// public static DefaultTableModel updateQuantityOfExtinguisherModel = null;
 	public static DefaultTableModel dftm = null;
 	public JTable table = null;
 
@@ -366,11 +364,12 @@ public class NewExtinguisherWindow extends MainPanel {
 					protected Object doInBackground() throws Exception {
 						// TODO Auto-generated method stub
 						try {
+
 							invoiceNumber = InvoiceNumber.getInvoiceNumber();
 							proformNumber = InvoiceNumber.getProformNumber();
 						} finally {
 							SwingUtilities.invokeLater(new RunInvoice(
-									invoiceNumber, proformNumber, null));
+									invoiceNumber, proformNumber, protokolNumberForInvoice,null));
 						}
 						return null;
 					}

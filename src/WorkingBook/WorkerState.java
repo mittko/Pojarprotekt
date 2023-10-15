@@ -13,6 +13,7 @@ public class WorkerState extends MainPanel {
 	public WorkerState() {
 
 	}
+
 	public static void setButtonStateAccordinglyCategory(String type,String wheight,String category) {
 
 		switch (type) {
@@ -73,6 +74,7 @@ public class WorkerState extends MainPanel {
 				break;
 		}
 	}
+
 	private static void setButtonStateAccordinglyWheight(String wheight,String category) {
 		if(category.equals(category2)) {
 			switch (wheight) {
@@ -245,6 +247,80 @@ public class WorkerState extends MainPanel {
 
 	}
 
+	public static void markCenaTehnicheskoObslujvane(String type) {
+		switch (type) {
+			case type_Prah_BC:
+			case type_Prah_ABC :
+				Dust.cenaTehnichesko.setEnabled(true);
+				Dust.cenaTehnichesko.choiced = true;
+				Dust.cenaTehnichesko.setBorder(Dust.cenaTehnichesko.choiceBorder);
+			case type_Water:
+				Water.cenaTehnichesko.setEnabled(true);
+				Water.cenaTehnichesko.choiced = true;
+				Water.cenaTehnichesko.setBorder(Water.cenaTehnichesko.choiceBorder);
+				break;
+			case type_Water_Fame:
+				Vodopenen.cenaTehnichesko.setEnabled(true);
+				Vodopenen.cenaTehnichesko.choiced = true;
+				Vodopenen.cenaTehnichesko.setBorder(Vodopenen.cenaTehnichesko.choiceBorder);
+				break;
+			case type_CO2:
+				CO2.cenaTehnichesko.setEnabled(true);
+				CO2.cenaTehnichesko.choiced = true;
+				CO2.cenaTehnichesko.setBorder(CO2.cenaTehnichesko.choiceBorder);
+				break;
+		}
+	}
+
+	public static void markCenaPrezarejdane(String type) {
+		switch (type) {
+			case type_Prah_BC:
+			case type_Prah_ABC:
+				Dust.cenaPrezarevdane.setEnabled(true);
+				Dust.cenaPrezarevdane.choiced = true;
+				Dust.cenaPrezarevdane.setBorder(Dust.cenaPrezarevdane.choiceBorder);
+			case type_Water:
+				Water.cenaPrezarevdane.setEnabled(true);
+				Water.cenaPrezarevdane.choiced = true;
+				Water.cenaPrezarevdane.setBorder(Water.cenaPrezarevdane.choiceBorder);
+				break;
+			case type_Water_Fame:
+				Vodopenen.cenaPrezarevdane.setEnabled(true);
+				Vodopenen.cenaPrezarevdane.choiced = true;
+				Vodopenen.cenaPrezarevdane.setBorder(Vodopenen.cenaPrezarevdane.choiceBorder);
+				break;
+			case type_CO2:
+				CO2.cenaPrezarevdane.setEnabled(true);
+				CO2.cenaPrezarevdane.choiced = true;
+				CO2.cenaPrezarevdane.setBorder(CO2.cenaPrezarevdane.choiceBorder);
+				break;
+		}
+	}
+
+	public static void markCenaHidrostatichnoIzpitvane(String type) {
+		switch (type) {
+			case type_Prah_BC:
+			case type_Prah_ABC:
+				Dust.cenaHidrostaticnoIzpitvane.setEnabled(true);
+				Dust.cenaHidrostaticnoIzpitvane.choiced = true;
+				Dust.cenaHidrostaticnoIzpitvane.setBorder(Dust.cenaHidrostaticnoIzpitvane.choiceBorder);
+			case type_Water:
+				Water.cenaHidrostaticnoIzpitvane.setEnabled(true);
+				Water.cenaHidrostaticnoIzpitvane.choiced = true;
+				Water.cenaHidrostaticnoIzpitvane.setBorder(Water.cenaHidrostaticnoIzpitvane.choiceBorder);
+				break;
+			case type_Water_Fame:
+				Vodopenen.cenaHidrostaticnoIzpitvane.setEnabled(true);
+				Vodopenen.cenaHidrostaticnoIzpitvane.choiced = true;
+				Vodopenen.cenaHidrostaticnoIzpitvane.setBorder(Vodopenen.cenaHidrostaticnoIzpitvane.choiceBorder);
+				break;
+			case type_CO2:
+				CO2.cenaHidrostaticnoIzpitvane.setEnabled(true);
+				CO2.cenaHidrostaticnoIzpitvane.choiced = true;
+				CO2.cenaHidrostaticnoIzpitvane.setBorder(CO2.cenaHidrostaticnoIzpitvane.choiceBorder);
+				break;
+		}
+	}
 	public static void markPlomba(String type,boolean isTO) {
 		switch (type) {
 			case type_Prah_BC:
@@ -282,6 +358,7 @@ public class WorkerState extends MainPanel {
 				break;
 		}
 	}
+
 	public static void markEntity(String type,boolean enabled) {
 		switch (type) {
 			case type_Prah_BC:
@@ -368,6 +445,7 @@ public class WorkerState extends MainPanel {
 				break;
 		}
 	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

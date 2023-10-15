@@ -19,6 +19,10 @@ public class Water extends MainPanel {
 	public static PartButton iglichka = null;
 	public static PartButton kapachka = null;
 
+	public static PartButton cenaTehnichesko = null;
+	public static PartButton cenaPrezarevdane = null;
+	public static PartButton cenaHidrostaticnoIzpitvane = null;
+
 
 	public Water(Dimension dim) {
 		int buttonVGap = 5;
@@ -52,7 +56,8 @@ public class Water extends MainPanel {
 		paneList.add(pane2);
 		paneList.add(pane3);
 		paneList.add(pane4);
-	//	paneList.add(pane5);  if we want to add more arts, create one more paneList add parts to it and add paneList to block
+		paneList.add(pane5);
+		//if we want to add more articuls, create one more paneList add parts to it and add paneList to block
 
 		for(JPanel panel : paneList) {
 			block.add(panel);
@@ -236,6 +241,35 @@ public class Water extends MainPanel {
 		pane4.add(etiket);
 		pane4.add(sud);
 		pane4.add(woda);
+
+		cenaTehnichesko = new PartButton();
+		cenaTehnichesko.setPreferredSize(buttonDimension);
+		cenaTehnichesko.setToolTipText(getHTML_Text(CENA_TEHNICHESKO));
+		cenaTehnichesko.setName(CENA_TEHNICHESKO);
+		cenaTehnichesko.setText("Техническо Обслужване");
+		cenaTehnichesko.isEditable = false;
+
+		cenaPrezarevdane = new PartButton();
+		cenaPrezarevdane.setPreferredSize(buttonDimension);
+		cenaPrezarevdane.setToolTipText(getHTML_Text(CENA_PREZAREJDANE));
+		cenaPrezarevdane.setName(CENA_PREZAREJDANE);
+		cenaPrezarevdane.setText("Презареждане");
+		cenaPrezarevdane.isEditable = false;
+
+		cenaHidrostaticnoIzpitvane = new PartButton();
+		cenaHidrostaticnoIzpitvane.setPreferredSize(buttonDimension);
+		cenaHidrostaticnoIzpitvane.setToolTipText(getHTML_Text(CENA_HIDROSTATICHNO_IZPITVANE));
+		cenaHidrostaticnoIzpitvane.setName(CENA_HIDROSTATICHNO_IZPITVANE);
+		cenaHidrostaticnoIzpitvane.setText("Хидростатично Изпитване");
+		cenaHidrostaticnoIzpitvane.isEditable = false;
+
+		list.add(cenaTehnichesko);
+		list.add(cenaPrezarevdane);
+		list.add(cenaHidrostaticnoIzpitvane);
+
+		pane5.add(cenaTehnichesko);
+		pane5.add(cenaPrezarevdane);
+		pane5.add(cenaHidrostaticnoIzpitvane);
 
 
 		if(block.getComponentCount() > 4) {

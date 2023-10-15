@@ -224,7 +224,7 @@ public class MainMenu extends MainPanel {
 							proformNumber = InvoiceNumber.getProformNumber();
 						} finally {
 							SwingUtilities.invokeLater(new RunInvoice(
-									invoiceNumber, proformNumber, jf));
+									invoiceNumber, proformNumber, null, jf));
 						}
 						return null;
 					}

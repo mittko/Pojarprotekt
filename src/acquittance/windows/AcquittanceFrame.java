@@ -17,7 +17,7 @@ public class AcquittanceFrame extends MainPanel {
 		JTabbedPane tabbedPane = new JTabbedPane();
 
 		greyArtikulTab = new GreyArtikulTab();
-		protokolAndProformSearchTabs = new ProtokolAndProformSearchTabs(true);
+		protokolAndProformSearchTabs = new ProtokolAndProformSearchTabs(true,null);
 		tabbedPane.add("œŒ∆¿–Œ√¿—»“≈À» » ¿–“» ”À»", protokolAndProformSearchTabs);
 		tabbedPane.add("¿–“» ”À»", greyArtikulTab);
 		this.add(tabbedPane);

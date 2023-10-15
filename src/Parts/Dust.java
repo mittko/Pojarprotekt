@@ -28,6 +28,11 @@ public class Dust extends MainPanel {
 	public static PartButton remontNaKolichka = null;
 	public static PartButton boqdiswaneNaKolichka  = null;
 
+
+	public static PartButton cenaTehnichesko = null;
+	public static PartButton cenaPrezarevdane = null;
+	public static PartButton cenaHidrostaticnoIzpitvane = null;
+
 	public Dust(Dimension dim) {
 		list = new ArrayList<>();
 
@@ -67,8 +72,11 @@ public class Dust extends MainPanel {
 		paneList.add(pane3);
 		paneList.add(pane4);
 		paneList.add(pane5);
+		paneList.add(pane6);
 
-	//	paneList.add(pane6); if we want to add more arts, create one more paneList add parts to it and add paneList to block
+	//	paneList.add(pane6);
+		//	if we want to add more parts, create one more pane
+    //	add parts to it , add it to paneList and add paneList to block
 
 		for(JPanel panel : paneList) {
 			block.add(panel);
@@ -239,7 +247,26 @@ public class Dust extends MainPanel {
 		prah_ABC.setName(PrahABC);
 		prah_ABC.isEditable = false;
 
+		cenaTehnichesko = new PartButton();
+		cenaTehnichesko.setPreferredSize(buttonDimension);
+		cenaTehnichesko.setToolTipText(getHTML_Text(CENA_TEHNICHESKO));
+		cenaTehnichesko.setName(CENA_TEHNICHESKO);
+		cenaTehnichesko.setText("Техническо Обслужване");
+		cenaTehnichesko.isEditable = false;
 
+		cenaPrezarevdane = new PartButton();
+		cenaPrezarevdane.setPreferredSize(buttonDimension);
+		cenaPrezarevdane.setToolTipText(getHTML_Text(CENA_PREZAREJDANE));
+		cenaPrezarevdane.setName(CENA_PREZAREJDANE);
+		cenaPrezarevdane.setText("Презареждане");
+		cenaPrezarevdane.isEditable = false;
+
+		cenaHidrostaticnoIzpitvane = new PartButton();
+		cenaHidrostaticnoIzpitvane.setPreferredSize(buttonDimension);
+		cenaHidrostaticnoIzpitvane.setToolTipText(getHTML_Text(CENA_HIDROSTATICHNO_IZPITVANE));
+		cenaHidrostaticnoIzpitvane.setName(CENA_HIDROSTATICHNO_IZPITVANE);
+		cenaHidrostaticnoIzpitvane.setText("Хидростатично Изпитване");
+        cenaHidrostaticnoIzpitvane.isEditable = false;
 
 		pane1.add(glawa);
 		pane1.add(manometer);
@@ -301,6 +328,13 @@ public class Dust extends MainPanel {
 		pane5.add(sud);
 		pane5.add(prah_ABC);
 
+		list.add(cenaTehnichesko);
+		list.add(cenaPrezarevdane);
+		list.add(cenaHidrostaticnoIzpitvane);
+
+		pane6.add(cenaTehnichesko);
+        pane6.add(cenaPrezarevdane);
+		pane6.add(cenaHidrostaticnoIzpitvane);
 
 		if(block.getComponentCount() > 4) {
 			JScrollPane scrollPane = new JScrollPane(block, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,

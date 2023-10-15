@@ -373,7 +373,7 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 										// обслужването
 
 			PdfPCell stickerCell = new PdfPCell(new Phrase(dm
-					.getValueAt(row, 2).toString(), font7));
+					.getValueAt(row, 2).toString()+"1", font7));// we add 1 to number just dummy to distinguishable every number from another
 			stickerCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 			dynamicTable.addCell(stickerCell); // column 11 номер на стикер

@@ -112,6 +112,13 @@ public class MainPanel extends JPanel {
 	// Sad za gasitelno veshtestvo
 	public static final String GasitelnoVeshtestvoCO2 = "Гасително вещество (Въглероден диоксид)";
 
+	public static final String CENA_TEHNICHESKO = "Цена Техническо Обслужване";
+	public static final String CENA_PREZAREJDANE = "Цена Презареждане";
+
+	public static final String CENA_HIDROSTATICHNO_IZPITVANE = "Цена Хидростатично Изпитване";
+
+
+
 	public static final String type_Prah_BC = "Прахов BC";
 	public static final String type_Prah_ABC = "Прахов ABC";
 	public static final String type_Water = "Воден";

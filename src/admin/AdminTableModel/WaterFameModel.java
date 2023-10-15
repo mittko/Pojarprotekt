@@ -17,7 +17,8 @@ public class WaterFameModel extends DefaultTableModel{
 			MainPanel.Plomba,MainPanel.Markuch,MainPanel.DarjachZaMarkuch,MainPanel.Prujina,MainPanel.Struinik,
 			MainPanel.Patron,MainPanel.Sonda,MainPanel.Struinik4,MainPanel.BarbutajnaTraba,MainPanel.IglichkaZaPompane,
 			MainPanel.KapachkaZaUplatnenie,MainPanel.BoyaPojarogasitel,MainPanel.Etiket,MainPanel.SadZaGasitelnoVeshtestvo,
-			MainPanel.GasitelnoVeshtestvoVodaPyana};
+			MainPanel.GasitelnoVeshtestvoVodaPyana,MainPanel.CENA_TEHNICHESKO,MainPanel.CENA_PREZAREJDANE
+		,MainPanel.CENA_HIDROSTATICHNO_IZPITVANE};
 	
 	private static final Object[][] obj = {
 		{"1","6 литра"},
@@ -58,7 +59,20 @@ public class WaterFameModel extends DefaultTableModel{
 	}
 	public static void main(String[] args) {
 	//	testInit();
-		Add();
+		addNewArtikuls();
+	}
+	private static void addNewArtikuls() {
+		String newArtikulToBeAdded = MainPanel.CENA_HIDROSTATICHNO_IZPITVANE;
+		String forType = MainPanel.type_Prah_ABC;
+		double price = 0;//MyMath.round(rnd.nextDouble(), 2)
+		for(int j = 0;j < obj.length;j++) {
+
+			String weight = obj[j][1].toString();
+			String category = obj[j][0].toString();
+
+			PriceTable.initPartPriceTable(newArtikulToBeAdded, forType,
+					weight, category, price);
+		}
 	}
 	 static void Add() {
 		 // init additional elements into db

@@ -1,5 +1,6 @@
 package menu;
 
+import invoicewindow.ArtikulTab;
 import invoicewindow.InvoiceFrame;
 import invoicewindow.SearchFromProformTab;
 import invoicewindow.SearchFromProtokolTab;
@@ -14,11 +15,14 @@ public class RunInvoice implements Runnable {
 
     private String invoiceNumber = null;
     private String proformNumber = null;
+
+    private String protokolNumber;
     private JFrame jf = null;
 
-    public RunInvoice(String invoiceNumber, String proformNumber, JFrame jf) {
+    public RunInvoice(String invoiceNumber, String proformNumber,String protokolNumber, JFrame jf) {
         this.invoiceNumber = invoiceNumber;
         this.proformNumber = proformNumber;
+        this.protokolNumber = protokolNumber;
         this.jf = jf;
     }
 
@@ -29,9 +33,8 @@ public class RunInvoice implements Runnable {
             jf.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         if (invoiceNumber != null) {
-            // MyInvoice2 invoice = new MyInvoice2(invoiceNumber,
-            // proformNumber);
-            final InvoiceFrame invoice = new InvoiceFrame();
+
+            final InvoiceFrame invoice = new InvoiceFrame(protokolNumber);
             final JDialoger jDialog = new JDialoger();
             jDialog.setTitle("Фактури / Проформи / Стокови разписки");
             jDialog.setContentPane(invoice);
@@ -43,7 +46,7 @@ public class RunInvoice implements Runnable {
                             .getRowCount() > 0
                             || SearchFromProformTab.proformTableModel
                             .getRowCount() > 0
-                            || invoice.acqTab.dftm.getRowCount() > 0) {
+                            || ArtikulTab.dftm.getRowCount() > 0) {
                         int yes_no = JOptionPane
                                 .showOptionDialog(
                                         null,

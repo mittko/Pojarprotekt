@@ -11,9 +11,10 @@ public class ProtokolAndProformSearchTabs extends MainPanel {
 
 	private final JPanel centerPanel;
 	public SearchFromProtokolTab searchProtokol;
+	private String protokolNumber;
 	public SearchFromProformTab searchProform;
 
-	public ProtokolAndProformSearchTabs(boolean isGrey) {
+	public ProtokolAndProformSearchTabs(boolean isGrey,String protokolNumber) {
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new GridLayout(1, 1));
 
@@ -62,7 +63,7 @@ public class ProtokolAndProformSearchTabs extends MainPanel {
 		centerPanel.setLayout(new CardLayout());
 		centerPanel.setPreferredSize(new Dimension(this.WIDTH - 20, this.HEIGHT - 200));
 
-		searchProtokol = new SearchFromProtokolTab(isGrey);
+		searchProtokol = new SearchFromProtokolTab(isGrey,protokolNumber);
 		centerPanel.add(searchProtokol, protokolButton.getText());
 
 		searchProform = new SearchFromProformTab();

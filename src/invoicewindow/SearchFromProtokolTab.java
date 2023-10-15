@@ -20,10 +20,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -31,7 +28,7 @@ import java.util.HashSet;
 
 public class SearchFromProtokolTab extends MainPanel {
 
-	public static EditableField searchField;
+	private static EditableField searchField;
 
 	private final EditableField dateField;
 
@@ -73,7 +70,7 @@ public class SearchFromProtokolTab extends MainPanel {
 	final JPopupMenu popupMenu = new JPopupMenu();
 	private String protokolNumber = "";
 
-	public SearchFromProtokolTab(final boolean isGrey) {
+	public SearchFromProtokolTab(final boolean isGrey, final String prtNumber) {
 
 		INVOICE_CURRENT_CLIENT = "";
 		// moreProtokolsList.clear();
@@ -88,6 +85,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		searchField.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.13), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.6)));
+
 		searchField.addActionListener(new ActionListener() {
 
 			@Override
@@ -107,6 +105,24 @@ public class SearchFromProtokolTab extends MainPanel {
 			}
 
 		});
+
+		if(prtNumber != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					searchField.requestFocusInWindow();
+					searchField.requestFocus();
+					searchField.setText(prtNumber);
+					try {
+						Robot robot = new Robot();
+						robot.keyPress(KeyEvent.VK_ENTER);
+					} catch (AWTException e) {
+						throw new RuntimeException(e);
+					}
+
+				}
+			});
+		}
 
 		dateField = new EditableField(" Дата ", 7);
 		dateField.setText(MyGetDate.getReversedSystemDate());

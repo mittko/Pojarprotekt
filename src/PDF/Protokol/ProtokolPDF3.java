@@ -227,7 +227,6 @@ public class ProtokolPDF3 extends PdfCreator {
 			String _hidrostatichno = dm
 					.getValueAt(row + startIndex, 9) + ""; // хидростатично
 			String[] doing = {_tehnichesko,_prezarejdane,_hidrostatichno};
-			String[] stickToBarcode = new String[]{MainPanel.STICK_TO_BARCODE,MainPanel.STICK_P_BARCODE,MainPanel.STICK_HI_BARCODE};
 			++numer;
             for(int j = 0;j < 3;j++) {
                 if(doing[j].equals("не")) {
@@ -531,7 +530,7 @@ public class ProtokolPDF3 extends PdfCreator {
 
 				// barcod number
 				PdfPCell cell15 = new PdfPCell(new Phrase(dm.getValueAt(
-						row + startIndex, 3).toString() + stickToBarcode[j], font7));
+						row + startIndex, 3).toString() + (j+1), font7));
 				cell15.setHorizontalAlignment(Element.ALIGN_LEFT);
 
 				dynamicTable.addCell(cell15); // column 11 номер на стикер
