@@ -826,32 +826,34 @@ public class WorkingBook extends MainPanel {
 		switch (doing) {
 			case HI:
 				returnPreviousButtonState(false);
+				WorkerState.markCenaHidrostatichnoIzpitvane(type);
 				break;
 			case TO:
 				returnPreviousButtonState(true);
 				WorkerState.markPlomba(type, isTO);
 				WorkerState.markEntity(type, false);
+				WorkerState.markCenaTehnicheskoObslujvane(type);
 				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
 						category);
-				WorkerState.markCenaTehnicheskoObslujvane(type);
 				break;
 			case TO_P:
 				returnPreviousButtonState(true);
 				WorkerState.markPlomba(type, isTO);
 				WorkerState.markEntity(type, true);
-				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
-						category);
 				WorkerState.markCenaTehnicheskoObslujvane(type);
 				WorkerState.markCenaPrezarejdane(type);
+				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
+						category);
+				break;
 			case TO_P_HI:
 				returnPreviousButtonState(true);
 				WorkerState.markPlomba(type, isTO);
 				WorkerState.markEntity(type, true);
-				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
-						category);
 				WorkerState.markCenaTehnicheskoObslujvane(type);
 				WorkerState.markCenaPrezarejdane(type);
 				WorkerState.markCenaHidrostatichnoIzpitvane(type);
+				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
+						category);
 				break;
 		}
 	}

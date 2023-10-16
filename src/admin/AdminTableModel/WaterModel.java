@@ -60,12 +60,12 @@ public class WaterModel extends DefaultTableModel {
 	}
 
 	public static void main(String[] args) {
-		testInit();
+	//	testInit();
 		addNewArtikuls();
 	}
 	private static void addNewArtikuls() {
 		String newArtikulToBeAdded = MainPanel.CENA_HIDROSTATICHNO_IZPITVANE;
-		String forType = MainPanel.type_Prah_ABC;
+		String forType = MainPanel.type_Water;
 		double price = 0;//MyMath.round(rnd.nextDouble(), 2)
 		for(int j = 0;j < obj.length;j++) {
 

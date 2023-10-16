@@ -65,7 +65,7 @@ public class CO2Model extends DefaultTableModel {
 
 	private static void addNewArtikuls() {
 		String newArtikulToBeAdded = MainPanel.CENA_HIDROSTATICHNO_IZPITVANE;
-		String forType = MainPanel.type_Prah_ABC;
+		String forType = MainPanel.type_CO2;
 		double price = 0;//MyMath.round(rnd.nextDouble(), 2)
 		for(int j = 0;j < obj.length;j++) {
 

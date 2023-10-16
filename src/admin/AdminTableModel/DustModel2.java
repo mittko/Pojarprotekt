@@ -71,7 +71,19 @@ public class DustModel2 extends DefaultTableModel {
 		addNewArtikuls();
 		//testInit();
 	}
+	private static void addNewArtikuls() {
+		String newArtikulToBeAdded = MainPanel.CENA_HIDROSTATICHNO_IZPITVANE;
+		String forType = MainPanel.type_Prah_ABC;
+		double price = 0;//MyMath.round(rnd.nextDouble(), 2)
+		for(int j = 0;j < obj.length;j++) {
 
+			String weight = obj[j][1].toString();
+			String category = obj[j][0].toString();
+
+			PriceTable.initPartPriceTable(newArtikulToBeAdded, forType,
+					weight, category, price);
+		}
+	}
 	static void testInit() {
 		// WARNING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		// here category(obj[j][0]) and wheight(obj[j][1]) values are swaped in init command ,
@@ -101,18 +113,6 @@ public class DustModel2 extends DefaultTableModel {
 
 	}
 
-	private static void addNewArtikuls() {
-		String newArtikulToBeAdded = MainPanel.CENA_HIDROSTATICHNO_IZPITVANE;
-		String forType = MainPanel.type_Prah_ABC;
-		double price = 0;//MyMath.round(rnd.nextDouble(), 2)
-		for(int j = 0;j < obj.length;j++) {
 
-			String weight = obj[j][1].toString();
-			String category = obj[j][0].toString();
-
-			PriceTable.initPartPriceTable(newArtikulToBeAdded, forType,
-					weight, category, price);
-		}
-	}
 
 }

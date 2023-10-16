@@ -46,8 +46,6 @@ public class SearchFromProtokolTab extends MainPanel {
 	public static DefaultTableModel invoiceTableModel = null;
 	private final JTable invoiceTable;
 
-	// private DefaultTableModel artikuliModel;
-
 	private final BevelLabel invoiceNumberLabel = null;
 
 	private final BevelLabel proformNumLabel = null;
@@ -56,15 +54,7 @@ public class SearchFromProtokolTab extends MainPanel {
 	public static JTextField sumField; // with tax
 
 	public static String INVOICE_CURRENT_CLIENT;
-	// public static ArrayList<Object[]> moreProtokolsLists = new
-	// ArrayList<Object[]>(); // store
-	// data
-	// from
-	// more
-	// protokols
-	// and
-	// one
-	// client
+
 	public static HashSet<String> protokolNumberSet = new HashSet<String>();
 
 	final JPopupMenu popupMenu = new JPopupMenu();
@@ -73,10 +63,9 @@ public class SearchFromProtokolTab extends MainPanel {
 	public SearchFromProtokolTab(final boolean isGrey, final String prtNumber) {
 
 		INVOICE_CURRENT_CLIENT = "";
-		// moreProtokolsList.clear();
 		protokolNumberSet.clear();
 
-		JPanel northPanel = new JPanel();// GradientPanel();
+		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		northPanel.setPreferredSize(new Dimension(
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.1)));
@@ -105,6 +94,7 @@ public class SearchFromProtokolTab extends MainPanel {
 			}
 
 		});
+
 
 		if(prtNumber != null) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -155,8 +145,6 @@ public class SearchFromProtokolTab extends MainPanel {
 
 		newClientButton.setAutoSizedIcon(newClientButton,
 				new LoadIcon().setIcons(clientsImage));
-		// newClientButton.setIcon(setIcons(clientsImage));
-		// newClientButton.setPreferredSize(new Dimension(55,55));
 		newClientButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -173,8 +161,6 @@ public class SearchFromProtokolTab extends MainPanel {
 		});
 
 		TooltipButton skladButton = new TooltipButton();
-		// skladButton.setPreferredSize(new Dimension(55, 55));
-		// skladButton.setIcon(setIcons(artikuliImage));
 		skladButton.setToolTipText(getHTML_Text("»«¡≈–» ¿–“» ”À»"));
 		skladButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
@@ -269,8 +255,6 @@ public class SearchFromProtokolTab extends MainPanel {
 
 		TooltipButton dbButton = new TooltipButton();
 
-		// dbButton.setPreferredSize(new Dimension(55, 55));
-		// dbButton.setAutoSizedIcon(dbButton,setIcons(dbImage));
 		dbButton.setToolTipText(getHTML_Text("«¿œ»ÿ» ¬ ¡¿«¿ ƒ¿ÕÕ»"));
 		dbButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
@@ -561,7 +545,6 @@ public class SearchFromProtokolTab extends MainPanel {
 
 		southPanel.add(clientLabel);
 		southPanel.add(sallerLabel);
-		// southPanel.add(dateLabel);
 		southPanel.add(sumLabel2);
 		southPanel.add(sumFieldNoTax);
 		southPanel.add(sumLabel);
@@ -590,13 +573,10 @@ public class SearchFromProtokolTab extends MainPanel {
 		discountField.setText("");
 		choiceDiscountButton.setSelected(true); // !!!! attention
 		clientLabel.setName("");
-		// proformNumLabel.setName("");
-		// invoiceNumberLabel.setName("");
 		sumFieldNoTax.setText("");
 		sumField.setText("");
 		paymenCombo.setSelectedIndex(0);
 		invoiceTableModel.setRowCount(0);
-		// moreProtokolsList.clear();
 		protokolNumberSet.clear();
 		INVOICE_CURRENT_CLIENT = "";
 		registrationVatCheckBox.setIcon(null);
