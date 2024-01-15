@@ -36,28 +36,18 @@ public class StickerPrinterWorker extends SwingWorker {
 		// TODO Auto-generated method stub
 		// Едната дата не я принтира засега остава закоментирано
 
-		System.out.println("(яяя"+ nextDateTO + ") (" + nextDateP + ") (" + nextDateHI+")");
+		System.out.println(""+ nextDateTO + ") (" + nextDateP + ") (" + nextDateHI+")");
 
 		ArrayList<String> dates = new ArrayList<>();
 
 
 
 		if(!enteredNumbers.contains(barcod)) {
-					if(!nextDateTO.isEmpty()) {
+
 						citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
-								, nextDateTO, "",
-								"", MainPanel.personName);
-					}
-					if(!nextDateP.isEmpty()) {
-						citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
-								, "", nextDateP,
-								"", MainPanel.personName);
-					}
-					if(!nextDateHI.isEmpty()) {
-							citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0,barcod.length()-1)
-									, "","",
-									nextDateHI, MainPanel.personName);
-					}
+								, nextDateTO, nextDateP,
+								nextDateHI, MainPanel.personName);
+
 		//	enteredNumbers.add(barcod);
 		} else {
 			ErrorDialog.showErrorMessage("Този номер вече е въведен !");

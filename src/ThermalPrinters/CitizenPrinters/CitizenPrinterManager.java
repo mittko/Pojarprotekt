@@ -142,30 +142,76 @@ public class CitizenPrinterManager {
                byteArrayOutputStream.write("".getBytes());
                byteArrayOutputStream.write(CR);
 
+
+               SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyy");
+               try {
+                   Date date = simpleDateFormat.parse(toDate);
+                   System.out.println(date);
+                   System.out.println("TO");
+
+                   setFontSelectionNumber((byte)4);
+
+                   setRowAddress(new byte[]{0, 1, 4, 0});
+                   setColumnAddress(new byte[]{0, 2, 3, 0});
+                   byteArrayOutputStream.write(constructCharacterDataToSend("V").getBytes());
+                   byteArrayOutputStream.write(CR);
+               }catch (Exception ignored) {}
+
+               try {
+                   Date date2 = simpleDateFormat.parse(pDate);
+                   System.out.println(date2);
+                   System.out.println("P");
+
+                   setFontSelectionNumber((byte)4);
+
+                   setRowAddress(new byte[]{0, 1, 1, 8});
+                   setColumnAddress(new byte[]{0, 2, 3, 0});
+                   byteArrayOutputStream.write(constructCharacterDataToSend("V").getBytes());
+                   byteArrayOutputStream.write(CR);
+               }catch (Exception ignored) {}
+
+               try {
+                   Date date3 = simpleDateFormat.parse(hiDate);
+                   System.out.println(date3);
+                   System.out.println("HI");
+
+
+                   setFontSelectionNumber((byte)4);
+
+                   setRowAddress(new byte[]{0, 0, 9, 5});
+                   setColumnAddress(new byte[]{0, 2, 3, 0});
+                   byteArrayOutputStream.write(constructCharacterDataToSend("V").getBytes());
+                   byteArrayOutputStream.write(CR);
+               } catch (Exception ignored) {}
+
+
+               setPixelSize(10);//10
+               setFontSelectionNumber((byte)3);
+
                // ДАТА НА СЛЕДВАЩО ТЕХНИЧЕСКО ОБСЛУЖВАНЕ
                // ДАТА ОТЛЯВО
-               setRowAddress(new byte[]{0, 3, 1, 5});   // move on top/down on portrait model
-               setColumnAddress(new byte[]{0, 0, 2, 5});// move on left/right on portrait mode
+               setRowAddress(new byte[]{0, 0, 5, 0});   // move on top/down on portrait model //{0, 3, 1, 5}
+               setColumnAddress(new byte[]{0, 0, 3, 5});// move on left/right on portrait mode //{0, 0, 2, 5}
                byteArrayOutputStream.write(constructCharacterDataToSend(currDate).getBytes());
                byteArrayOutputStream.write(CR);
 
                // ДАТА ОТДЯСНО
-               setRowAddress(new byte[]{0, 3, 1, 5});   // move on top/down on portrait model
-               setColumnAddress(new byte[]{0, 1, 5, 0});// move on left/right on portrait mode
+               setRowAddress(new byte[]{0, 0, 5, 0});   // move on top/down on portrait model //{0, 3, 1, 5}
+               setColumnAddress(new byte[]{0, 1, 5, 0});// move on left/right on portrait mode // {0, 1, 5, 0}
                byteArrayOutputStream.write(constructCharacterDataToSend(toDate).getBytes());
                byteArrayOutputStream.write(CR);
 
 
                // БАРКОД ТЕХНИЧЕСКО ОБСЛУЖВАНЕ
                setPrintingAngle(horizontalAngle);
-               setRowAddress(new byte[]{0, 2, 7, 1});   // move on top/down on portrait model
-               setColumnAddress(new byte[]{0, 0, 4, 2});// move on left/right on portrait mode
+               setRowAddress(new byte[]{0, 0, 1, 0});   // move on top/down on portrait model
+               setColumnAddress(new byte[]{0, 0, 5, 2});// move on left/right on portrait mode
                byteArrayOutputStream.write( (constructBarcodeEAN13ToSend(barcode)).getBytes());
                byteArrayOutputStream.write(CR);
 
                setPrintingAngle(horizontalAngle);
-               setRowAddress(new byte[]{0, 2, 7, 1});   // move on top/down on portrait model
-               setColumnAddress( new byte[]{0, 1, 9, 2});// move on left/right on portrait mode
+               setRowAddress(new byte[]{0, 0, 1, 0});   // move on top/down on portrait model
+               setColumnAddress( new byte[]{0, 2, 0, 2});// move on left/right on portrait mode
                byteArrayOutputStream.write(constructCharacterDataToSend("1").getBytes());
                byteArrayOutputStream.write(CR);
 
@@ -179,7 +225,7 @@ public class CitizenPrinterManager {
            }
 
 
-           try {
+/*           try {
                Date date1 = format.parse(pDate);
                System.out.println("prezarevdane " + date1);
 
@@ -205,7 +251,7 @@ public class CitizenPrinterManager {
                setRowAddress(new byte[]{0, 1, 4, 4});   // move on top/down on portrait model
                setColumnAddress(new byte[]{0, 0, 4, 2});// move on left/right on portrait mode
                byteArrayOutputStream.write((constructBarcodeEAN13ToSend(barcode)).getBytes());//"1F6405000200040111111111111".getBytes());
-               byteArrayOutputStream.write(CR); /*data for printing data format is delimeted by A CR and then transmitted*/
+               byteArrayOutputStream.write(CR); *//*data for printing data format is delimeted by A CR and then transmitted*//*
 
                setPrintingAngle(horizontalAngle);
                setRowAddress(new byte[]{0, 1, 4, 4});   // move on top/down on portrait model
@@ -215,8 +261,10 @@ public class CitizenPrinterManager {
 
            } catch (ParseException e) {
                System.out.println(e.getMessage());
-           }
-           try {
+           }*/
+
+
+         /*  try {
                Date date1 = format.parse(hiDate);
                System.out.println("hidrostaticno izpitwane " + date1);
 
@@ -264,7 +312,7 @@ public class CitizenPrinterManager {
 
            } catch (ParseException e) {
                System.out.println(e.getMessage());
-           }
+           }*/
 
 
            byteArrayOutputStream.write(E);/*changing to the system level interpreter from label format interpreter*/
