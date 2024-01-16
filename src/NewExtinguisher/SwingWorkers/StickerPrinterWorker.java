@@ -34,21 +34,38 @@ public class StickerPrinterWorker extends SwingWorker {
 	@Override
 	protected Object doInBackground() throws Exception {
 		// TODO Auto-generated method stub
-		// Едната дата не я принтира засега остава закоментирано
-
-		System.out.println(""+ nextDateTO + ") (" + nextDateP + ") (" + nextDateHI+")");
-
-		ArrayList<String> dates = new ArrayList<>();
-
-
 
 		if(!enteredNumbers.contains(barcod)) {
 
-						citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
-								, nextDateTO, nextDateP,
-								nextDateHI, MainPanel.personName);
 
-		//	enteredNumbers.add(barcod);
+			if(!nextDateTO.isEmpty()) {
+				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
+						, nextDateTO, "",
+						"", MainPanel.personName,"1");
+
+				System.out.println("TO");
+				Thread.sleep(5000L);
+
+
+			}
+
+			if(!nextDateP.isEmpty()) {
+
+				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
+						, "", nextDateP,
+						"", MainPanel.personName,"2");
+				System.out.println("P");
+				Thread.sleep(5000L);
+
+			}
+
+			if(!nextDateHI.isEmpty()) {
+				System.out.println("HI");
+				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0,barcod.length()-1)
+						, "","",
+						nextDateHI, MainPanel.personName,"3");
+			}
+			//	enteredNumbers.add(barcod);
 		} else {
 			ErrorDialog.showErrorMessage("Този номер вече е въведен !");
 		}
