@@ -234,11 +234,14 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 			for (int init = 0; init < newObj.length; init++) {
 				Object str = datum[init];
 				if(init == newObj.length - 1) { // column uptodate
-					if(str == null) {
-						str = "не";
-						totalFireExtinguishers++;
-					} else {
-						str = "да";
+				
+					if(destination.equalsIgnoreCase(PROTOKOL)) {
+						if (str == null) {
+								str = "не";
+							totalFireExtinguishers++;
+						} else {
+								str = "да";
+						}
 					}
 				} else if (str == null) {
 					str = "";

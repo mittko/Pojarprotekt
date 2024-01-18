@@ -32,7 +32,7 @@ public class PrintSerialBarcodesWorker extends SwingWorker {
 			escPos.escInit();
 			escPos.printBarcode(barcode, type, h, w, font, pos, clientName, (byte) 3);
 			final ByteArrayOutputStream byteArrayOutputStream = escPos.getPrinter();
-			escPos.printHexBytes(byteArrayOutputStream.toByteArray(), "Brother QL-500");//""LPQ58(ESC)");
+			escPos.printHexBytes(byteArrayOutputStream.toByteArray(), "LPQ58(ESC)");//""LPQ58(ESC)");
 
 			enteredNumbers.add(barcode);
 		} else {

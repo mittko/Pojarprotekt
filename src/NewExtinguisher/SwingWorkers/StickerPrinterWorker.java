@@ -42,11 +42,7 @@ public class StickerPrinterWorker extends SwingWorker {
 				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
 						, nextDateTO, "",
 						"", MainPanel.personName,"1");
-
-				System.out.println("TO");
 				Thread.sleep(5000L);
-
-
 			}
 
 			if(!nextDateP.isEmpty()) {
@@ -54,7 +50,6 @@ public class StickerPrinterWorker extends SwingWorker {
 				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
 						, "", nextDateP,
 						"", MainPanel.personName,"2");
-				System.out.println("P");
 				Thread.sleep(5000L);
 
 			}

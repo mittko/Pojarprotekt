@@ -82,7 +82,7 @@ public class CitizenPrinterManager {
 
 
 
-   public static void main(String[] args) throws IOException {
+   public static void main(String[] args) throws IOException, InterruptedException {
 //       // sending bytes to IP : PORT also works !!!
 //      Printer printer = new NetworkPrinter("192.168.1.111", 9100);
 //      PrinterService printerService = new PrinterService(printer);
@@ -94,7 +94,18 @@ public class CitizenPrinterManager {
                new CitizenPrinterManager();
      //  citizenPrinterManager.printPrinterStatus();
        citizenPrinterManager.printBarcodeAndCharacterPrinting("333333333333","05.06.2022",
-               "05.06.2022", "05.06.2022","Georgi Ильов","1");
+               "", "","Georgi Ильов","1");
+
+       Thread.sleep(5000);
+
+       citizenPrinterManager.printBarcodeAndCharacterPrinting("333333333333","",
+               "05.06.2022", "","Georgi Ильов","1");
+
+       Thread.sleep(5000);
+
+       citizenPrinterManager.printBarcodeAndCharacterPrinting("333333333333","",
+               "", "05.06.2022","Georgi Ильов","1");
+
    }
 
 
@@ -154,43 +165,42 @@ public class CitizenPrinterManager {
                byteArrayOutputStream.write(CR);
 
 
-                   if(!toDate.isEmpty()) {
-                       System.out.println("TO");
-                       setPixelSize(12);//10
-                       setFontSelectionNumber((byte) 4);
+//                   if(!toDate.isEmpty()) {
+//                       System.out.println("TO");
+//                       setPixelSize(12);//10
+//                       setFontSelectionNumber((byte) 4);
+//
+//                       setRowAddress(new byte[]{0, 1, 4, 7});
+//                       setColumnAddress(new byte[]{0, 2, 3, 0});
+//                       byteArrayOutputStream.write(constructCharacterDataToSend("X").getBytes());
+//                       byteArrayOutputStream.write(CR);
+//                   }
+//
+//
+//                   if(!pDate.isEmpty()) {
+//                       System.out.println("P");
+//                       setPixelSize(12);//10
+//                       setFontSelectionNumber((byte) 4);
+//
+//                       setRowAddress(new byte[]{0, 1, 2, 5});
+//                       setColumnAddress(new byte[]{0, 2, 3, 0});
+//                       byteArrayOutputStream.write(constructCharacterDataToSend("X").getBytes());
+//                       byteArrayOutputStream.write(CR);
+//                   }
+//
+//                   if(!hiDate.isEmpty())  {
+//                       System.out.println("HI");
+//                       setPixelSize(12);//10
+//                       setFontSelectionNumber((byte)4);
+//
+//                   setRowAddress(new byte[]{0, 1, 0, 2});
+//                   setColumnAddress(new byte[]{0, 2, 3, 0});
+//                   byteArrayOutputStream.write(constructCharacterDataToSend("X").getBytes());
+//                   byteArrayOutputStream.write(CR);
+//                 }
 
-                       setRowAddress(new byte[]{0, 1, 4, 7});
-                       setColumnAddress(new byte[]{0, 2, 3, 0});
-                       byteArrayOutputStream.write(constructCharacterDataToSend("X").getBytes());
-                       byteArrayOutputStream.write(CR);
-                   }
 
 
-                   if(!pDate.isEmpty()) {
-                       System.out.println("P");
-                       setPixelSize(12);//10
-                       setFontSelectionNumber((byte) 4);
-
-                       setRowAddress(new byte[]{0, 1, 2, 5});
-                       setColumnAddress(new byte[]{0, 2, 3, 0});
-                       byteArrayOutputStream.write(constructCharacterDataToSend("X").getBytes());
-                       byteArrayOutputStream.write(CR);
-                   }
-
-                   if(!hiDate.isEmpty())  {
-                       System.out.println("HI");
-                       setPixelSize(12);//10
-                       setFontSelectionNumber((byte)4);
-
-                   setRowAddress(new byte[]{0, 1, 0, 2});
-                   setColumnAddress(new byte[]{0, 2, 3, 0});
-                   byteArrayOutputStream.write(constructCharacterDataToSend("X").getBytes());
-                   byteArrayOutputStream.write(CR);
-                 }
-
-
-               setPixelSize(10);//10
-               setFontSelectionNumber((byte)3);
 
                // ДАТА НА СЛЕДВАЩО ТЕХНИЧЕСКО ОБСЛУЖВАНЕ
                // ДАТА ОТЛЯВО
