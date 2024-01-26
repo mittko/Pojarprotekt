@@ -335,14 +335,25 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 	// make map to create pdf service order
 	private TreeMap<Object, Integer> getSOMap(Integer[] selectedIndexes) {
 		TreeMap<Object, Integer> soMap = new TreeMap<Object, Integer>();
+//		for (Integer selectedIndex : selectedIndexes) {
+//			String key = dftm.getValueAt(selectedIndex, 1) + " "
+//					+ table.getValueAt(selectedIndex, 2);
+//
+//			Integer value = soMap.get(key);
+//			if (value == null) {
+//				value = 0;
+//			}
+//			soMap.put(key, value + 1);
+//		}
 		for (Integer selectedIndex : selectedIndexes) {
-			String key = dftm.getValueAt(selectedIndex, 1) + " "
-					+ table.getValueAt(selectedIndex, 2);
-			Integer value = soMap.get(key);
-			if (value == null) {
-				value = 0;
+			String[] parts = dftm.getValueAt(selectedIndex,10).toString().split(",");
+            for(String part : parts) {
+				Integer value = soMap.get(part);
+				if (value == null) {
+					value = 0;
+				}
+				soMap.put(part, value + 1);
 			}
-			soMap.put(key, value + 1);
 		}
 
 		return soMap;

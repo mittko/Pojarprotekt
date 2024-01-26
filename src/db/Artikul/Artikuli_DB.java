@@ -1303,8 +1303,10 @@ public class Artikuli_DB extends MainPanel {
 		// TODO Auto-generated method stub
 		Artikuli_DB art = new Artikuli_DB();
 
+		editArtikulName(MainPanel.PARTS_PRICE,"part","Боядисване на пожарогасител","Освежаване и козметика");
+
 		// 1.		art.createArtikulDB2(AVAILABLE_SERVICES);
-		art.createAvailableArtikulGreyDB();
+//		art.createAvailableArtikulGreyDB();
 
 //		Artikuli_DB art2 = new Artikuli_DB();
 

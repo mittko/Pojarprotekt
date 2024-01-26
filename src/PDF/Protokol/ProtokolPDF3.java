@@ -18,6 +18,8 @@ import javax.swing.table.DefaultTableModel;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class ProtokolPDF3 extends PdfCreator {
@@ -44,13 +46,14 @@ public class ProtokolPDF3 extends PdfCreator {
 	private final Font font9 = getFontAndSize(arial, 9);
 	private final Font font8 = getFontAndSize(arial, 8);
 	private final Font font7 = getFontAndSize(arial, 7);
+
 	public ProtokolPDF3() {
 	}
 
 	public boolean processPdf(DefaultTableModel dm,
-			TreeMap<Object, Integer> PARTS, String[] clData,
-			String protokolNumber, String timeStamp, int startIndex,
-			int endIndex, String protokolDate) {
+							  TreeMap<Object, Integer> PARTS, String[] clData,
+							  String protokolNumber, String timeStamp, int startIndex,
+							  int endIndex, String protokolDate) {
 
 		this.protokolDate = protokolDate;
 
@@ -59,7 +62,7 @@ public class ProtokolPDF3 extends PdfCreator {
 		}
 
 		setText("Приложение \u2116 9 към чл. 31, ал. 5", X, Y, arialbd, 10);// НАРЕДБА
-																				// 8121з-531,
+		// 8121з-531,
 		setText("(Доп. - ДВ, бр. 33 от 2017 г.)", X + 40, Y - 15, arial, 9);
 		X = (document.right() - 50) / 2;
 		Y = Y - 30;
@@ -120,8 +123,8 @@ public class ProtokolPDF3 extends PdfCreator {
 	}
 
 	private boolean setDynamicTable(float x, float y, DefaultTableModel dm,
-			TreeMap<Object, Integer> PARTS, String[] clData,
-			String protokolNumber, int startIndex, int endIndex) {
+									TreeMap<Object, Integer> PARTS, String[] clData,
+									String protokolNumber, int startIndex, int endIndex) {
 
 		PdfPTable dynamicTable = new PdfPTable(11);
 
@@ -230,7 +233,7 @@ public class ProtokolPDF3 extends PdfCreator {
 			++numer;
             for(int j = 0;j < 3;j++) {
                 if(doing[j].equals("не")) {
-                	continue;
+					continue;
 				}
 				toRows++;
 
@@ -471,8 +474,8 @@ public class ProtokolPDF3 extends PdfCreator {
 							break;
 					}
 
-				    } else {
-				//	 generira se na momenta
+				} else {
+					//	 generira se na momenta
 
 					String technikName = MainPanel.personName.trim();
 
@@ -568,184 +571,109 @@ public class ProtokolPDF3 extends PdfCreator {
 		for (int i = fromRows; i < toRows; i++) {
 			nextY += dynamicTable.getRowHeight(i);
 		}
+
 		float footY = Y - nextY;
-		setFootText(numer, x, footY - 15, clData);
+
+		setFootText(numer, x, footY - 15, clData, PARTS);
 		return true;
 	}
 
-
-
-	private void setFootText(int total, float x, float y, String[] clData) {
-		float[] footX = new float[] { 30, 30, 30, 30, 30, 30, 100, 350, 30, 38, 29,
-				170, 170, 170, 300, 300, 420, 400, 400, 30, 30, 30 };
-//		float[] footY = new float[] { 5, 20, 35, 50, 85, 100, 100, 115, 130,
-//				145, 115, 145, 160, 115, 130, 115, 145, 160, 175, 190 };
-//		for (int s = 4; s < footY.length; s++) { // ???????
-//			footY[s] -= 20;
-//		}
-		float[] footY = new float[] { 5,  20, 35, 50, 65, 100, 115, 115, 130, 145,
-				160, 130, 160, 175, 130, 145, 130, 160, 175, 190, 205, 220 };
-
-		for (int s = 5; s < footY.length; s++) {
-			footY[s] -= 20;
-		}
-		setText("Тотал " + total + " бр", footX[0],y - footY[0],arial,9);
-		if (y - footY[1] <= document.bottom()) {
+	private void setFootText(int total, float x, float y, String[] clData, TreeMap<Object,Integer> parts) {
+		if (y - 20 <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("Собственик на пожарогасителя/ите " + clData[0] + "  МОЛ: "
-				+ clData[4], footX[1], y - footY[1], arial, 9);
+		setText("Тотал " + total + " бр", 30,y -= 15 ,arial,9);
+        y -= 5;
 
-		if (y - footY[2] <= document.bottom()) {
+		if (y - 20 <= document.bottom()) {
 			document.newPage();
 			y = document.top();
 		}
-		setText("адрес: гр./с. "
-				+ (!clData[2].equals("") ? (" " + clData[2]) : "") + " "
-				+ (!clData[3].equals("") ? (" " + clData[3]) : "") +
-				" Област: "
-				+ " тел: "
-				+ clData[1], footX[2], y - footY[2], arial, 9);
 
-		if (y - footY[3] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
+		float[][] footX2 =
+				{
+						{30},
+						{30},
+						{30},
+						{30},
+						{30},
+						{100,350},
+						{30,170,300,420},
+						{38,300},
+						{29,170,400},
+						{170,400},
+						{30},
+						{30},
+						{30},
+						{30}
+				};
+
+		float[][] footY2 = {
+				{20},
+				{35},
+				{50},
+				{65},
+				{80},
+				{95,95},
+				{110, 110, 110, 110},
+				{125, 125},
+				{140, 140, 140},
+				{155,155},
+				{170},
+				{185},
+				{200}
+		};
+		String[][] bottomText =
+				{
+						{"Собственик на пожарогасителя/ите " + clData[0] + "  МОЛ: " + clData[4]},
+						{"адрес: гр./с. "
+								+ (!clData[2].equals("") ? (" " + clData[2]) : "") + " "
+								+ (!clData[3].equals("") ? (" " + clData[3]) : "") +
+								" Област: "
+								+ " тел: "
+								+ clData[1]},
+						{"(наименование, адрес, и телефон на организацията/лицето, собственик на пожарогасителя/ите)"},
+						{"Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, "},
+						{"и за собственика на пожарогасителя/ите."},
+						{"      ПРЕДАЛ:","ПРИЕЛ: "},
+						{"     (ръководител/упълномощен","(подпис, печат)","( собственик/предста-","(подпис)"},
+						{"Преставител на организацията, ","вител на собственика)"},
+						{"    извършила обслужването)","Георги Ильов",clData[4] + " ,МОЛ "},
+						{"(име, фамилия)","(име, фамилия, длъжност)"},
+						{"Забележка: Протоколът се съхранява до времето за извършване на следващото техническо обслужване, презареждане"},
+						{"или хидростатично изпитване на устойчивост на налягане."},
+						{"- По време на извършеното обслужване на посочените пожарогасители са сменени части, консумативи и извършени"},
+						{"дейности както следва:"}
+				};
+
+		for(int i = 0;i < footX2.length;i++) {
+			y -= 15;
+			for(int j = 0;j < footX2[i].length;j++) {
+			//	System.out.print(bottomText[i][j]+" ");
+
+				if (y /*- footY2[i][j]*/ <= document.bottom()) {
+			            document.newPage();
+			            y = document.top();
+		        }
+				setText(bottomText[i][j], footX2[i][j],y  /*- footY2[i][j]*/ , arial, 9);
+			}
+			//System.out.println();
 		}
-		setText("(наименование, адрес, и телефон на организацията/лицето, собственик на пожарогасителя/ите)",
-				footX[3], y - footY[3], italic, 8);
 
-		if (y - footY[4] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
+	//	setText("- По време на извършеното обслужване на посочените пожарогасители",30,y -=20 , arial, 9);
+
+	//	setText("  са сменени части, консумативи и извършени дейности както следва:",30,y -=20 , arial, 9);
+
+		for(Map.Entry<Object,Integer> entry : parts.entrySet()) {
+			if (y - 15 <= document.bottom()) {
+				document.newPage();
+				y = document.top();
+			}
+			setText(entry.getKey() + " - " + entry.getValue() + " бр.", 30,y -= 15,arial,9);
 		}
-		setText("Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, ",
-				footX[4], y - footY[4], arial, 9);
 
-		if (y - footY[5] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("и за собственика на пожарогасителя/ите.", footX[5], y
-				- footY[5], arial, 9);
-
-		if (y - footY[6] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("      ПРЕДАЛ:", footX[6], y - footY[6], arial, 10);
-
-		if (y - footY[7] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("ПРИЕЛ: ", footX[7], y - footY[7], arial, 10);
-
-		if (y - footY[8] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("     (ръководител/упълномощен", footX[8], y - footY[8],
-				italic, 9);
-
-		if (y - footY[9] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("Преставител на организацията, ", footX[9], y - footY[9],
-				italic, 9);
-
-		if (y - footY[10] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("    извършила обслужването)", footX[10], y - footY[10],
-				italic, 9);
-
-		if (y - footY[11] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("(подпис, печат)", footX[11], y - footY[11], italic, 9);
-
-		if (y - footY[12] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("Георги Ильов", footX[12], y - footY[12], italic, 9);
-
-		if (y - footY[13] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("(име, фамилия)", footX[13], y - footY[13], italic, 9);
-
-		if (y - footY[14] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("( собственик/предста-", footX[14], y - footY[14], italic, 9);
-
-		if (y - footY[15] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("вител на собственика)", footX[15], y - footY[15], italic, 9);
-
-		if (y - footY[16] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("(подпис)", footX[16], y - footY[16], italic, 9);
-
-		if (y - footY[17] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("" + clData[4] + " ,МОЛ ", footX[17], y - footY[17], italic, 9);
-
-		if (y - footY[18] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("(име, фамилия, длъжност)", footX[18], y - footY[18], italic,
-				9);
-
-		if (y - footY[19] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("Забележка: Протоколът се съхранява до времето за извършване на следващото техническо обслужване, презареждане",
-				footX[19], y - footY[19], arial, 9);
-
-		if (y - footY[20] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("или хидростатично изпитване на устойчивост на налягане.", footX[20], y - footY[20],
-				arial, 9);
-
-		if (y - footY[21] <= document.bottom()) {
-			document.newPage();
-			y = document.top();
-		}
-		setText("Заменените стари негодни части и материали са предадени на клиента.", footX[21], y - footY[21],
-				arial, 9);
-		// };
-
-		// boolean newPage = false;
-		// for (int i = 0; i < footX.length; i++) {
-		// if (y - footY[i] <= document.bottom()) {// + 30 ???? da probvam da
-		// // razbera zashto
-		// newPage = true;
-		// document.newPage();
-		// break;
-		// }
-		// }
-		//
-		// if (newPage) {
-		// y = document.top();
-		// }
+		setText("- Заменените стари негодни части и материали са предадени на клиента.", 30, y -= 15, arial,9);
 
 	}
 

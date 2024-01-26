@@ -120,7 +120,7 @@ public class ServiceNumber extends MainPanel {
 		ServiceNumber sot = new ServiceNumber();
 		String num = sot.getSO_Number();
 		System.out.println(num);
-	//	sot.updateSO_InDB("1000000000");
+	//	sot.updateSO_InDB("1000020651");
 	 
 	}
 

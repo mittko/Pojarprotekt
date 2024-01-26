@@ -1,6 +1,7 @@
 package WorkingBookWorkers;
 
 import JPrinter.Print.PrintWithoutOpenPdf;
+import PDF.OpenPDFDocument;
 import PDF.Protokol.ProtokolPDF3;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
@@ -88,6 +89,7 @@ public class ProtokolPrinter {
 //				 OpenPDFDocument.pdfRunner(MainPanel.PROTOKOL_PDF_PATH
 //				 + "\\Protokol2815-" + (timeStamp + helpers[printing])
 //				 + "-" + PROTOKOL_NUMBER + ".pdf");
+
 				PrintWithoutOpenPdf.printWithoutDialog(
 						MainPanel.PROTOKOL_PDF_PATH, "\\Protokol2815-"
 								+ (timeStamp + helpers[printing]) + "-"

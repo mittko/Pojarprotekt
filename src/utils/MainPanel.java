@@ -61,7 +61,7 @@ public class MainPanel extends JPanel {
 	public static final String RemontKolicka = "Ремонт на количка";
 	public static final String PrahBC = "Гасително вещество (Прах BC)";
 	public static final String PrahABC = "Гасително вещество (Прах ABC)";
-	public static final String BoyaPojarogasitel = "Боядисване на пожарогасител";
+	public static final String BoyaPojarogasitel = "Освежаване и козметика";//""Боядисване на пожарогасител";
 	public static final String BoyaKolichka = "Боядисване на количка";
 	public static final String Etiket = "Етикет";
 	//
