@@ -125,7 +125,7 @@ public class NewExtinguisherWindow extends MainPanel {
 				StickerPrinterWorker sp = new StickerPrinterWorker(
 						/*MainPanel.ÒΞ,*/ dftm.getValueAt(CURRENT_ROW, 2)
 								.toString(), MyGetDate.getDateAfterToday(365),
-						"νε","νε", 1);
+						"νε","νε", true, false, false);
 				sp.execute();
 			}
 

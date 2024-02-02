@@ -685,16 +685,14 @@ public class WorkingBook extends MainPanel {
 			View.dtm_Extinguisher.insertRow(0, newRow); // add to view models
 
 			// call sticker jdialog to choice sticker
-			boolean TO = !tModel.getValueAt(0,7).toString().equals("не") ;// comboDoings.getSelectedItem().toString().contains(ТО);// get from TO date -> !tModel.getValueAt(0,
-			// 7).toString().equals("не") ? true: false;
+			boolean TO =  comboDoings.getSelectedItem().toString().contains(MainPanel.TO);// get from TO date -> !tModel.getValueAt(0,7).toString().equals("не") ? true: false;
 
-			boolean P = !tModel.getValueAt(0,8).toString().equals("не");;//comboDoings.getSelectedItem().toString().contains(П);// get from TO date -> !tModel.getValueAt(0,
-			// 8).toString().equals("не") ? true : false;
+			boolean P = comboDoings.getSelectedItem().toString().contains(MainPanel.P);// get from TO date -> !tModel.getValueAt(0,8).toString().equals("не") ? true : false;
 
-			boolean HI = !tModel.getValueAt(0,9).toString().equals("не");//comboDoings.getSelectedItem().toString().contains(ХИ);// get from TO date -> !tModel.getValueAt(0,
-			// 9).toString().equals("не") ? true : false;
+			boolean HI = comboDoings.getSelectedItem().toString().contains(MainPanel.HI);// get from TO date -> !tModel.getValueAt(0,9).toString().equals("не") ? true : false;
 
 			if (TO || P || HI) { // without HI ????
+
 				final JDialoger jdialog = new JDialoger();
 				StickerJDialog sjd = new StickerJDialog(jdialog, TO, P, HI,
 						tModel.getValueAt(0,7).toString(),// Дата на следващо техническо обслужване
@@ -725,26 +723,6 @@ public class WorkingBook extends MainPanel {
 				});
 				jdialog.Show();
 
-
-//				final JDialoger jdialog = new JDialoger();
-//				final StickerJDialogOldVersion sjd =
-//						new StickerJDialogOldVersion(jdialog, TO, P, HI,
-//								WorkingBook.tModel.getValueAt(0, 3).toString());
-//				jdialog.setContentPane(sjd);
-//				jdialog.addWindowListener(new WindowAdapter() {
-//					@Override
-//					public void windowClosing(final WindowEvent we) {
-//						final int yes_no = JOptionPane.showOptionDialog(null, "Желаете ли да затворите диалоговият прозорец ?",
-//								"", JOptionPane.YES_NO_OPTION,
-//								JOptionPane.WARNING_MESSAGE, null, new String[] { "Да", "Не" }, "default");
-//						if (yes_no == 0) {
-//							jdialog.dispose();
-//						} else {
-//							jdialog.setDefaultCloseOperation(0);
-//						}
-//					}
-//				});
-//				jdialog.Show();
 			}
 
 		} else {

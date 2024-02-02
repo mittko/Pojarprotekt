@@ -31,7 +31,8 @@ public class StickerJDialog extends MainPanel {
 	    
 	    JLabel TO_Label = new JLabel("");//("“≈’Õ»◊≈— Œ Œ¡—À”∆¬¿Õ≈"); //(MainPanel.“Œ);
 	    
-	    TO_Button = new StickerButton(parentDialog,nextDateTO, nextDateP, nextDateHI, barcod,MainPanel.TO,1);
+	    TO_Button = new StickerButton(parentDialog,nextDateTO, nextDateP, nextDateHI,
+				isTO, isP, isHI, barcod,MainPanel.TO);
 	    TO_Button.setActionCommand("button1");
 	    TO_Button.setIcon(new LoadIcon().setIcons("Stiker2.jpg"));
 	    int w = TO_Button.getIcon().getIconWidth();
@@ -48,35 +49,6 @@ public class StickerJDialog extends MainPanel {
 	    
 	    buttonPanel.add(helpPanel1);
 	    }
-	/*
-	    if(isHI) {
-	    JPanel helpPanel3 = new JPanel();
-	    helpPanel3.setLayout(new BorderLayout());
-	    
-	    JPanel labelPanel3 = new JPanel();
-	    
-	    JLabel TO_P_HI_Label = new JLabel("’»ƒ–Œ—“¿“»◊ÕŒ »«œ»“¬¿Õ≈"); 
-	    
-	    HI_Button = new StickerButton(parentDialog,nextDateTO, nextDateP, nextDateHI, barcod,MainPanel.’»,1);
-	    
-	    HI_Button.setPreferredSize(new Dimension(300,200));
-	    HI_Button.setActionCommand("button3");
-	    HI_Button.setIcon(new LoadIcon().setIcons("Stiker2.jpg"));
-	    int w3 = HI_Button.getIcon().getIconWidth();
-	    int h3 = HI_Button.getIcon().getIconHeight();
-	    HI_Button.setPreferredSize(new Dimension(w3,h3));
-	    
-	    labelPanel3.add(TO_P_HI_Label);
-	    
-	    JPanel buttonPanel3 = new JPanel();
-	    buttonPanel3.add(HI_Button);
-	    
-        helpPanel3.add(labelPanel3,BorderLayout.NORTH);
-	    helpPanel3.add(buttonPanel3,BorderLayout.CENTER);
-	    
-	    buttonPanel.add(helpPanel3);
-	    }
-	 */
 	 
 	    this.add(buttonPanel);
 	    this.setLayout(new FlowLayout());
@@ -111,24 +83,32 @@ public class StickerJDialog extends MainPanel {
 		JDialog parent;
 		String barcod;
 		String doing;
-		private final String dateTO;
-		private final String dateP;
-		private final String dateHI;
-		private final int numberOfPrinting;
-		public StickerButton(JDialog parent,String dateTO, String dateP, String dateHI,String barcod,String doing, int numberOfPrinting) {
+		private String dateTO;
+		private String dateP;
+		private String dateHI;
+		private boolean isTo;
+		private boolean isP;
+		private boolean isHi;
+
+		public StickerButton(JDialog parent,String dateTO, String dateP, String dateHI,
+							 boolean isTo, boolean isP, boolean isHi,
+							 String barcod,String doing) {
 			this.parent = parent;
 			this.dateTO = dateTO;
 			this.dateP = dateP;
 			this.dateHI = dateHI;
+			this.isTo = isTo;
+			this.isP = isP;
+			this.isHi = isHi;
 			this.barcod = barcod;
 			this.doing = doing;
-			this.numberOfPrinting = numberOfPrinting;
 			defaultBorder = this.getBorder();
 			redBorder = BorderFactory.createLineBorder(Color.red,5);
 			this.addActionListener(this);
 			this.setEnabled(true); // (isPrintable);
 			this.setBorder(redBorder);
 		}
+
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -141,7 +121,7 @@ public class StickerJDialog extends MainPanel {
 			} else {
 				nextDate = MyGetDate.getDateAfterToday(5 * 365);
 			}*/
-			StickerPrinterWorker sp = new StickerPrinterWorker(barcod, dateTO, dateP, dateHI, numberOfPrinting);
+			StickerPrinterWorker sp = new StickerPrinterWorker(barcod, dateTO, dateP, dateHI, isTo,isP,isHi);
 			sp.execute();
 			if(!isButtonsEnabled()) {
 				parent.dispose();

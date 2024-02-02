@@ -16,20 +16,27 @@ public class StickerPrinterWorker extends SwingWorker {
 
 	private static HashSet<String> enteredNumbers = new HashSet<>();
 	private String barcod = null;
-	private final String nextDateTO;
-	private final String nextDateP;
+	private String nextDateTO;
+	private String nextDateP;
 	private String nextDateHI = null;
+	private boolean isTo;
+	private boolean isP;
+	private boolean isHi;
 	private final CitizenPrinterManager citizenPrinterManager =
 			new CitizenPrinterManager();
-	private final int numberOfPrints;
 
-	public StickerPrinterWorker(String barcod,String nextDateTO, String nextDateP,String nextDateHI, int numberOfPrints) {
+
+	public StickerPrinterWorker(String barcod,String nextDateTO, String nextDateP,String nextDateHI,
+								boolean isTo, boolean isP,boolean isHi) {
 		this.barcod = barcod;
 		this.nextDateTO = nextDateTO;
 		this.nextDateP = nextDateP;
 		this.nextDateHI = nextDateHI;
-		this.numberOfPrints = numberOfPrints;
+		this.isTo = isTo;
+		this.isP = isP;
+		this.isHi = isHi;
 	}
+
 
 	@Override
 	protected Object doInBackground() throws Exception {
@@ -38,14 +45,14 @@ public class StickerPrinterWorker extends SwingWorker {
 		if(!enteredNumbers.contains(barcod)) {
 
 
-			if(!nextDateTO.isEmpty()) {
+			if(isTo/*!nextDateTO.isEmpty()*/) {
 				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
 						, nextDateTO, "",
 						"", MainPanel.personName,"1");
 				Thread.sleep(5000L);
 			}
 
-			if(!nextDateP.isEmpty()) {
+			if(isP/*!nextDateP.isEmpty()*/) {
 
 				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0, barcod.length() - 1)
 						, "", nextDateP,
@@ -54,7 +61,7 @@ public class StickerPrinterWorker extends SwingWorker {
 
 			}
 
-			if(!nextDateHI.isEmpty()) {
+			if(isHi/*!nextDateHI.isEmpty()*/) {
 				System.out.println("HI");
 				citizenPrinterManager.printBarcodeAndCharacterPrinting(barcod.substring(0,barcod.length()-1)
 						, "","",
