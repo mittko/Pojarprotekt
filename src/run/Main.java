@@ -10,6 +10,12 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 
+//		try {
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+//			ex.printStackTrace();
+//		}
+
     	SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

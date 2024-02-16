@@ -373,7 +373,7 @@ public class InvoicePDFFromReports extends PdfCreator {
 		PdfPCell one = new PdfPCell(new Phrase("Основание за нулева ставка:",
 				arial10));
 		PdfPCell two = new PdfPCell(new Phrase(
-				"Основание за не начислявяне на ДДС:", arial10));
+				"Основание за не начисляване на ДДС:", arial10));
 		PdfPCell three = new PdfPCell(new Phrase(
 				"Обст. определящи стоката ново ПС:", arial10));
 

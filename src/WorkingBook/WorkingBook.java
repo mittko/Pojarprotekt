@@ -176,6 +176,8 @@ public class WorkingBook extends MainPanel {
 												HI_Label.setForeground(fromBarcod[9].equals("не") ? Color.BLACK : Color.RED);
 												HI_Label.setName(fromBarcod[9]
 														.toString());
+												HI_Label.setToolTipText(getHTML_Text("Дата на следващо ХИ - "+fromBarcod[9]
+														.toString()));
 
 												comboDoings.setEnabled(true);
 												comboDoings.setSelectedIndex(0);
@@ -284,6 +286,8 @@ public class WorkingBook extends MainPanel {
 												HI_Label.setForeground(fromSerial[9].equals("не") ? Color.BLACK : Color.RED);
 												HI_Label.setName(fromSerial[9]
 														.toString());
+												HI_Label.setToolTipText(getHTML_Text("Дата на следващо ХИ - "+fromSerial[9]
+														.toString()));
 
 												comboDoings.setEnabled(true);
 												comboDoings.setSelectedIndex(0);
@@ -436,11 +440,15 @@ public class WorkingBook extends MainPanel {
 
 		int labelWidth = (int) (north.getPreferredSize().getWidth() * 0.4);
 		int labelHeight = (int) (north.getPreferredSize().getHeight() * 0.4);
+
+
 		HI_Label = new BevelLabel();
 		HI_Label.setPreferredSize(new Dimension(labelWidth, labelHeight));
 		HI_Label.setTitle("ХИДРОСТАТИЧНО ИЗПИТВАНЕ : ");
-		// HI_Label.setAutoSizedIcon(HI_Label, setIcons(reportsImage));
+		// HI_Label.setAutoSizedIcon(HI_L
+		// label, setIcons(reportsImage));
 		HI_Label.setName("");
+
 
 		// годност на пожарогасително вещество
 		fitAgentLabel = new BevelLabel();
@@ -965,6 +973,8 @@ public class WorkingBook extends MainPanel {
 	private void setNewDate(String item, String agent/*type*/) {
 		// if there is HI from previous year but no chiosed HI date stay same
 		// if it is choised HI gets new date
+
+		System.out.println("HILabel "+HI_Label.getName()+"");
 		if (!item.equals("Обслужване")) {
 			String newDate = MyGetDate.getDateAfterToday(365);
 
@@ -972,8 +982,22 @@ public class WorkingBook extends MainPanel {
 
 			String substract_HI_YEAR = "не";
 			if (!HI_Label.getName().equals("не")) {
-				substract_HI_YEAR = HI_Label.getName();
-				// System.out.printf("hi %s\n" + substract_HI_YEAR);
+
+				String test = HI_Label.getName();
+
+				String urgentDays2 = MyGetDate.getUrgentDays(
+						MyGetDate.getReversedSystemDate()
+						,HI_Label.getName());
+				System.out.println("Urgent Days " + urgentDays2);
+				int daysAsIntForHi = 0;
+				try {
+					daysAsIntForHi = Integer.parseInt(urgentDays2);
+				}catch (Exception e) {
+					System.out.println("wrong date in WorkingBook => daysAsInt");
+				}
+				if(daysAsIntForHi <= 365) {
+					substract_HI_YEAR = HI_Label.getName();
+				}
 			}
 			String godnostNaPovarogasitelnoWeshtestwoo =
 					new GetAgentFitWorker(agent/*agent*/).doInBackground();
@@ -999,12 +1023,13 @@ public class WorkingBook extends MainPanel {
 				case P:
 					tModel.setValueAt(newDate, 0, 8);
 					tModel.setValueAt("не", 0, 7);
-					tModel.setValueAt(substract_HI_YEAR, 0, 8);
+					tModel.setValueAt(substract_HI_YEAR, 0, 9);
 					break;
 				case HI:
-					tModel.setValueAt(hiNewDate, 0, 9);
-					tModel.setValueAt("не", 0, 8);
 					tModel.setValueAt("не", 0, 7);
+					tModel.setValueAt("не", 0, 8);
+					tModel.setValueAt(hiNewDate, 0, 9);
+
 					break;
 				case TO_P:
 					tModel.setValueAt(newDate, 0, 7);

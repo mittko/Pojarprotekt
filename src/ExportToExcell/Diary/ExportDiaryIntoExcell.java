@@ -369,6 +369,10 @@ public class ExportDiaryIntoExcell {
 					// ako ne e nov ima chasti
 					stringChasti = getParts((String) extractedData.get(dataRow)[10]);
 
+					stringChasti = stringChasti.replace("Техническо обслужване на Пожарогасител","ТО")
+							.replace("Презареждане на Пожарогасител","П")
+							.replace("Хидростатично Изпитване на Пожарогасител","ХИ");
+
 				}
 
 				Label chasti = new Label(7, tableRow, stringChasti, fontH8);// ???
