@@ -153,12 +153,7 @@ public class WorkingBook extends MainPanel {
 													return;
 												}
 
-												// for (int i = 0; i <
-												// fromBarcod.length; i++) {
-												// System.out.printf("%s ",
-												// fromBarcod[i]);
-												// }
-												// System.out.println();
+
 												for (int i = 0; i <= 6; i++) {
 													tModel.setValueAt(
 															fromBarcod[i], 0, i);
@@ -364,7 +359,7 @@ public class WorkingBook extends MainPanel {
                     CardLayout cl = (CardLayout) (centerCenter.getLayout());
                     cl.show(centerCenter, SCRAB);
                 } else {
-                    setButtonState2(doing, type, wheight, category);
+                    markPartsAndServices(doing, type, wheight, category);
                 }
 
                 // set value doings int table
@@ -429,7 +424,7 @@ public class WorkingBook extends MainPanel {
 					writeInTableModel(key, getUserDetailsInput()); // write in
 					// table
 					// (->View)
-					returnPreviousButtonState(false);//
+					returnButtonsEnabled(false);//
 					clear();
 
 				}
@@ -481,8 +476,7 @@ public class WorkingBook extends MainPanel {
 				"Презареждане", "Хидр. Изпитване",
 				"Реална маса", "Допълнителни данни" };
 
-		Object[][] rows = { // { "", "", "", "", "", "", "", "","","" },
-				{ "", "", "", "", "", "", "", "", "", "", "", "" } };
+		Object[][] rows = {{ "", "", "", "", "", "", "", "", "", "", "", "" } };
 
 		tModel = new DefaultTableModel(rows, titles) {
 
@@ -678,9 +672,7 @@ public class WorkingBook extends MainPanel {
 		newRow[9] = tModel.getValueAt(0, 9);
 		newRow[10] = tModel.getValueAt(0, 10);
 		newRow[11] = tModel.getValueAt(0, 11);
-		// for (int i = 0; i <= 10; i++) {
-		// newRow[i] = tModel.getValueAt(0, i);
-		// }
+
 
 		if (!comboDoings.getSelectedItem().equals(Scrab)) {
 			// get parts values and work values
@@ -806,85 +798,46 @@ public class WorkingBook extends MainPanel {
 		return tModel.getValueAt(0, 3).toString();
 	}
 
-	private void setButtonState2(String doing, String type, String wheight,
-								 String category) {
+	private void markPartsAndServices(String doing, String type, String wheight,
+									  String category) {
 		boolean isTO = comboDoings.getSelectedItem().equals(TO);
 		switch (doing) {
 			case HI:
-				returnPreviousButtonState(false);
-				WorkerState.markCenaHidrostatichnoIzpitvane(type);
+				returnButtonsEnabled(false);
+				WorkerState.markHidrostatichnoIzpitvane(type);
 				break;
 			case TO:
-				returnPreviousButtonState(true);
-				WorkerState.markPlomba(type, isTO);
-				WorkerState.markEntity(type, false);
-				WorkerState.markCenaTehnicheskoObslujvane(type);
-				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
-						category);
+				returnButtonsEnabled(true);
+			//	WorkerState.markPlomba(type, isTO);
+			//	WorkerState.markEntity(type, false);
+				WorkerState.markTehnicheskoObslujvane(type);
+				WorkerState.setButtonDisabledAccordinglyCategory(type, wheight, category);
 				break;
 			case TO_P:
-				returnPreviousButtonState(true);
-				WorkerState.markPlomba(type, isTO);
-				WorkerState.markEntity(type, true);
-				WorkerState.markCenaTehnicheskoObslujvane(type);
-				WorkerState.markCenaPrezarejdane(type);
-				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
+				returnButtonsEnabled(true);
+			//	WorkerState.markPlomba(type, isTO);
+			//	WorkerState.markEntity(type, true);
+				WorkerState.markTehnicheskoObslujvane(type);
+				WorkerState.markPrezarejdane(type);
+				WorkerState.setButtonDisabledAccordinglyCategory(type, wheight,
 						category);
 				break;
 			case TO_P_HI:
-				returnPreviousButtonState(true);
-				WorkerState.markPlomba(type, isTO);
-				WorkerState.markEntity(type, true);
-				WorkerState.markCenaTehnicheskoObslujvane(type);
-				WorkerState.markCenaPrezarejdane(type);
-				WorkerState.markCenaHidrostatichnoIzpitvane(type);
-				WorkerState.setButtonStateAccordinglyCategory(type, wheight,
+				returnButtonsEnabled(true);
+			//	WorkerState.markPlomba(type, isTO);
+			//	WorkerState.markEntity(type, true);
+				WorkerState.markTehnicheskoObslujvane(type);
+				WorkerState.markPrezarejdane(type);
+				WorkerState.markHidrostatichnoIzpitvane(type);
+				WorkerState.setButtonDisabledAccordinglyCategory(type, wheight,
 						category);
 				break;
 		}
 	}
 
-	private double getExtValue() {
-		/*
-		 * String item = comboDoings.getSelectedItem().toString(); double value
-		 * = 0.0; if (item.contains(ТО)) { value += TO_PRICE; } if
-		 * (item.contains(ХИ)) { value += HI_PRICE; } Component[] child =
-		 * centerCenter.getComponents(); ArrayList<CustomButton> list = null;
-		 * 
-		 * for (int ch = 0; ch < child.length; ch++) {
-		 * 
-		 * if (child[ch].getName().equals("dust") && child[ch].isShowing()) {
-		 * 
-		 * list = dust.list; for (CustomButton cm : list) {
-		 * 
-		 * if (cm.choiced == true) {
-		 * 
-		 * value += cm.getPriceofPartsFromDB(tModel);
-		 * 
-		 * }
-		 * 
-		 * } } else if (child[ch].getName().equals("water") &&
-		 * child[ch].isShowing()) { list = water.list; for (CustomButton cm :
-		 * list) { if (cm.choiced == true) {
-		 * 
-		 * value += cm.getPriceofPartsFromDB(tModel);
-		 * 
-		 * } } } else if (child[ch].getName().equals("vodopenen") &&
-		 * child[ch].isShowing()) { list = vodopenen.list; for (CustomButton cm
-		 * : list) { if (cm.choiced == true) {
-		 * 
-		 * value += cm.getPriceofPartsFromDB(tModel); } } } else if
-		 * (child[ch].getName().equals("co2") && child[ch].isShowing()) { list =
-		 * co2.list; for (CustomButton cm : list) { if (cm.choiced == true) {
-		 * 
-		 * 
-		 * value += cm.getPriceofPartsFromDB(tModel); } } } } return
-		 * MyMath.round(value, 2);
-		 */
-		return 0;
-	}
 
-	private void returnPreviousButtonState(boolean enabled) {
+
+	private void returnButtonsEnabled(boolean enabled) {
 
 		if (!comboDoings.getSelectedItem().equals(Scrab)) {
 
@@ -1045,7 +998,45 @@ public class WorkingBook extends MainPanel {
 		}
 	}
 
-
+	private double getExtValue() {
+		/*
+		 * String item = comboDoings.getSelectedItem().toString(); double value
+		 * = 0.0; if (item.contains(ТО)) { value += TO_PRICE; } if
+		 * (item.contains(ХИ)) { value += HI_PRICE; } Component[] child =
+		 * centerCenter.getComponents(); ArrayList<CustomButton> list = null;
+		 *
+		 * for (int ch = 0; ch < child.length; ch++) {
+		 *
+		 * if (child[ch].getName().equals("dust") && child[ch].isShowing()) {
+		 *
+		 * list = dust.list; for (CustomButton cm : list) {
+		 *
+		 * if (cm.choiced == true) {
+		 *
+		 * value += cm.getPriceofPartsFromDB(tModel);
+		 *
+		 * }
+		 *
+		 * } } else if (child[ch].getName().equals("water") &&
+		 * child[ch].isShowing()) { list = water.list; for (CustomButton cm :
+		 * list) { if (cm.choiced == true) {
+		 *
+		 * value += cm.getPriceofPartsFromDB(tModel);
+		 *
+		 * } } } else if (child[ch].getName().equals("vodopenen") &&
+		 * child[ch].isShowing()) { list = vodopenen.list; for (CustomButton cm
+		 * : list) { if (cm.choiced == true) {
+		 *
+		 * value += cm.getPriceofPartsFromDB(tModel); } } } else if
+		 * (child[ch].getName().equals("co2") && child[ch].isShowing()) { list =
+		 * co2.list; for (CustomButton cm : list) { if (cm.choiced == true) {
+		 *
+		 *
+		 * value += cm.getPriceofPartsFromDB(tModel); } } } } return
+		 * MyMath.round(value, 2);
+		 */
+		return 0;
+	}
 //	private void setNewDate2(String item, String item2) {
 //		if(item2 == null) {
 //			return;

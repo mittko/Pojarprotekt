@@ -127,7 +127,7 @@ public class Dust extends MainPanel {
 		plomba.setAutoSizedIcon(plomba, new LoadIcon().setIcons("PARTS2/plomba.gif"));
 		plomba.setToolTipText(getHTML_Text(Plomba));
 		plomba.setName(Plomba);
-		plomba.isEditable = false;
+	//	plomba.isEditable = false;
 
 		markuch = new PartButton();
 		markuch.setPreferredSize(buttonDimension);

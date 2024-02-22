@@ -6,15 +6,13 @@ import Parts.Vodopenen;
 import Parts.Water;
 import utils.MainPanel;
 
-import static utils.MainPanel.type_Prah_BC;
-
 public class WorkerState extends MainPanel {
 
 	public WorkerState() {
 
 	}
 
-	public static void setButtonStateAccordinglyCategory(String type,String wheight,String category) {
+	public static void setButtonDisabledAccordinglyCategory(String type, String weight, String category) {
 
 		switch (type) {
 			case type_Prah_BC:
@@ -22,9 +20,9 @@ public class WorkerState extends MainPanel {
 
 				// category check
 				if (category.equals(category2)) {
-					setButtonStateAccordinglyWheight(wheight, category2);
+					setButtonDisabledAccordinglyWeight(weight, category2);
 				} else if (category.equals(category4)) {
-					setButtonStateAccordinglyWheight(wheight, category4);
+					setButtonDisabledAccordinglyWeight(weight, category4);
 				}
 
 				break;
@@ -75,7 +73,7 @@ public class WorkerState extends MainPanel {
 		}
 	}
 
-	private static void setButtonStateAccordinglyWheight(String wheight,String category) {
+	private static void setButtonDisabledAccordinglyWeight(String wheight, String category) {
 		if(category.equals(category2)) {
 			switch (wheight) {
 				case "1 ??":
@@ -247,7 +245,7 @@ public class WorkerState extends MainPanel {
 
 	}
 
-	public static void markCenaTehnicheskoObslujvane(String type) {
+	public static void markTehnicheskoObslujvane(String type) {
 		switch (type) {
 			case type_Prah_BC:
 			case type_Prah_ABC :
@@ -272,7 +270,7 @@ public class WorkerState extends MainPanel {
 		}
 	}
 
-	public static void markCenaPrezarejdane(String type) {
+	public static void markPrezarejdane(String type) {
 		switch (type) {
 			case type_Prah_BC:
 			case type_Prah_ABC:
@@ -297,7 +295,7 @@ public class WorkerState extends MainPanel {
 		}
 	}
 
-	public static void markCenaHidrostatichnoIzpitvane(String type) {
+	public static void markHidrostatichnoIzpitvane(String type) {
 		switch (type) {
 			case type_Prah_BC:
 			case type_Prah_ABC:
