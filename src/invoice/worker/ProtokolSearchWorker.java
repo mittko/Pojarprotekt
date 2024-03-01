@@ -191,6 +191,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 		}
 
 	}
+
 	private void doCalc2(ArrayList<Object[]> res) {
 		// 0 -> TO 1 -> P 2 -> HI 3 -> client 4 -> type 5 -> wheight 6 -> value
 		for (Object[] re : res) {
@@ -226,7 +227,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 			} else if(spl.length == 2) {
 				weight = spl[1].trim();
 			}
-			System.out.println("weight " + weight);
+			//	System.out.println("weight " + weight);
 			String category = re[6].toString();
 
 
@@ -256,19 +257,27 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 			String parts[] = re[7].toString().split(",");
 			for (int p = 0; p < parts.length; p++) {
 
+				System.out.println("Part " + parts[p] + " Price " + " Weight " + weight);
 				if (parts[p].equals(gasitelnoVeshtestvo) || parts[p].equals("")) {
 					continue;
+				}
+
+				if(type.equals("Воден") || type.equals("Водопенен")) {
+					if(weight.endsWith("л")) {
+						weight = weight.replace("л","литра");
+					}
 				}
 				double pric = PriceTable.getPartPriceFromDB(parts[p], type,
 						category, weight);
 
-				System.out.println("Part " + parts[p] + " Price " + pric);
+				System.out.println("Part " + parts[p] + " Price " + pric + " Weight " + weight);
 				String key = parts[p] + " (" + type + " " + weight + ")";
                 if(parts[p].contains("Техническо обслужване на Пожарогасител") ||
 						parts[p].contains("Презареждане на Пожарогасител")
-				|| parts[p].contains("Хидростатично Изпитване на Пожарогасител")) {
+						|| parts[p].contains("Хидростатично Изпитване на Пожарогасител")) {
 					parts[p]  = parts[p] + " " + type
 							+ " " + weight;
+					System.out.println(String.format("PART %s\n",parts[p]));
 				}
 				if (!mapInfo.containsKey(key)) {
 

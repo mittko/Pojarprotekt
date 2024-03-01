@@ -148,6 +148,13 @@ public class CreditNoteTable {
         }
     }
 
+    public void updateCreditNoteNumber(String noteId) {
+        Connection connection = null;
+        Statement statement = null;
+        String command = String.format("update %s set note_id = '%s'", CREDIT_NOTE, noteId);
+        int update = 0;
+    }
+
     public static HashSet<String> getCreditNotesNumberSet() {
         String command = "select id from " + CREDIT_NOTE;
         Connection connection = null;

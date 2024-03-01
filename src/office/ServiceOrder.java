@@ -1,6 +1,7 @@
 package office;
 
 import Document.TextFieldLimit;
+import Exceptions.ErrorDialog;
 import NewClient.NewClient;
 import office.Renderers.ExtinguisherRenderer;
 import office.Renderers.MyComboRenderer;
@@ -29,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.TreeMap;
 
@@ -243,14 +245,25 @@ public class ServiceOrder extends MainPanel {
 														&& !CURRENT_CLIENT
 														.equals(fromBarcod[0]
 																.toString())) {
-													JOptionPane
-															.showMessageDialog(
-																	null,
+													ErrorDialog.showErrorMessage(
 																	"Въведен е друг клиент "
 																			+ fromBarcod[0]);
 													readBarcod.setText("");
 													return;
 												}
+
+//												if(fromBarcod.length > 0) {
+//
+//													String[] mernaEdinica = fromBarcod[2].toString().split("/");
+//													try {
+//														Integer.parseInt(mernaEdinica[mernaEdinica.length-1].trim());
+//													} catch (Exception e) {
+//														ErrorDialog.showErrorMessage(
+//																String.format("Грешно въведено количество -> %s\n",
+//																		fromBarcod[2]));
+//														return;
+//													}
+//												}
 
 												insertDataFromScanner(fromBarcod);
 
