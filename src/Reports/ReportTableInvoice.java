@@ -3,10 +3,10 @@ package Reports;
 import Exceptions.ErrorDialog;
 import Reports.ReportsRenderers.InvoiceTableRenderer;
 import Reports.ReportsWorkers.ExportToExcellWorkerInvocie;
-import Reports.ReportsWorkers.PrintInvoiceAndProformWorker;
+import Reports.ReportsWorkers.PrintReportsForInvoiceDocumentsType;
 import Reports.ReportsWorkers.RestoreQuantity;
-import WorkingBook.StickerJDialog;
 import db.creditnote.CreditNoteTable;
+import mydate.MyGetDate;
 import run.JDialoger;
 import utils.LoadIcon;
 import utils.MainPanel;
@@ -95,11 +95,11 @@ public class ReportTableInvoice extends MainPanel {
 
 				Integer[] selectedIndexes = getSelectedIndexes(
 						SELECTED_INDEX, 0);
-				PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
+				PrintReportsForInvoiceDocumentsType invoiceAndProformWorker = new PrintReportsForInvoiceDocumentsType(
 						null,
 						dftm.getValueAt(selectedIndexes[0], 0).toString(),
 						dftm, jd, selectedIndexes[0],
-						selectedIndexes.length, TITLE, PATH);//
+						selectedIndexes.length, TITLE, PATH,dftm.getValueAt(selectedIndexes[0], 6).toString());//
 				invoiceAndProformWorker.execute();
 
 			}
@@ -150,84 +150,85 @@ public class ReportTableInvoice extends MainPanel {
 		creditNoteButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				final String client = dftm.getValueAt(SELECTED_INDEX,4).toString();
 				final String invoiceNumOfDocument = dftm.getValueAt(SELECTED_INDEX,0).toString();
 
-				JDialoger dialoger = new JDialoger();
-				CreditNoteDialog creditNoteDialog = new CreditNoteDialog(client,
-						invoiceNumOfDocument,
-						"Желаете ли да създадете кредитно известие за този документ ?",
-						new MyCallback<Object>() {
-					@Override
-					public void call(Object cmd) {
-						if(cmd.equals("Да")) {
-							Integer[] selectedIndexes = getSelectedIndexes(
-									SELECTED_INDEX, 0);
-							final HashSet<String> set = CreditNoteTable.getCreditNotesNumberSet();
-                            final String creditNoteNumOfDocument = String.valueOf(set.size()+1);
-							boolean isDocumentWritten = set.contains(invoiceNumOfDocument);
-							//CreditNoteTable.checkIsDocumentWritten(invoiceNumOfDocument);
-							System.out.println("isDocumentWritten = " + isDocumentWritten);
+				final HashSet<String> set = CreditNoteTable.getCreditNotesNumberSet();
+				boolean isDocumentWritten = set.contains(invoiceNumOfDocument);
+				if(isDocumentWritten) {
+					ErrorDialog.showErrorMessage("Вече има записано кредитно известие за този документ");
+				} else {
+					JDialoger dialoger = new JDialoger();
+					CreditNoteDialog creditNoteDialog = new CreditNoteDialog(client,
+							invoiceNumOfDocument,
+							"Желаете ли да създадете кредитно известие за този документ ?",
+							new MyCallback<Object>() {
+								@Override
+								public void call(Object cmd) {
+									if(cmd.equals("Да")) {
+										Integer[] selectedIndexes = getSelectedIndexes(
+												SELECTED_INDEX, 0);
+										final HashSet<String> set = CreditNoteTable.getCreditNotesNumberSet();
+										final String creditNoteNumOfDocument = String.valueOf(set.size()+1);
 
-							if(!isDocumentWritten) {
-								RestoreQuantity restoreQuantity =
-										new RestoreQuantity(dftm, selectedIndexes[0], selectedIndexes.length,
-												creditNoteNumOfDocument, new MyCallback<Object>() {
-											@Override
-											public void call(Object obj) {
-												JDialoger jDialoger = new JDialoger();
-												CreditNoteDialog creditNoteDialog1 = new CreditNoteDialog(
-														client,
-														invoiceNumOfDocument,
-														"Желаете ли да принтирате кредитно известие ?",
-														new MyCallback<Object>() {
-															@Override
-															public void call(Object s) {
+										RestoreQuantity restoreQuantity =
+												new RestoreQuantity(dftm, selectedIndexes[0], selectedIndexes.length,
+														creditNoteNumOfDocument, new MyCallback<Object>() {
+													@Override
+													public void call(Object obj) {
+														JDialoger jDialoger = new JDialoger();
+														CreditNoteDialog creditNoteDialog1 = new CreditNoteDialog(
+																client,
+																invoiceNumOfDocument,
+																"Желаете ли да принтирате кредитно известие ?",
+																new MyCallback<Object>() {
+																	@Override
+																	public void call(Object s) {
 
-																JDialog jd = (JDialog) SwingUtilities
-																		.getWindowAncestor(ReportTableInvoice.this);
-																jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+																		JDialog jd = (JDialog) SwingUtilities
+																				.getWindowAncestor(ReportTableInvoice.this);
+																		jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-																//	PrintService ps = ChoisePrinterDialog.showPrinters();
-																//	if (ps == null) {
-																//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-																//		return;
-																//	}
-																//	if (ps != null) {
+																		//	PrintService ps = ChoisePrinterDialog.showPrinters();
+																		//	if (ps == null) {
+																		//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+																		//		return;
+																		//	}
+																		//	if (ps != null) {
 
-																	TITLE = "Кредитно Известие";
-																	PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
+																		TITLE = "Кредитно Известие";
+																		PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
 
-																	Integer[] selectedIndexes = getSelectedIndexes(
-																			SELECTED_INDEX, 0);
-																	PrintInvoiceAndProformWorker invoiceAndProformWorker
-																			= new PrintInvoiceAndProformWorker(
-																			null,
-																			creditNoteNumOfDocument,
-																			dftm, jd, selectedIndexes[0],
-																			selectedIndexes.length, TITLE, PATH);//
-																	invoiceAndProformWorker.execute();
+																		Integer[] selectedIndexes = getSelectedIndexes(
+																				SELECTED_INDEX, 0);
 
-															}
-														}
-												);
-												jDialoger.setContentPane(creditNoteDialog1);
-												jDialoger.Show();
-											}
-										});
-								restoreQuantity.execute();
+																		System.out.println(TITLE);
+																		PrintReportsForInvoiceDocumentsType invoiceAndProformWorker
+																				= new PrintReportsForInvoiceDocumentsType(
+																				null,
+																				creditNoteNumOfDocument,
+																				dftm, jd, selectedIndexes[0],
+																				selectedIndexes.length, TITLE, PATH
+																				, MyGetDate.getReversedSystemDate());
+																		invoiceAndProformWorker.execute();
 
+																	}
+																}
+														);
+														jDialoger.setContentPane(creditNoteDialog1);
+														jDialoger.Show();
+													}
+												});
+										restoreQuantity.execute();
 
+									}
+								}
+							});
+					dialoger.setContentPane(creditNoteDialog);
+					dialoger.Show();
+				}
 
-							} else {
-								ErrorDialog.showErrorMessage("Вече има записано кредитно известие за този документ");
-							}
-
-						}
-					}
-				});
-				dialoger.setContentPane(creditNoteDialog);
-				dialoger.Show();
 			}
 		});
 		JPanel buttonPanel = new JPanel();
@@ -265,8 +266,8 @@ public class ReportTableInvoice extends MainPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-					SELECTED_INDEX = table.getSelectedRow();
-					table.repaint();
+				SELECTED_INDEX = table.getSelectedRow();
+				table.repaint();
 			}
 		});
 		// hide dublicate columns

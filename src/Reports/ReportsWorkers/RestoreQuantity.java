@@ -58,7 +58,7 @@ public class RestoreQuantity extends SwingWorker {
             String date = dftm.getValueAt(i + startRow, 6).toString();
             String protokolNumber = dftm.getValueAt(i + startRow, 7).toString();
 
-            String artikul = dftm.getValueAt(i + startRow, 9).toString();
+            String artikul = dftm.getValueAt(i + startRow, 9)+"";
             String med = dftm.getValueAt(i + startRow, 10).toString();
             String quantity = dftm.getValueAt(i + startRow, 11).toString();
             String price = dftm.getValueAt(i + startRow, 12).toString();
@@ -106,7 +106,7 @@ public class RestoreQuantity extends SwingWorker {
                             sum,
                             client,
                             saller,
-                            MyGetDate.getReversedSystemDate(),
+                            date,
                             protokolNumber,
                             artikul,
                             med,
@@ -115,7 +115,8 @@ public class RestoreQuantity extends SwingWorker {
                             value,
                             kontragent,
                             invoiceByKontragent,
-                            creditNoteNumOfDocument);
+                            creditNoteNumOfDocument,
+                            MyGetDate.getReversedSystemDate());
                     if (insert == 1) {
                         System.out.println("артикулът е записан в кредитното известие успешно");
                     } else {

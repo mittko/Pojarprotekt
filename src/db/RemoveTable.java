@@ -168,11 +168,11 @@ public class RemoveTable extends MainPanel {
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		RemoveTable r = new RemoveTable();
-		int rw = r.deleteExtinguisher(PROTOKOL, "7000001438010");
-		System.out.println("document deleted " + rw);
+		//int rw = r.deleteExtinguisher(PROTOKOL, "7000001438010");
+		//System.out.println("document deleted " + rw);
 
 
-		// r.deleteDocument(MainPanel.PROTOKOL,"0016979");
+		//int deleted =  r.deleteDocument(MainPanel.CREDIT_NOTE,"-1");
 		// r.deleteTable(PARTS_PRICE);
 		// r.deleteTable(PROTOKOL_NUMBER);
 		// r.deleteTable(FIRM);

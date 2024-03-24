@@ -51,7 +51,10 @@ public class AddColumn {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		AddColumn alertTable = new AddColumn();
-		alertTable.addColumn(MainPanel.FIRM, "vat_registration",10);
+
+		alertTable.addColumn(MainPanel.CREDIT_NOTE,"credit_note_date",20);
+
+	//	alertTable.addColumn(MainPanel.FIRM, "vat_registration",10);
 
 	//	 int result = alertTable.addColumn(MainPanel.AVAILABLE_ARTIKULS, "code",20);
 

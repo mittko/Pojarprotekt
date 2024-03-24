@@ -10,13 +10,16 @@ import java.sql.SQLException;
 import Log.DB_Err;
 import Exceptions.DBException;
 import java.sql.DriverManager;
+
+import mydate.MyGetDate;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
 public class InitColumnsTable
 {
     public static void main(String[] args) {
-       int update = updateAnyColumnValue(MainPanel.FIRM,"vat_registration","не");
+        int update = updateAnyColumnValue(MainPanel.CREDIT_NOTE,"credit_note_date", MyGetDate.getReversedSystemDate());
+        // int update = updateAnyColumnValue(MainPanel.FIRM,"vat_registration","не");
         System.out.println(update);
     }
     public static int updateAnyColumnValue(final String table, final String column, final String value) {

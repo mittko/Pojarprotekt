@@ -194,8 +194,8 @@ public class InvoicePDFFromReports extends PdfCreator {
 				pdfWriter.getDirectContent());
 
 
-		setTextWithSpacing(TITLE, 6.5f, ( document.right()) / 2 -
-						(float) ((TITLE.length()*13)/2),// try to get middle of document and half from text length to position title in the center
+		setTextWithSpacing(TITLE, 0f, ( document.right()) / 2 -
+						(float) ((TITLE.length()*6)/2),// try to get middle of document and half from text length to position title in the center
 				endY -= (leftUPTable.getTotalHeight() + 25), "arialbd", 13);
 
 		PdfPTable numTable = new PdfPTable(1);

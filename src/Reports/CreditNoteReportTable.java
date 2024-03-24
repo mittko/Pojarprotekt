@@ -1,7 +1,7 @@
 package Reports;
 
 import Reports.ReportsRenderers.InvoiceTableRenderer;
-import Reports.ReportsWorkers.PrintInvoiceAndProformWorker;
+import Reports.ReportsWorkers.PrintReportsForInvoiceDocumentsType;
 import utils.MainPanel;
 
 import javax.swing.*;
@@ -41,11 +41,12 @@ public class CreditNoteReportTable extends MainPanel {
 
                 Integer[] selectedIndexes = getSelectedIndexes(
                         SELECTED_INDEX, 0);
-                PrintInvoiceAndProformWorker invoiceAndProformWorker = new PrintInvoiceAndProformWorker(
+                PrintReportsForInvoiceDocumentsType invoiceAndProformWorker = new PrintReportsForInvoiceDocumentsType(
                         null,
                         defaultTableModel.getValueAt(selectedIndexes[0],16).toString(),
                         defaultTableModel , jd, selectedIndexes[0],
-                        selectedIndexes.length, "Кредитно известие", CREDIT_NOTE_PDF_PATH);//
+                        selectedIndexes.length, "Кредитно известие", CREDIT_NOTE_PDF_PATH,
+                        defaultTableModel.getValueAt(selectedIndexes[0],17).toString());//
                 invoiceAndProformWorker.execute();
             }
         });
@@ -57,7 +58,7 @@ public class CreditNoteReportTable extends MainPanel {
                 "",
                 "Артикул", "Мерна ед.",
                 "Количество", "Ед. Цена", "Сума", "Контрагент",
-                "Фактура по доставка", "\u2116 на Кредитно Известие", }, 0){
+                "Фактура по доставка", "\u2116 на Кредитно Известие","Дата на Кредитно Известие" }, 0){
             @Override
             public boolean isCellEditable ( int row, int column){
                 return false;

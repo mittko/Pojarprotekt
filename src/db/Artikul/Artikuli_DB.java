@@ -690,7 +690,6 @@ public class Artikuli_DB extends MainPanel {
 	public static int decreaseArtikul_Quantity(String dbTable, String artikul, String client,
 											   String clientColumn, String invoice, String invoiceColumn, int i) {
 		Connection connect = null;
-		Statement stat = null;
 		PreparedStatement ps = null;
 		/*
 		 * String command2 = "update " + ARTIKULS +
