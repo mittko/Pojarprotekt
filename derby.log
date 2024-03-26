@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Sat Mar 23 22:34:50 EET 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.3.0 - (1405108): instance a816c00e-018e-6d05-f3db-000000ccf9f8 
-on database directory D:\RealDB  with class loader sun.misc.Launcher$AppClassLoader@12a2259 
+Mon Mar 25 22:26:00 EET 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.3.0 - (1405108): instance a816c00e-018e-774a-96f6-000000b71200 
+on database directory D:\TESTDB  with class loader sun.misc.Launcher$AppClassLoader@12a2259 
 Loaded from file:/D:/Pojarprotekt/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_40-b43

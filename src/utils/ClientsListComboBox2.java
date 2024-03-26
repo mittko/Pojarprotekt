@@ -52,9 +52,7 @@ public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {
 				if (getEditor().getItem().toString().length() <= 1) {
 					// init();
 					v.clear();
-					for (int i = 0; i < firms.size(); i++) {
-						v.add(firms.get(i));
-					}
+					v.addAll(firms);
 				}
 			}
 
@@ -78,23 +76,23 @@ public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {
 										// double enetered
 					int st = 0;
 					addItem(new IncorrectPerson("", "не"));
-					for (int i = 0; i < v.size(); i++) {
-						if (v.get(i).getName().isEmpty()) {
+					for (IncorrectPerson incorrectPerson : v) {
+						if (incorrectPerson.getName().isEmpty()) {
 							continue;
 						}
-						String A = v.get(i).getName().toLowerCase();
+						String A = incorrectPerson.getName().toLowerCase();
 						String B = a.toLowerCase();
 						if (A.startsWith(B)) {
-							addItem(v.get(i));
+							addItem(incorrectPerson);
 							st++;
 						} else if (A.contains(B)) {
-							addItem(v.get(i));
+							addItem(incorrectPerson);
 							st++;
 						}
 						// add items from vector to combobox again
 					}
 
-					getEditor().setItem(new String(a));
+					getEditor().setItem(a);
 					hidePopup();
 					if (st != 0) {
 						showPopup();

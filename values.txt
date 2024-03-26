@@ -3,6 +3,8 @@ db_path=jdbc:derby://127.0.0.1:1527/D:/Local/RealDBLPS
 :1527/D:/RealDBLPS
 label_printer1=lpq58
 label_printer2=citizen
+
+;db_path=jdbc:derby:D:/TESTDB
 ;LOCAL POJARPROTEKT -> db_path=jdbc:derby://127.0.0.1:1527/D:/Local/RealDB
 ;LOCAL LPS -> db_path=jdbc:derby://127.0.0.1:1527/D:/Local/RealDBLPS
 

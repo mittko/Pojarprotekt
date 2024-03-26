@@ -122,7 +122,7 @@ public class GetFromScanner extends MainPanel {
 		ResultSetMetaData rsmd = null;
 		String command = "select client, type, wheight, "
 				+ "barcod, serial, category, brand, T_O, P, HI, additional_data from "
-				+ PROTOKOL + " where barcod like '" + barcod + "'";
+				+ PROTOKOL + " where barcod = '" + barcod + "'";
 		/* + " and double_written = '" + "не" + "'"; */
 		ArrayList<Object> result = new ArrayList<Object>();
 		try {

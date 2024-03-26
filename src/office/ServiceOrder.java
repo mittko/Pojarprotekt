@@ -3,6 +3,8 @@ package office;
 import Document.TextFieldLimit;
 import Exceptions.ErrorDialog;
 import NewClient.NewClient;
+import com.sun.security.ntlm.Client;
+import db.Client.ClientTable;
 import office.Renderers.ExtinguisherRenderer;
 import office.Renderers.MyComboRenderer;
 import office.Renderers.MyTableRenderer;
@@ -252,6 +254,15 @@ public class ServiceOrder extends MainPanel {
 													return;
 												}
 
+												ArrayList<String> clientInfo =
+														ClientTable.getClientDetails(fromBarcod[0].toString());
+												if(clientInfo == null || clientInfo.isEmpty()) {
+													ErrorDialog.showErrorMessage("Не е намерен такъв клиент");
+													// най-вероятно клиента е преименуван
+													return;
+												}
+
+
 //												if(fromBarcod.length > 0) {
 //
 //													String[] mernaEdinica = fromBarcod[2].toString().split("/");
@@ -363,6 +374,15 @@ public class ServiceOrder extends MainPanel {
 													serialNumber.setText("");
 													return;
 												}
+
+												ArrayList<String> clientInfo =
+														ClientTable.getClientDetails(fromSerial[0].toString());
+												if(clientInfo == null || clientInfo.isEmpty()) {
+													ErrorDialog.showErrorMessage("Не е намерен такъв клиент");
+													// най-вероятно клиента е преименуван
+													return;
+												}
+
 												insertDataFromScanner(fromSerial);
 
 												// add serial to update after

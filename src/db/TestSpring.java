@@ -44,14 +44,15 @@ public class TestSpring {
         }
     }
     public static int insertTEST(int id, String  name) {
-        String command = "insert into test4 values (" + id + ",'" + name +"')";
+        String EMBEDDED_DB_PATH="jdbc:derby:D:\\PERSONDB;";
+        String command = "insert into PEOPLE values (" + id + ",'" + name +"')";
         Connection connection = null;
         Statement statement = null;
         int insert = 0;
         try {
             String driver = "org.apache.derby.jdbc.EmbeddedDriver";
             Class.forName(driver).newInstance();
-            connection = DriverManager.getConnection(DB_PATH);
+            connection = DriverManager.getConnection(EMBEDDED_DB_PATH);
             statement = connection.createStatement();
             insert = statement.executeUpdate(command);
         } catch (SQLException e) {
@@ -80,7 +81,8 @@ public class TestSpring {
     }
 
     public static ArrayList<ArrayList<Object>> getTEST() throws SQLException {
-        String command = "select * from TEST3";
+        String EMBEDDED_DB_PATH="jdbc:derby:D:\\PERSONDB;";
+        String command = "select * from PEOPLE";
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet;
@@ -90,7 +92,7 @@ public class TestSpring {
             String driver = "org.apache.derby.jdbc.EmbeddedDriver";
             Class.forName(driver).newInstance();
 
-            connection = DriverManager.getConnection(DB_PATH);
+            connection = DriverManager.getConnection(EMBEDDED_DB_PATH);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(command);
             while (resultSet.next()) {
@@ -123,8 +125,8 @@ public class TestSpring {
     public static void main(String[] args) throws SQLException {
       //  createTestTable();
 
-       // int insert = insertTEST(1,"Mitko");
-       // System.out.println(insert);
+      //  int insert = insertTEST(2,"Ивана");
+      //  System.out.println(insert);
 
         getTEST();
     }
