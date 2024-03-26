@@ -191,7 +191,19 @@ public class PasswordDialog extends MainPanel {
 						return null;
 					}
 //				
-					
+					if (!field.getText().equals(user_password[0])) {
+						JOptionPane.showMessageDialog(null,
+								"Грешно потребителско име!");
+						return null;
+					} else {
+						String password = new String(
+								enterPassword.getPassword());
+						if (!password.equals(user_password[1])) {
+							JOptionPane.showMessageDialog(null,
+									"Грешно въведена парола!");
+							return null;
+						}
+					}
 
 					loadSallerDataAndDoingPrice();
 
