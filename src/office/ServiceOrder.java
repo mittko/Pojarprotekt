@@ -3,13 +3,11 @@ package office;
 import Document.TextFieldLimit;
 import Exceptions.ErrorDialog;
 import NewClient.NewClient;
-import com.sun.security.ntlm.Client;
 import db.Client.ClientTable;
 import office.Renderers.ExtinguisherRenderer;
 import office.Renderers.MyComboRenderer;
 import office.Renderers.MyTableRenderer;
 import office.ServiceModels.*;
-import office.ServiceOrderWorkers.PrintPDFBarcodesWorker;
 import office.ServiceOrderWorkers.PrintSerialBarcodesWorker;
 import office.ServiceOrderWorkers.PrinterServiceOrderWorker;
 import office.ServiceOrderWorkers.SaveinServiceOrderDBWorker;
@@ -20,7 +18,6 @@ import generators.BarcodGenerator;
 import generators.GenerateSO;
 import mydate.MyGetDate;
 import run.JDialoger;
-import run.JustFrame;
 import utils.*;
 
 import javax.swing.*;
@@ -32,7 +29,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.TreeMap;
 
@@ -116,9 +112,6 @@ public class ServiceOrder extends MainPanel {
 
 	public ArrayList<String> updateExtinguisher = null;
 
-	public JustFrame newClientFrame = null;
-
-	private HeaderTable headerTable;
 
 	public ServiceOrder(String serviceNumber) {
 		// first init
@@ -262,19 +255,13 @@ public class ServiceOrder extends MainPanel {
 													return;
 												}
 
+												String weight = fromBarcod[2].toString();
 
-//												if(fromBarcod.length > 0) {
-//
-//													String[] mernaEdinica = fromBarcod[2].toString().split("/");
-//													try {
-//														Integer.parseInt(mernaEdinica[mernaEdinica.length-1].trim());
-//													} catch (Exception e) {
-//														ErrorDialog.showErrorMessage(
-//																String.format("Грешно въведено количество -> %s\n",
-//																		fromBarcod[2]));
-//														return;
-//													}
-//												}
+												if(!isWeightValid(weight)) {
+												 ErrorDialog.showErrorMessage("Грешен формат на количество");
+												 return;
+												}
+
 
 												insertDataFromScanner(fromBarcod);
 
@@ -307,7 +294,7 @@ public class ServiceOrder extends MainPanel {
 											}
 										}
 										readBarcod.setText("");
-										// testJTable();
+
 									}
 
 								});
@@ -383,6 +370,12 @@ public class ServiceOrder extends MainPanel {
 													return;
 												}
 
+
+
+												if(!isWeightValid(fromSerial[2].toString())) {
+													ErrorDialog.showErrorMessage("Грешен формат на количество");
+													return;
+												}
 												insertDataFromScanner(fromSerial);
 
 												// add serial to update after
@@ -404,7 +397,6 @@ public class ServiceOrder extends MainPanel {
 												clientLabel
 														.setName(CURRENT_CLIENT);
 
-												// testJTable();
 
 												clientCombo
 														.setSelectedItem(CURRENT_CLIENT);
@@ -434,7 +426,6 @@ public class ServiceOrder extends MainPanel {
 			}
 		});
 
-		// serialNumber.setPreferredSize(new Dimension(20, 50));
 
 		// order buttons
 		TooltipButton printerButton = new TooltipButton();
@@ -443,8 +434,7 @@ public class ServiceOrder extends MainPanel {
 				.getPreferredSize().getHeight() * 0.75)));
 
 		printerButton.setAutoSizedIcon(printerButton, new LoadIcon().setIcons(printerImage));
-		// printerButton.setIcon(new LoadIcon().setIcons(printerImage));
-		// printerButton.setPreferredSize(new Dimension(55, 55));
+
 		printerButton
 				.setToolTipText(getHTML_Text("ПРИНТИРАЙ СЕРВИЗНА ПОРЪЧКА"));
 		printerButton.addActionListener(new ActionListener() {
@@ -473,15 +463,12 @@ public class ServiceOrder extends MainPanel {
 
 		TooltipButton barcodButton = new TooltipButton();
 
-		// barcodButton.setIcon(new LoadIcon().setIcons(barcodeImage));
-
 		barcodButton.setToolTipText(getHTML_Text("ГЕНЕРИРАЙ БАРКОД"));
 		barcodButton.setPreferredSize(new Dimension((int) (northHelpPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northHelpPanel
 				.getPreferredSize().getHeight() * 0.75)));
 		;
 		barcodButton.setAutoSizedIcon(barcodButton, new LoadIcon().setIcons(barcodeImage));
-		// barcodButton.setPreferredSize(new Dimension(55, 55));
 
 		barcodButton.addActionListener(new ActionListener() {
 
@@ -535,9 +522,6 @@ public class ServiceOrder extends MainPanel {
 		});
 
 		TooltipButton dbButton = new TooltipButton();
-
-		// dbButton.setIcon(new LoadIcon().setIcons(dbImage));
-		// dbButton.setPreferredSize(new Dimension(55, 55));
 
 		dbButton.setEnabled(true);
 
@@ -601,9 +585,6 @@ public class ServiceOrder extends MainPanel {
 
 		TooltipButton eraserButton = new TooltipButton();
 
-		// eraserButton.setIcon(new LoadIcon().setIcons(eraserImage));
-		// eraserButton.setPreferredSize(new Dimension(55, 55));
-
 		eraserButton.setToolTipText(getHTML_Text("ИЗТРИЙ ДАННИТЕ"));
 		eraserButton.setPreferredSize(new Dimension((int) (northHelpPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northHelpPanel
@@ -637,18 +618,10 @@ public class ServiceOrder extends MainPanel {
 				CURRENT_ROW = -1;
 
 				readBarcod.requestFocus();
-				// this logic clear all table contents
-				/*
-				 * tModel.setRowCount(0); barcodDigits = new int[2]; for (int i
-				 * = 0; i < SERVICE_NUMBER.length(); i++) { allDigits[i] =
-				 * (int)(SERVICE_NUMBER.charAt(i) - 48); }
-				 */
 			}
 		});
 
 		TooltipButton clientButton = new TooltipButton();
-
-		// clientButton.setIcon(new LoadIcon().setIcons(clientsImage));
 
 		clientButton.setToolTipText(getHTML_Text("ВЪВЕДИ НОВ КЛИЕНТ"));
 		clientButton.setPreferredSize(new Dimension((int) (northHelpPanel
@@ -656,7 +629,6 @@ public class ServiceOrder extends MainPanel {
 				.getPreferredSize().getHeight() * 0.75)));
 
 		clientButton.setAutoSizedIcon(clientButton, new LoadIcon().setIcons(clientsImage));
-		// clientButton.setPreferredSize(new Dimension(55, 55));
 
 		clientButton.addActionListener(new ActionListener() {
 
@@ -680,7 +652,7 @@ public class ServiceOrder extends MainPanel {
 		newExtinguisher.setPreferredSize(new Dimension((int) (north
 				.getPreferredSize().getWidth()), (int) (north
 				.getPreferredSize().getHeight() * 0.5)));
-		// newExtinguisher.setBorder(BorderFactory.createLineBorder(Color.black));
+
 		newExtinguisher.setOpaque(false);
 
 		JPanel clientPanel = new JPanel();
@@ -708,11 +680,6 @@ public class ServiceOrder extends MainPanel {
 
 		clientPanel.add(clientCombo);
 
-		/*
-		 * clientCombo.setPreferredSize(new Dimension(
-		 * (int)(clientPanel.getPreferredSize().getWidth()),
-		 * (int)(clientPanel.getPreferredSize().getHeight() * 0.7)));
-		 */
 
 		JPanel typePanel = new JPanel();
 		typePanel.setPreferredSize(new Dimension((int) (newExtinguisher
@@ -726,11 +693,7 @@ public class ServiceOrder extends MainPanel {
 		Object[] typesFire = {"Вид", type_Prah_BC, type_Prah_ABC,
 				type_Water, type_Water_Fame, type_CO2, type_classF, type_classD};
 		type = new JComboBox<Object>(typesFire);
-		/*
-		 * type.setPreferredSize(new Dimension(
-		 * (int)(typePanel.getPreferredSize().getWidth()),
-		 * (int)(typePanel.getPreferredSize().getHeight() * 0.9)));
-		 */
+
 
 		type.setBorder(BorderFactory.createLoweredBevelBorder());
 		type.setEditable(true);
@@ -831,7 +794,7 @@ public class ServiceOrder extends MainPanel {
 
 				if (ke.getKeyChar() == KeyEvent.VK_ENTER) {
 
-					insertExtinguishers();
+					registerNewExtinguishers();
 				}
 			}
 		});
@@ -855,8 +818,8 @@ public class ServiceOrder extends MainPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 
-				insertExtinguishers();
-				// tModel.addRow(new Object[]{"","","","","","","",""});
+				registerNewExtinguishers();
+
 			}
 
 		});
@@ -1116,9 +1079,6 @@ public class ServiceOrder extends MainPanel {
 		scroll.setPreferredSize(new Dimension((int) (this.WIDTH * 1.0) - 20,
 				(int) (this.HEIGHT * 0.6)));
 
-		// headerTable = new HeaderTable(table);
-		// scroll.setRowHeaderView(headerTable.getRowsColumnTable());
-
 		JPanel south = new JPanel(); // / GradientPanel
 		south.setPreferredSize(new Dimension((int) (this.WIDTH * 1.0) - 20,
 				(int) (this.HEIGHT * 0.09)));
@@ -1127,38 +1087,22 @@ public class ServiceOrder extends MainPanel {
 
 		float labelHeight = (int) (south.getPreferredSize().getHeight() * 0.7);
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
-		/*
-		 * sallerLabel.setPreferredSize(new Dimension(
-		 * (int)(south.getPreferredSize().getWidth() * 0.25),
-		 * (int)(south.getPreferredSize().getHeight() * 0.7)));
-		 */
+
 		sallerLabel.setTitle(Enums.Оператор.name() + ": ");//("  Продавач: ");
 		sallerLabel.setName(personName);
 
 		clientLabel = new BevelLabel(labelHeight);
-		/*
-		 * clientLabel.setPreferredSize(new Dimension(
-		 * (int)(south.getPreferredSize().getWidth() * 0.3),
-		 * (int)(south.getPreferredSize().getHeight() * 0.7)));
-		 */
+
 		clientLabel.setTitle(" Клиент  : ");
 		clientLabel.setName("");
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);
-		/*
-		 * dateLabel.setPreferredSize(new Dimension(
-		 * (int)(south.getPreferredSize().getWidth() * 0.15),
-		 * (int)(south.getPreferredSize().getHeight() * 0.7)));
-		 */
+
 		dateLabel.setTitle("  Дата : ");
 		dateLabel.setName(MyGetDate.getReversedSystemDate());
 
 		serviceNumberLabel = new BevelLabel(labelHeight);
-		/*
-		 * serviceNumberLabel.setPreferredSize(new Dimension(
-		 * (int)(south.getPreferredSize().getWidth() * 0.25),
-		 * (int)(south.getPreferredSize().getHeight() * 0.7)));
-		 */
+
 		serviceNumberLabel.setTitle(" Серв. поръчка \u2116 ");
 		serviceNumberLabel.setName(serviceNumber);
 
@@ -1205,10 +1149,6 @@ public class ServiceOrder extends MainPanel {
 		this.setPreferredSize(new Dimension(this.WIDTH - 20, this.HEIGHT - 80));
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 	// make map to create pdf service order
 	private TreeMap<Object, Integer> getSOMap() {
@@ -1226,20 +1166,7 @@ public class ServiceOrder extends MainPanel {
 		return soMap;
 	}
 
-	private void insertDataFromNewExtinguishers(int rows) {
 
-		for (int i = rows - 1; i >= 0; i--) {
-			if (barcodDigits != null) {
-				addExtinguisherFromNewExtinuishers(0);
-			} else {
-				JOptionPane.showMessageDialog(null,
-						"Не могат да бъдат въведени повече елементи!");
-				break;
-			}
-		}
-
-		// testJTable();
-	}
 
 	private void insertDataFromScanner(Object[] object) {
 
@@ -1305,10 +1232,10 @@ public class ServiceOrder extends MainPanel {
 				object[10] != null ? object[10] : "" };
 		// add barcode
 		// презаписва баркодовете
-		addOneBarcodFromScanner(0, obj);
+		addOneBarcodeFromScanner(0, obj);
 	}
 
-	private void addOneBarcodFromScanner(int row, Object[] obj) {
+	private void addOneBarcodeFromScanner(int row, Object[] obj) {
 		barcodDigits = bGen.next_barcod(barcodDigits);
 		if (barcodDigits == null) {
 			return;
@@ -1321,7 +1248,7 @@ public class ServiceOrder extends MainPanel {
 
 	}
 
-	void insertExtinguishers() {
+	void registerNewExtinguishers() {
 		if (clientCombo.getSelectedItem() == null
 				|| clientCombo.getSelectedItem().equals("")) {
 			JOptionPane.showMessageDialog(null, "Не е избран клиент!");
@@ -1352,21 +1279,31 @@ public class ServiceOrder extends MainPanel {
 		try {
 			int rows = Integer.parseInt(numberExtinguisherField.getText());
 
-			insertDataFromNewExtinguishers(rows); // add barcodes to every
+			insertDataForRegistrationExtinguishers(rows); // add barcodes to every
 			// extinguisher
 
 			CURRENT_CLIENT = clientCombo.getSelectedItem().toString();
 			clientLabel.setText(" Клиент  : " + CURRENT_CLIENT);
-			// clientLabel.setPreferredSize(new Dimension(fm
-			// .stringWidth(clientLabel.getText()) + 10, 50));
-			reset(); // reset
+
+			reset();
 			clientCombo.setEnabled(false);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Невалиден вход !");
 		}
 	}
+	private void insertDataForRegistrationExtinguishers(int rows) {
 
-	private void addExtinguisherFromNewExtinuishers(int index) {
+		for (int i = rows - 1; i >= 0; i--) {
+			if (barcodDigits != null) {
+				addExtinguisherForRegisterExtinguishers(0);
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Не могат да бъдат въведени повече елементи!");
+				break;
+			}
+		}
+	}
+	private void addExtinguisherForRegisterExtinguishers(int index) {
 
 		barcodDigits = bGen.next_barcod(barcodDigits);
 		if (barcodDigits == null) {
@@ -1388,8 +1325,6 @@ public class ServiceOrder extends MainPanel {
 		tModel.setValueAt(SERVICE_NUMBER, i, 10);
 		tModel.setValueAt(personName, i, 11);
 		tModel.setValueAt(MyGetDate.getReversedSystemDate(), i, 12);
-
-		// setColumnsNums();
 
 	}
 
@@ -1431,6 +1366,24 @@ public class ServiceOrder extends MainPanel {
 		type.setSelectedIndex(0);
 		wheight.setSelectedIndex(0);
 		numberExtinguisherField.setText("");
+	}
+
+	private boolean isWeightValid(String weight) {
+		// тъй като килограмите идват от таблица протокол като двойка числа едното
+		// указващо реалните килограми след презареждането и второто килограмите на самият съд
+		// тук в сервизна поръчка трябва да извлечем само втората стойност (килограмите на съда)
+		// иначе в работилницата ще покаже бъг.Трябва да се увеличи рамера на полето weight в база данни Протоколи
+		// защото гърми
+
+		String[] spl = weight.split("/");
+		if(spl.length == 1) {
+			weight = spl[0].trim();
+		} else if(spl.length > 1) {
+			weight = spl[spl.length-1].trim();
+		}
+
+		int index = weight.indexOf(' ');
+		return index > 0 && Character.isDigit(weight.charAt(index - 1));
 	}
 
 }
