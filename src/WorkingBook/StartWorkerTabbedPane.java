@@ -28,6 +28,7 @@ public class StartWorkerTabbedPane extends MainPanel {
 		
 		tabbedPane.addTab("Бракувани", brack);
 	//	tabbedPane.setIconAt(2, setIcons("brak2.png"));
+
 		
 		this.setPreferredSize(new Dimension(this.WIDTH-20,this.HEIGHT-70));
 		this.add(tabbedPane);

@@ -1,0 +1,20 @@
+Resolving The Problem
+To resolve the problem add grant permission to the java policy file <TDI_HOME>/jvm/jre/lib/security/java.policy as in the following two examples:
+
+1. using java policy tool <TDI_HOME>/jvm/jre/bin/policytool:
+
+Permission: java.net.SocketPermission
+Target Name: localhost:1527
+Actions: listen, resolve
+
+which should add the following lines into java.policy file:
+
+grant {
+permission java.net.SocketPermission "localhost:1527", "listen, resolve";
+};
+
+2. using any editor and inserting the following single line into the list of existing granted permissions:
+
+permission java.net.SocketPermission "localhost:1527", "listen, resolve";
+
+Note: permission, host, port and actions in above two examples are based on the exception from Symptom above.

@@ -83,10 +83,10 @@ public class View extends MainPanel {
 		northNorth.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
 
 		float labelHeight = (int) (northNorth.getPreferredSize().getHeight() * 0.7);
-		BevelLabel label = new BevelLabel(labelHeight);
+		final BevelLabel label = new BevelLabel(labelHeight);
 
-		label.setTitle("Обработени до момента");
-		label.setName("");
+		label.setTitle("Обработени пожарогасители: ");
+
 
 		TooltipButton dbButton = new TooltipButton();
 
@@ -218,6 +218,7 @@ public class View extends MainPanel {
 					WorkingBook.CURRENT_CLIENT = "";
 					((DefaultListModel<Object>)partsList.getModel()).clear();
 				}
+				label.setName(String.valueOf(dtm_Extinguisher.getRowCount()));
 			}
 		});
 		// this logic does not work !!!!!
@@ -326,6 +327,7 @@ public class View extends MainPanel {
 				partsList.setModel(dlm_Parts);
 			}
 		});
+
 
 		JScrollPane scroll = new JScrollPane(t_Extinguisher,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
