@@ -250,7 +250,9 @@ public class ServiceOrder extends MainPanel {
 												ArrayList<String> clientInfo =
 														ClientTable.getClientDetails(fromBarcod[0].toString());
 												if(clientInfo == null || clientInfo.isEmpty()) {
-													ErrorDialog.showErrorMessage("Не е намерен такъв клиент");
+													ErrorDialog.showErrorMessage(
+															String.format("Не е намерен такъв клиент %s",
+																	fromBarcod[0].toString()));
 													// най-вероятно клиента е преименуван
 													return;
 												}
@@ -258,7 +260,8 @@ public class ServiceOrder extends MainPanel {
 												String weight = fromBarcod[2].toString();
 
 												if(!isWeightValid(weight)) {
-												 ErrorDialog.showErrorMessage("Грешен формат на количество");
+												 ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
+														 weight));
 												 return;
 												}
 
@@ -365,7 +368,8 @@ public class ServiceOrder extends MainPanel {
 												ArrayList<String> clientInfo =
 														ClientTable.getClientDetails(fromSerial[0].toString());
 												if(clientInfo == null || clientInfo.isEmpty()) {
-													ErrorDialog.showErrorMessage("Не е намерен такъв клиент");
+													ErrorDialog.showErrorMessage(String.format("Не е намерен такъв клиент %s",
+															fromSerial[0].toString()));
 													// най-вероятно клиента е преименуван
 													return;
 												}
@@ -373,7 +377,8 @@ public class ServiceOrder extends MainPanel {
 
 
 												if(!isWeightValid(fromSerial[2].toString())) {
-													ErrorDialog.showErrorMessage("Грешен формат на количество");
+													ErrorDialog.showErrorMessage(
+															String.format("Грешен формат на количество %s",fromSerial[2].toString()));
 													return;
 												}
 												insertDataFromScanner(fromSerial);
