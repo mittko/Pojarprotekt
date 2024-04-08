@@ -5,26 +5,19 @@ import Exceptions.PDFException;
 import JPrinter.Print.PrintBarcod;
 import Log.IOErrorsWriter;
 import Log.PdfErr;
-import PDF.OpenPDFDocument;
-import PDF.PdfCreator;
+import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
-import com.itextpdf.text.pdf.qrcode.EncodeHintType;
-import com.itextpdf.text.pdf.qrcode.ErrorCorrectionLevel;
-import com.itextpdf.text.pdf.qrcode.QRCodeWriter;
 import mydate.MyGetDate;
 import utils.MainPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 public class GenerateBarcod {
 	Image img;

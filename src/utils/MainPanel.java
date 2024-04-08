@@ -187,6 +187,10 @@ public class MainPanel extends JPanel {
 			+ "\\tmp\\PDF\\Протокол");
 	public static final String BRACK_PDF_PATH = createFolder(DOCUMENTS_PATH
 			+ "\\tmp\\PDF\\Протокол Брак");
+
+	public static final String DECLARATIONS_PDF_PATH = createFolder(DOCUMENTS_PATH
+	+ "\\tmp\\PDF\\Декларации");
+
 	public static final String INVOICE_PDF_PATH = createFolder(DOCUMENTS_PATH
 			+ "\\tmp\\PDF\\Фактура");
 

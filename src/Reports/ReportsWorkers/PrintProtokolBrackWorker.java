@@ -1,7 +1,7 @@
 package Reports.ReportsWorkers;
 
-import PDF.Brack.BrackPDF;
-import PDF.OpenPDFDocument;
+import pdf.Brack.BrackPDF;
+import pdf.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;

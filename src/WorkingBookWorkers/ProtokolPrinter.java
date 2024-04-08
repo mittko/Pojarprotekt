@@ -1,8 +1,7 @@
 package WorkingBookWorkers;
 
 import JPrinter.Print.PrintWithoutOpenPdf;
-import PDF.OpenPDFDocument;
-import PDF.Protokol.ProtokolPDF3;
+import pdf.protokol.ProtokolPDF3;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;

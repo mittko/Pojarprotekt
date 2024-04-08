@@ -1,6 +1,6 @@
 package declarations;
 
-import PDF.OpenPDFDocument;
+import pdf.OpenPDFDocument;
 import utils.MainPanel;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package invoice.worker;
 
 import JPrinter.Print.PrintWithoutOpenPdf;
-import PDF.Invoice.InvoicePDF;
+import pdf.Invoice.InvoicePDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;

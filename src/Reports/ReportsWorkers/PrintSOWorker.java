@@ -1,7 +1,7 @@
 package Reports.ReportsWorkers;
 
-import PDF.OpenPDFDocument;
-import PDF.SO.ServiceOrderPDF;
+import pdf.OpenPDFDocument;
+import pdf.SO.ServiceOrderPDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;

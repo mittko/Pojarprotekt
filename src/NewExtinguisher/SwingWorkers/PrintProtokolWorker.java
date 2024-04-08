@@ -1,7 +1,7 @@
 package NewExtinguisher.SwingWorkers;
 
 import JPrinter.Print.PrintWithoutOpenPdf;
-import PDF.Protokol.NewExtinguisherProtokolPDF;
+import pdf.protokol.NewExtinguisherProtokolPDF;
 import db.Client.ClientTable;
 import db.Protokol.ProtokolNumber;
 import mydate.MyGetDate;

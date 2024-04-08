@@ -1,7 +1,7 @@
 package invoice.worker;
 
 import JPrinter.Print.PrintWithoutOpenPdf;
-import PDF.Aqcuittance.AcquittancePDFromInvocie;
+import pdf.Aqcuittance.AcquittancePDFromInvoice;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;
@@ -51,7 +51,7 @@ public class PrintAcquittancePdfWorker extends SwingWorker {
 			int[] copies = { 1 };// {2};
 			for (int i = 0; i < 1; i++) {
 
-				AcquittancePDFromInvocie pdf = new AcquittancePDFromInvocie();
+				AcquittancePDFromInvoice pdf = new AcquittancePDFromInvoice();
 				pdf.createAcquittancePDF2(clientInfo, dftm, timeStamp3[i],
 						acquittanceNumber, datePdf, 0, dftm.getRowCount(), 4); // index
 																				// of

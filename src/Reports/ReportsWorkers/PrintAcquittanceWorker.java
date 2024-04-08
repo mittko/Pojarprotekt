@@ -1,7 +1,7 @@
 package Reports.ReportsWorkers;
 
-import PDF.Aqcuittance.AcquittancePDFromReports;
-import PDF.OpenPDFDocument;
+import pdf.Aqcuittance.AcquittancePDFromReports;
+import pdf.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;

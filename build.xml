@@ -89,7 +89,7 @@
         </java>
     </target>
     <target name="AcquittancePDF">
-        <java classname="PDF.Aqcuittance.AcquittancePDF" failonerror="true" fork="yes">
+        <java classname="pdf.Aqcuittance.AcquittancePDF" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -274,7 +274,7 @@
         </java>
     </target>
     <target name="InvoicePDF (1)">
-        <java classname="PDF.InvoicePDF" failonerror="true" fork="yes">
+        <java classname="pdf.InvoicePDF" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -419,12 +419,12 @@
         </java>
     </target>
     <target name="PdfCreator">
-        <java classname="PDF.PdfCreator" failonerror="true" fork="yes">
+        <java classname="pdf.PdfCreator" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="PDF_SO (1)">
-        <java classname="PDF.SO.PDF_SO" failonerror="true" fork="yes">
+        <java classname="pdf.SO.PDF_SO" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -459,7 +459,7 @@
         </java>
     </target>
     <target name="Protokol2815 (1)">
-        <java classname="PDF.Protokol.Protokol2815" failonerror="true" fork="yes">
+        <java classname="pdf.protokol.Protokol2815" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>

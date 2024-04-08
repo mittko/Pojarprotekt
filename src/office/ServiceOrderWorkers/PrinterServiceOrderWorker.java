@@ -1,7 +1,7 @@
 package office.ServiceOrderWorkers;
 
 import JPrinter.Print.PrintWithoutOpenPdf;
-import PDF.SO.ServiceOrderPDF;
+import pdf.SO.ServiceOrderPDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.ChoisePrinterDialog;

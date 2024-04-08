@@ -1,15 +1,10 @@
 package NewExtinguisher.SwingWorkers;
 
 import Exceptions.ErrorDialog;
-import JPrinter.PrintSticker.PrintSticker;
-import PDF.OpenPDFDocument;
 import ThermalPrinters.CitizenPrinters.CitizenPrinterManager;
-import generators.GenerateBarcod;
-import mydate.MyGetDate;
 import utils.MainPanel;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class StickerPrinterWorker extends SwingWorker {

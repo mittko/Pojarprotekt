@@ -1,7 +1,7 @@
 package Reports.ReportsWorkers;
 
-import PDF.Invoice.InvoicePDFFromReports;
-import PDF.OpenPDFDocument;
+import pdf.Invoice.InvoicePDFFromReports;
+import pdf.OpenPDFDocument;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;
