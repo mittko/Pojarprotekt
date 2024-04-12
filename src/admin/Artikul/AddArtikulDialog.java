@@ -7,10 +7,11 @@
 package admin.Artikul;
 
 import admin.Artikul.Workers.InsertArtikulWorker;
+import run.JDialoger;
 import utils.MyMath;
-import java.awt.FlowLayout;
+
+import java.awt.*;
 import java.util.Date;
-import java.awt.Cursor;
 import javax.swing.SwingUtilities;
 import javax.swing.JDialog;
 import java.text.ParseException;
@@ -18,8 +19,7 @@ import javax.swing.JOptionPane;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Insets;
-import java.awt.GridBagConstraints;
+
 import mydate.MyGetDate;
 
 import java.awt.event.KeyEvent;
@@ -27,9 +27,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.JLabel;
-import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
-import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -50,12 +48,22 @@ public class AddArtikulDialog extends MainPanel
 	private JTextField percentProfitField;
 	private JTextField dateField;
 	private JTextField personField;
+
+	private EditableField barcodeField;
+
 	JButton saveInDBButton;
 	private String medItem;
 	private String oldValueItem;
 	private String currValueItem;
 
 	public static void main(final String[] args) {
+		AddArtikulDialog addArtikulDialog = new AddArtikulDialog("", "", "",
+				"","", "", "", "", "") ;
+		JDialoger jd = new JDialoger();
+		jd.setContentPane(addArtikulDialog);
+		jd.setResizable(false);
+		jd.setTitle("Добави артикул");
+		jd.Show();
 	}
 
 	public AddArtikulDialog(final String artikulItem, final String skladitem, final String medItem, final String oldValueItem, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit) {
@@ -80,10 +88,8 @@ public class AddArtikulDialog extends MainPanel
 		final JLabel artikulLabel = new JLabel("Артикул");
 		final JLabel skladLabel = new JLabel("Брой");
 		final JLabel medLabel = new JLabel("Мер. единица  ");
-		final JLabel artikulCodeLabel = new JLabel("Код");
-		final JLabel deliveryValueLabel = new JLabel("Доставна цена");
-		final JLabel dateLabel = new JLabel("Дата");
-		final JLabel personLabel = new JLabel("Оператор");
+		final JButton deliveryValueButton = new JButton("Доставна цена");
+		final JLabel dateLabel = new JLabel("    Дата");
 		final JPanel rightPanel = new JPanel();
 		rightPanel.setOpaque(false);
 		rightPanel.setLayout(new GridBagLayout());
@@ -103,7 +109,7 @@ public class AddArtikulDialog extends MainPanel
 				final String invoiceNum = textField.getText();
 			}
 		});
-		(this.skladField = new JTextField(10)).setText(skladitem);
+		(this.skladField = new JTextField(3)).setText(skladitem);
 		this.skladField.setForeground(Color.red);
 		this.skladField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -112,7 +118,7 @@ public class AddArtikulDialog extends MainPanel
 				final String skladNum = textField.getText();
 			}
 		});
-		(this.medField = new JTextField(10)).setText("брой");
+		(this.medField = new JTextField(6)).setText("брой");
 		this.medField.setEditable(true);
 		this.medField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -123,7 +129,7 @@ public class AddArtikulDialog extends MainPanel
 			}
 		});
 
-		(this.deliveryValueField = new JTextField(10)).setForeground(Color.red);
+		(this.deliveryValueField = new JTextField(6)).setForeground(Color.red);
 		this.deliveryValueField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(final KeyEvent ke) {
@@ -132,7 +138,7 @@ public class AddArtikulDialog extends MainPanel
 				AddArtikulDialog.this.setPercentProfit("0", textField.getText(), AddArtikulDialog.this.bigFinalValueField.getText());
 			}
 		});
-		(this.bigFinalValueField = new JTextField(10)).setForeground(Color.red);
+		(this.bigFinalValueField = new JTextField(6)).setForeground(Color.red);
 		this.bigFinalValueField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(final KeyEvent e) {
@@ -154,13 +160,16 @@ public class AddArtikulDialog extends MainPanel
 				AddArtikulDialog.this.bigFinalValueField.setText(finalValue + "");
 			}
 		});
-		(this.dateField = new JTextField(5)).setText(MyGetDate.getReversedSystemDate());
+		(this.dateField = new JTextField(10)).setText(MyGetDate.getReversedSystemDate());
 		(this.personField = new JTextField(10)).setText(MainPanel.personName);
+
+		this.barcodeField = new EditableField("Баркод",10);
+
 		final GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = 2;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.gridwidth = 1;
+		gbc.gridwidth = 2;
 		gbc.insets = new Insets(0, 0, 0, 0);
 		final GridBagConstraints gbc2 = new GridBagConstraints();
 		gbc2.fill = 2;
@@ -172,7 +181,7 @@ public class AddArtikulDialog extends MainPanel
 		gbc3.fill = 2;
 		gbc3.gridx = 0;
 		gbc3.gridy = 1;
-		gbc3.gridwidth = 1;
+		gbc3.gridwidth = 3;
 		gbc3.insets = new Insets(5, 0, 0, 0);
 		final GridBagConstraints gbc4 = new GridBagConstraints();
 		gbc4.fill = 2;
@@ -181,41 +190,18 @@ public class AddArtikulDialog extends MainPanel
 		gbc4.gridwidth = 3;
 		gbc4.insets = new Insets(5, 0, 0, 0);
 		final GridBagConstraints gbc5 = new GridBagConstraints();
-		gbc5.fill = 2;
+		gbc5.fill = GridBagConstraints.HORIZONTAL;
 		gbc5.gridx = 0;
 		gbc5.gridy = 2;
 		gbc5.gridwidth = 1;
 		gbc5.insets = new Insets(5, 0, 0, 0);
 		final GridBagConstraints gbc6 = new GridBagConstraints();
-		gbc6.fill = 2;
+		gbc6.fill = GridBagConstraints.HORIZONTAL;
 		gbc6.gridx = 1;
 		gbc6.gridy = 2;
 		gbc6.gridwidth = 1;
 		gbc6.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc7 = new GridBagConstraints();
-		gbc7.fill = 2;
-		gbc7.gridx = 0;
-		gbc7.gridy = 3;
-		gbc7.gridwidth = 1;
-		gbc7.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc8 = new GridBagConstraints();
-		gbc8.fill = 2;
-		gbc8.gridx = 1;
-		gbc8.gridy = 3;
-		gbc8.gridwidth = 1;
-		gbc8.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc9 = new GridBagConstraints();
-		gbc9.fill = 2;
-		gbc9.gridx = 2;
-		gbc9.gridy = 3;
-		gbc9.gridwidth = 1;
-		gbc9.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc10 = new GridBagConstraints();
-		gbc10.fill = 2;
-		gbc10.gridx = 3;
-		gbc10.gridy = 3;
-		gbc10.gridwidth = 1;
-		gbc10.insets = new Insets(5, 0, 0, 0);
+
 		final GridBagConstraints gbc11 = new GridBagConstraints();
 		gbc11.fill = 2;
 		gbc11.gridx = 0;
@@ -227,60 +213,7 @@ public class AddArtikulDialog extends MainPanel
 		gbc12.gridy = 4;
 		gbc12.gridwidth = 1;
 		gbc12.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc13 = new GridBagConstraints();
-		gbc13.fill = 2;
-		gbc13.gridx = 2;
-		gbc13.gridy = 4;
-		gbc13.gridwidth = 1;
-		gbc13.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc14 = new GridBagConstraints();
-		gbc14.fill = 2;
-		gbc14.gridx = 0;
-		gbc14.gridy = 5;
-		gbc14.gridwidth = 1;
-		gbc14.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc15 = new GridBagConstraints();
-		gbc15.fill = 2;
-		gbc15.gridx = 1;
-		gbc15.gridy = 5;
-		gbc15.gridwidth = 1;
-		gbc15.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc16 = new GridBagConstraints();
-		gbc16.fill = 2;
-		gbc16.gridx = 2;
-		gbc16.gridy = 5;
-		gbc16.gridwidth = 1;
-		gbc16.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc17 = new GridBagConstraints();
-		gbc17.fill = 2;
-		gbc17.gridx = 3;
-		gbc17.gridy = 5;
-		gbc17.gridwidth = 1;
-		gbc17.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc18 = new GridBagConstraints();
-		gbc18.fill = 2;
-		gbc18.gridx = 0;
-		gbc18.gridy = 6;
-		gbc18.gridwidth = 1;
-		gbc18.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc19 = new GridBagConstraints();
-		gbc19.fill = 2;
-		gbc19.gridx = 1;
-		gbc19.gridy = 6;
-		gbc19.gridwidth = 1;
-		gbc19.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc20 = new GridBagConstraints();
-		gbc20.fill = 2;
-		gbc20.gridx = 2;
-		gbc20.gridy = 6;
-		gbc20.gridwidth = 1;
-		gbc20.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc21 = new GridBagConstraints();
-		gbc21.fill = 2;
-		gbc21.gridx = 2;
-		gbc21.gridy = 6;
-		gbc21.gridwidth = 1;
-		gbc21.insets = new Insets(5, 0, 0, 0);
+
 		final GridBagConstraints gbc22 = new GridBagConstraints();
 		gbc22.fill = 2;
 		gbc22.gridx = 0;
@@ -293,17 +226,12 @@ public class AddArtikulDialog extends MainPanel
 		gbc23.gridy = 7;
 		gbc23.gridwidth = 1;
 		gbc23.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc24 = new GridBagConstraints();
-		gbc24.fill = 2;
-		gbc24.gridx = 2;
-		gbc24.gridy = 7;
-		gbc24.gridwidth = 1;
-		gbc24.insets = new Insets(5, 0, 0, 0);
+
 		final GridBagConstraints gbc25 = new GridBagConstraints();
 		gbc25.fill = 2;
 		gbc25.gridx = 0;
 		gbc25.gridy = 8;
-		gbc25.gridwidth = 2;
+		gbc25.gridwidth = 1;
 		gbc25.insets = new Insets(5, 0, 0, 0);
 		final GridBagConstraints gbc26 = new GridBagConstraints();
 		gbc26.fill = 2;
@@ -311,12 +239,7 @@ public class AddArtikulDialog extends MainPanel
 		gbc26.gridy = 8;
 		gbc26.gridwidth = 1;
 		gbc26.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc27 = new GridBagConstraints();
-		gbc27.fill = 2;
-		gbc27.gridx = 2;
-		gbc27.gridy = 8;
-		gbc27.gridwidth = 2;
-		gbc27.insets = new Insets(5, 0, 0, 0);
+
 		this.saveInDBButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent arg0) {
@@ -328,8 +251,7 @@ public class AddArtikulDialog extends MainPanel
 				Date checkDate = null;
 				try {
 					checkDate = simpleDateFormat.parse(AddArtikulDialog.this.dateField.getText());
-				}
-				catch (ParseException e) {
+				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(null, "Грешен формат на дата !");
 					return;
 				}
@@ -344,28 +266,42 @@ public class AddArtikulDialog extends MainPanel
 		rightPanel.add(this.clientComboBox, gbc2);
 		rightPanel.add(artikulLabel, gbc3);
 		rightPanel.add(this.artikulsComboBox, gbc4);
-		rightPanel.add(invoiceLabel, gbc5);
-		rightPanel.add(this.invoiceField, gbc6);
-		rightPanel.add(dateLabel, gbc7);
-		rightPanel.add(this.dateField, gbc8);
+
+		rightPanel.add(invoiceLabel,gbc5);
+
+		JPanel invoicePanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+		invoicePanel.add(invoiceField);
+		invoicePanel.add(dateLabel);
+		invoicePanel.add(dateField);
+
+		rightPanel.add(invoicePanel, gbc6);
+
+		JPanel datePanel = new JPanel();
+		datePanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+
 		rightPanel.add(skladLabel, gbc11);
-		rightPanel.add(this.skladField, gbc12);
-		rightPanel.add(medLabel, gbc14);
-		rightPanel.add(this.medField, gbc15);
-		rightPanel.add(artikulCodeLabel, gbc18);
-		//rightPanel.add(this.artikulCodeField, gbc19);
+
+		JPanel skladFieldPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
+		skladFieldPanel.add(skladField);
+		skladFieldPanel.add(medLabel);
+		skladFieldPanel.add(medField);
+		
+		rightPanel.add(skladFieldPanel, gbc12);
+
 		final JPanel percentProfitPanel = new JPanel();
 		percentProfitPanel.setLayout(new FlowLayout(0));
 		percentProfitPanel.add(new JLabel("% Печалба"));
 		percentProfitPanel.add(this.percentProfitField);
-		rightPanel.add(percentProfitPanel, gbc20);
-		rightPanel.add(deliveryValueLabel, gbc22);
-		rightPanel.add(this.deliveryValueField, gbc23);
+
+		rightPanel.add(deliveryValueButton, gbc22);
+
 		final JPanel middleFinalValuePanel = new JPanel();
 		middleFinalValuePanel.setLayout(new FlowLayout(0));
+		middleFinalValuePanel.add(deliveryValueField);
 		middleFinalValuePanel.add(new JLabel("Крайна цена"));
 		middleFinalValuePanel.add(this.bigFinalValueField);
-		rightPanel.add(middleFinalValuePanel, gbc24);
+		middleFinalValuePanel.add(percentProfitPanel);
+		rightPanel.add(middleFinalValuePanel, gbc23);
 		final JButton loadButton = new JButton("Презареди");
 		loadButton.addActionListener(new ActionListener() {
 			@Override
@@ -373,8 +309,16 @@ public class AddArtikulDialog extends MainPanel
 				AddArtikulDialog.this.artikulsComboBox.refreshData();
 			}
 		});
-		rightPanel.add(loadButton, gbc25);
-		rightPanel.add(this.saveInDBButton, gbc27);
+
+		barcodeField.setPreferredSize(new Dimension((int)(middleFinalValuePanel.getPreferredSize().getWidth() * 0.2f),
+				(int)(middleFinalValuePanel.getPreferredSize().getHeight() * 0.9f)));
+		rightPanel.add(barcodeField, gbc25);
+
+		JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		savePanel.add(new JLabel("                "));
+		savePanel.add(saveInDBButton);
+		rightPanel.add(savePanel, gbc26);
+
 		basePanel2.add(rightPanel);
 		this.add(basePanel2);
 	}
@@ -386,34 +330,28 @@ public class AddArtikulDialog extends MainPanel
 		try {
 			if (oldValue.equals("") || oldValue.isEmpty()) {
 				oldVal = 0.0;
-			}
-			else {
+			} else {
 				oldVal = Double.parseDouble(oldValue);
 			}
-		}
-		catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			return -1.0;
 		}
 		try {
 			if (currValue.equals("") || currValue.isEmpty()) {
 				currVal = 0.0;
-			}
-			else {
+			} else {
 				currVal = Double.parseDouble(currValue);
 			}
-		}
-		catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			return -1.0;
 		}
 		try {
 			if (percentProfit.equals("") || percentProfit.isEmpty()) {
 				percentProf = 0.0;
-			}
-			else {
+			} else {
 				percentProf = Double.parseDouble(percentProfit);
 			}
-		}
-		catch (NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			return -1.0;
 		}
 		final double finalVal = Math.max(currVal, oldVal);
@@ -430,8 +368,7 @@ public class AddArtikulDialog extends MainPanel
 			final Double d2 = Double.parseDouble(oldValueItem);
 			final Double d3 = Double.parseDouble(currValueItem);
 			final Double d4 = Double.parseDouble(percentProfitItem);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(null, "\u041d\u0435\u0432\u0430\u043b\u0438\u0434\u043d\u0438 \u0434\u0430\u043d\u043d\u0438!");
 			return false;
 		}
@@ -444,20 +381,17 @@ public class AddArtikulDialog extends MainPanel
 		double bigFinalValue = 0.0;
 		try {
 			currValue = Double.parseDouble(currVal);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			currValue = 0.0;
 		}
 		try {
 			deliveryValue = Double.parseDouble(deliveryVal);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			deliveryValue = 0.0;
 		}
 		try {
 			bigFinalValue = Double.parseDouble(finalValue);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			bigFinalValue = 0.0;
 		}
 		final double bestValue = Math.max(currValue, bigFinalValue);

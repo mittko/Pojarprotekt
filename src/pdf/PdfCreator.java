@@ -81,11 +81,12 @@ public class PdfCreator {
 	public PdfWriter writer;
 	public PdfContentByte content;
 	public String workingDir;
+	public FileOutputStream fos;
 	public boolean init(String target, String timeStamp, String num) {
 		document = new Document(PageSize.A4, 50.f, 50.f, 50.f, 50.f);
 
 		try {
-			FileOutputStream fos = new FileOutputStream(target
+			fos = new FileOutputStream(target
 					+ timeStamp + "-" + num + ".pdf");
 
 			writer = PdfWriter.getInstance(document, fos);
