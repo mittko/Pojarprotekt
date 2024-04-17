@@ -97,7 +97,7 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 									.doInBackground();
 							SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
 									copyOriginTableModel, updateAcquittanceNumber,
-									MyMath.round(Double.parseDouble(sum) , 2),
+									MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 									// without ДДС sum/1.2 по старо му
 									personName, CLIENT, date, acquittanceLabel, jd);
 					     	WRITE_IN_ACQUITTANCE_SUCCESS = saveInAcquittance.doInBackground();

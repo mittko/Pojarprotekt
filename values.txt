@@ -1,4 +1,4 @@
-db_path=jdbc:derby://78.142.42.215:1527/D:/RealDB
+db_path=jdbc:derby://127.0.0.1:1527/D:/RealDB
 db_path=jdbc:derby://127.0.0.1.215:1527/D:/Local/RealDBLPS
 :1527/D:/RealDBLPS
 label_printer1=lpq58

@@ -29,14 +29,10 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 	private JButton saveData = null;
 	private String dest = "";
 
-	/*
-	 * private boolean isInvoice = false; private boolean isProform = false;
-	 * private boolean isAcquittance = false;
-	 */
 
 	private final String CLIENT;
 	private final DefaultTableModel dftm;
-	// private InvoiceGenerator ig = null;
+
 
 	public static boolean WRITE_IN_INVOICE_SUCCESS;
 	public static boolean WRITE_IN_PROFORM_SUCCESS;
@@ -44,8 +40,6 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 	public static boolean WRITE_IN_FISKAL_SUCCESS;
 
 	private final DefaultTableModel copyOriginTableModel = new DefaultTableModel();
-
-	private boolean isVatRegistered;
 
 	public SaveInInvoiceDBDialog(final String parentTable, final String childTable, final String protokolNumber, String client,
 								 final String payment, final String discount, final String sum,
@@ -56,7 +50,6 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 	                             , final boolean isVatRegistered) {
 		// parameters to save data
 		this.CLIENT = client;
-		this.isVatRegistered = isVatRegistered;
 
 
 		this.dftm = dftm;
@@ -138,11 +131,10 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 				invoiceRadioButton.setEnabled(!acquittanceRadioButton.isSelected());
 				invoiceRadioButton.setSelected(false);
 
-				/*if(!payment.equals("В брой")) {
-					proformRadioButton.setEnabled(!acquittanceRadioButton.isSelected());
-				}*/
+
 				if(payment.equals("В брой")) {
-					fiskalRadioButton.setSelected(acquittanceRadioButton.isSelected());
+					fiskalRadioButton.setEnabled(!acquittanceRadioButton.isSelected());
+					fiskalRadioButton.setSelected(false);
 				}
 				proformRadioButton.setEnabled(!acquittanceRadioButton.isSelected());
 				proformRadioButton.setSelected(false);
@@ -165,9 +157,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 				// TODO Auto-generated method stub
 				invoiceRadioButton.setEnabled(!fiskalRadioButton.isSelected());
 				invoiceRadioButton.setSelected(false);
-//				    if(!payment.equals("В брой")) { // is not proform window
-//						proformRadioButton.setEnabled(!fiskalRadioButton.isSelected());
-//					}
+
 				proformRadioButton.setEnabled(!fiskalRadioButton.isSelected());
 				proformRadioButton.setSelected(false);
 				if(payment.equals("В брой")) {
@@ -292,7 +282,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 								.doInBackground();
 						SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
 								copyOriginTableModel, updateAcquittanceNumber,
-								MyMath.round(Double.parseDouble(sum), 2),
+								MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 								// по старо му sum/1.2 without ДДС
 								personName, CLIENT, date, acquittanceLabel, jd);
 						WRITE_IN_ACQUITTANCE_SUCCESS = saveInAcquittance.doInBackground();
