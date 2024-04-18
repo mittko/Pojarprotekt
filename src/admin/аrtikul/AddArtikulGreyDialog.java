@@ -4,9 +4,9 @@
 // Decompiled by Procyon v0.5.36
 //
 
-package admin.Artikul;
+package admin.àrtikul;
 
-import admin.Artikul.Workers.InsertArtikulWorker;
+import admin.àrtikul.Workers.InsertArtikulWorker;
 import utils.MyMath;
 import java.awt.FlowLayout;
 import java.util.Date;
@@ -35,8 +35,6 @@ import utils.ArtikulsListComboBox;
 import utils.EditableField;
 import utils.ClientsListComboBox2;
 import utils.MainPanel;
-
-import static invoicewindow.SearchFromProformTab.dateLabel;
 
 public class AddArtikulGreyDialog extends MainPanel
 {
@@ -338,7 +336,11 @@ public class AddArtikulGreyDialog extends MainPanel
 				}
 				final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AddArtikulGreyDialog.this);
 				jd.setCursor(new Cursor(3));
-				final InsertArtikulWorker add = new InsertArtikulWorker("GreyArtikulsDB", AddArtikulGreyDialog.this.clientComboBox, AddArtikulGreyDialog.this.artikulsComboBox, AddArtikulGreyDialog.this.skladField, AddArtikulGreyDialog.this.medField, AddArtikulGreyDialog.this.deliveryValueField, AddArtikulGreyDialog.this.bigFinalValueField, AddArtikulGreyDialog.this.invoiceField, AddArtikulGreyDialog.this.dateField, AddArtikulGreyDialog.this.personField, AddArtikulGreyDialog.this.percentProfitField,  jd);
+				final InsertArtikulWorker add = new InsertArtikulWorker("GreyArtikulsDB", AddArtikulGreyDialog.this.clientComboBox, AddArtikulGreyDialog.this.artikulsComboBox,
+						AddArtikulGreyDialog.this.skladField, AddArtikulGreyDialog.this.medField,
+						AddArtikulGreyDialog.this.deliveryValueField, AddArtikulGreyDialog.this.bigFinalValueField,
+						AddArtikulGreyDialog.this.invoiceField, AddArtikulGreyDialog.this.dateField,
+						AddArtikulGreyDialog.this.personField, AddArtikulGreyDialog.this.percentProfitField,null,  jd);
 				add.execute();
 			}
 		});
@@ -354,8 +356,6 @@ public class AddArtikulGreyDialog extends MainPanel
 		rightPanel.add(this.skladField, gbc12);
 		rightPanel.add(medLabel, gbc14);
 		rightPanel.add(this.medField, gbc15);
-	//	rightPanel.add(artikulCodeLabel, gbc18);
-	//	rightPanel.add(this.artikulCodeField, gbc19);
 		final JPanel percentProfitPanel = new JPanel();
 		percentProfitPanel.setLayout(new FlowLayout(0));
 		percentProfitPanel.add(new JLabel("% Ïå÷àëáà"));
@@ -378,7 +378,7 @@ public class AddArtikulGreyDialog extends MainPanel
 		double currVal = 0.0;
 		double percentProf = 0.0;
 		try {
-			if (oldValue.equals("") || oldValue.isEmpty()) {
+			if (oldValue.isEmpty()) {
 				oldVal = 0.0;
 			}
 			else {
@@ -389,7 +389,7 @@ public class AddArtikulGreyDialog extends MainPanel
 			return -1.0;
 		}
 		try {
-			if (currValue.equals("") || currValue.isEmpty()) {
+			if (currValue.isEmpty()) {
 				currVal = 0.0;
 			}
 			else {
@@ -400,7 +400,7 @@ public class AddArtikulGreyDialog extends MainPanel
 			return -1.0;
 		}
 		try {
-			if (percentProfit.equals("") || percentProfit.isEmpty()) {
+			if (percentProfit.isEmpty()) {
 				percentProf = 0.0;
 			}
 			else {
@@ -410,7 +410,7 @@ public class AddArtikulGreyDialog extends MainPanel
 		catch (NumberFormatException e) {
 			return -1.0;
 		}
-		final double finalVal = (currVal >= oldVal) ? currVal : oldVal;
+		final double finalVal = Math.max(currVal, oldVal);
 		return MyMath.round(finalVal + MyMath.getValueFromPercent(finalVal, percentProf), 2);
 	}
 

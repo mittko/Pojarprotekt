@@ -1,6 +1,6 @@
-package admin.Artikul;
+package admin.àrtikul;
 
-import admin.Artikul.Workers.ChangeArtikulQuantityWorker;
+import admin.àrtikul.Workers.ChangeArtikulQuantityWorker;
 import utils.EditableField;
 import utils.MainPanel;
 import utils.MyMath;

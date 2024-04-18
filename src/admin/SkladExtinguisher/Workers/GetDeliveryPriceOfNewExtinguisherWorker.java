@@ -2,7 +2,7 @@ package admin.SkladExtinguisher.Workers;
 
 import javax.swing.SwingWorker;
 
-import db.Artikul.Artikuli_DB;
+import db.àrtikul.Artikuli_DB;
 
 public class GetDeliveryPriceOfNewExtinguisherWorker extends SwingWorker {
 

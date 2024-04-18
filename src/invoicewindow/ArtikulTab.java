@@ -4,6 +4,7 @@ import db.Client.FirmTable;
 import invoice.Fiskal.CreateBonFPrint;
 import invoice.InvoiceRenderer.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
+import invoice.Sklad.SkladArtiklulPanel;
 import invoice.Sklad.SkladArtikulFrame;
 import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
 import invoice.worker.GetDiscountWorker;
@@ -132,7 +133,7 @@ public class ArtikulTab extends MainPanel {
 							"Не е въведена отстъпка!");
 					return;
 				}
-				SkladArtikulFrame skladArtikulFrame = new SkladArtikulFrame(
+				SkladArtiklulPanel skladArtikulPanel = new SkladArtiklulPanel(
 						dftm/*
 							 * , sumField
 							 */, discountField.getText().isEmpty() ? 0 : Double
@@ -140,11 +141,12 @@ public class ArtikulTab extends MainPanel {
 						choiceDiscountButton.isSelected());
 
 				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
+						skladArtikulPanel,
 						new JDialog());
 				loader.execute();
 
 				JDialoger jDialog = new JDialoger();
-				jDialog.setContentPane(skladArtikulFrame);
+				jDialog.setContentPane(skladArtikulPanel);
 				jDialog.setTitle("Артикули");
 				jDialog.setResizable(false);
 				jDialog.Show();

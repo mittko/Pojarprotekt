@@ -2,10 +2,12 @@ package invoicewindow;
 
 import acquittance.sklad.workers.GreySkladArtikulFrame;
 import acquittance.sklad.workers.LoadAllGreyArtikulsFromAcquittanceWorker;
+import acquittance.sklad.workers.SkladArtikulGreyPanel;
 import acquittance.windows.SaveInAcquittanceDBDialog;
 import invoice.Fiskal.CreateBonFPrint;
 import invoice.InvoiceRenderer.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
+import invoice.Sklad.SkladArtiklulPanel;
 import invoice.Sklad.SkladArtikulFrame;
 import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
 import invoice.worker.ProtokolSearchWorker;
@@ -179,43 +181,34 @@ public class SearchFromProtokolTab extends MainPanel {
 
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
+				SkladArtikulFrame frame = null;
 				if(isGrey) {
-					GreySkladArtikulFrame greySkladArtikulFrame = new GreySkladArtikulFrame(
+					frame = new SkladArtikulGreyPanel(
 							invoiceTableModel/*
 					 * , sumField
 					 */, discountField.getText().isEmpty() ? 0 : Double
 							.parseDouble(discountField.getText()),
 							choiceDiscountButton.isSelected());
 
-					LoadAllGreyArtikulsFromAcquittanceWorker loader = new LoadAllGreyArtikulsFromAcquittanceWorker(
-							jd);
-					loader.execute();
-
-					JDialoger jDialog = new JDialoger();
-					jDialog.setContentPane(greySkladArtikulFrame);
-					jDialog.setTitle("Артикули");
-					jDialog.setResizable(false);
-					jDialog.Show();
 				} else {
-					SkladArtikulFrame skladArtikulFrame = new SkladArtikulFrame(
+					frame = new SkladArtiklulPanel(
 							invoiceTableModel/*
 					 * , sumField8
 					 */, Double.parseDouble(discountField
 							.getText()), choiceDiscountButton.isSelected());
-
-					LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
-							jd);
-					loader.execute();
-
-					JDialoger jDialog = new JDialoger();
-					jDialog.setContentPane(skladArtikulFrame);
-					jDialog.setTitle("Артикули");
-					jDialog.setResizable(false);
-					jDialog.Show();
 				}
 
+				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
+							frame,
+							jd);
+				loader.execute();
 
-			}
+				JDialoger jDialog = new JDialoger();
+				jDialog.setContentPane(frame);
+				jDialog.setTitle("Артикули");
+				jDialog.setResizable(false);
+				jDialog.Show();
+				}
 
 		});
 

@@ -4,13 +4,16 @@
 // Decompiled by Procyon v0.5.36
 //
 
-package admin.Artikul;
+package admin.аrtikul;
 
-import admin.Artikul.Workers.InsertArtikulWorker;
+import Exceptions.ErrorDialog;
+import admin.аrtikul.Workers.InsertArtikulWorker;
+import db.аrtikul.Artikuli_DB;
 import run.JDialoger;
 import utils.MyMath;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.SwingUtilities;
 import javax.swing.JDialog;
@@ -36,7 +39,7 @@ import utils.EditableField;
 import utils.ClientsListComboBox2;
 import utils.MainPanel;
 
-public class AddArtikulDialog extends MainPanel
+public abstract class AddArtikulDialog extends MainPanel
 {
 	private final ClientsListComboBox2 clientComboBox;
 	private EditableField invoiceField;
@@ -49,24 +52,14 @@ public class AddArtikulDialog extends MainPanel
 	private JTextField dateField;
 	private JTextField personField;
 
-	private EditableField barcodeField;
-
 	JButton saveInDBButton;
-	private String medItem;
-	private String oldValueItem;
 	private String currValueItem;
 
 	public static void main(final String[] args) {
-		AddArtikulDialog addArtikulDialog = new AddArtikulDialog("", "", "",
-				"","", "", "", "", "") ;
-		JDialoger jd = new JDialoger();
-		jd.setContentPane(addArtikulDialog);
-		jd.setResizable(false);
-		jd.setTitle("Добави артикул");
-		jd.Show();
+
 	}
 
-	public AddArtikulDialog(final String artikulItem, final String skladitem, final String medItem, final String oldValueItem, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit) {
+	public AddArtikulDialog(String artikulsDB, final String artikulItem, final String skladitem,  final String invoiceNumber, final String client,  final String percentProfit) {
 		this.invoiceField = null;
 		this.skladField = null;
 		this.medField = null;
@@ -76,8 +69,6 @@ public class AddArtikulDialog extends MainPanel
 		this.dateField = null;
 		this.personField = null;
 		this.saveInDBButton = new JButton("Запази");
-		this.medItem = medItem;
-		this.oldValueItem = oldValueItem;
 		final JPanel basePanel2 = new JPanel();
 		basePanel2.setBorder(BorderFactory.createLineBorder(Color.black));
 		final JPanel leftPanel = new JPanel();
@@ -93,7 +84,7 @@ public class AddArtikulDialog extends MainPanel
 		final JPanel rightPanel = new JPanel();
 		rightPanel.setOpaque(false);
 		rightPanel.setLayout(new GridBagLayout());
-		(this.artikulsComboBox = new ArtikulsListComboBox("ArtikulsDB")).setSelectedItem(artikulItem);
+		(this.artikulsComboBox = new ArtikulsListComboBox(artikulsDB)).setSelectedItem(artikulItem);
 		(this.clientComboBox = new ClientsListComboBox2()).setSelectedItem(client);
 		this.clientComboBox.addItemListener(new ItemListener() {
 			@Override
@@ -125,7 +116,6 @@ public class AddArtikulDialog extends MainPanel
 			public void keyReleased(final KeyEvent ke) {
 				final JTextField textField = (JTextField)ke.getSource();
 				final String med = textField.getText();
-				AddArtikulDialog.this.medItem = med;
 			}
 		});
 
@@ -163,7 +153,7 @@ public class AddArtikulDialog extends MainPanel
 		(this.dateField = new JTextField(10)).setText(MyGetDate.getReversedSystemDate());
 		(this.personField = new JTextField(10)).setText(MainPanel.personName);
 
-		this.barcodeField = new EditableField("Баркод",10);
+		final EditableField barcodeField = new EditableField("Баркод", 10);
 
 		final GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = 2;
@@ -246,20 +236,9 @@ public class AddArtikulDialog extends MainPanel
 				if (!AddArtikulDialog.this.checkUserInput(AddArtikulDialog.this.artikulsComboBox.getEditor().getItem().toString(), AddArtikulDialog.this.skladField.getText(), AddArtikulDialog.this.medField.getText(), AddArtikulDialog.this.deliveryValueField.getText(), AddArtikulDialog.this.bigFinalValueField.getText(), AddArtikulDialog.this.invoiceField.getText(), AddArtikulDialog.this.clientComboBox.getSelectedItem().toString(), AddArtikulDialog.this.dateField.getText(), AddArtikulDialog.this.percentProfitField.getText())) {
 					return;
 				}
-				final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
-				simpleDateFormat.setLenient(false);
-				Date checkDate = null;
-				try {
-					checkDate = simpleDateFormat.parse(AddArtikulDialog.this.dateField.getText());
-				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(null, "Грешен формат на дата !");
-					return;
-				}
-				final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AddArtikulDialog.this);
-				jd.setCursor(new Cursor(3));
-				final InsertArtikulWorker add = new InsertArtikulWorker("ArtikulsDB", AddArtikulDialog.this.clientComboBox, AddArtikulDialog.this.artikulsComboBox, AddArtikulDialog.this.skladField, AddArtikulDialog.this.medField, AddArtikulDialog.this.deliveryValueField, AddArtikulDialog.this.bigFinalValueField, AddArtikulDialog.this.invoiceField,
-						AddArtikulDialog.this.dateField, AddArtikulDialog.this.personField, AddArtikulDialog.this.percentProfitField, jd);
-				add.execute();
+				saveInDB(AddArtikulDialog.this.clientComboBox, AddArtikulDialog.this.artikulsComboBox, AddArtikulDialog.this.skladField, AddArtikulDialog.this.medField, AddArtikulDialog.this.deliveryValueField, AddArtikulDialog.this.bigFinalValueField, AddArtikulDialog.this.invoiceField,
+						AddArtikulDialog.this.dateField, AddArtikulDialog.this.personField,
+						AddArtikulDialog.this.percentProfitField,barcodeField);
 			}
 		});
 		rightPanel.add(clientLabel, gbc);
@@ -285,7 +264,7 @@ public class AddArtikulDialog extends MainPanel
 		skladFieldPanel.add(skladField);
 		skladFieldPanel.add(medLabel);
 		skladFieldPanel.add(medField);
-		
+
 		rightPanel.add(skladFieldPanel, gbc12);
 
 		final JPanel percentProfitPanel = new JPanel();
@@ -312,6 +291,32 @@ public class AddArtikulDialog extends MainPanel
 
 		barcodeField.setPreferredSize(new Dimension((int)(middleFinalValuePanel.getPreferredSize().getWidth() * 0.2f),
 				(int)(middleFinalValuePanel.getPreferredSize().getHeight() * 0.9f)));
+		barcodeField.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(barcodeField.getText().isEmpty()) {
+					return;
+				}
+
+				ArrayList<String> list = selectArtikulsByBarcode(barcodeField.getText());
+				if(list != null) {
+					if(list.size() > 0) {
+
+						artikulsComboBox.setSelectedItem(list.get(0));
+						medField.setText(list.get(2));
+						clientComboBox.setSelectedItem(list.get(5));
+
+					} else {
+
+						artikulsComboBox.setSelectedItem("");
+						medField.setText("");
+						clientComboBox.setSelectedItem("");
+						JOptionPane.showMessageDialog(null,"Не е намерен такъв елемент !");
+
+					}
+				}
+			}
+		});
 		rightPanel.add(barcodeField, gbc25);
 
 		JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -328,7 +333,7 @@ public class AddArtikulDialog extends MainPanel
 		double currVal = 0.0;
 		double percentProf = 0.0;
 		try {
-			if (oldValue.equals("") || oldValue.isEmpty()) {
+			if (oldValue.isEmpty()) {
 				oldVal = 0.0;
 			} else {
 				oldVal = Double.parseDouble(oldValue);
@@ -337,7 +342,7 @@ public class AddArtikulDialog extends MainPanel
 			return -1.0;
 		}
 		try {
-			if (currValue.equals("") || currValue.isEmpty()) {
+			if (currValue.isEmpty()) {
 				currVal = 0.0;
 			} else {
 				currVal = Double.parseDouble(currValue);
@@ -346,7 +351,7 @@ public class AddArtikulDialog extends MainPanel
 			return -1.0;
 		}
 		try {
-			if (percentProfit.equals("") || percentProfit.isEmpty()) {
+			if (percentProfit.isEmpty()) {
 				percentProf = 0.0;
 			} else {
 				percentProf = Double.parseDouble(percentProfit);
@@ -408,5 +413,17 @@ public class AddArtikulDialog extends MainPanel
 		}
 		return false;
 	}
+
+	public abstract void saveInDB(ClientsListComboBox2 clientComboBox,
+								  ArtikulsListComboBox artikulsComboBox,
+								  JTextField skladField, JTextField medField,
+								  JTextField deliveryValueField,
+								  JTextField bigFinalValueField,
+								  EditableField invoiceField,
+								  JTextField dateField,
+								  JTextField personField,JTextField percentProfitField,
+								  EditableField barcodeField);
+
+	public abstract ArrayList<String> selectArtikulsByBarcode(String command);
 }
 

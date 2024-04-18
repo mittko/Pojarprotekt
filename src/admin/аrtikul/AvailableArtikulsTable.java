@@ -1,8 +1,8 @@
-package admin.Artikul;
+package admin.‡rtikul;
 
-import admin.Artikul.Renderers.ArtikulRenderer;
-import admin.Artikul.Workers.DeleteArtikulWorker;
-import admin.Artikul.Workers.LoadAllArtikulsWorker;
+import admin.‡rtikul.Renderers.ArtikulRenderer;
+import admin.‡rtikul.Workers.DeleteArtikulWorker;
+import admin.‡rtikul.Workers.LoadAllArtikulsWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.EditableField;
@@ -106,7 +106,7 @@ public class AvailableArtikulsTable extends MainPanel {
 				String dateItem = "";
 				String operatorItem = "";
 				String percentProfitItem = "";
-				// System.out.println("CURRENT_ROW = " + CURRENT_ROW);
+
 				if (CURRENT_ROW >= 0) {
 					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
 					skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
@@ -261,9 +261,9 @@ public class AvailableArtikulsTable extends MainPanel {
 							.toString();
 				}
 
-				AddArtikulDialog newArtikul = new AddArtikulDialog(artikulItem,
-						skladItem, medItem, valueItem, fakturaItem,
-						kontragentItem, dateItem, operatorItem,
+				AddArtikulPanel newArtikul = new AddArtikulPanel(artikulItem,
+						skladItem, fakturaItem,
+						kontragentItem,
 						percentProfitItem);
 				JDialoger jd = new JDialoger();
 				jd.setContentPane(newArtikul);
@@ -308,9 +308,9 @@ public class AvailableArtikulsTable extends MainPanel {
 				fakturaItem = "0000001";
 				kontragentItem = "œŒ∆¿–œ–Œ“≈ “ ŒŒƒ";
 
-				AddArtikulGreyDialog newArtikul = new AddArtikulGreyDialog(artikulItem,
-						skladItem, medItem, valueItem, fakturaItem,
-						kontragentItem, dateItem, operatorItem,
+				AddArtikulPanelGrey newArtikul = new AddArtikulPanelGrey(artikulItem,
+						skladItem, fakturaItem,
+						kontragentItem,
 						percentProfitItem);
 				JDialoger jd = new JDialoger();
 				jd.setContentPane(newArtikul);

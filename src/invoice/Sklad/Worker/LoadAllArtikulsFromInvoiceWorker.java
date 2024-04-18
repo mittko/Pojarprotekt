@@ -1,6 +1,7 @@
 package invoice.Sklad.Worker;
 
-import db.Artikul.Artikuli_DB;
+import db.аrtikul.Artikuli_DB;
+import invoice.Sklad.ILoadArtikuls;
 import invoice.Sklad.SkladArtikulFrame;
 
 import javax.swing.*;
@@ -12,9 +13,12 @@ import static utils.MainPanel.AVAILABLE_ARTIKULS;
 public class LoadAllArtikulsFromInvoiceWorker extends SwingWorker {
 	
 	private ArrayList<Object[]> result = null;
-	private JDialog  jd = null;
+	private JDialog  jd;
+
+	private final ILoadArtikuls iLoadArtikuls;
 	
-	public LoadAllArtikulsFromInvoiceWorker(JDialog jd) {
+	public LoadAllArtikulsFromInvoiceWorker(ILoadArtikuls iLoadArtikuls,JDialog jd) {
+		this.iLoadArtikuls = iLoadArtikuls;
 		this.jd = jd;
 	}
 	@Override
@@ -23,7 +27,7 @@ public class LoadAllArtikulsFromInvoiceWorker extends SwingWorker {
 		// do request from db
 		try {
 
-			result = Artikuli_DB.getAvailableArtikuls(AVAILABLE_ARTIKULS);
+			result = iLoadArtikuls.getArtikuls();
 			if (result == null) {
 				return null;
 			}
@@ -35,35 +39,7 @@ public class LoadAllArtikulsFromInvoiceWorker extends SwingWorker {
 					// TODO Auto-generated method stub
 					// if is success
                      if(result.size() > 0) {
-
-						 for (Object[] objects : result) {
-							 // set in the table imediatelly
-//						 String newValue = String.format(Locale.ROOT,
-//								 "%.2f",
-//								 Double.parseDouble(result.get(row)[3].toString().replace(",", ".")));// format to two decimal places after points
-//
-							 SkladArtikulFrame.skladModel.addRow(new Object[]{
-									 objects[0], // артикул
-									 objects[1], // количество
-									 objects[2], // м.ед
-									 objects[3], // ед.цена
-									 "", // value to add
-									 false,
-									 objects[4],// фактура
-									 objects[5] // контрагент});
-							 });
-							 // store data in list to change table dinamically
-							 SkladArtikulFrame.DATA_LIST.add(new Object[]{
-									 objects[0], // артикул
-									 objects[1], // количество
-									 objects[2], // м.ед
-									 objects[3], // ед.цена
-									 "", // value to add
-									 false,
-									 objects[4],// фактура
-									 objects[5] // контрагент});
-							 });
-						 }
+						 iLoadArtikuls.loadArtikuls(result);
                    } else {
                 	   JOptionPane.showMessageDialog(null, "Няма намерени резултати!");
                    }

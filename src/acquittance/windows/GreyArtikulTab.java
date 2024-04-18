@@ -3,6 +3,8 @@ package acquittance.windows;
 import acquittance.renderers.AcquittanceCustomTableCellRenderer;
 import acquittance.sklad.workers.GreySkladArtikulFrame;
 import acquittance.sklad.workers.LoadAllGreyArtikulsFromAcquittanceWorker;
+import acquittance.sklad.workers.SkladArtikulGreyPanel;
+import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
 import invoice.worker.GetDiscountWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
@@ -119,19 +121,19 @@ public class GreyArtikulTab extends MainPanel {
 					return;
 				}
 
-				GreySkladArtikulFrame greySkladArtikulFrame = new GreySkladArtikulFrame(
+				SkladArtikulGreyPanel skladArtikulGreyPanel = new SkladArtikulGreyPanel(
 						dftm/*
 				 * , sumField
 				 */, discountField.getText().isEmpty() ? 0 : Double
 						.parseDouble(discountField.getText()),
 						choiceDiscountButton.isSelected());
 
-				LoadAllGreyArtikulsFromAcquittanceWorker loader = new LoadAllGreyArtikulsFromAcquittanceWorker(
-						new JDialog());
+				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
+					skladArtikulGreyPanel,	new JDialog());
 				loader.execute();
 
 				JDialoger jDialog = new JDialoger();
-				jDialog.setContentPane(greySkladArtikulFrame);
+				jDialog.setContentPane(skladArtikulGreyPanel);
 				jDialog.setTitle("Артикули");
 				jDialog.setResizable(false);
 				jDialog.Show();

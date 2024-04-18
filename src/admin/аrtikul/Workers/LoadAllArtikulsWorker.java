@@ -1,7 +1,7 @@
-package admin.Artikul.Workers;
+package admin.àrtikul.Workers;
 
-import admin.Artikul.AvailableArtikulsTable;
-import db.Artikul.Artikuli_DB;
+import admin.àrtikul.AvailableArtikulsTable;
+import db.àrtikul.Artikuli_DB;
 
 import javax.swing.*;
 import java.awt.*;

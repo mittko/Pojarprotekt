@@ -1,7 +1,7 @@
-package admin.Artikul;
+package admin.àrtikul;
 
-import admin.Artikul.Workers.GetDeliveryValueForArtikul;
-import admin.Artikul.Workers.UpdatePriceArtikulWorker;
+import admin.àrtikul.Workers.GetDeliveryValueForArtikul;
+import admin.àrtikul.Workers.UpdatePriceArtikulWorker;
 import mydate.MyGetDate;
 import utils.EditableField;
 import utils.MainPanel;

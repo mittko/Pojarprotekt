@@ -1,7 +1,7 @@
 package admin;
 
 import NewClient.editClient.EditClientPanel;
-import admin.Artikul.AvailableArtikulsTable;
+import admin.àrtikul.AvailableArtikulsTable;
 import admin.Doing.UpdateWorkPrice;
 import admin.Parts.Price.UpdatePriceOfParts;
 import admin.Parts.Quantity.PartsQuantityTable;

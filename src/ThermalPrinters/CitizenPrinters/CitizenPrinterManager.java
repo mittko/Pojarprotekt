@@ -1,6 +1,5 @@
 package ThermalPrinters.CitizenPrinters;
 
-import admin.Artikul.AddArtikulDialog;
 import mydate.MyGetDate;
 
 import javax.print.*;

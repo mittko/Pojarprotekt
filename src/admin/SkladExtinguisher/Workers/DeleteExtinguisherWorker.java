@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import db.Artikul.Artikuli_DB;
+import db.àrtikul.Artikuli_DB;
 import db.NewExtinguisher.NewExtinguishers_DB;
 
 public class DeleteExtinguisherWorker extends SwingWorker {

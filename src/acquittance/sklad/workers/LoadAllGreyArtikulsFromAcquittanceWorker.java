@@ -1,6 +1,6 @@
 package acquittance.sklad.workers;
 
-import db.Artikul.Artikuli_DB;
+import db.àrtikul.Artikuli_DB;
 
 import javax.swing.*;
 import java.awt.*;

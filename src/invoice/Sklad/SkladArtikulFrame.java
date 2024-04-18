@@ -1,6 +1,7 @@
 package invoice.Sklad;
 
-import admin.Artikul.Workers.BiggestPriceForInvoiceWorker;
+import admin.аrtikul.Workers.BiggestPriceForInvoiceWorker;
+import db.аrtikul.Artikuli_DB;
 import invoice.InvoiceEditors.TableCellEditors;
 import invoice.InvoiceRenderer.AutoSortRenderer;
 import utils.*;
@@ -12,62 +13,38 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class SkladArtikulFrame extends MainPanel {
+public abstract class SkladArtikulFrame extends MainPanel implements ILoadArtikuls {
 
-	public static JTable skladTable = null;
-	public static DefaultTableModel skladModel = null;
-	private final double clientDiscountInPercentage;
+	public JTable skladTable = null;
+	public DefaultTableModel skladModel = null;
+
 	public static JTextField moveScrollField = null;
-	private final boolean isDiscountSelected;
-	private final DefaultTableModel invoiceTableModel;
+
 	public static ArrayList<Object[]> DATA_LIST = null;
 
-	public SkladArtikulFrame(final DefaultTableModel invoiceTableModel
-	/*
-	 * final JTextField sumFields
-	 */, final double clientDiscount, final boolean isDiscountSelect) {
-
-		this.invoiceTableModel = invoiceTableModel;
-		this.clientDiscountInPercentage = clientDiscount;
-		this.isDiscountSelected = isDiscountSelect;
+	public SkladArtikulFrame() {
 
 		JPanel basePanel = new JPanel();
 		basePanel.setLayout(new BorderLayout());
 
-		DATA_LIST = new ArrayList<Object[]>();
+		DATA_LIST = new ArrayList<>();
 
 		skladModel = new DefaultTableModel(new String[] { "Артикули",
 				"Налични", "М.ед", "Ед. Цена", "Брой", "V", "Контрагент",
 				"Фактура" }, 0) {
 
 			/**
-					 * 
-					 */
+			 *
+			 */
 			private static final long serialVersionUID = 1L;
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public Class getColumnClass(int column) {
-				switch (column) {
-				case 0:
-					return String.class;
-				case 1:
-					return String.class;
-				case 2:
-					return String.class;
-				case 3:
-					return String.class;
-				case 4:
-					return String.class;
-				case 5:
+				if (column == 5) {
 					return Boolean.class;
-				case 6:
-					return String.class;
-				case 7:
-					return String.class;
-				default:
-					return String.class;
 				}
+				return String.class;
 			}
 
 			@Override
@@ -97,7 +74,7 @@ public class SkladArtikulFrame extends MainPanel {
 						skladTable.editCellAt(skladTable.getSelectedRow(), 4);
 
 						Component editor = skladTable.getEditorComponent(); // cell
-																			// editor
+						// editor
 						editor.requestFocusInWindow();
 					} else {
 						skladTable.setValueAt("", skladTable.getSelectedRow(),
@@ -107,19 +84,13 @@ public class SkladArtikulFrame extends MainPanel {
 			}
 		});
 
-		// JTable rowTable = new CommonResources.RowNumberTable(skladTable); //
-		// ****
-
 		final JScrollPane scroll = new JScrollPane(skladTable,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scroll.setPreferredSize(new Dimension(this.WIDTH - 50, this.HEIGHT / 2));
 
-		// scroll.setRowHeaderView(rowTable); // ****
-		// scroll.setCorner(JScrollPane.UPPER_LEFT_CORNER,// ****
-		// rowTable.getTableHeader());// ****
 
-		JPanel northPanel = new JPanel();// GradientPanel();
+		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		northPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
@@ -132,7 +103,9 @@ public class SkladArtikulFrame extends MainPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				addArtikul();
+				//addArtikul();
+
+				addArtikuls(skladTable);
 			}
 
 		});
@@ -166,7 +139,7 @@ public class SkladArtikulFrame extends MainPanel {
 
 		moveScrollField = new EditableField("Търсене ", 20) {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -176,7 +149,6 @@ public class SkladArtikulFrame extends MainPanel {
 						MainPanel.getFontSize() + 10);
 			}
 		};
-		// moveScrollField.setPreferredSize(new Dimension(800, 50));
 		moveScrollField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {
@@ -191,9 +163,19 @@ public class SkladArtikulFrame extends MainPanel {
 						}
 					}
 				}
+
+				// search artikul by barcode if no items by name are found
+				if(skladModel.getRowCount() == 0) {
+					for(Object[] obj : DATA_LIST) {
+						if(moveScrollField.getText().equals(obj[8])) {
+							skladModel.addRow(obj);
+						}
+					}
+				}
+
 			}
 		});
-		// northPanel.add(exportToExcellButton);
+
 		northPanel.add(addButton);
 
 		northPanel.add(moveScrollField);
@@ -203,134 +185,45 @@ public class SkladArtikulFrame extends MainPanel {
 		this.add(basePanel);
 	}
 
-	double getDiscount(double val, double discount) {
+	protected double getDiscount(double val, double discount) {
 		return (val * (discount / 100));
 	}
 
-	public void addArtikul() {
-		for (int row = 0; row < skladTable.getRowCount(); row++) {
-			if ((Boolean) skladTable.getValueAt(row, 5)) {
+	public abstract void addArtikuls(JTable skladTable);
 
-				TableCellEditor cellEditor = skladTable.getColumnModel()
-						.getColumn(4).getCellEditor();
-				cellEditor.stopCellEditing();
-
-				String artikul = skladTable.getValueAt(row, 0).toString(); // artikul
-
-				String skladQuantity = skladTable.getValueAt(row, 1).toString();
-
-
-				  String med = skladTable.getValueAt( row, 2).toString(); // мерна единица
-
-
-				// String value = "";
-				// try {
-				// value = skladTable.getValueAt(row, 3).toString();
-				// } catch (Exception ex) {
-				// JOptionPane.showMessageDialog(null, ex.toString());
-				// return;
-				// }
-				String quantity = skladTable.getValueAt(row, 4).toString();
-
-				double val = new BiggestPriceForInvoiceWorker(artikul)
-						.doInBackground();
-				if (val == 0) {
-					// ако се получи грешка при взимане на цената от база данни
-					// се взема текущата от показаната в таблицата
-					val = Double.parseDouble(skladTable.getValueAt(row, 3)
-							.toString());
-				}
-
-				double discountInSum = getDiscount(val,
-						clientDiscountInPercentage);
-				if (isDiscountSelected) {
-					val = val - discountInSum;
-				}
-
-				double userQ = 0;
-
-				try {
-					userQ = Double.parseDouble(quantity);
-					double availableQ = Double.parseDouble(skladQuantity);
-
-					/*
-					 * if (availableQ <= 0) {
-					 * JOptionPane.showMessageDialog(null,
-					 * "Артикулът не е наличен"); return; }
-					 */
-					if (userQ <= 0) {
-						JOptionPane
-								.showMessageDialog(null,
-										"Не може да въвеждате "
-												+ "отрицателни \n стойности "
-												+ "или 0 !!! (  " + (row + 1)
-												+ "ред )");
-						return;
-					}
-
-					  if (userQ > availableQ) {
-					  JOptionPane.showMessageDialog(null,
-					  "Броят надхвъля наличноста в склада! ( " + (row + 1) +
-					  " ред)"); return; }
-
-				} catch (Exception ex) {
-					JOptionPane
-							.showMessageDialog(null,
-									"Не е въведено количество! (" + (row + 1)
-											+ " ред)");
-					return;
-				}
-
-				String allSum = "";
-				try {
-					allSum = MyMath.round(
-							Double.parseDouble(quantity) * MyMath.round(val, 2),
-							2) + "";
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null,"" + ex.getMessage());
-					return;
-				}
-
-				// check for dublicate artikuls
-				String kontragent = skladTable.getValueAt(row, 6).toString();
-				String invoiceByKontragent = skladTable.getValueAt(row, 7)
-						.toString();
-
-				 for (int i = 0; i < invoiceTableModel.getRowCount(); i++) {
-					 if (invoiceTableModel.getValueAt(i, 0).toString()
-					 .equals(artikul) && invoiceTableModel.getValueAt(i,6).toString().equals(kontragent)
-					 && invoiceTableModel.getValueAt(i, 7).toString().equals(invoiceByKontragent)) {
-					 JOptionPane.showMessageDialog(null,
-					 "Този артикул вече е въведен! > " + artikul + " " + kontragent + " " + invoiceByKontragent);
-					 return;
-					 }
-				 }
-
-
-//				invoiceTableModel.addRow(new Object[] { artikul,
-//						userQ < 2 ? "брой" : "броя", quantity,
-//						MyMath.round(val, 2), allSum,
-//						MyMath.round(discountInSum, 2), kontragent,
-//						invoiceByKontragent });  OLD LOGIC THAT WORK !!!
-
-				invoiceTableModel.addRow(new Object[] { artikul,
-						/*userQ < 2 ? "брой" : "броя"*/med, quantity,
-						MyMath.round(val, 2), allSum,
-						clientDiscountInPercentage, kontragent,
-						invoiceByKontragent });
-				// clear selected values
-				skladTable.setValueAt("", row, 4);
-				skladTable.setValueAt(false, row, 5);
-
-			}
+	@Override
+	public void loadArtikuls(ArrayList<Object[]> result) {
+		for (Object[] objects : result) {
+			// set in the table imediatelly
+//						 String newValue = String.format(Locale.ROOT,
+//								 "%.2f",
+//								 Double.parseDouble(result.get(row)[3].toString().replace(",", ".")));// format to two decimal places after points
+//
+			skladModel.addRow(new Object[]{
+					objects[0], // артикул
+					objects[1], // количество
+					objects[2], // м.ед
+					objects[3], // ед.цена
+					"", // value to add
+					false,
+					objects[4],// фактура
+					objects[5], // контрагент});
+					objects[9] // баркод
+			});
+			// store data in list to change table dinamically
+			DATA_LIST.add(new Object[]{
+					objects[0], // артикул
+					objects[1], // количество
+					objects[2], // м.ед
+					objects[3], // ед.цена
+					"", // value to add
+					false,
+					objects[4],// фактура
+					objects[5], // контрагент});
+					objects[9] // баркод
+			});
 		}
-		goodbyeCruelWorld();
 	}
 
-	private void goodbyeCruelWorld() {
-		JDialog jd = (JDialog) SwingUtilities
-				.getWindowAncestor(SkladArtikulFrame.this);
-		jd.dispose();
-	}
 
 }

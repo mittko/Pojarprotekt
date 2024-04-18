@@ -1,7 +1,9 @@
-package db.Artikul;
+package db.аrtikul;
 
 import Exceptions.DBException;
 import Log.DB_Err;
+import db.modify.AddColumn;
+import db.modify.InitColumnsTable;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -304,6 +306,53 @@ public class Artikuli_DB extends MainPanel {
 		return bestValue + "";
 	}
 
+
+	public static ArrayList<String> selectArtikulByBarcode(String command) {
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		ResultSetMetaData resultSetMetaData;
+		ArrayList<String> list = new ArrayList<>();
+		try {
+			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(command);
+			resultSetMetaData = resultSet.getMetaData();
+
+			// here there is no while loop because only one found item is needed
+			while (resultSet.next()) {
+				for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
+					list.add(resultSet.getString(i + 1));
+				}
+			}
+
+		} catch (SQLException e) {
+			DBException.DBExceptions("Грешка",e);
+			DB_Err.writeErros(e.getMessage());
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (resultSet != null) {
+					resultSet.close();
+				}
+				if (statement != null) {
+					statement.close();
+				}
+				if (connection != null) {
+					connection.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				DBException.DBExceptions("Грешка", e);
+				DB_Err.writeErros(e.toString());
+				e.printStackTrace();
+			}
+
+		}
+         return list;
+	}
+
 	public static ArrayList<String> getArtikulsName(String dbTable) {
 		Connection connect = null;
 		Statement stat = null;
@@ -346,7 +395,6 @@ public class Artikuli_DB extends MainPanel {
 				DBException.DBExceptions("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
-				return null;
 			}
 		}
 		return result;
@@ -406,7 +454,7 @@ public class Artikuli_DB extends MainPanel {
 	public static ArrayList<Object[]> getAvailableArtikuls(String table) {
 		Connection connect = null;
 		Statement stat = null;
-		String command = "select artikul, quantity, med , value, client, invoice, date, operator, percentProfit from "
+		String command = "select artikul, quantity, med , value, client, invoice, date, operator, percentProfit, barcode from "
 				+ table + " where quantity > 0 order by CAST(date as DATE)";
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;
@@ -647,9 +695,9 @@ public class Artikuli_DB extends MainPanel {
 		 * + "'";
 		 */
 		String command = "update "
-					+ dbTable
-					+ " set quantity = ? where (artikul = ? and " + kontragentColumn +
-					" = ? and " + invoiceByKontragentColumn + " = ?) and (InvoiceChildDB7.id = ?)";
+				+ dbTable
+				+ " set quantity = ? where (artikul = ? and " + kontragentColumn +
+				" = ? and " + invoiceByKontragentColumn + " = ?) and (InvoiceChildDB7.id = ?)";
 
 		int update = 0;
 		try {
@@ -686,6 +734,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		}
 	}
+
 	// this method update artikuls quantity
 	public static int decreaseArtikul_Quantity(String dbTable, String artikul, String client,
 											   String clientColumn, String invoice, String invoiceColumn, int i) {
@@ -697,9 +746,9 @@ public class Artikuli_DB extends MainPanel {
 		 * + "'";
 		 */
 		String command = "update "
-					+ dbTable
-					+ " set quantity = (quantity - ?) where (artikul = ? and " + clientColumn +
-					" = ? and " + invoiceColumn + " = ?)";//  and (quantity > 0)
+				+ dbTable
+				+ " set quantity = (quantity - ?) where (artikul = ? and " + clientColumn +
+				" = ? and " + invoiceColumn + " = ?)";//  and (quantity > 0)
 		int update = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
@@ -816,40 +865,6 @@ public class Artikuli_DB extends MainPanel {
 		}
 	}
 
-	public static int updateAnyColumnValue(String column, String value) {
-		Connection connect = null;
-		Statement stat = null;
-		String command = String.format("update %s set %s = '%s'",
-				MainPanel.AVAILABLE_ARTIKULS, column, value);
-		int update = 0;
-		try {
-			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
-			stat = connect.createStatement();
-			update = stat.executeUpdate(command);
-			return update;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			DB_Err.writeErros(e.toString());
-			e.printStackTrace();
-			return update;
-		} finally {
-			try {
-				if (stat != null) {
-					stat.close();
-				}
-				if (connect != null) {
-					connect.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				DB_Err.writeErros(e.toString());
-				e.printStackTrace();
-				return update;
-			}
-		}
-	}
 
 	public static ArrayList<Object[]> getValuesForAllSameArtikuls(String artikul) {
 		String command = "select  artikul, value, invoice, client from "
@@ -1015,10 +1030,13 @@ public class Artikuli_DB extends MainPanel {
 		return max;
 	}
 
-	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client, final String date, final String seller, final String percentProfit) {
+	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client,
+											 final String date, final String seller, final String percentProfit, final String barcode) {
 		Connection connect = null;
 		Statement stat = null;
-		final String command = "insert into " + dbTable + " values ('" + artikul + "'," + quantity + ",'" + med + "','" + value + "','" + invoiceNumber + "','" + client + "','" + date + "','" + seller + "','" + percentProfit + "')";
+		final String command = "insert into " + dbTable + " values ('" + artikul + "'," + quantity + ",'" + med
+				+ "','" + value + "','" + invoiceNumber + "','" + client + "','"
+				+ date + "','" + seller + "','" + percentProfit + "','" + barcode +  "')";
 		int insert = 0;
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
@@ -1298,11 +1316,17 @@ public class Artikuli_DB extends MainPanel {
 
 	}
 
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Artikuli_DB art = new Artikuli_DB();
+		//AddColumn addColumn = new AddColumn();
+		//int add = addColumn.addColumn(MainPanel.GREY_AVAILABLE_ARTIKULS,"barcode",20);
 
-		editArtikulName(MainPanel.PARTS_PRICE,"part","Боядисване на пожарогасител","Освежаване и козметика");
+		//int update = InitColumnsTable.updateAnyColumnValue(MainPanel.GREY_AVAILABLE_ARTIKULS,"barcode","-");
+		//System.out.println(update);
+
+		//	editArtikulName(MainPanel.PARTS_PRICE,"part","Боядисване на пожарогасител","Освежаване и козметика");
 
 		// 1.		art.createArtikulDB2(AVAILABLE_SERVICES);
 //		art.createAvailableArtikulGreyDB();
@@ -1486,7 +1510,7 @@ public class Artikuli_DB extends MainPanel {
 	}
 
 	private void writeInExcel(ArrayList<Object[]> data, String output)
-			throws IOException, RowsExceededException, WriteException {
+            throws IOException, RowsExceededException, WriteException {
 		WritableWorkbook wworkbook;
 		wworkbook = Workbook.createWorkbook(new File(output));
 		WritableSheet wsheet = wworkbook.createSheet("First Sheet", 0);
@@ -1530,41 +1554,6 @@ public class Artikuli_DB extends MainPanel {
 			e.printStackTrace();
 		}
 		return allData;
-	}
-
-	public static int modifyColumnWidth(String column, int width) {
-		Connection connect = null;
-		Statement stat = null;
-		String modifyString = String.format(
-				"alter table %s alter column %s set data type varchar(%d)",
-				AVAILABLE_ARTIKULS, column, width);
-		// origin "alter table " + ARTIKULS +
-		// " alter column artikul set data type varchar(" + width + ")";
-		int modify = 0;
-		try {
-			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
-			stat = connect.createStatement();
-			modify = stat.executeUpdate(modifyString);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			DB_Err.writeErros(e.toString());
-			e.printStackTrace();
-		} finally {
-
-			try {
-				if (stat != null) {
-					stat.close();
-				}
-				if (connect != null) {
-					connect.close();
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return modify;
 	}
 
 	private void copyDataFromAvailableArtikulsToDeliveryArtikuls() {
