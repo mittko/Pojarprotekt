@@ -1,8 +1,6 @@
 package acquittance.windows;
 
 import acquittance.renderers.AcquittanceCustomTableCellRenderer;
-import acquittance.sklad.workers.GreySkladArtikulFrame;
-import acquittance.sklad.workers.LoadAllGreyArtikulsFromAcquittanceWorker;
 import acquittance.sklad.workers.SkladArtikulGreyPanel;
 import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
 import invoice.worker.GetDiscountWorker;
@@ -175,7 +173,7 @@ public class GreyArtikulTab extends MainPanel {
 					return;
 				}
 
-				SaveInAcquittanceDBDialog save = new SaveInAcquittanceDBDialog("-",// here protokol
+				SaveInAcquittanceDBDialog save = new SaveInAcquittanceDBDialog(// here protokol
 																// number is not
 																// needed and is
 																// marked as -
@@ -186,10 +184,10 @@ public class GreyArtikulTab extends MainPanel {
 								.getText(), MyMath.round(getDanOsnova(), 2)
 								+ "", personName, MyGetDate
 								.getReversedSystemDate(),
-						true, // invoice
-						false, // proform
-						dftm, null, // there is invoice num label
-						null, // there is no proform num label
+						// invoice
+						// proform
+						dftm,  // there is invoice num label
+						// there is no proform num label
 						null); // acquittance num label
 				JDialoger jDialoger = new JDialoger();
 				jDialoger.setContentPane(save);

@@ -25,12 +25,17 @@ public class AddArtikulPanel extends AddArtikulDialog
 {
 
 
-	public AddArtikulPanel(String artikulItem, String skladitem,  String invoiceNumber, String client, String percentProfit) {
-		super(AVAILABLE_ARTIKULS,artikulItem, skladitem,  invoiceNumber, client, percentProfit);
+	private IEditArtikuls iEditArtikuls;
+	private String dbTable;
+	public AddArtikulPanel(IEditArtikuls iEditArtikuls,String dbTable, String artikulItem,
+						   String skladitem,  String invoiceNumber, String client, String percentProfit) {
+		super(dbTable,artikulItem, skladitem,  invoiceNumber, client, percentProfit);
+		this.dbTable = dbTable;
+		this.iEditArtikuls = iEditArtikuls;
 	}
 
 	public static void main(final String[] args) {
-		AddArtikulPanel addArtikulDialog = new AddArtikulPanel("", "","", "",  "") ;
+		AddArtikulPanel addArtikulDialog = new AddArtikulPanel(null,"","", "","", "",  "") ;
 		JDialoger jd = new JDialoger();
 		jd.setContentPane(addArtikulDialog);
 		jd.setResizable(false);
@@ -49,6 +54,7 @@ public class AddArtikulPanel extends AddArtikulDialog
 						 JTextField dateField,
 						 JTextField personField,JTextField percentProfitField,
 						 EditableField barcodeField) {
+
 		final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		simpleDateFormat.setLenient(false);
 		Date checkDate = null;
@@ -58,22 +64,23 @@ public class AddArtikulPanel extends AddArtikulDialog
 			ErrorDialog.showErrorMessage( "Грешен формат на дата !");
 			return;
 		}
-		final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AddArtikulPanel.this);
-		jd.setCursor(new Cursor(3));
-		final InsertArtikulWorker add = new InsertArtikulWorker(AVAILABLE_ARTIKULS,
-				clientComboBox, artikulsComboBox,
-				skladField, medField,
-				deliveryValueField,
-				bigFinalValueField,
-				invoiceField,
-				dateField, personField,percentProfitField,barcodeField, jd);
-		add.execute();
+		iEditArtikuls.addArtikul(
+				clientComboBox.getSelectedItem().toString(),
+				artikulsComboBox.getEditor().getItem().toString(),
+				skladField.getText(), medField.getText(),
+				deliveryValueField.getText(),
+				bigFinalValueField.getText(),
+				invoiceField.getText(),
+				dateField.getText(), personField.getText(),
+				percentProfitField.getText(),
+				barcodeField.getText());
+		;
 	}
 
 	@Override
 	public ArrayList<String> selectArtikulsByBarcode(String barcode) {
 		return Artikuli_DB.selectArtikulByBarcode(String.format("select * from %s where barcode = '%s'",
-				AVAILABLE_ARTIKULS,barcode));
+				this.dbTable,barcode));
 	}
 
 }

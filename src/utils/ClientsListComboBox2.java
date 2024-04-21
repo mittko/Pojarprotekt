@@ -23,11 +23,11 @@ import NewClient.editClient.IncorrectPerson;
 import db.Client.ClientTable;
 
 public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {
-	ArrayList<IncorrectPerson> v = null;
+	ArrayList<IncorrectPerson> v;
 	ArrayList<IncorrectPerson> firms = null;
 
 	public ClientsListComboBox2() {
-		v = new ArrayList<IncorrectPerson>();
+		v = new ArrayList<>();
 		init();
 		/*
 		 * v.add("tlakovanje"); v.add("tlakovec"); v.add("tlakovana cesta");
@@ -116,7 +116,7 @@ public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {
 		textField.setCaretPosition(0);
 	}
 
-	class ComboRenderer2 extends JPanel implements
+	static class ComboRenderer2 extends JPanel implements
 			ListCellRenderer<IncorrectPerson> {
 		JPanel textPanel;
 		JLabel text;

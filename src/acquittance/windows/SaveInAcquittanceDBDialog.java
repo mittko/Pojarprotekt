@@ -21,7 +21,7 @@ import java.util.Vector;
 public class SaveInAcquittanceDBDialog extends MainPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JCheckBox acquittanceRadioButton = null;
+	private final JCheckBox acquittanceRadioButton;
 	private JButton saveData = null;
 	Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
 	/*
@@ -36,12 +36,11 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 
 	private final DefaultTableModel copyOriginTableModel = new DefaultTableModel();
 
-	public SaveInAcquittanceDBDialog(final String protokolNumber, String client,
+	public SaveInAcquittanceDBDialog(String client,
 									 final String payment, final String discount, final String sum,
-									 final String personName, final String date, boolean calledFromInvoiceWindow,
-									 final boolean calledFromProformWindow,
-									 final DefaultTableModel dftm, final BevelLabel invoiceLabel,
-									 final BevelLabel proformLabel, final BevelLabel acquittanceLabel) {
+									 final String personName, final String date,
+									 final DefaultTableModel dftm,
+									 final BevelLabel acquittanceLabel) {
 		// parameters to save data
 		this.CLIENT = client;
 
@@ -143,7 +142,6 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 		gbc1.gridx = 0;
 		gbc1.gridy = 0;
 		gbc1.gridwidth = 1;
-		// gbc1.insets = new Insets(5, 5, 5, 5);
 
 		gridBagPanel.add(questionLabel, gbc1);
 
@@ -152,7 +150,6 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 		gbc2.gridx = 0;
 		gbc2.gridy = 1;
 		gbc2.gridwidth = 1;
-		// gbc2.insets = new Insets(5, 0, 5, 5);
 
 		gridBagPanel.add(acquittanceRadioButton, gbc2);
 
@@ -161,8 +158,6 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 		gbc6.gridx = 1;
 		gbc6.gridy = 1;
 		gbc6.gridwidth = 1;
-		// gbc5.insets = new Insets(5, 0, 5, 5);
-		// basePanel.add(gridBagPanel);
 
 		gridBagPanel.add(buttonPanel, gbc6);
 

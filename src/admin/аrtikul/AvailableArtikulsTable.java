@@ -1,8 +1,11 @@
 package admin.àrtikul;
 
+import Exceptions.DBException;
+import Exceptions.ErrorDialog;
 import admin.àrtikul.Renderers.ArtikulRenderer;
-import admin.àrtikul.Workers.DeleteArtikulWorker;
-import admin.àrtikul.Workers.LoadAllArtikulsWorker;
+import admin.àrtikul.Workers.*;
+import db.àrtikul.Artikuli_DB;
+import invoice.Sklad.ILoadArtikuls;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.EditableField;
@@ -17,7 +20,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 
-public class AvailableArtikulsTable extends MainPanel {
+public abstract class AvailableArtikulsTable extends MainPanel implements ILoadArtikuls, IEditArtikuls {
 
 	private EditableField searchField = null;
 
@@ -33,10 +36,8 @@ public class AvailableArtikulsTable extends MainPanel {
 		basePanel.setLayout(new BorderLayout());
 		basePanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		JPanel northPanel = new JPanel();// GradientPanel();
-		northPanel.setLayout(new GridBagLayout());// FlowLayout(FlowLayout.LEFT, 20, 5));
-		// northPanel.setPreferredSize(new Dimension((int)
-		// (Toolkit.getDefaultToolkit().getScreenSize().width * 0.95), 70));
+		JPanel northPanel = new JPanel();
+		northPanel.setLayout(new GridBagLayout());
 		searchField = new EditableField("Òúðñåíå", 10) {
 			private static final long serialVersionUID = 2L;
 
@@ -83,7 +84,7 @@ public class AvailableArtikulsTable extends MainPanel {
 				JDialog jd = ((JDialog) SwingUtilities
 						.getWindowAncestor(AvailableArtikulsTable.this));
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				LoadAllArtikulsWorker load = new LoadAllArtikulsWorker(jd);
+				LoadAllArtikulsWorker load = new LoadAllArtikulsWorker(AvailableArtikulsTable.this,jd);
 				load.execute();
 			}
 
@@ -103,28 +104,23 @@ public class AvailableArtikulsTable extends MainPanel {
 				String valueItem = "";
 				String fakturaItem = "";
 				String kontragentItem = "";
-				String dateItem = "";
-				String operatorItem = "";
 				String percentProfitItem = "";
 
 				if (CURRENT_ROW >= 0) {
 					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
 					skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
-					medItem = table.getValueAt(CURRENT_ROW, 2).toString();
 					valueItem = table.getValueAt(CURRENT_ROW, 3).toString();
 					fakturaItem = table.getValueAt(CURRENT_ROW, 4).toString();
 					kontragentItem = table.getValueAt(CURRENT_ROW, 5)
 							.toString();
-					dateItem = MyGetDate.getReversedSystemDate();// table.getValueAt(CURRENT_ROW,
-																// 6).toString();
-					operatorItem = table.getValueAt(CURRENT_ROW, 7).toString();
 					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
 							.toString();
 				}
 
 				ChangePriceArtikulDialog newArtikul = new ChangePriceArtikulDialog(
-						artikulItem, skladItem, medItem, valueItem,
-						fakturaItem, kontragentItem, dateItem, operatorItem,
+						AvailableArtikulsTable.this,
+						artikulItem, skladItem, valueItem,
+						fakturaItem, kontragentItem,
 						percentProfitItem);
 				JDialoger jd = new JDialoger();
 				jd.setContentPane(newArtikul);
@@ -156,10 +152,7 @@ public class AvailableArtikulsTable extends MainPanel {
 				String valueItem = "";
 				String fakturaItem = "";
 				String kontragentItem = "";
-				String dateItem = "";
-				String operatorItem = "";
-				String percentProfitItem = "";
-				// System.out.println("CURRENT_ROW = " + CURRENT_ROW);
+
 				if (CURRENT_ROW >= 0) {
 					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
 					skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
@@ -168,17 +161,13 @@ public class AvailableArtikulsTable extends MainPanel {
 					fakturaItem = table.getValueAt(CURRENT_ROW, 4).toString();
 					kontragentItem = table.getValueAt(CURRENT_ROW, 5)
 							.toString();
-					dateItem = MyGetDate.getReversedSystemDate();// table.getValueAt(CURRENT_ROW,
-																// 6).toString();
-					operatorItem = table.getValueAt(CURRENT_ROW, 7).toString();
-					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
-							.toString();
 				}
 
 				ChangeQuantityArtikulDialog newArtikul = new ChangeQuantityArtikulDialog(
+						AvailableArtikulsTable.this,
 						artikulItem, skladItem, medItem, valueItem,
-						fakturaItem, kontragentItem, dateItem, operatorItem,
-						percentProfitItem);
+						fakturaItem, kontragentItem
+				);
 				JDialoger jd = new JDialoger();
 				jd.setContentPane(newArtikul);
 				jd.setResizable(false);
@@ -203,7 +192,6 @@ public class AvailableArtikulsTable extends MainPanel {
 							.showMessageDialog(null, "Íå å èçáðàí àðòèêóë !");
 					return;
 				}
-				// int[] selectedToDelete = table.getSelectedRows();
 				String item = table.getValueAt(CURRENT_ROW, 0).toString();
 				String kontragentItem = table.getValueAt(CURRENT_ROW, 5)
 						.toString();
@@ -216,12 +204,8 @@ public class AvailableArtikulsTable extends MainPanel {
 								"Äà", "Íå" }, // this is the array
 						"default");
 				if (yes_no == 0) {
-					DeleteArtikulWorker dw = new DeleteArtikulWorker(
-							AVAILABLE_ARTIKULS,
-							(JDialog) SwingUtilities
-									.getWindowAncestor(AvailableArtikulsTable.this),
-							item, kontragentItem, invoiceItem);
-					dw.execute();
+
+					deleteArtikul(item,kontragentItem,invoiceItem);
 				}
 			}
 
@@ -237,31 +221,21 @@ public class AvailableArtikulsTable extends MainPanel {
 				// int[] selectedToDelete = table.getSelectedRows();
 				String artikulItem = "";
 				String skladItem = "";
-				String medItem = "";
-				String valueItem = "";
 				String fakturaItem = "";
 				String kontragentItem = "";
-				String dateItem = "";
-				String operatorItem = "";
 				String percentProfitItem = "";
-				// System.out.println("CURRENT_ROW = " + CURRENT_ROW);
 				if (CURRENT_ROW >= 0) {
 					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
-					// skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
-					medItem = table.getValueAt(CURRENT_ROW, 2).toString();
-					valueItem = "0";
-					// fakturaItem = table.getValueAt(CURRENT_ROW,
-					// 4).toString();
 					kontragentItem = table.getValueAt(CURRENT_ROW, 5)
 							.toString();
-					dateItem = MyGetDate.getReversedSystemDate();// table.getValueAt(CURRENT_ROW,
-																// 6).toString();
-					operatorItem = table.getValueAt(CURRENT_ROW, 7).toString();
 					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
 							.toString();
 				}
 
-				AddArtikulPanel newArtikul = new AddArtikulPanel(artikulItem,
+				AddArtikulPanel newArtikul = new AddArtikulPanel(
+						AvailableArtikulsTable.this,
+						getTableName(),
+						artikulItem,
 						skladItem, fakturaItem,
 						kontragentItem,
 						percentProfitItem);
@@ -275,52 +249,42 @@ public class AvailableArtikulsTable extends MainPanel {
 
 		});
 
-		TooltipButton addArtikulGreyButton = new TooltipButton("Äîáàâè íîâ àðòèêóë");
-		addArtikulGreyButton.setVisible(MainPanel.ACCESS_MENU[ACCESS_ACQUITTANCE]);// !!!
-		addArtikulGreyButton.setForeground(Color.RED);
-		addArtikulGreyButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-
-				// int[] selectedToDelete = table.getSelectedRows();
-				String artikulItem = "";
-				String skladItem = "";
-				String medItem = "";
-				String valueItem = "";
-				String fakturaItem = "";
-				String kontragentItem = "";
-				String dateItem = "";
-				String operatorItem = "";
-				String percentProfitItem = "";
-					if (CURRENT_ROW >= 0) {
-					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
-					// skladItem = table.getValueAt(CURRENT_ROW, 1).toString();
-					medItem = table.getValueAt(CURRENT_ROW, 2).toString();
-					valueItem = "0";
-					dateItem = MyGetDate.getReversedSystemDate();// table.getValueAt(CURRENT_ROW,
-					// 6).toString();
-					operatorItem = table.getValueAt(CURRENT_ROW, 7).toString();
-					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
-							.toString();
-				}
-				fakturaItem = "0000001";
-				kontragentItem = "ÏÎÆÀÐÏÐÎÒÅÊÒ ÎÎÄ";
-
-				AddArtikulPanelGrey newArtikul = new AddArtikulPanelGrey(artikulItem,
-						skladItem, fakturaItem,
-						kontragentItem,
-						percentProfitItem);
-				JDialoger jd = new JDialoger();
-				jd.setContentPane(newArtikul);
-				jd.setResizable(false);
-				jd.setTitle("Äðóãè");
-				jd.Show();
-
-			}
-
-		});
+//		TooltipButton addArtikulGreyButton = new TooltipButton("Äîáàâè íîâ àðòèêóë");
+//		addArtikulGreyButton.setVisible(MainPanel.ACCESS_MENU[ACCESS_ACQUITTANCE]);// !!!
+//		addArtikulGreyButton.setForeground(Color.RED);
+//		addArtikulGreyButton.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent arg0) {
+//				// TODO Auto-generated method stub
+//
+//				// int[] selectedToDelete = table.getSelectedRows();
+//				String artikulItem = "";
+//				String skladItem = "";
+//				String fakturaItem = "";
+//				String kontragentItem = "";
+//				String percentProfitItem = "";
+//					if (CURRENT_ROW >= 0) {
+//					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
+//					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
+//							.toString();
+//				}
+//				fakturaItem = "0000001";
+//				kontragentItem = "ÏÎÆÀÐÏÐÎÒÅÊÒ ÎÎÄ";
+//
+//				AddArtikulPanelGrey newArtikul = new AddArtikulPanelGrey(artikulItem,
+//						skladItem, fakturaItem,
+//						kontragentItem,
+//						percentProfitItem);
+//				JDialoger jd = new JDialoger();
+//				jd.setContentPane(newArtikul);
+//				jd.setResizable(false);
+//				jd.setTitle("Äðóãè");
+//				jd.Show();
+//
+//			}
+//
+//		});
 		GridBagConstraints gbc00 = new GridBagConstraints();
 		gbc00.fill = GridBagConstraints.HORIZONTAL;
 		gbc00.gridx = 0;
@@ -372,12 +336,6 @@ public class AvailableArtikulsTable extends MainPanel {
 		gbc31.gridwidth = 1;
 		gbc31.insets = new Insets(0, 0, 0, 0);
 
-		GridBagConstraints gbc40 = new GridBagConstraints();
-		gbc40.fill = GridBagConstraints.HORIZONTAL;
-		gbc40.gridx = 4;
-		gbc40.gridy = 0;
-		gbc40.gridwidth = 1;
-		gbc40.insets = new Insets(0, 0, 0, 0);
 
 		TooltipButton editArtikulNameButton = new TooltipButton("Ïðåéìåíóâàé àðòèêóë");
 		editArtikulNameButton.addActionListener(new ActionListener() {
@@ -387,7 +345,7 @@ public class AvailableArtikulsTable extends MainPanel {
 				if(CURRENT_ROW >= 0) {
 					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
 					RenameArtikulNameDialog renameArtikulNameDialog =
-							new RenameArtikulNameDialog(artikulItem);
+							new RenameArtikulNameDialog(AvailableArtikulsTable.this,artikulItem);
 					JDialoger jd = new JDialoger();
 					jd.setContentPane(renameArtikulNameDialog);
 					jd.setResizable(false);
@@ -401,12 +359,11 @@ public class AvailableArtikulsTable extends MainPanel {
 		northPanel.add(searchField,gbc00);
 		northPanel.add(loadButton, gbc20);
 		northPanel.add(editArtikulNameButton, gbc30);
-		northPanel.add(editQuantityButton,gbc40);
-		// northPanel.add(viewButton);
+		northPanel.add(editQuantityButton,gbc31);
 		northPanel.add(editPriceButton,gbc01);
 		northPanel.add(deleteButton,gbc11);
 		northPanel.add(addArtikulButton,gbc21);
-		northPanel.add(addArtikulGreyButton,gbc31);
+		//northPanel.add(addArtikulGreyButton,gbc31);
 
 
 		JPanel centerPanel = new JPanel();
@@ -442,7 +399,7 @@ public class AvailableArtikulsTable extends MainPanel {
 															// horizontal scroll
 															// bar
 
-		scroll.setPreferredSize(new Dimension(this.WIDTH - 50, this.HEIGHT - 70));
+		scroll.setPreferredSize(new Dimension((int)(this.WIDTH * 0.95), (int)(this.HEIGHT * 0.85)));
 
 
 		centerPanel.add(scroll);
@@ -459,7 +416,7 @@ public class AvailableArtikulsTable extends MainPanel {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				AvailableArtikulsTable art = new AvailableArtikulsTable();
+				ArtikulTable art = new ArtikulTable();
 				JFrame jf = new JFrame();
 				jf.add(art);
 				jf.pack();
@@ -484,4 +441,131 @@ public class AvailableArtikulsTable extends MainPanel {
 
 	}
 
+	@Override
+	public ArrayList<Object[]> getArtikuls() {
+		return Artikuli_DB.getAllAvailableArtikuls(getTableName());
+	}
+
+	@Override
+	public void loadArtikuls(ArrayList<Object[]> artikuls) {
+
+		helpSearchFieldList.clear();
+		for (Object[] datum : artikuls) {
+			Object[] obj = new Object[]{/*datum[9],*/datum[0], datum[1],
+					datum[2], datum[3], datum[4],
+					datum[5], datum[6], datum[7],
+					datum[8]};
+			helpSearchFieldList.add(obj);
+		}
+
+		if (artikulTableModel
+				.getRowCount() > 0) {
+			artikulTableModel.setRowCount(0);
+		}
+		/*
+		 * Collections.sort(data, new Comparator<Object[]>() {
+		 *
+		 * @Override public int compare(Object[] arg0, Object[]
+		 * arg1) { // TODO Auto-generated method stub return
+		 * arg0[0].toString().toLowerCase().
+		 * compareTo(arg1[0].toString().toLowerCase()); }
+		 *
+		 * }); PrintStream ps = null; try { ps = new
+		 * PrintStream("artikuli.txt"); } catch
+		 * (FileNotFoundException e) { // TODO Auto-generated
+		 * catch block e.printStackTrace(); }
+		 */
+		// init values
+		// ArtikulsMainFrame.helpSearchFieldList.clear();
+
+		// try to optimize to split painting of parts
+
+		for (Object[] datum : artikuls) { // d <
+			// data.size()
+
+			Object[] obj = new Object[]{
+					/*	datum[9],*/
+					datum[0],
+					datum[1], datum[2],
+					datum[3], datum[4],
+					datum[5], datum[6],
+					datum[7], datum[8]};
+			/*
+			 * ps.println(data.get(d)[0] + "      " +
+			 * data.get(d)[1] + " " + data.get(d)[2] +
+			 * "          Öåíà  " + data.get(d)[3]); ps.println(
+			 * "--------------------------------------------------------------------------------------------"
+			 * );
+			 */
+			artikulTableModel.addRow(obj);
+			// ArtikulsMainFrame.helpSearchFieldList.add(obj);
+		}
+	}
+
+	@Override
+	public void changeArtikulPrice(String artikul, String biggestPriceValue, String percentProfit, String kontragent, String invoice) {
+		JDialog jd = (JDialog) SwingUtilities
+				.getWindowAncestor(AvailableArtikulsTable.this);
+		jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+		UpdatePriceArtikulWorker add = new UpdatePriceArtikulWorker(
+				getTableName(),
+				artikul, biggestPriceValue,
+				percentProfit, kontragent,
+				invoice, jd);
+		add.execute();
+	}
+
+	@Override
+	public void changeArtikulQuantity(String artikul, String newQuantity, String kontragent, String invoice) {
+		ChangeArtikulQuantityWorker quantityArtikulWorker = new ChangeArtikulQuantityWorker(
+				getTableName(),
+				artikul, newQuantity, kontragent, invoice);
+		quantityArtikulWorker.execute();
+	}
+
+	@Override
+	public void deleteArtikul(String artikul, String kontragent, String invoice) {
+		DeleteArtikulWorker dw = new DeleteArtikulWorker(
+				getTableName(),
+				(JDialog) SwingUtilities
+						.getWindowAncestor(AvailableArtikulsTable.this), artikul, kontragent, invoice);
+		dw.execute();
+	}
+
+	@Override
+	public void addArtikul(String client, String artikul, String sklad, String med, String deliveryValue,
+						   String price, String invoice, String date, String operator, String percentProfit, String barcode) {
+		final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AvailableArtikulsTable.this);
+		jd.setCursor(new Cursor(3));
+		final InsertArtikulWorker add = new InsertArtikulWorker(
+				getTableName(),
+				client, artikul,
+				sklad, med,
+				deliveryValue,
+				price,
+				invoice,
+				date, operator,
+				percentProfit,
+				barcode, jd);
+		add.execute();
+	}
+
+	@Override
+	public void renameArtikul(String oldArtikulName, String newArtikulName) {
+		RenameArtikulNameWorker renameArtikulNameWorker =
+				new RenameArtikulNameWorker(getTableName(),oldArtikulName,newArtikulName);
+		try {
+			boolean renameSuccess =  renameArtikulNameWorker.doInBackground();
+			if(renameSuccess) {
+				JOptionPane.showMessageDialog(null,"Àðòèêóëúò å ïðåèìåíóâàí óñïåøíî !");
+			} else {
+				ErrorDialog.showErrorMessage("Íåóñïåøíà îïåðàöèÿ !");
+			}
+		} catch (Exception exception) {
+			DBException.DBExceptions("Error",exception);
+		}
+	}
+
+	public abstract String getTableName();
 }

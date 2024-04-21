@@ -1,6 +1,8 @@
 package admin;
 
 import NewClient.editClient.EditClientPanel;
+import admin.аrtikul.ArtikulTable;
+import admin.аrtikul.ArtikulTableGrey;
 import admin.аrtikul.AvailableArtikulsTable;
 import admin.Doing.UpdateWorkPrice;
 import admin.Parts.Price.UpdatePriceOfParts;
@@ -20,7 +22,7 @@ import java.awt.event.KeyEvent;
 
 public class AdminDialog extends MainPanel implements ActionListener {
 
-	private JPasswordField passField = null;
+	private JPasswordField passField;
 
 	private String command = "";
 	private final String PARTS_PRICES = "Цени на резервни части";
@@ -29,16 +31,16 @@ public class AdminDialog extends MainPanel implements ActionListener {
 	private final String WORK_PRICES = "Обслужване";
 	private final String NEW_EXTINGUISHER_PRICE = "Нови Пожарогасители";
 	private final String ARTIKUL_PRICE = "Наличност Артикули";
+	private final String ARTIKUL_PRICE2 = "Други";
 	private final String USERS = "Потребители";
 	private final String EXTINGUISHING_AGENT = "Гасително Вещество";
 
 	public AdminDialog() {
-		this.setPreferredSize(new Dimension(400, 300));
 
 		passField = new JPasswordField(12);
 		passField.setEnabled(false);
 
-		ButtonGroup bg = new ButtonGroup();
+		final ButtonGroup bg = new ButtonGroup();
 
 		JRadioButton parts_PriceRadioButton = new JRadioButton(PARTS_PRICES);
 		parts_PriceRadioButton.setOpaque(false);
@@ -70,7 +72,10 @@ public class AdminDialog extends MainPanel implements ActionListener {
 		artikulRadioButton.setFont(getFONT());
 		artikulRadioButton.addActionListener(this);
 
-
+        JRadioButton artikulRadioButton2 = new JRadioButton(ARTIKUL_PRICE2);
+		artikulRadioButton2.setOpaque(false);
+        artikulRadioButton2.setFont(getFONT());
+		artikulRadioButton2.addActionListener(this);
 
 		JRadioButton usersRadioButton = new JRadioButton(USERS);
 		usersRadioButton.setOpaque(false);
@@ -91,6 +96,7 @@ public class AdminDialog extends MainPanel implements ActionListener {
 		bg.add(artikulRadioButton);
 		bg.add(usersRadioButton);
         bg.add(extinguishingAgentButton);
+		bg.add(artikulRadioButton2);
 
 		passField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -154,13 +160,25 @@ public class AdminDialog extends MainPanel implements ActionListener {
 								break;
 							}
 							case ARTIKUL_PRICE: {
-								AvailableArtikulsTable artikul = new AvailableArtikulsTable();
+								ArtikulTable artikul = new ArtikulTable();
 								JDialoger jDialog = new JDialoger();
 								jDialog.setContentPane(artikul);
 								jDialog.setResizable(false);
 								jDialog.setTitle("Артикули");
+								jDialog.pack();
 								jDialog.Show();
 
+								break;
+							}
+
+							case ARTIKUL_PRICE2: {
+								ArtikulTableGrey artikulTableGrey = new ArtikulTableGrey();
+								JDialoger jDialoger = new JDialoger();
+								jDialoger.setContentPane(artikulTableGrey);
+								jDialoger.setResizable(false);
+								jDialoger.setTitle(ARTIKUL_PRICE2);
+								jDialoger.pack();
+								jDialoger.Show();
 								break;
 							}
 
@@ -190,9 +208,8 @@ public class AdminDialog extends MainPanel implements ActionListener {
 				}
 			}
 		});
-		JPanel basePanel = new JPanel();// GradientPanel();
+		JPanel basePanel = new JPanel();
 		basePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		basePanel.setPreferredSize(new Dimension(400, 300));
 		basePanel.setLayout(new GridLayout(10, 1));
 		basePanel.setLocation((int) (this.getPreferredSize().getWidth() / 2),
 				(int) (this.getPreferredSize().getHeight() / 2));
@@ -211,6 +228,7 @@ public class AdminDialog extends MainPanel implements ActionListener {
 		basePanel.add(artikulRadioButton);
 		basePanel.add(new_ExtRadioButton);
 		basePanel.add(usersRadioButton);
+		basePanel.add(artikulRadioButton2);
 
 		this.setBackground(basePanel.getBackground());
 		this.add(basePanel);

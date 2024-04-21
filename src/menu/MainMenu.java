@@ -27,18 +27,15 @@ import java.awt.event.*;
 
 public class MainMenu extends MainPanel {
 
-	private final JPanel menu = new JPanel();
-
-	private final Color currColor = Color.decode("0xFF1141");// Color.LIGHT_GRAY.brighter().darker();//
-																// Color.decode("0xA3BBC1");
-
-	private final GridBagLayout gbl = new GridBagLayout();
+	// Color.decode("0xA3BBC1");
 
 	// private Dimension buttonSize = new Dimension(this.WIDTH / 3,
 	// this.HEIGHT / 7);
 
 	public MainMenu() {
 
+		GridBagLayout gbl = new GridBagLayout();
+		JPanel menu = new JPanel();
 		menu.setLayout(gbl);
 
 		menu.setOpaque(false);
@@ -365,6 +362,7 @@ public class MainMenu extends MainPanel {
 				jDialog.setContentPane(sp);
 				jDialog.setResizable(false);
 				jDialog.Show();
+				jDialog.pack();
 			}
 		};
 		this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
@@ -377,6 +375,8 @@ public class MainMenu extends MainPanel {
 		this.add(menu);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		// Color.LIGHT_GRAY.brighter().darker();//
+		Color currColor = Color.decode("0xFF1141");
 		this.setBackground(currColor);
 
 	}

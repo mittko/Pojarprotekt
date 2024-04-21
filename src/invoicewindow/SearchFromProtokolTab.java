@@ -1,7 +1,5 @@
 package invoicewindow;
 
-import acquittance.sklad.workers.GreySkladArtikulFrame;
-import acquittance.sklad.workers.LoadAllGreyArtikulsFromAcquittanceWorker;
 import acquittance.sklad.workers.SkladArtikulGreyPanel;
 import acquittance.windows.SaveInAcquittanceDBDialog;
 import invoice.Fiskal.CreateBonFPrint;
@@ -308,7 +306,7 @@ public class SearchFromProtokolTab extends MainPanel {
 					jDialoger.Show();
 				} else {
 					SaveInAcquittanceDBDialog save = new SaveInAcquittanceDBDialog(
-							protokolNumber,// here protokol
+                            // here protokol
 							// number is not
 							// needed and is
 							// marked as -
@@ -319,10 +317,10 @@ public class SearchFromProtokolTab extends MainPanel {
 							.getText(), MyMath.round(getDanOsnova(), 2) + "",
 							personName,
 							MyGetDate.getReversedSystemDate(),
-							true, // invoice
-							false, // proform
-							invoiceTableModel, null, // there is invoice num label
-							null, // there is no proform num label
+							// invoice
+							// proform
+							invoiceTableModel,  // there is invoice num label
+							// there is no proform num label
 							null); // acquittance num label
 					JDialoger jDialoger = new JDialoger();
 					jDialoger.setContentPane(save);

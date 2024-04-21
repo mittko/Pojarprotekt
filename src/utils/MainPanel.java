@@ -289,8 +289,8 @@ public class MainPanel extends JPanel {
 		// ipAddress = getCurrentIP.getIP();
 
 		this.setBackground(Color.WHITE);
-		HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.9);
-		WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+		HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().height * 0.85);
+		WIDTH = (int)(Toolkit.getDefaultToolkit().getScreenSize().width * 0.95);
 		FONT_SIZE = (int) (HEIGHT * 0.027);
 		setProperties();
 		headerWidth = WIDTH;

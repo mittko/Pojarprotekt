@@ -46,12 +46,17 @@ public class AddArtikulPanelGrey extends AddArtikulDialog
 		}
 		final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AddArtikulPanelGrey.this);
 		jd.setCursor(new Cursor(3));
-		final InsertArtikulWorker add = new InsertArtikulWorker(GREY_AVAILABLE_ARTIKULS,
-				clientComboBox, artikulsComboBox,
-				skladField, medField,
-				deliveryValueField, bigFinalValueField,
-				invoiceField, dateField,
-				personField, percentProfitField,barcodeField,  jd);
+
+		final InsertArtikulWorker add = new InsertArtikulWorker(
+				GREY_AVAILABLE_ARTIKULS,
+				clientComboBox.getSelectedItem().toString(), artikulsComboBox.getSelectedItem().toString(),
+				skladField.getText(), medField.getText(),
+				deliveryValueField.getText(),
+				bigFinalValueField.getText(),
+				invoiceField.getText(),
+				dateField.getText(), personField.getText(),
+				percentProfitField.getText(),
+				barcodeField.getText(), jd);
 		add.execute();
 	}
 

@@ -89,6 +89,30 @@ public class InsertArtikulWorker extends SwingWorker
 		this.barcode = barcodeField.getText();
 		this.jd = jd;
 	}
+	public InsertArtikulWorker(final String dbTable,final String client,
+							   final String artikul, String sklad,
+							   final String med, final String deliveryValue,
+							   final String biggestValue, final String invoice,
+							   final String date, final String person,
+							   final String percentProfit,
+							   final String barcode,
+							   final JDialog jd) {
+
+
+		this.dbTable = dbTable;
+		this.artikul = artikul;
+		this.quantity = Integer.parseInt(sklad);
+		this.med = med;
+		this.deliveryValue = deliveryValue;
+		this.saleValue = biggestValue;
+		this.invoiceNumber = invoice;
+		this.client = client;
+		this.date = date;
+		this.seller = person;
+		this.percentProfit = percentProfit;
+		this.barcode = barcode;
+		this.jd = jd;
+	}
 
 
 	@Override
@@ -117,11 +141,11 @@ public class InsertArtikulWorker extends SwingWorker
 	}
 
 	void clear() {
-		this.artikulsComboBox.getEditor().setItem("");
-		this.skladField.setText("");
-		this.deliveryValueField.setText("");
-		this.bigFinalValueField.setText("");
-		this.percentProfitField.setText("");
+//		this.artikulsComboBox.getEditor().setItem("");
+//		this.skladField.setText("");
+//		this.deliveryValueField.setText("");
+//		this.bigFinalValueField.setText("");
+//		this.percentProfitField.setText("");
 	}
 }
 

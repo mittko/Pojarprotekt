@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class ArtikulsListComboBox extends JComboBox<String> implements ActionListener {
-	ArrayList<String> v = null;
+	ArrayList<String> v;
 	public ArrayList<String> artikuls = new ArrayList<String>();
 
 	private JPopupMenu popupMenu = null;
@@ -17,7 +17,7 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 	private final String Paste = "Постави";
 	private final Font CURRENT_FONT =
 			new Font(Font.MONOSPACED, Font.PLAIN,MainPanel.getFontSize());
-    private String dbTable;
+    private final String dbTable;
 	public ArtikulsListComboBox(String dbTable) {
 		this.dbTable = dbTable;
 		v = new ArrayList<>();
@@ -121,19 +121,34 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 	}
 
 	class ComboRenderer extends DefaultListCellRenderer {
+
+		private JPanel textPanel;
+		private JLabel text;
 		public ComboRenderer() {
+			textPanel = new JPanel();
+			textPanel.add(this);
+			text = new JLabel();
+			text.setOpaque(true);
+			textPanel.add(text);
 		}
 
 		@Override
 		public Component getListCellRendererComponent(JList<?> list,
-				Object value, int selectedIndex, boolean b, boolean c) {
+				Object value, int selectedIndex, boolean isSelected, boolean cellHasFocus) {
 			if (selectedIndex != -1) {
 				list.setToolTipText(MainPanel
 						.getHTML_Text(ArtikulsListComboBox.this
 								.getItemAt(selectedIndex)));
 			}
-			return super.getListCellRendererComponent(list, value,
-					selectedIndex, b, c);
+			if(isSelected) {
+				setBackground(list.getSelectionBackground());
+			} else {
+				setBackground(Color.WHITE);
+			}
+			text.setBackground(getBackground());
+			text.setText(value.toString());
+
+			return text;//super.getListCellRendererComponent(list, value, selectedIndex, isSelected, cellHasFocus);
 		}
 	}
 

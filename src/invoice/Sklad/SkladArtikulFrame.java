@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public abstract class SkladArtikulFrame extends MainPanel implements ILoadArtikuls {
 
-	public JTable skladTable = null;
-	public DefaultTableModel skladModel = null;
+	public JTable skladTable;
+	public DefaultTableModel skladModel;
 
 	public static JTextField moveScrollField = null;
 
@@ -165,10 +165,13 @@ public abstract class SkladArtikulFrame extends MainPanel implements ILoadArtiku
 				}
 
 				// search artikul by barcode if no items by name are found
-				if(skladModel.getRowCount() == 0) {
-					for(Object[] obj : DATA_LIST) {
-						if(moveScrollField.getText().equals(obj[8])) {
-							skladModel.addRow(obj);
+
+				if(ke.getKeyCode() == KeyEvent.VK_ENTER && skladModel.getRowCount() == 0) {
+					if (skladModel.getRowCount() == 0) {
+						for (Object[] obj : DATA_LIST) {
+							if (moveScrollField.getText().equals(obj[8])) {
+								skladModel.addRow(obj);
+							}
 						}
 					}
 				}

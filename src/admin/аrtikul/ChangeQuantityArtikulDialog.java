@@ -11,19 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ChangeQuantityArtikulDialog extends MainPanel {
-	private JPanel basePanel2 = null;
-	private JPanel leftPanel = null;
 
-	private JLabel clientLabel = null;
-	private JLabel invoiceLabel = null;
-	private JLabel artikulLabel = null;
-	private JLabel quantityLabel = null;
-	private JPanel rightPanel = null;
-
-	private EditableField clientField = null;
-	private EditableField invoiceField = null;
-	private EditableField artikulsField = null;
-	private EditableField quantityField = null;
+	private final EditableField clientField;
+	private final EditableField invoiceField;
+	private final EditableField artikulsField;
+	private final EditableField quantityField;
 	JButton saveInDBButton = new JButton("Запази");
 
 	public static void main(String[] args) {
@@ -36,44 +28,30 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 		// start.setFrameLocationOnTheCenter();
 	}
 
-	private String artikulItem;
-	private String skladItem;
-	private String medItem;
-	private String oldValueItem;
-	private String currValueItem;
-	private String invoiceNumber;
-	private String clientItem;
-	private String dateItem;
-	private String sellerItem;
-	private String percentProfitItem;
+	private final String skladItem;
+	private final String medItem;
+	private final String oldValueItem;
 
-	public ChangeQuantityArtikulDialog(final String artikulItem,
+	public ChangeQuantityArtikulDialog(final IEditArtikuls iEditArtikuls,final String artikulItem,
 			String skladitem, final String medItem, final String oldValueItem,
-			final String invoiceNumber, final String client, final String date,
-			final String seller, String percentProfit) {
-		this.artikulItem = artikulItem;
+			final String invoiceNumber, final String client) {
 		this.skladItem = skladitem;
 		this.medItem = medItem;
 		this.oldValueItem = oldValueItem;
-		this.invoiceNumber = invoiceNumber;
-		this.clientItem = client;
-		this.dateItem = date;
-		this.sellerItem = seller;
-		this.percentProfitItem = percentProfit;
 
-		basePanel2 = new JPanel();// GradientPanel();
+		JPanel basePanel2 = new JPanel();
 		basePanel2.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		leftPanel = new JPanel();
+		JPanel leftPanel = new JPanel();
 		leftPanel.setOpaque(false);
-		leftPanel.setLayout(new GridBagLayout());// (new GridLayout(8,1,5,20));
+		leftPanel.setLayout(new GridBagLayout());
 
-		clientLabel = new JLabel("Контрагент");
-		invoiceLabel = new JLabel("Фактура No:");
-		artikulLabel = new JLabel("Артикул");
-		quantityLabel = new JLabel("Количество");
+		JLabel clientLabel = new JLabel("Контрагент");
+		JLabel invoiceLabel = new JLabel("Фактура No:");
+		JLabel artikulLabel = new JLabel("Артикул");
+		JLabel quantityLabel = new JLabel("Количество");
 
-		rightPanel = new JPanel();
+		JPanel rightPanel = new JPanel();
 		rightPanel.setOpaque(false);
 		rightPanel.setLayout(new GridBagLayout());
 
@@ -133,12 +111,6 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 		gbc12.gridwidth = 1;
 		gbc12.insets = new Insets(5, 0, 0, 0);
 
-		/*
-		 * GridBagConstraints gbc22 = new GridBagConstraints(); gbc22.fill =
-		 * GridBagConstraints.HORIZONTAL; gbc22.gridx = 2; gbc22.gridy = 2;
-		 * gbc22.gridwidth = 1; gbc22.insets = new Insets(15,0,0,0);
-		 */
-
 		GridBagConstraints gbc03 = new GridBagConstraints();
 		gbc03.fill = GridBagConstraints.HORIZONTAL;
 		gbc03.gridx = 0;
@@ -153,137 +125,12 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 		gbc13.gridwidth = 1;
 		gbc13.insets = new Insets(5, 0, 0, 0);
 
-		GridBagConstraints gbc23 = new GridBagConstraints();
-		gbc23.fill = GridBagConstraints.HORIZONTAL;
-		gbc23.gridx = 2;
-		gbc23.gridy = 3;
-		gbc23.gridwidth = 1;
-		gbc23.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc33 = new GridBagConstraints();
-		gbc33.fill = GridBagConstraints.HORIZONTAL;
-		gbc33.gridx = 3;
-		gbc33.gridy = 3;
-		gbc33.gridwidth = 1;
-		gbc33.insets = new Insets(5, 0, 0, 0);
-
 		GridBagConstraints gbc04 = new GridBagConstraints();
 		gbc04.fill = GridBagConstraints.HORIZONTAL;
 		gbc04.gridx = 0;
 		gbc04.gridy = 4;
 		gbc04.insets = new Insets(5, 0, 0, 0);
 
-		GridBagConstraints gbc14 = new GridBagConstraints();
-		gbc14.fill = GridBagConstraints.HORIZONTAL;
-		gbc14.gridx = 1;
-		gbc14.gridy = 4;
-		gbc14.gridwidth = 1;
-		gbc14.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc24 = new GridBagConstraints();
-		gbc24.fill = GridBagConstraints.HORIZONTAL;
-		gbc24.gridx = 2;
-		gbc24.gridy = 4;
-		gbc24.gridwidth = 1;
-		gbc24.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc05 = new GridBagConstraints();
-		gbc05.fill = GridBagConstraints.HORIZONTAL;
-		gbc05.gridx = 0;
-		gbc05.gridy = 5;
-		gbc05.gridwidth = 1;
-		gbc05.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc15 = new GridBagConstraints();
-		gbc15.fill = GridBagConstraints.HORIZONTAL;
-		gbc15.gridx = 1;
-		gbc15.gridy = 5;
-		gbc15.gridwidth = 1;
-		gbc15.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc25 = new GridBagConstraints();
-		gbc25.fill = GridBagConstraints.HORIZONTAL;
-		gbc25.gridx = 2;
-		gbc25.gridy = 5;
-		gbc25.gridwidth = 1;
-		gbc25.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc35 = new GridBagConstraints();
-		gbc35.fill = GridBagConstraints.HORIZONTAL;
-		gbc35.gridx = 3;
-		gbc35.gridy = 5;
-		gbc35.gridwidth = 1;
-		gbc35.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc06 = new GridBagConstraints();
-		gbc06.fill = GridBagConstraints.HORIZONTAL;
-		gbc06.gridx = 0;
-		gbc06.gridy = 6;
-		gbc06.gridwidth = 1;
-		gbc06.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc16 = new GridBagConstraints();
-		gbc16.fill = GridBagConstraints.HORIZONTAL;
-		gbc16.gridx = 1;
-		gbc16.gridy = 6;
-		gbc16.gridwidth = 1;
-		gbc16.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc26 = new GridBagConstraints();
-		gbc26.fill = GridBagConstraints.HORIZONTAL;
-		gbc26.gridx = 2;
-		gbc26.gridy = 6;
-		gbc26.gridwidth = 1;
-		gbc26.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc36 = new GridBagConstraints();
-		gbc36.fill = GridBagConstraints.HORIZONTAL;
-		gbc36.gridx = 2;
-		gbc36.gridy = 6;
-		gbc36.gridwidth = 1;
-		gbc36.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc07 = new GridBagConstraints();
-		gbc07.fill = GridBagConstraints.HORIZONTAL;
-		gbc07.gridx = 0;
-		gbc07.gridy = 7;
-		gbc07.gridwidth = 1;
-		gbc07.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc17 = new GridBagConstraints();
-		gbc17.fill = GridBagConstraints.HORIZONTAL;
-		gbc17.gridx = 1;
-		gbc17.gridy = 7;
-		gbc17.gridwidth = 1;
-		gbc17.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc27 = new GridBagConstraints();
-		gbc27.fill = GridBagConstraints.HORIZONTAL;
-		gbc27.gridx = 2;
-		gbc27.gridy = 7;
-		gbc27.gridwidth = 1;
-		gbc27.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc08 = new GridBagConstraints();
-		gbc08.fill = GridBagConstraints.HORIZONTAL;
-		gbc08.gridx = 0;
-		gbc08.gridy = 8;
-		gbc08.gridwidth = 2;
-		gbc08.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc18 = new GridBagConstraints();
-		gbc18.fill = GridBagConstraints.HORIZONTAL;
-		gbc18.gridx = 1;
-		gbc18.gridy = 8;
-		gbc18.gridwidth = 1;
-		gbc18.insets = new Insets(5, 0, 0, 0);
-
-		GridBagConstraints gbc28 = new GridBagConstraints();
-		gbc28.fill = GridBagConstraints.HORIZONTAL;
-		gbc28.gridx = 2;
-		gbc28.gridy = 8;
-		gbc28.gridwidth = 2;
-		gbc28.insets = new Insets(5, 0, 0, 0);
 
 		saveInDBButton.addActionListener(new ActionListener() {
 			@Override
@@ -325,10 +172,7 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 							"Грешен формат на количество");
 					return;
 				}
-				ChangeArtikulQuantityWorker quantityArtikulWorker = new ChangeArtikulQuantityWorker(
-						AVAILABLE_ARTIKULS,
-						artikul, newQuantity, kontragent, invoiceByKontragent);
-				quantityArtikulWorker.execute();
+				iEditArtikuls.changeArtikulQuantity(artikul,newQuantity,kontragent,invoiceByKontragent);
 
 			}
 
@@ -338,8 +182,8 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 
 		rightPanel.add(clientLabel, gbc);
 		rightPanel.add(clientField, gbc10);
-		rightPanel.add(artikulLabel, gbc01);// (artikulField, gbc01);
-		rightPanel.add(artikulsField, gbc11);// (artikulField, gbc01);
+		rightPanel.add(artikulLabel, gbc01);
+		rightPanel.add(artikulsField, gbc11);
 
 		rightPanel.add(invoiceLabel, gbc02);
 		rightPanel.add(invoiceField, gbc12);
@@ -359,7 +203,7 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 		double percentProf = 0;
 
 		try {
-			if (currValue.equals("") || currValue.isEmpty()) {
+			if (currValue.isEmpty()) {
 				currVal = 0;
 			} else {
 				currVal = Double.parseDouble(currValue);
@@ -368,7 +212,7 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 			return -1;
 		}
 		try {
-			if (percentProfit.equals("") || percentProfit.isEmpty()) {
+			if (percentProfit.isEmpty()) {
 				percentProf = 0;
 			} else {
 				percentProf = Double.parseDouble(percentProfit);

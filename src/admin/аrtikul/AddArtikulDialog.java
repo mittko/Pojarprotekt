@@ -236,7 +236,10 @@ public abstract class AddArtikulDialog extends MainPanel
 				if (!AddArtikulDialog.this.checkUserInput(AddArtikulDialog.this.artikulsComboBox.getEditor().getItem().toString(), AddArtikulDialog.this.skladField.getText(), AddArtikulDialog.this.medField.getText(), AddArtikulDialog.this.deliveryValueField.getText(), AddArtikulDialog.this.bigFinalValueField.getText(), AddArtikulDialog.this.invoiceField.getText(), AddArtikulDialog.this.clientComboBox.getSelectedItem().toString(), AddArtikulDialog.this.dateField.getText(), AddArtikulDialog.this.percentProfitField.getText())) {
 					return;
 				}
-				saveInDB(AddArtikulDialog.this.clientComboBox, AddArtikulDialog.this.artikulsComboBox, AddArtikulDialog.this.skladField, AddArtikulDialog.this.medField, AddArtikulDialog.this.deliveryValueField, AddArtikulDialog.this.bigFinalValueField, AddArtikulDialog.this.invoiceField,
+				saveInDB(AddArtikulDialog.this.clientComboBox, AddArtikulDialog.this.artikulsComboBox,
+						AddArtikulDialog.this.skladField, AddArtikulDialog.this.medField,
+						AddArtikulDialog.this.deliveryValueField, AddArtikulDialog.this.bigFinalValueField,
+						AddArtikulDialog.this.invoiceField,
 						AddArtikulDialog.this.dateField, AddArtikulDialog.this.personField,
 						AddArtikulDialog.this.percentProfitField,barcodeField);
 			}

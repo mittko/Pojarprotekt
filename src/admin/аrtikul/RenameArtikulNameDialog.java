@@ -12,9 +12,7 @@ import java.awt.event.ActionListener;
 
 public class RenameArtikulNameDialog extends MainPanel {
 
-    private String oldArtikulName;
-    public RenameArtikulNameDialog(final String oldArtikulName) {
-        this.oldArtikulName = oldArtikulName;
+    public RenameArtikulNameDialog(final IEditArtikuls iEditArtikuls, final String oldArtikulName) {
         final JTextField oldNameTextField = new JTextField(20);
         oldNameTextField.setText(oldArtikulName);
         oldNameTextField.setEditable(false);
@@ -28,20 +26,7 @@ public class RenameArtikulNameDialog extends MainPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                RenameArtikulNameWorker renameArtikulNameWorker =
-                        new RenameArtikulNameWorker(oldNameTextField.getText(),
-                                newNameJTextField.getText());
-                try {
-                    boolean renameSuccess =  renameArtikulNameWorker.doInBackground();
-                    if(renameSuccess) {
-                        JOptionPane.showMessageDialog(null,"Артикулът е преименуван успешно !");
-                    } else {
-                        JOptionPane.showMessageDialog(null,
-                                "Неуспешна операция !","Error",JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (Exception exception) {
-                    DBException.DBExceptions("Error",exception);
-                }
+                iEditArtikuls.renameArtikul(oldNameTextField.getText(), newNameJTextField.getText());
             }
         });
         this.setLayout(new GridBagLayout());
@@ -90,7 +75,7 @@ public class RenameArtikulNameDialog extends MainPanel {
             public void run() {
 
                 UIManager.put("swing.boldMetal", Boolean.FALSE);
-                JustFrame start = new JustFrame(new RenameArtikulNameDialog("артикул"));
+                JustFrame start = new JustFrame(new RenameArtikulNameDialog(null,"артикул"));
                 start.pack();
                 start.setResizable(false);
                 start.setFrameLocationOnTheCenter();
