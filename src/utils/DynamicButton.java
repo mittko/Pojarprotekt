@@ -16,8 +16,8 @@ public class DynamicButton extends JButton {
 
 	public void setAutoSizedIcon(JButton button, ImageIcon icon) {
 		Image img = icon.getImage();
-		Image newimg = img.getScaledInstance(button.getPreferredSize().width,
-				button.getPreferredSize().height, java.awt.Image.SCALE_SMOOTH);
+		Image newimg = img.getScaledInstance((int)(button.getPreferredSize().width*0.9f),
+				(int)(button.getPreferredSize().height*0.9), java.awt.Image.SCALE_SMOOTH);
 		icon = new ImageIcon(newimg);
 		button.setIcon(icon);
 	}

@@ -33,11 +33,10 @@ public class ArtikulTab extends MainPanel {
 
 	private final TooltipButton skladButton;
 	public static DefaultTableModel dftm;
-	private final JTable onlyArticulsTable;
+	private final MyTable onlyArticulsTable;
 	private static JTextField sumFieldNoTax;
 	private static JTextField sumField;
 
-	final JPopupMenu popupMenu = new JPopupMenu();
 
 	@SuppressWarnings("unchecked")
 	public ArtikulTab() {
@@ -196,8 +195,8 @@ public class ArtikulTab extends MainPanel {
 						// protokol)
 						clientCombo.getSelectedItem().toString(), paymentCombo
 						.getSelectedItem().toString(), discountField
-						.getText(), MyMath.round(getDanOsnova(), 2)
-						+ "", personName, MyGetDate
+						.getText(), MyMath.round(getDanOsnova(), 2)+"",
+						personName, MyGetDate
 						.getReversedSystemDate(), true, // invoice
 						false, // proform
 						true, // acquittance
@@ -237,10 +236,7 @@ public class ArtikulTab extends MainPanel {
 						"default");
 
 				if (yes_no == 0) {
-					// update artikuli quantity
-					// artikuliModel.setRowCount(0);
-
-					clear();
+					dftm.setRowCount(0);
 				}
 			}
 
@@ -258,12 +254,18 @@ public class ArtikulTab extends MainPanel {
 				return column == 1 || column == 5;
 			}
 		};
-		dftm.addTableModelListener(new TableModelListener() {
 
+
+		onlyArticulsTable = new MyTable(dftm) {
 			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-				switch (e.getType()) {
+			public void onTableChanged(TableModelEvent tableModelEvent) {
+				super.onTableChanged(tableModelEvent);
+
+				if(dftm.getRowCount() == 0) {
+					clear();
+					return;
+				}
+				switch (tableModelEvent.getType()) {
 					case TableModelEvent.INSERT:
 					case TableModelEvent.DELETE:
 						ArrayList<Double> totals = new ArrayList<>();
@@ -279,9 +281,12 @@ public class ArtikulTab extends MainPanel {
 				}
 			}
 
-		});
-
-		onlyArticulsTable = new JTable(dftm);
+			@Override
+			public void removeAt(int row) {
+				super.removeAt(row);
+				dftm.removeRow(onlyArticulsTable.getSelectedRow());
+			}
+		};
 		// скрий кoлoни фактура и кoнтрагент
 		onlyArticulsTable.getColumnModel().getColumn(6).setMinWidth(0);
 		onlyArticulsTable.getColumnModel().getColumn(6).setMaxWidth(0);
@@ -302,24 +307,7 @@ public class ArtikulTab extends MainPanel {
 		onlyArticulsTable.setDefaultRenderer(Object.class,
 				new CustomTableCellRenderer(onlyArticulsTable));
 		onlyArticulsTable.setRowHeight(MainPanel.getFontSize() + 15);
-		JMenuItem menuItem = new JMenuItem("Изтрий ред");
-		menuItem.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				dftm.removeRow(onlyArticulsTable.getSelectedRow());
-				if (dftm.getRowCount() == 0) {
-					clear();
-				}
-				//   else {
-				//	  calcFinalSum();
-				//  }
-			}
-
-		});
-		popupMenu.add(menuItem);
-		onlyArticulsTable.setComponentPopupMenu(popupMenu);
 
 		JScrollPane scroll = new JScrollPane(onlyArticulsTable,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,

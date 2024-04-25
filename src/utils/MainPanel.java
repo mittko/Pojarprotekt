@@ -327,7 +327,7 @@ public class MainPanel extends JPanel {
 	}
 
 	public static Font getFONT() {
-		Font font = new Font(Font.DIALOG, Font.LAYOUT_LEFT_TO_RIGHT,
+		Font font = new Font(Font.DIALOG, Font.PLAIN,
 				getFontSize());
 		return font;// new Font(Font.SANS_SERIF,Font.BOLD,17);
 	}
@@ -340,6 +340,11 @@ public class MainPanel extends JPanel {
 		return "<html><font size=" + (getFontSize() / 3) + ">" + text
 				+ "</html>";
 	}
+	public static String getHTML_Text(String text, int size) {
+		return "<html>" + text
+				+ "</html>";
+	}
+
 
 	private static String createFolder(String path) {
 		File folder = new File(path + "/" + MyGetDate.getYear() + "/"

@@ -75,7 +75,7 @@ public class ServiceOrder extends MainPanel {
 
 	public DefaultTableModel tModel = null;
 
-	public JTable table;
+	public MyTable table;
 
 	private static HashSet<String> isBarcodAndSerialEntered = null; // static
 	// because
@@ -94,15 +94,15 @@ public class ServiceOrder extends MainPanel {
 
 	private BevelLabel clientLabel = null;
 
-	public BevelLabel serviceNumberLabel = null;
+	public BevelLabel serviceNumberLabel;
 
-	private GenerateSO genSO = null;
+	private GenerateSO genSO;
 
-	private BarcodGenerator bGen = null;
+	private BarcodGenerator bGen;
 
-	private int[] allDigits = null;
+	private int[] allDigits;
 
-	private int[] barcodDigits = null;
+	private int[] barcodDigits;
 
 	public String CURRENT_CLIENT = "";
 
@@ -110,7 +110,7 @@ public class ServiceOrder extends MainPanel {
 
 	private int CURRENT_ROW = -1;
 
-	public ArrayList<String> updateExtinguisher = null;
+	public ArrayList<String> updateExtinguisher;
 
 
 	public ServiceOrder(String serviceNumber) {
@@ -125,7 +125,7 @@ public class ServiceOrder extends MainPanel {
 
 		bGen = new BarcodGenerator();
 
-		ServiceNumber so_Table = new ServiceNumber();
+		//ServiceNumber so_Table = new ServiceNumber();
 
 		allDigits = new int[13];
 
@@ -440,8 +440,7 @@ public class ServiceOrder extends MainPanel {
 
 		printerButton.setAutoSizedIcon(printerButton, new LoadIcon().setIcons(printerImage));
 
-		printerButton
-				.setToolTipText(getHTML_Text("ПРИНТИРАЙ СЕРВИЗНА ПОРЪЧКА"));
+		printerButton.setToolTipText(getHTML_Text("ПРИНТИРАЙ СЕРВИЗНА ПОРЪЧКА"));
 		printerButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -472,7 +471,7 @@ public class ServiceOrder extends MainPanel {
 		barcodButton.setPreferredSize(new Dimension((int) (northHelpPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northHelpPanel
 				.getPreferredSize().getHeight() * 0.75)));
-		;
+
 		barcodButton.setAutoSizedIcon(barcodButton, new LoadIcon().setIcons(barcodeImage));
 
 		barcodButton.addActionListener(new ActionListener() {
@@ -605,11 +604,6 @@ public class ServiceOrder extends MainPanel {
 				if (tModel.getRowCount() == 0)
 					return;
 
-				if (CURRENT_ROW == -1) {
-					JOptionPane.showMessageDialog(null,
-							"Не е избран пожарогасител");
-					return;
-				}
 				int yes_no = JOptionPane.showOptionDialog(null,
 						"Наистина ли искате да изтриете данните ?", "",
 						JOptionPane.YES_NO_OPTION,
@@ -619,8 +613,7 @@ public class ServiceOrder extends MainPanel {
 				if (yes_no != 0)
 					return;
 
-				tModel.removeRow(CURRENT_ROW);
-				CURRENT_ROW = -1;
+				tModel.setRowCount(0);
 
 				readBarcod.requestFocus();
 			}
@@ -812,7 +805,6 @@ public class ServiceOrder extends MainPanel {
 				(int) (numberPanel.getPreferredSize().getHeight() * 0.3)));
 		numberExt_Button.setAutoSizedIcon(numberExt_Button,
 				new LoadIcon().setIcons(enterNumberImage));
-		// numberExt_Button.setIcon(new LoadIcon().setIcons(enterNumberImage));
 
 		numberExt_Button
 				.setToolTipText(getHTML_Text("ВЪВЕДИ БРОЙ ПОЖАРОГАСИТЕЛИ"));
@@ -1054,20 +1046,24 @@ public class ServiceOrder extends MainPanel {
 
 			@Override
 			public boolean isCellEditable(int row, int col) {
-				return col == 3 || col == 13;
+				return col == 3 || col == 5 || col == 13;
 			}
 		};
-		tModel.addTableModelListener(new TableModelListener() {
 
+		table = new MyTable(tModel) {
 			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
+			public void onTableChanged(TableModelEvent tableModelEvent) {
+				super.onTableChanged(tableModelEvent);
 				if (tModel.getRowCount() == 0)
 					clear();
 			}
 
-		});
-		table = new JTable(tModel);
+			@Override
+			public void removeAt(int row) {
+				super.removeAt(row);
+				tModel.removeRow(row);
+			}
+		};
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent me) {
@@ -1108,7 +1104,7 @@ public class ServiceOrder extends MainPanel {
 
 		serviceNumberLabel = new BevelLabel(labelHeight);
 
-		serviceNumberLabel.setTitle(" Серв. поръчка \u2116 ");
+		serviceNumberLabel.setTitle(" Серв. поръчка № ");
 		serviceNumberLabel.setName(serviceNumber);
 
 		oldExtinguisher.add(readBarcod);

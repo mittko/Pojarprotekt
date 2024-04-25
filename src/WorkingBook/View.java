@@ -6,10 +6,7 @@ import WorkingBookWorkers.PrintProtokolWorker;
 import WorkingBookWorkers.SaveInProtokolWorker;
 import db.Common;
 import run.JustFrame;
-import utils.BevelLabel;
-import utils.LoadIcon;
-import utils.MainPanel;
-import utils.TooltipButton;
+import utils.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
@@ -21,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 import static WorkingBook.WorkingBook.isBarcodAndSerialEntered;
@@ -39,15 +38,13 @@ public class View extends MainPanel {
 		}
 	}; // store saved exinguisher
 
-	public JTable t_Extinguisher = null;
+	public MyTable t_Extinguisher = null;
 
 	private StringBuilder key = new StringBuilder(); // current extinguisher
 
 	public static JList<Object> partsList = new JList<Object>();
 
 	public static TooltipButton printProtokolButton = null;
-
-	// private TooltipButton invoiceButton = null;
 
 	private int SELECTED_ROW = -1; // current user selected row
 
@@ -142,7 +139,6 @@ public class View extends MainPanel {
 		});
 
 		printProtokolButton = new TooltipButton();
-		// printProtokolButton.setIcon(setIcons(printerImage));
 
 		printProtokolButton.setEnabled(false);
 
@@ -167,18 +163,12 @@ public class View extends MainPanel {
 						.getWindowAncestor(View.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				/*
-				 * System.out.println(PDF_PROTOKOL_NUMBER);
-				 * dtm_Extinguisher.setRowCount(0); jd.setCursor(new
-				 * Cursor(Cursor.DEFAULT_CURSOR));
-				 */
 
 				PrintProtokolWorker pw = new PrintProtokolWorker(
 						dtm_Extinguisher, jd, PDF_PROTOKOL_NUMBER,
 						getPartsMap());
 				pw.execute();
-				// dtm_Extinguisher.setRowCount(0);
-				// ??? comment for now PDF_PROTOKOL_NUMBER = DB_PROTOKOL_NUMBER;
+
 			}
 
 		});
@@ -192,111 +182,65 @@ public class View extends MainPanel {
 		removeRowButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(SELECTED_ROW == -1)  {
-					JOptionPane.showMessageDialog(null,"Не е избран пожарогасител");
-				} else {
-					int yes_no = JOptionPane.showOptionDialog(null,
-							"Сигурни ли сте че искате да изтриете пожарогасителят ?", "",
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE, null, new String[] {
-									"Да", "Не" }, // this is the array
-							"default");
-					if(yes_no == 0) {
-						isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(SELECTED_ROW,3).toString());
-						isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(SELECTED_ROW,4).toString());
 
-						dtm_Extinguisher.removeRow(SELECTED_ROW);
-					}
+				int yes_no = JOptionPane.showOptionDialog(null,
+						"Сигурни ли сте че искате да изтриете въведените данни ?", "",
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, new String[] {
+								"Да", "Не" }, // this is the array
+						"default");
+				if(yes_no == 0) {
+					isBarcodAndSerialEntered.clear();
+					dtm_Extinguisher.setRowCount(0);
 				}
 			}
 		});
-
-		dtm_Extinguisher.addTableModelListener(new TableModelListener() {
-			@Override
-			public void tableChanged(TableModelEvent e) {
-				if(dtm_Extinguisher.getRowCount() == 0) {
-					WorkingBook.CURRENT_CLIENT = "";
-					((DefaultListModel<Object>)partsList.getModel()).clear();
-				}
-				label.setName(String.valueOf(dtm_Extinguisher.getRowCount()));
-			}
-		});
-		// this logic does not work !!!!!
-		/*
-		 * invoiceButton = new TooltipButton();
-		 * invoiceButton.setEnabled(ACCESS_MENU[5]); //
-		 * invoiceButton.setIcon(setIcons(invoiceImage));
-		 * invoiceButton.setToolTipText(getHTML_Text("ОТВОРИ ФАКТУРИ"));
-		 * invoiceButton.setPreferredSize(new Dimension(
-		 * (int)(northNorth.getPreferredSize().getWidth() * 0.045),
-		 * (int)(northNorth.getPreferredSize().getHeight() * 0.75)));
-		 * invoiceButton.setAutoSizedIcon(invoiceButton,
-		 * setIcons(invoiceImage));
-		 * 
-		 * // invoiceButton.setPreferredSize(new Dimension(55,55));
-		 * 
-		 * invoiceButton.addActionListener(new ActionListener() {
-		 * 
-		 * @Override public void actionPerformed(ActionEvent arg0) { // TODO
-		 * Auto-generated method stub // TWO THREADS SwingWorker sw = new
-		 * SwingWorker() {
-		 * 
-		 * @Override protected Object doInBackground() throws Exception { //
-		 * TODO Auto-generated method stub String invoiceNumber =
-		 * InvoiceNumber.getInvoiceNumber(); //String proformNumber =
-		 * InvoiceNumber.getProformNumber();
-		 * 
-		 * ProtokolSearcher ps = new ProtokolSearcher(DB_PROTOKOL_NUMBER,
-		 * searchFromProtokol.invoiceTableModel); // search in protokol
-		 * ps.execute();
-		 * 
-		 * if(invoiceNumber != null) { SwingUtilities.invokeLater(new Runnable()
-		 * {
-		 * 
-		 * @Override public void run() { // TODO Auto-generated method stub //
-		 * initialize data for invoice
-		 * 
-		 * final MyInvoice3 invoice3 = new MyInvoice3();
-		 * searchFromProtokol.searchField.setText(DB_PROTOKOL_NUMBER); final
-		 * JDialoger jDialog = new JDialoger();
-		 * jDialog.setContentPane(invoice3);
-		 * jDialog.setTitle("Фактури / Проформи / Стокови разписки");
-		 * jDialog.addWindowListener(new WindowAdapter() { public void
-		 * windowClosing(WindowEvent we) {
-		 * if(searchFromProtokol.invoiceTableModel.getRowCount() > 0 ||
-		 * searchFromProform.proformTableModel.getRowCount() > 0 ||
-		 * AcquittanceTab.dftm.getRowCount() > 0) { int yes_no = JOptionPane
-		 * .showOptionDialog
-		 * (null,"Наистина ли искате да затворите прозореца ?","",
-		 * JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,new
-		 * String[] { "Да", "Не" }, "default"); if(yes_no == 0) {
-		 * jDialog.dispose(); } else {
-		 * jDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); } }
-		 * else { jDialog.dispose(); } } }); jDialog.Show(); }
-		 * 
-		 * }); } return null; }
-		 * 
-		 * }; sw.execute();
-		 * 
-		 * }
-		 * 
-		 * });
-		 */
 
 		protokolNumberLabel = new BevelLabel(labelHeight);
-		/*
-		 * protokolNumberLabel.setPreferredSize(new Dimension(
-		 * (int)(northNorth.getPreferredSize().getWidth() * 0.2),
-		 * (int)(northNorth.getPreferredSize().getHeight() * 0.7)));
-		 */
-		protokolNumberLabel.setTitle(" Протокол \u2116 ");
+		protokolNumberLabel.setTitle(" Протокол № ");
 		protokolNumberLabel.setName(protokolNumber);
 
-		partsList = new JList<Object>();
+		partsList = new JList<>(new DefaultListModel<>());
 
 		partsList.setOpaque(false);
 
-		t_Extinguisher = new JTable(dtm_Extinguisher);
+		t_Extinguisher = new MyTable(dtm_Extinguisher) {
+			@Override
+			public void removeAt(int row) {
+				isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(row, 3).toString());
+				isBarcodAndSerialEntered.remove(dtm_Extinguisher.getValueAt(row, 4).toString());
+
+				dtm_Extinguisher.removeRow(row);
+
+			}
+
+			@Override
+			public void onTableChanged(TableModelEvent tableModelEvent) {
+				super.onTableChanged(tableModelEvent);
+				if(dtm_Extinguisher.getRowCount() == 0) {
+					WorkingBook.CURRENT_CLIENT = "";
+					((DefaultListModel<Object>) partsList.getModel()).clear();
+				}
+
+				label.setName(String.valueOf(dtm_Extinguisher.getRowCount()));
+
+				StringBuilder sb = new StringBuilder();
+				HashMap<String,Integer> obraboteni = new HashMap<>();
+				for(int i = 0;i < dtm_Extinguisher.getRowCount();i++) {
+					String key = String.format("%s %s\n",dtm_Extinguisher.getValueAt(i,1),dtm_Extinguisher.getValueAt(i,2));
+					Integer value = obraboteni.get(key);
+					if(value == null) {
+						value = 0;
+					}
+					obraboteni.put(key,value+1);
+				}
+				sb.append("<div><font size=6>Обработени по вид</font></div>");
+				for(Map.Entry<String,Integer> entry : obraboteni.entrySet()) {
+					sb.append(String.format("<div><font size=15>%s     ( %d )</font></div>",entry.getKey(),entry.getValue()));
+				}
+				label.setToolTipText(getHTML_Text(sb.toString(),9));
+			}
+		};
 
 		t_Extinguisher.removeColumn(t_Extinguisher.getColumn("Реална маса"));
 		t_Extinguisher.removeColumn(t_Extinguisher
@@ -310,6 +254,9 @@ public class View extends MainPanel {
 			@Override
 			public void mousePressed(MouseEvent me) {
 				SELECTED_ROW = t_Extinguisher.getSelectedRow();
+				if(SELECTED_ROW == -1) {
+					return;
+				}
 				key = new StringBuilder();
 
 				// create key to get parts from hashmap
@@ -324,6 +271,7 @@ public class View extends MainPanel {
 						dlm_Parts.addElement(partName);
 					}
 				}
+
 				partsList.setModel(dlm_Parts);
 			}
 		});
@@ -355,8 +303,6 @@ public class View extends MainPanel {
 		northNorth.add(dbButton);
 
 		northNorth.add(printProtokolButton);
-
-		// northNorth.add(invoiceButton);
 
 		northNorth.add(protokolNumberLabel);
 

@@ -1044,7 +1044,7 @@ public class Artikuli_DB extends MainPanel {
 			insert = stat.executeUpdate(command);
 			return insert;
 		} catch (SQLException e) {
-			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
+			DBException.DBExceptions("Грешка", e);
 			DB_Err.writeErros(command);
 			System.out.println(e.getMessage());;
 			return insert;

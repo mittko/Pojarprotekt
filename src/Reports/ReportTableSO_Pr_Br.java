@@ -38,7 +38,7 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 	public ReportTableSO_Pr_Br(ArrayList<Object[]> data, String destination) {
 		this.setLayout(new BorderLayout());
 
-		JPanel northPanel = new JPanel();// GradientPanel();
+		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 
 		TooltipButton printerButton = new TooltipButton("Генерирай PDF документ");
@@ -113,7 +113,8 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 		excellButton.setPreferredSize(new Dimension((int) (printerButton
 				.getPreferredSize().getWidth() * 0.3), (int) (printerButton
 				.getPreferredSize().getHeight())));
-		;
+		//excellButton.setPreferredSize(new Dimension(80,70));
+
 		excellButton.setToolTipText(getHTML_Text("ЗАПИШИ В EXCEL"));
 		excellButton.setAutoSizedIcon(excellButton, new LoadIcon().setIcons(excellImage));
 		excellButton.addActionListener(new ActionListener() {
@@ -127,7 +128,6 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 
 				String title = jd.getTitle();
 
-				System.out.println("fuck " + title);
 				switch (title) {
 				case "Справки " + ReportDialog.SO_Title + " ПОЖАРПРОТЕКТ":
 					ExportToExcellWorkerSO_PR_BR excellWorker = new ExportToExcellWorkerSO_PR_BR(
@@ -193,25 +193,31 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				return true;
+				return false;
 			}
 		};
+
+
 
 		// fill data in table
 		table = new JTableX(dftm);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent me) {
-				SELECTED_INDEX = table.getSelectedRow();
 
-				// call repaint() to set background correctly
-				// after select client in table renderer (in reports table)
-				table.repaint();
+					SELECTED_INDEX = table.getSelectedRow();
+
+					// call repaint() to set background correctly
+					// after select client in table renderer (in reports table)
+					table.repaint();
+
 
 			}
 		});
 
 		table.setRowHeight(MainPanel.getFontSize() + 15);
+
+
 		switch (destination) {
 			case SERVICE:
 				table.setDefaultRenderer(Object.class, new ServiceTableRenderer());

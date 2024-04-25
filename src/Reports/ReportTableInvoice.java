@@ -27,38 +27,25 @@ import java.util.HashSet;
 
 public class ReportTableInvoice extends MainPanel {
 
-	private ArrayList<Object[]> childData = null;
-	// private TreeMap<String, ParentInvoiceInfo> parentMap = null;
 	private DefaultTableModel dftm = null;
-	private JTable table = null;
-	// private int CURRENT_ROW = 0;
-	private String CURRENT_INVOICE = null;
+	private JTable table;
+	private final String CURRENT_INVOICE = null;
 	private int SELECTED_INDEX = -1;
-	// private ParentInvoiceInfo info = null;
 	private String TITLE;
 	private String PATH;
 	public static int MOUSE_MOTION_ROW = -1;
-	private TooltipButton printerButton = null;
-	private TooltipButton exportToExcellButton = null;
-
-	private TooltipButton creditNoteButton;
 
 	public ReportTableInvoice(ArrayList<Object[]> childData) {
 		MOUSE_MOTION_ROW = -1;
-
-		this.childData = childData;
-		// this.parentMap = parentMap;
 
 		JPanel basePanel = new JPanel();
 		basePanel.setLayout(new BorderLayout());
 
 		JPanel northPanel = new JPanel();// GradientPanel();
-		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
 		northPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		northPanel.setPreferredSize(new Dimension(this.WIDTH - 20, 50));
-
-		printerButton = new TooltipButton("Генерирай PDF документ");
+		TooltipButton printerButton = new TooltipButton("Генерирай PDF документ");
 
 		printerButton.addActionListener(new ActionListener() {
 
@@ -83,7 +70,6 @@ public class ReportTableInvoice extends MainPanel {
 					case "Справки Фактура ПОЖАРПРОТЕКТ":
 						TITLE = "ФАКТУРА";
 						PATH = MainPanel.INVOICE_PDF_PATH;
-						// System.out.printf("%s %s\n", TITLE, PATH);
 						break;
 					case "Справки Проформа ПОЖАРПРОТЕКТ":
 						TITLE = "ПРОФОРМА";
@@ -107,7 +93,7 @@ public class ReportTableInvoice extends MainPanel {
 
 		});
 
-		exportToExcellButton = new TooltipButton();
+		TooltipButton exportToExcellButton = new TooltipButton();
 		exportToExcellButton.setPreferredSize(new Dimension(
 				(int) (printerButton.getPreferredSize().getWidth() * 0.3),
 				(int) (printerButton.getPreferredSize().getHeight())));
@@ -141,7 +127,7 @@ public class ReportTableInvoice extends MainPanel {
 			}
 
 		});
-		creditNoteButton = new TooltipButton();
+		TooltipButton creditNoteButton = new TooltipButton();
 		creditNoteButton.setPreferredSize(new Dimension(
 				(int)(printerButton.getPreferredSize().getWidth() * 0.3),
 				(int)(printerButton.getPreferredSize().getHeight())));
@@ -244,9 +230,9 @@ public class ReportTableInvoice extends MainPanel {
 
 		centerPanel.setLayout(new FlowLayout());
 		dftm = new DefaultTableModel(new String[] {
-				"\u2116 на Фактура/Проформа", "Начин на плащане", "Отстъпка",
-				"Стойност", "Клиент", "Оператор", "Дата", "\u2116 на Протокол",
-				"\u2116 на Фактура/Проформа", "Артикул", "Мерна ед.",
+				"№ на Фактура/Проформа", "Начин на плащане", "Отстъпка",
+				"Стойност", "Клиент", "Оператор", "Дата", "№ на Протокол",
+				"№ на Фактура/Проформа", "Артикул", "Мерна ед.",
 				"Количество", "Ед. Цена", "Сума", "Клиент", "Контрагент",
 				"Фактура по доставка" }, 0) {
 			@Override

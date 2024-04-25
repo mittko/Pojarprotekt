@@ -37,7 +37,7 @@ public class WorkingBook extends MainPanel {
 	private TooltipButton penButton = null;
 
 	private BevelLabel HI_Label = null;
-	private BevelLabel fitAgentLabel = null;
+	private final BevelLabel fitAgentLabel;
 	private JPanel centerCenter = null;
 
 	final static String DUST = "œ‡ıÓ‚";
@@ -76,17 +76,16 @@ public class WorkingBook extends MainPanel {
 
 	public static HashMap<String, Double> value_map = new HashMap<String, Double>();
 
-	ArrayList<Object> currValues = new ArrayList<Object>();
+	ArrayList<Object> currValues;
 
 	public static String CURRENT_CLIENT;
 
 	public static double HI_PRICE = 0; // loaded in front components panel
 	public static double TO_PRICE = 0;
-	// private final int southHeight = 200;
-
 
 	public WorkingBook() {
 		isBarcodAndSerialEntered.clear();
+
 		CURRENT_CLIENT = "";
 
 		JPanel north = new JPanel();
@@ -440,8 +439,6 @@ public class WorkingBook extends MainPanel {
 		HI_Label = new BevelLabel();
 		HI_Label.setPreferredSize(new Dimension(labelWidth, labelHeight));
 		HI_Label.setTitle("’»ƒ–Œ—“¿“»◊ÕŒ »«œ»“¬¿Õ≈ : ");
-		// HI_Label.setAutoSizedIcon(HI_L
-		// label, setIcons(reportsImage));
 		HI_Label.setName("");
 
 
@@ -449,7 +446,6 @@ public class WorkingBook extends MainPanel {
 		fitAgentLabel = new BevelLabel();
 		fitAgentLabel.setPreferredSize(new Dimension(labelWidth, labelHeight));
 		fitAgentLabel.setTitle("√ŒƒÕŒ—“ Õ¿ √¿—»“≈ÀÕŒ ¬≈Ÿ≈—“¬Œ : ");
-		// HI_Label.setAutoSizedIcon(HI_Label, setIcons(reportsImage));
 		fitAgentLabel.setName("");
 
         pane1.add(comboDoings);//attentionButton); // set reports
@@ -808,15 +804,11 @@ public class WorkingBook extends MainPanel {
 				break;
 			case TO:
 				returnButtonsEnabled(true);
-			//	WorkerState.markPlomba(type, isTO);
-			//	WorkerState.markEntity(type, false);
 				WorkerState.markTehnicheskoObslujvane(type);
 				WorkerState.setButtonDisabledAccordinglyCategory(type, wheight, category);
 				break;
 			case TO_P:
 				returnButtonsEnabled(true);
-			//	WorkerState.markPlomba(type, isTO);
-			//	WorkerState.markEntity(type, true);
 				WorkerState.markTehnicheskoObslujvane(type);
 				WorkerState.markPrezarejdane(type);
 				WorkerState.setButtonDisabledAccordinglyCategory(type, wheight,
@@ -824,8 +816,6 @@ public class WorkingBook extends MainPanel {
 				break;
 			case TO_P_HI:
 				returnButtonsEnabled(true);
-			//	WorkerState.markPlomba(type, isTO);
-			//	WorkerState.markEntity(type, true);
 				WorkerState.markTehnicheskoObslujvane(type);
 				WorkerState.markPrezarejdane(type);
 				WorkerState.markHidrostatichnoIzpitvane(type);

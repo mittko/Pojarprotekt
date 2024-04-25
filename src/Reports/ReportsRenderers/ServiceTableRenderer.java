@@ -18,6 +18,7 @@ public class ServiceTableRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
+
 		Component c = super.getTableCellRendererComponent(table, value,
 				isSelected, hasFocus, row, column);
 		if (isSelected) {
@@ -36,18 +37,23 @@ public class ServiceTableRenderer extends DefaultTableCellRenderer {
 			this.setForeground(Color.black);
 		}
 
+		//colorSelectedRows(table,row);
 		// set color of choiced with mouse
+
 		if (table.getSelectedRow() >= 0
 				&& table.getValueAt(row, 11)
-						.toString()
-						.equals(table.getValueAt(table.getSelectedRow(), 11)
-								.toString())) {
+				.toString()
+				.equals(table.getValueAt(table.getSelectedRow(), 11)
+						.toString())) {
 			this.setBackground(Color.yellow);
 		}
+
 		this.setHorizontalAlignment(JLabel.CENTER);
 
 		return c;
 	}
+
+	public void colorSelectedRows(JTable table, int row) {}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

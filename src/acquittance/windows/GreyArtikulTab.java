@@ -15,18 +15,19 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class GreyArtikulTab extends MainPanel {
 
-	private  ClientsListComboBox2 clientCombo;
+	private final ClientsListComboBox2 clientCombo;
 	private static JTextField discountField;
 	private static DiscountButtonArtikuli choiceDiscountButton;
 	private static JComboBox<String> paymentCombo;
-	// private String discount;
-	private  TooltipButton greySkladButton;
+
+	private final TooltipButton greySkladButton;
+
 	public static DefaultTableModel dftm;
-	// private DefaultTableModel artikuliModel;
-	private final JTable onlyArticulsTable;
+	private final MyTable onlyArticulsTable;
 	private static JTextField sumFieldNoTax;
 	private static JTextField sumField;
 
@@ -35,7 +36,7 @@ public class GreyArtikulTab extends MainPanel {
 	@SuppressWarnings("unchecked")
 	public GreyArtikulTab() {
 
-		JPanel northPanel = new JPanel();// GradientPanel();
+		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		northPanel.setPreferredSize(new Dimension(
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.1)));
@@ -181,8 +182,8 @@ public class GreyArtikulTab extends MainPanel {
 																// protokol)
 						clientCombo.getSelectedItem().toString(), paymentCombo
 								.getSelectedItem().toString(), discountField
-								.getText(), MyMath.round(getDanOsnova(), 2)
-								+ "", personName, MyGetDate
+								.getText(), String.format(Locale.ENGLISH,"%f",
+						MyMath.round(getDanOsnova(), 2)), personName, MyGetDate
 								.getReversedSystemDate(),
 						// invoice
 						// proform
@@ -220,10 +221,7 @@ public class GreyArtikulTab extends MainPanel {
 						"default");
 
 				if (yes_no == 0) {
-					// update artikuli quantity
-					// artikuliModel.setRowCount(0);
-
-					clear();
+					dftm.setRowCount(0);
 				}
 			}
 
@@ -242,30 +240,59 @@ public class GreyArtikulTab extends MainPanel {
 				return column == 1 || column == 5;
 			}
 		};
-		dftm.addTableModelListener(new TableModelListener() {
+//		dftm.addTableModelListener(new TableModelListener() {
+//
+//			@Override
+//			public void tableChanged(TableModelEvent e) {
+//				// TODO Auto-generated method stub
+//				switch (e.getType()) {
+//				case TableModelEvent.INSERT:
+//					case TableModelEvent.DELETE:
+//						ArrayList<Double> totals = new ArrayList<>();
+//					for(int row = 0;row < dftm.getRowCount();row++) {
+//						double total = Double.parseDouble(dftm.getValueAt(row,3).toString());
+//						totals.add(total);
+//					}
+//					choiceDiscountButton.setTotals(totals);
+//					calcFinalSum();
+//					break;
+//					default:
+//					break;
+//				}
+//			}
+//
+//		});
 
+		onlyArticulsTable = new MyTable(dftm) {
 			@Override
-			public void tableChanged(TableModelEvent e) {
-				// TODO Auto-generated method stub
-				switch (e.getType()) {
-				case TableModelEvent.INSERT:
+			public void onTableChanged(TableModelEvent tableModelEvent) {
+				super.onTableChanged(tableModelEvent);
+				if(dftm.getRowCount() == 0) {
+					clear();
+					return;
+				}
+				switch (tableModelEvent.getType()) {
+					case TableModelEvent.INSERT:
 					case TableModelEvent.DELETE:
 						ArrayList<Double> totals = new ArrayList<>();
-					for(int row = 0;row < dftm.getRowCount();row++) {
-						double total = Double.parseDouble(dftm.getValueAt(row,3).toString());
-						totals.add(total);
-					}
-					choiceDiscountButton.setTotals(totals);
-					calcFinalSum();
-					break;
+						for(int row = 0;row < dftm.getRowCount();row++) {
+							double total = Double.parseDouble(dftm.getValueAt(row,3).toString());
+							totals.add(total);
+						}
+						choiceDiscountButton.setTotals(totals);
+						calcFinalSum();
+						break;
 					default:
-					break;
+						break;
 				}
 			}
 
-		});
-
-		onlyArticulsTable = new JTable(dftm);
+			@Override
+			public void removeAt(int row) {
+				super.removeAt(row);
+				dftm.removeRow(row);
+			}
+		};
 
 		onlyArticulsTable.getColumnModel().getColumn(6).setMinWidth(0);
 		onlyArticulsTable.getColumnModel().getColumn(6).setMaxWidth(0);
@@ -286,24 +313,6 @@ public class GreyArtikulTab extends MainPanel {
 		onlyArticulsTable.setDefaultRenderer(Object.class,
 				new AcquittanceCustomTableCellRenderer(onlyArticulsTable));
 		onlyArticulsTable.setRowHeight(MainPanel.getFontSize() + 15);
-		JMenuItem menuItem = new JMenuItem("oooooo ooo");
-		menuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				dftm.removeRow(onlyArticulsTable.getSelectedRow());
-				if (dftm.getRowCount() == 0) {
-					clear();
-				}
-				//   else {
-				//	  calcFinalSum();
-				//  }
-			}
-
-		});
-		popupMenu.add(menuItem);
-		onlyArticulsTable.setComponentPopupMenu(popupMenu);
 
 		JScrollPane scroll = new JScrollPane(onlyArticulsTable,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,

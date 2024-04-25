@@ -33,7 +33,7 @@ public class NewExtinguisherWindow extends MainPanel {
 	private TooltipButton skladButton = null;
 
 	public static DefaultTableModel dftm = null;
-	public JTable table = null;
+	public MyTable table = null;
 
 	public static BevelLabel protokolNumLabel = null;
 
@@ -101,13 +101,11 @@ public class NewExtinguisherWindow extends MainPanel {
 
 		TooltipButton stickerButton = new TooltipButton();
 
-		// stickerButton.setIcon(new LoadIcon().setIcons(stickerImage));
 		stickerButton.setToolTipText(getHTML_Text("√≈Õ≈–»–¿… —“» ≈–"));
 		stickerButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.5)));
 		stickerButton.setAutoSizedIcon(stickerButton, new LoadIcon().setIcons(stickerImage));
-		// stickerButton.new LoadIcon().setIconsize();
 		stickerButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -137,7 +135,6 @@ public class NewExtinguisherWindow extends MainPanel {
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.5)));
 		dbButton.setAutoSizedIcon(dbButton, new LoadIcon().setIcons(dbImage));
-		// dbButton.setPreferredSize(new Dimension(55,55));
 		dbButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -188,14 +185,12 @@ public class NewExtinguisherWindow extends MainPanel {
 		});
 
 		TooltipButton eraserButton = new TooltipButton();
-		// eraserButton.setIcon(new LoadIcon().setIcons(eraserImage));
 		eraserButton.setToolTipText(getHTML_Text("»«“–»… ƒ¿ÕÕ»“≈"));
 		eraserButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.5)));
 
 		eraserButton.setAutoSizedIcon(eraserButton, new LoadIcon().setIcons(eraserImage));
-		// eraserButton.setPreferredSize(new Dimension(55,55));
 		eraserButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -408,7 +403,7 @@ public class NewExtinguisherWindow extends MainPanel {
 
 		});
 
-		table = new JTable(dftm);
+		table = new MyTable(dftm);
 		table.setDefaultRenderer(Object.class,
 				new NewExtingusherRenderer(table));
 		table.setRowHeight(MainPanel.getFontSize() + 15);

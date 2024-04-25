@@ -44,7 +44,7 @@ public class SearchFromProtokolTab extends MainPanel {
 	public static BevelLabel clientLabel;
 
 	public static DefaultTableModel invoiceTableModel = null;
-	private final JTable invoiceTable;
+	private final MyTable invoiceTable;
 
 	private final BevelLabel invoiceNumberLabel = null;
 
@@ -70,7 +70,7 @@ public class SearchFromProtokolTab extends MainPanel {
 		northPanel.setPreferredSize(new Dimension(
 				(int) (this.WIDTH * 1.0) - 20, (int) (this.HEIGHT * 0.1)));
 
-		searchField = new EditableField("Протокол \u2116", 9);
+		searchField = new EditableField("Протокол №", 9);
 		searchField.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.13), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.6)));
@@ -191,7 +191,7 @@ public class SearchFromProtokolTab extends MainPanel {
 				} else {
 					frame = new SkladArtiklulPanel(
 							invoiceTableModel/*
-					 * , sumField8
+					 * , sumField
 					 */, Double.parseDouble(discountField
 							.getText()), choiceDiscountButton.isSelected());
 				}
@@ -211,22 +211,19 @@ public class SearchFromProtokolTab extends MainPanel {
 		});
 
 		TooltipButton rubberButton = new TooltipButton();
-		// rubberButton.setPreferredSize(new Dimension(55, 55));
 		rubberButton.setToolTipText(getHTML_Text("ИЗТРИЙ ДАННИТЕ"));
 		rubberButton.setPreferredSize(new Dimension((int) (northPanel
 				.getPreferredSize().getWidth() * 0.045), (int) (northPanel
 				.getPreferredSize().getHeight() * 0.75)));
 
 		rubberButton.setAutoSizedIcon(rubberButton, new LoadIcon().setIcons(eraserImage));
-		// rubberButton.setIcon(setIcons(eraserImage));
 		rubberButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				/*
-				 * if(invoiceTableModel.getRowCount() == 0) return;
-				 */
+
+				if(invoiceTableModel.getRowCount() == 0) return;
 
 				int yes_no = JOptionPane.showOptionDialog(null,
 						"Наистина ли искате да изтриете данните ?", "",
@@ -236,10 +233,7 @@ public class SearchFromProtokolTab extends MainPanel {
 						"default");
 
 				if (yes_no == 0)
-					// clear artikul quantity
-					// artikuliModel.setRowCount(0);
-
-					clear();
+					invoiceTableModel.setRowCount(0);
 			}
 
 		});
@@ -346,7 +340,37 @@ public class SearchFromProtokolTab extends MainPanel {
 			}
 		};
 
-		invoiceTable = new JTable(invoiceTableModel);
+		invoiceTable = new MyTable(invoiceTableModel) {
+			@Override
+			public void onTableChanged(TableModelEvent tableModelEvent) {
+				super.onTableChanged(tableModelEvent);
+
+				if(invoiceTableModel.getRowCount() == 0) {
+					clear();
+					return;
+				}
+				switch (tableModelEvent.getType()) {
+					case TableModelEvent.INSERT:
+					case TableModelEvent.DELETE:
+						ArrayList<Double> totals = new ArrayList<>();
+						for(int row = 0;row < invoiceTableModel.getRowCount();row++) {
+							double total = Double.parseDouble(invoiceTableModel.getValueAt(row,3).toString());
+							totals.add(total);
+						}
+						choiceDiscountButton.setTotals(totals);
+						calcFinalSum();
+						break;
+					default:
+						break;
+				}
+			}
+
+			@Override
+			public void removeAt(int row) {
+				super.removeAt(row);
+				invoiceTableModel.removeRow(row);
+			}
+		};
 
 		invoiceTable.addMouseListener(new MouseAdapter() {
 			@Override
@@ -354,47 +378,6 @@ public class SearchFromProtokolTab extends MainPanel {
 				Point point = me.getPoint();
 				int currentRow = invoiceTable.rowAtPoint(point);
 				invoiceTable.setRowSelectionInterval(currentRow, currentRow);
-			}
-		});
-		JMenuItem menuItem = new JMenuItem("Изтрий ред");
-		menuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				// System.out.println(invoiceTable.getSelectedRow());
-				invoiceTableModel.removeRow(invoiceTable.getSelectedRow());
-				if (invoiceTableModel.getRowCount() == 0) {
-					clear();
-				}
-			/*	else {
-					initSumTextField();
-				}*/
-			}
-
-		});
-		popupMenu.add(menuItem);
-		invoiceTable.setComponentPopupMenu(popupMenu);
-
-		invoiceTableModel.addTableModelListener(new TableModelListener() {
-			@Override
-			public void tableChanged(TableModelEvent arg0) {
-				// TODO Auto-generated method stub
-				switch (arg0.getType()) {
-				case TableModelEvent.INSERT:
-					case TableModelEvent.DELETE:
-						ArrayList<Double> totals = new ArrayList<>();
-					for(int row = 0;row < invoiceTableModel.getRowCount();row++) {
-						double total = Double.parseDouble(invoiceTableModel.getValueAt(row,3).toString());
-						totals.add(total);
-					}
-					choiceDiscountButton.setTotals(totals);
-					calcFinalSum();
-					break;
-					default:
-					break;
-				}
-
 			}
 		});
 		invoiceTable.setDefaultRenderer(Object.class,
