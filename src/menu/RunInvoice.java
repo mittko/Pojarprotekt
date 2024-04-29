@@ -1,9 +1,9 @@
 package menu;
 
-import invoicewindow.ArtikulTab;
-import invoicewindow.InvoiceFrame;
-import invoicewindow.SearchFromProformTab;
-import invoicewindow.SearchFromProtokolTab;
+import invoice.invoicewindow.ArtikulTab;
+import invoice.invoicewindow.InvoiceFrame;
+import invoice.invoicewindow.SearchFromProformTab;
+import invoice.invoicewindow.SearchFromProtokolTab;
 import run.JDialoger;
 
 import javax.swing.*;
@@ -14,14 +14,12 @@ import java.awt.event.WindowEvent;
 public class RunInvoice implements Runnable {
 
     private String invoiceNumber = null;
-    private String proformNumber = null;
 
-    private String protokolNumber;
+    private final String protokolNumber;
     private JFrame jf = null;
 
     public RunInvoice(String invoiceNumber, String proformNumber,String protokolNumber, JFrame jf) {
         this.invoiceNumber = invoiceNumber;
-        this.proformNumber = proformNumber;
         this.protokolNumber = protokolNumber;
         this.jf = jf;
     }

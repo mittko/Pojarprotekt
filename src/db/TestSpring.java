@@ -1,12 +1,11 @@
 package db;
 
-import Exceptions.DBException;
+import exceptions.DBException;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 import static net.GetCurrentIP.DB_PATH;
-import static utils.MainPanel.CREDIT_NOTE;
 
 public class TestSpring {
 
@@ -57,8 +56,8 @@ public class TestSpring {
             insert = statement.executeUpdate(command);
         } catch (SQLException e) {
             e.printStackTrace();
-            Log.DB_Err.writeErros(e.getMessage());
-            DBException.DBExceptions("Грешка",e);
+            log.DB_Err.writeErros(e.getMessage());
+            DBException.showErrorMessage("Грешка",e);
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         } finally {
@@ -107,8 +106,8 @@ public class TestSpring {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Log.DB_Err.writeErros(e.getMessage());
-            DBException.DBExceptions("Грешка",e);
+            log.DB_Err.writeErros(e.getMessage());
+            DBException.showErrorMessage("Грешка",e);
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new RuntimeException(e);
         } finally {

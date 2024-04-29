@@ -89,12 +89,12 @@
         </java>
     </target>
     <target name="AcquittancePDF">
-        <java classname="pdf.Aqcuittance.AcquittancePDF" failonerror="true" fork="yes">
+        <java classname="pdf.aqcuittance.AcquittancePDF" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="AcquittanceReportTable">
-        <java classname="Reports.AcquittanceReportTable" failonerror="true" fork="yes">
+        <java classname="reports.AcquittanceReportTable" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -104,7 +104,7 @@
         </java>
     </target>
     <target name="AddUserDialog">
-        <java classname="admin.Team.AddUserDialog" failonerror="true" fork="yes">
+        <java classname="admin.team.AddUserDialog" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -134,7 +134,7 @@
         </java>
     </target>
     <target name="Brack (1)">
-        <java classname="Parts.Brack" failonerror="true" fork="yes">
+        <java classname="parts.Brack" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -154,7 +154,7 @@
         </java>
     </target>
     <target name="CalendarDB (1)">
-        <java classname="db.Calendar.CalendarDB" failonerror="true" fork="yes">
+        <java classname="db.calendar.CalendarDB" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -164,7 +164,7 @@
         </java>
     </target>
     <target name="CO2 (1)">
-        <java classname="Parts.CO2" failonerror="true" fork="yes">
+        <java classname="parts.CO2" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -184,7 +184,7 @@
         </java>
     </target>
     <target name="createSticker">
-        <java classname="NewExtinguisher.createSticker" failonerror="true" fork="yes">
+        <java classname="newextinguisher.createSticker" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -199,22 +199,22 @@
         </java>
     </target>
     <target name="DrawTextOnImage">
-        <java classname="JPrinter.DrawTextOnImage" failonerror="true" fork="yes">
+        <java classname="javaprinters.DrawTextOnImage" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="Dust (1)">
-        <java classname="Parts.Dust" failonerror="true" fork="yes">
+        <java classname="parts.Dust" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="EditClientPanel">
-        <java classname="NewClient.editClient.EditClientPanel" failonerror="true" fork="yes">
+        <java classname="clients.editclient.EditClientPanel" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="EditFirm">
-        <java classname="NewClient.editClient.EditFirm" failonerror="true" fork="yes">
+        <java classname="clients.editclient.EditFirm" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -229,17 +229,17 @@
         </java>
     </target>
     <target name="GenerateBarcod (2)">
-        <java classname="JPrinter.GenerateBarcod" failonerror="true" fork="yes">
+        <java classname="javaprinters.GenerateBarcod" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="GenerateSO (1)">
-        <java classname="JPrinter.GenerateSO" failonerror="true" fork="yes">
+        <java classname="javaprinters.GenerateSO" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="GetDataForClientWorker">
-        <java classname="NewClient.Workers.GetDataForClientWorker" failonerror="true" fork="yes">
+        <java classname="clients.workers.GetDataForClientWorker" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -254,7 +254,7 @@
         </java>
     </target>
     <target name="InvoiceGenerator">
-        <java classname="JPrinter.InvoiceGenerator" failonerror="true" fork="yes">
+        <java classname="javaprinters.InvoiceGenerator" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -299,7 +299,7 @@
         </java>
     </target>
     <target name="MainFrame_SkladNewExtinguisher">
-        <java classname="admin.SkladExtinguisher.MainFrame_SkladNewExtinguisher" failonerror="true" fork="yes">
+        <java classname="admin.sklad.MainFrame_SkladNewExtinguisher" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -314,7 +314,7 @@
         </java>
     </target>
     <target name="MainReport (1)">
-        <java classname="Reports.MainReport" failonerror="true" fork="yes">
+        <java classname="reports.MainReport" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -329,7 +329,7 @@
         </java>
     </target>
     <target name="Months (1)">
-        <java classname="Calendar.Months" failonerror="true" fork="yes">
+        <java classname="calendar.Months" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -363,18 +363,18 @@
             <classpath refid="Program.classpath"/>
         </java>
     </target>
-    <target name="NewClient (1)">
-        <java classname="NewClient.NewClient" failonerror="true" fork="yes">
+    <target name="clients (1)">
+        <java classname="clients.NewClient" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="newExtinguisher (1)">
-        <java classname="NewExtinguisher.newExtinguisher" failonerror="true" fork="yes">
+        <java classname="newextinguisher.newExtinguisher" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="NewExtinguisher2">
-        <java classname="NewExtinguisher.NewExtinguisher2" failonerror="true" fork="yes">
+        <java classname="newextinguisher.NewExtinguisher2" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -389,7 +389,7 @@
         </java>
     </target>
     <target name="NewExtinguishers_DB (1)">
-        <java classname="db.NewExtinguisher.NewExtinguishers_DB" failonerror="true" fork="yes">
+        <java classname="db.newextinguisher.NewExtinguishers_DB" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -399,7 +399,7 @@
         </java>
     </target>
     <target name="NewExtRenderer2">
-        <java classname="admin.SkladExtinguisher.Renderers.NewExtRenderer2" failonerror="true" fork="yes">
+        <java classname="admin.sklad.renderers.NewExtRenderer2" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -414,7 +414,7 @@
         </java>
     </target>
     <target name="NumGenerator">
-        <java classname="JPrinter.NumGenerator" failonerror="true" fork="yes">
+        <java classname="javaprinters.NumGenerator" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -424,22 +424,22 @@
         </java>
     </target>
     <target name="PDF_SO (1)">
-        <java classname="pdf.SO.PDF_SO" failonerror="true" fork="yes">
+        <java classname="pdf.serviceorder.PDF_SO" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="PrintableClass">
-        <java classname="JPrinter.PrintSticker.PrintableClass" failonerror="true" fork="yes">
+        <java classname="javaprinters.printsticker.PrintableClass" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="PrintBarcod (1)">
-        <java classname="JPrinter.Print.PrintBarcod" failonerror="true" fork="yes">
+        <java classname="javaprinters.print.PrintBarcod" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="PrintPdf">
-        <java classname="JPrinter.Print.PrintPdf" failonerror="true" fork="yes">
+        <java classname="javaprinters.print.PrintPdf" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -479,7 +479,7 @@
         </java>
     </target>
     <target name="ReportTable (1)">
-        <java classname="Reports.ReportTable" failonerror="true" fork="yes">
+        <java classname="reports.ReportTable" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -489,17 +489,17 @@
         </java>
     </target>
     <target name="SendBarcod">
-        <java classname="JPrinter.PrintSticker.SendBarcod" failonerror="true" fork="yes">
+        <java classname="javaprinters.printsticker.SendBarcod" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="SendString">
-        <java classname="JPrinter.Print.SendString" failonerror="true" fork="yes">
+        <java classname="javaprinters.print.SendString" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="SendTextToPrinter">
-        <java classname="JPrinter.Print.SendTextToPrinter" failonerror="true" fork="yes">
+        <java classname="javaprinters.print.SendTextToPrinter" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -519,17 +519,17 @@
         </java>
     </target>
     <target name="StickerJDialog (1)">
-        <java classname="WorkingBook.StickerJDialog" failonerror="true" fork="yes">
+        <java classname="workingbook.StickerJDialog" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="Team">
-        <java classname="admin.Team.Team" failonerror="true" fork="yes">
+        <java classname="admin.team.Team" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="Technical_Review (1)">
-        <java classname="Calendar.Technical_Review" failonerror="true" fork="yes">
+        <java classname="calendar.Technical_Review" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -539,7 +539,7 @@
         </java>
     </target>
     <target name="TextSender">
-        <java classname="JPrinter.Print.TextSender" failonerror="true" fork="yes">
+        <java classname="javaprinters.print.TextSender" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -549,12 +549,12 @@
         </java>
     </target>
     <target name="UpdatePriceOfParts">
-        <java classname="admin.Parts.UpdatePriceOfParts" failonerror="true" fork="yes">
+        <java classname="admin.parts.UpdatePriceOfParts" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
     <target name="Worker (1)">
-        <java classname="WorkingBook.WorkingBook" failonerror="true" fork="yes">
+        <java classname="workingbook.WorkingBook" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -564,10 +564,10 @@
 		    <fileset dir="src/Images" excludes="**/*.jar"/>
 		</copy>
 		<copy todir="build/classes/Fonts">
-		   <fileset dir="src/Fonts" excludes="**/*jar" />
+		   <fileset dir="src/fonts" excludes="**/*jar" />
 		</copy>
 		<copy todir="build/classes/Local" >
-		   <fileset dir="src/Local" excludes="**/*.jar"/>
+		   <fileset dir="src/files" excludes="**/*.jar"/>
 		</copy>
 		<copy todir="build/jar/lib" includeemptydirs="false" >
 		    <fileset dir="src/lib" includes="**/*.jar" />

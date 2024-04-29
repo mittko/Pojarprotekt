@@ -4,11 +4,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import Exceptions.InOutException;
-import Exceptions.PDFException;
-import Log.IOErrorsWriter;
+import exceptions.InOutException;
+import exceptions.PDFException;
+import log.IOErrorsWriter;
 
-import Log.PdfErr;
+import log.PdfErr;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -65,11 +65,11 @@ public class PdfCreator {
 	public static BaseFont getCyrilycBaseFont(String font) {
 		BaseFont baseFont = null;
 		try {
-			baseFont = BaseFont.createFont("Fonts/" + font + ".ttf", "cp1251",
+			baseFont = BaseFont.createFont("fonts/" + font + ".ttf", "cp1251",
 					BaseFont.EMBEDDED);
 		} catch (DocumentException | IOException e) {
 			// TODO Auto-generated catch block
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			IOErrorsWriter.writeIO(e.toString());
 			e.printStackTrace();
 		}
@@ -102,13 +102,13 @@ public class PdfCreator {
 			content = writer.getDirectContent();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			IOErrorsWriter.writeIO(e.toString());
 			e.printStackTrace();
 			return false;
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 			return false;

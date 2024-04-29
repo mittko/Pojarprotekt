@@ -1,9 +1,9 @@
 package db.Protokol;
 
-import Exceptions.DBException;
-import NewExtinguisher.NewExtinguisherWindow;
-import WorkingBook.View;
-import WorkingBook.WorkingBook;
+import exceptions.DBException;
+import newextinguisher.NewExtinguisherWindow;
+import workingbook.View;
+import workingbook.WorkingBook;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -74,8 +74,8 @@ public class ProtokolTable extends MainPanel {
 					connection.close();
 				}
 			} catch (SQLException e) { // TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				System.err.println(e.getMessage());
 			}
 		}
@@ -136,8 +136,8 @@ public class ProtokolTable extends MainPanel {
 		  insert = stat.executeUpdate(command);
 		  return insert;
 	  } catch (SQLException e) { // TODO Auto-generated catch block
-	  Log.DB_Err.writeErros(e.toString());
-	  DBException.DBExceptions("Грешка", e);
+	  log.DB_Err.writeErros(e.toString());
+	  DBException.showErrorMessage("Грешка", e);
 	  e.printStackTrace();
 	  return insert;
 	  } finally {
@@ -149,8 +149,8 @@ public class ProtokolTable extends MainPanel {
 				connect.close();
 			}
 		} catch (SQLException e) { // TODO Auto-generated catch block
-	      Log.DB_Err.writeErros(e.toString());
-	      DBException.DBExceptions("Грешка", e);
+	      log.DB_Err.writeErros(e.toString());
+	      DBException.showErrorMessage("Грешка", e);
 	      e.printStackTrace();
 		  }
 	  }
@@ -201,8 +201,8 @@ public class ProtokolTable extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 		} finally {
 			try {
 				if (ps != null) {
@@ -271,8 +271,8 @@ public class ProtokolTable extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 
 		} finally {
 			try {
@@ -285,8 +285,8 @@ public class ProtokolTable extends MainPanel {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 
 			}
 		}
@@ -369,8 +369,8 @@ public class ProtokolTable extends MainPanel {
 			return result;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -386,8 +386,8 @@ public class ProtokolTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 
 			}
@@ -415,8 +415,8 @@ public class ProtokolTable extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 		} finally {
 			try {
 				if (ps != null) {
@@ -428,8 +428,8 @@ public class ProtokolTable extends MainPanel {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 			}
 		}
 
@@ -456,8 +456,8 @@ public class ProtokolTable extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 		} finally {
 			try {
 				if (ps != null) {
@@ -469,8 +469,8 @@ public class ProtokolTable extends MainPanel {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 			}
 		}
 
@@ -512,8 +512,8 @@ public class ProtokolTable extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 		} finally {
 			try {
 				if (ps != null) {
@@ -525,8 +525,8 @@ public class ProtokolTable extends MainPanel {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 			}
 		}
 
@@ -610,8 +610,8 @@ public class ProtokolTable extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -624,8 +624,8 @@ public class ProtokolTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 			}
 		}
@@ -644,8 +644,8 @@ public class ProtokolTable extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -658,8 +658,8 @@ public class ProtokolTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 				return update;
 			}
@@ -679,8 +679,8 @@ public class ProtokolTable extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -693,8 +693,8 @@ public class ProtokolTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -715,8 +715,8 @@ public class ProtokolTable extends MainPanel {
 			modify = stat.executeUpdate(modifyString);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 
@@ -749,8 +749,8 @@ public class ProtokolTable extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -763,8 +763,8 @@ public class ProtokolTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 			}
 		}
@@ -971,8 +971,8 @@ public class ProtokolTable extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -987,8 +987,8 @@ public class ProtokolTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 
 			}
@@ -1018,8 +1018,8 @@ public class ProtokolTable extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -1034,8 +1034,8 @@ public class ProtokolTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 
 			}
@@ -1133,8 +1133,8 @@ public class ProtokolTable extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 		} finally {
 			try {
 				if (ps != null) {
@@ -1146,8 +1146,8 @@ public class ProtokolTable extends MainPanel {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 			}
 		}
 

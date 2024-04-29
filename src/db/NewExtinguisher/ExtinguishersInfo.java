@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import Exceptions.ErrorDialog;
+import exceptions.ErrorDialog;
 
 public class ExtinguishersInfo implements Comparable<ExtinguishersInfo> {
 

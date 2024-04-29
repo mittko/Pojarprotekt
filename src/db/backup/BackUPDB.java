@@ -1,6 +1,6 @@
 package db.backup;
 
-import Exceptions.DBException;
+import exceptions.DBException;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -24,8 +24,8 @@ public class BackUPDB extends MainPanel {
 		return true;
 	} catch (SQLException e) {
 		// TODO Auto-generated catch block
-		DBException.DBExceptions("Грешка", e);
-		Log.DB_Err.writeErros(e.toString());
+		DBException.showErrorMessage("Грешка", e);
+		log.DB_Err.writeErros(e.toString());
 		e.printStackTrace();
 	} finally {
 	

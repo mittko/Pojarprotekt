@@ -1,6 +1,6 @@
 package db.sales;
 
-import Exceptions.DBException;
+import exceptions.DBException;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -129,8 +129,8 @@ public class SalesTable {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -146,8 +146,8 @@ public class SalesTable {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
 			}
@@ -192,8 +192,8 @@ public class SalesTable {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -209,8 +209,8 @@ public class SalesTable {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
 			}
@@ -239,8 +239,8 @@ public class SalesTable {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 
 		} finally {
@@ -256,8 +256,8 @@ public class SalesTable {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}

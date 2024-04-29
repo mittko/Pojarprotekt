@@ -1,13 +1,12 @@
 package db.Client;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class FirmTable extends MainPanel {
 
@@ -60,8 +59,8 @@ public class FirmTable extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -74,8 +73,8 @@ public class FirmTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -124,7 +123,7 @@ public class FirmTable extends MainPanel {
 			return insertion;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insertion;
@@ -193,7 +192,7 @@ public class FirmTable extends MainPanel {
 			return insertion;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insertion;
@@ -231,8 +230,8 @@ public class FirmTable extends MainPanel {
 			update = stat.getUpdateCount();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -244,8 +243,8 @@ public class FirmTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 			}
 
@@ -272,8 +271,8 @@ public class FirmTable extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -285,8 +284,8 @@ public class FirmTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 			}
 
@@ -312,8 +311,8 @@ public class FirmTable extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -325,8 +324,8 @@ public class FirmTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 			}
 

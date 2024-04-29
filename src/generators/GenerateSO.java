@@ -8,8 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import Exceptions.InOutException;
-import Log.IOErrorsWriter;
+import exceptions.InOutException;
+import log.IOErrorsWriter;
 
 
 public class GenerateSO extends BaseGenerator {
@@ -73,12 +73,12 @@ public class GenerateSO extends BaseGenerator {
 	} catch (FileNotFoundException e) {
 		// TODO Auto-generated catch block
 		IOErrorsWriter.writeIO(e.toString());
-		InOutException.showIOException(e);
+		InOutException.showErrorMessage(e);
 		e.printStackTrace();
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		IOErrorsWriter.writeIO(e.toString());
-		InOutException.showIOException(e);
+		InOutException.showErrorMessage(e);
 		e.printStackTrace();
 	} finally {
 		try {
@@ -91,7 +91,7 @@ public class GenerateSO extends BaseGenerator {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			IOErrorsWriter.writeIO(e.toString());
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			e.printStackTrace();
 		}
 	}
@@ -110,7 +110,7 @@ public class GenerateSO extends BaseGenerator {
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		IOErrorsWriter.writeIO(e.toString());
-		InOutException.showIOException(e);
+		InOutException.showErrorMessage(e);
 		e.printStackTrace();
 		return 0;
 	} finally {
@@ -124,7 +124,7 @@ public class GenerateSO extends BaseGenerator {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			IOErrorsWriter.writeIO(e.toString());
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			e.printStackTrace();
 			return 0;
 		}

@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import net.GetCurrentIP;
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import utils.MainPanel;
 
 public class InvoiceNumber extends MainPanel {
@@ -26,7 +26,7 @@ public class InvoiceNumber extends MainPanel {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -56,7 +56,7 @@ public class InvoiceNumber extends MainPanel {
 			return insert;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insert;
@@ -94,7 +94,7 @@ public class InvoiceNumber extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -130,7 +130,7 @@ public class InvoiceNumber extends MainPanel {
 			return insert;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insert;
@@ -179,7 +179,7 @@ public class InvoiceNumber extends MainPanel {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -209,7 +209,7 @@ public class InvoiceNumber extends MainPanel {
 			return insert;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insert;
@@ -247,7 +247,7 @@ public class InvoiceNumber extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -283,7 +283,7 @@ public class InvoiceNumber extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;

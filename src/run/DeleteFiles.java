@@ -29,7 +29,7 @@ public class DeleteFiles  {
 		r.execute();
 	}
 	
-	class remover extends SwingWorker {
+	static class remover extends SwingWorker {
 
 		private String[] files;
 		final int TEMP_DAYS = 1;
@@ -54,19 +54,19 @@ public class DeleteFiles  {
 			Date currDay = MyGetDate.getDateFromString(MyGetDate.getReversedSystemDate());
 			Date stampDay;
 
-			for(int i = 0;i < FILES_PATH.length;i++) {
-				File tempFile = new File(FILES_PATH[i]);
-			    File[] names = tempFile.listFiles();
-				for(int j = 0;j < names.length;j++) {
-					if(names[j].getName().endsWith(".pdf")) {
-				     stampDay =  MyGetDate.getDateFromString(sdf.format( names[j].lastModified())) ;
-					String differents = MyGetDate.getDifference(stampDay,currDay);
-						if(Integer.parseInt(differents) >= TEMP_DAYS) {
-						//	System.out.println(names[j].getName());
-					             	names[j].delete();
-						      }
+			for (String s : FILES_PATH) {
+				File tempFile = new File(s);
+				File[] names = tempFile.listFiles();
+				for (File name : names) {
+					if (name.getName().endsWith(".pdf")) {
+						stampDay = MyGetDate.getDateFromString(sdf.format(name.lastModified()));
+						String differents = MyGetDate.getDifference(stampDay, currDay);
+						if (Integer.parseInt(differents) >= TEMP_DAYS) {
+							//	System.out.println(names[j].getName());
+							name.delete();
 						}
 					}
+				}
 			}
 		}
 	}

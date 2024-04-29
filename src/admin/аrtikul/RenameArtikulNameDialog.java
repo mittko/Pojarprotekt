@@ -1,7 +1,5 @@
 package admin.àrtikul;
 
-import Exceptions.DBException;
-import admin.àrtikul.Workers.RenameArtikulNameWorker;
 import run.JustFrame;
 import utils.MainPanel;
 

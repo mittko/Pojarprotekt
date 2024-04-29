@@ -17,7 +17,7 @@ public class Declaration extends PdfCreator {
     private final ClassLoader classLoader = getClass().getClassLoader();
     private final String target = MainPanel.DECLARATIONS_PDF_PATH;
 
-    private float X = 20;
+    private final float X = 20;
     private float Y = PageSize.A4.getHeight() - 25;// = 692.0
 
     public Declaration() {}
@@ -48,8 +48,8 @@ public class Declaration extends PdfCreator {
 
             p = (ArrayList) HTMLWorker.parseToList(strReader, null);
 
-            for (int k = 0; k < lines.size(); ++k){
-                Paragraph paragraph=new Paragraph(lines.get(k),arial8);
+            for (String s : lines) {
+                Paragraph paragraph = new Paragraph(s, arial8);
                 document.add(paragraph);
             }
 

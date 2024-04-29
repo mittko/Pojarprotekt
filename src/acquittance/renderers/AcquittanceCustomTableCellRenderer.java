@@ -11,12 +11,10 @@ public class AcquittanceCustomTableCellRenderer extends DefaultTableCellRenderer
 
 	private Color background = null;
 	private Font priceFont = null;
-	private JTable refferenceTable = null;
 
 	public AcquittanceCustomTableCellRenderer(JTable refferenceTable) {
 		background = Color.decode("0xD8E6FF");
 		priceFont =  new Font(Font.DIALOG, Font.PLAIN,MainPanel.getFontSize());
-		this.refferenceTable = refferenceTable;
 		setColumnsWidth(refferenceTable);
 	}
 	
@@ -71,10 +69,7 @@ public class AcquittanceCustomTableCellRenderer extends DefaultTableCellRenderer
 				.setPreferredWidth(75);
 		table.getColumnModel().getColumn(4)
 				.setPreferredWidth(75);
-/*		table.getColumnModel().getColumn(5)
-		.setPreferredWidth(100);*/
 		table.getTableHeader().setReorderingAllowed(false);
-//		table.getTableHeader().setResizingAllowed(false);
 	}
 	
 	public static void main(String[] args) {

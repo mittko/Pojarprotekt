@@ -1,7 +1,7 @@
 package db.PartsPrice;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -36,7 +36,7 @@ public class PriceTable extends MainPanel {
 		//	Logger2.writeWork("pricetable created succesfully!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -67,7 +67,7 @@ public class PriceTable extends MainPanel {
 			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -101,7 +101,7 @@ public class PriceTable extends MainPanel {
 		//	Logger2.writeWork("price updated succesfully!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return upd;
@@ -170,7 +170,7 @@ public class PriceTable extends MainPanel {
 		//	System.out.println("price in db = " + price);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return price;

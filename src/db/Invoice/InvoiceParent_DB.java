@@ -1,7 +1,7 @@
 package db.Invoice;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -26,8 +26,8 @@ public class InvoiceParent_DB extends MainPanel {
 			stat.execute(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
@@ -39,8 +39,8 @@ public class InvoiceParent_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -63,8 +63,8 @@ public class InvoiceParent_DB extends MainPanel {
 			return insert;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insert;
 		} finally {
@@ -77,8 +77,8 @@ public class InvoiceParent_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -153,8 +153,8 @@ public class InvoiceParent_DB extends MainPanel {
 			return info;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -167,8 +167,8 @@ public class InvoiceParent_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
 			}
@@ -188,8 +188,8 @@ public class InvoiceParent_DB extends MainPanel {
 			return del;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return del;
 		} finally {
@@ -202,8 +202,8 @@ public class InvoiceParent_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return del;
 			}
@@ -223,8 +223,8 @@ public class InvoiceParent_DB extends MainPanel {
 			return del;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return del;
 		} finally {
@@ -237,8 +237,8 @@ public class InvoiceParent_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return del;
 			}
@@ -300,7 +300,7 @@ public class InvoiceParent_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {

@@ -2,15 +2,14 @@ package acquittance.windows;
 
 import acquittance.renderers.AcquittanceCustomTableCellRenderer;
 import acquittance.sklad.workers.SkladArtikulGreyPanel;
-import invoice.Sklad.Worker.LoadAllArtikulsFromInvoiceWorker;
-import invoice.worker.GetDiscountWorker;
+import invoice.sklad.workers.LoadAllArtikulsFromInvoiceWorker;
+import invoice.workers.GetDiscountWorker;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
 
 import javax.swing.*;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;

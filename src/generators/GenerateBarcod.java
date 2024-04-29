@@ -1,10 +1,10 @@
 package generators;
 
-import Exceptions.InOutException;
-import Exceptions.PDFException;
-import JPrinter.Print.PrintBarcod;
-import Log.IOErrorsWriter;
-import Log.PdfErr;
+import exceptions.InOutException;
+import exceptions.PDFException;
+import javaprinters.print.PrintBarcod;
+import log.IOErrorsWriter;
+import log.PdfErr;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
@@ -55,12 +55,12 @@ public class GenerateBarcod {
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			IOErrorsWriter.writeIO(e.toString());
 			e.printStackTrace();
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
@@ -100,7 +100,7 @@ public class GenerateBarcod {
 
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
@@ -134,12 +134,12 @@ public class GenerateBarcod {
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			IOErrorsWriter.writeIO(e.toString());
 			e.printStackTrace();
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
@@ -173,7 +173,7 @@ public class GenerateBarcod {
 					Element.ALIGN_CENTER, new Phrase(MyGetDate.getDate_Days_Hours()), 90, -60, 90);
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
@@ -231,12 +231,12 @@ public class GenerateBarcod {
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			IOErrorsWriter.writeIO(e.toString());
 			e.printStackTrace();
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
@@ -256,7 +256,7 @@ public class GenerateBarcod {
 			//codeQrImage.scaleAbsolute(100, 50);
 			document.add(codeQrImage);
 		} catch (DocumentException e) {
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
@@ -298,12 +298,12 @@ public class GenerateBarcod {
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			IOErrorsWriter.writeIO(e.toString());
 			e.printStackTrace();
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
@@ -377,7 +377,7 @@ public class GenerateBarcod {
 
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}

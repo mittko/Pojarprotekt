@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 
-import NewClient.editClient.IncorrectPerson;
+import clients.editclient.IncorrectPerson;
 import db.Client.ClientTable;
 
 public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {

@@ -1,6 +1,6 @@
 package db.modify;
 
-import Exceptions.DBException;
+import exceptions.DBException;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -34,8 +34,8 @@ public class ChangeColumnDataType {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 
 			}
@@ -65,8 +65,8 @@ public class ChangeColumnDataType {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 
 			}

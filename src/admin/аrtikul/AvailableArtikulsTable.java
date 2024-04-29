@@ -1,12 +1,11 @@
 package admin.аrtikul;
 
-import Exceptions.DBException;
-import Exceptions.ErrorDialog;
-import admin.аrtikul.Renderers.ArtikulRenderer;
-import admin.аrtikul.Workers.*;
+import exceptions.DBException;
+import exceptions.ErrorDialog;
+import admin.аrtikul.renderers.ArtikulRenderer;
+import admin.аrtikul.workers.*;
 import db.аrtikul.Artikuli_DB;
-import invoice.Sklad.ILoadArtikuls;
-import mydate.MyGetDate;
+import invoice.sklad.ILoadArtikuls;
 import run.JDialoger;
 import utils.EditableField;
 import utils.LoadIcon;
@@ -249,42 +248,6 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 		});
 
-//		TooltipButton addArtikulGreyButton = new TooltipButton("Добави нов артикул");
-//		addArtikulGreyButton.setVisible(MainPanel.ACCESS_MENU[ACCESS_ACQUITTANCE]);// !!!
-//		addArtikulGreyButton.setForeground(Color.RED);
-//		addArtikulGreyButton.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent arg0) {
-//				// TODO Auto-generated method stub
-//
-//				// int[] selectedToDelete = table.getSelectedRows();
-//				String artikulItem = "";
-//				String skladItem = "";
-//				String fakturaItem = "";
-//				String kontragentItem = "";
-//				String percentProfitItem = "";
-//					if (CURRENT_ROW >= 0) {
-//					artikulItem = table.getValueAt(CURRENT_ROW, 0).toString();
-//					percentProfitItem = table.getValueAt(CURRENT_ROW, 8)
-//							.toString();
-//				}
-//				fakturaItem = "0000001";
-//				kontragentItem = "ПОЖАРПРОТЕКТ ООД";
-//
-//				AddArtikulPanelGrey newArtikul = new AddArtikulPanelGrey(artikulItem,
-//						skladItem, fakturaItem,
-//						kontragentItem,
-//						percentProfitItem);
-//				JDialoger jd = new JDialoger();
-//				jd.setContentPane(newArtikul);
-//				jd.setResizable(false);
-//				jd.setTitle("Други");
-//				jd.Show();
-//
-//			}
-//
-//		});
 		GridBagConstraints gbc00 = new GridBagConstraints();
 		gbc00.fill = GridBagConstraints.HORIZONTAL;
 		gbc00.gridx = 0;
@@ -563,7 +526,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 				ErrorDialog.showErrorMessage("Неуспешна операция !");
 			}
 		} catch (Exception exception) {
-			DBException.DBExceptions("Error",exception);
+			DBException.showErrorMessage("Error",exception);
 		}
 	}
 

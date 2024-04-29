@@ -11,7 +11,7 @@ import javax.swing.JList;
 import javax.swing.SwingUtilities;
 
 import run.JustFrame;
-import Local.TextReader;
+import files.TextReader;
 
 public class BrandListComboBox extends JComboBox<Object> {
 
@@ -24,7 +24,7 @@ public class BrandListComboBox extends JComboBox<Object> {
 		
 		 this.setRenderer(new ComboRenderer());
 
-		firms = TextReader.getData("Local/brand.txt");
+		firms = TextReader.getData("files/brand.txt");
 		v = new Vector<String>();
 
 		//this.setEditable(true);

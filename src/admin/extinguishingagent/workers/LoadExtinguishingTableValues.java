@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class LoadExtinguishingTableValues extends SwingWorker {
 
-    private JDialog jDialog;
+    private final JDialog jDialog;
     public LoadExtinguishingTableValues(JDialog jDialog) {
         this.jDialog = jDialog;
     }

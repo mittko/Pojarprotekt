@@ -1,6 +1,6 @@
 package db.Part_Quantity_DB;
 
-import Exceptions.DBException;
+import exceptions.DBException;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -49,8 +49,8 @@ public class Part_Quantity extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 		} finally {
 			try {
 				if(stat != null) {
@@ -89,8 +89,8 @@ public class Part_Quantity extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 		} finally {
 			try {
 			if(rs != null) {
@@ -123,8 +123,8 @@ public class Part_Quantity extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 		} finally {
 			try {
 				if(stat != null) {
@@ -163,8 +163,8 @@ public class Part_Quantity extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			
 		} finally {
 		
@@ -195,8 +195,8 @@ public class Part_Quantity extends MainPanel {
 			update = stat.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 			try {

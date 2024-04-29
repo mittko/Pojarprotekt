@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import net.GetCurrentIP;
-import Exceptions.DBException;
+import exceptions.DBException;
 import utils.MainPanel;
 
 public class Member extends MainPanel {
@@ -29,8 +29,8 @@ public class Member extends MainPanel {
 			stat.execute(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 
@@ -70,8 +70,8 @@ public class Member extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -111,8 +111,8 @@ public class Member extends MainPanel {
 			result = stat.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -142,8 +142,8 @@ public class Member extends MainPanel {
 			result = stat.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -187,8 +187,8 @@ public class Member extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -223,8 +223,8 @@ public class Member extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -237,8 +237,8 @@ public class Member extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return update;
 			}

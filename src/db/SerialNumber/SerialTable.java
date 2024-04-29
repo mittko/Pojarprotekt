@@ -1,7 +1,7 @@
 package db.SerialNumber;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import generators.BarcodGenerator;
 import generators.SerialGenerator;
 import net.GetCurrentIP;
@@ -34,7 +34,7 @@ public class SerialTable extends MainPanel {
 			return updatedSerial;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -70,7 +70,7 @@ public class SerialTable extends MainPanel {
 			stat.execute(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		}  finally {
 			try {

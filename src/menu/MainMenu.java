@@ -1,12 +1,12 @@
 package menu;
 
-import NewClient.NewClient;
-import NewClient.editClient.EditClientPanel;
-import NewExtinguisher.NewExtinguisherWindow;
-import Reports.ReportDialog;
-import WorkingBook.Brack;
-import WorkingBook.StartWorkerTabbedPane;
-import WorkingBook.View;
+import clients.NewClient;
+import clients.editclient.EditClientPanel;
+import newextinguisher.NewExtinguisherWindow;
+import reports.ReportDialog;
+import workingbook.Brack;
+import workingbook.StartWorkerTabbedPane;
+import workingbook.View;
 import acquittance.windows.AcquittanceFrame;
 import admin.AdminDialog;
 import db.Brack.BrackNumber;
@@ -14,9 +14,6 @@ import db.Invoice.InvoiceNumber;
 import db.Protokol.ProtokolNumber;
 import declarations.DeclarationsDialog;
 import generators.GenerateSO;
-import invoicewindow.InvoiceFrame;
-import invoicewindow.SearchFromProformTab;
-import invoicewindow.SearchFromProtokolTab;
 import office.ServiceOrder;
 import run.JDialoger;
 import utils.MainPanel;
@@ -27,11 +24,6 @@ import java.awt.event.*;
 
 public class MainMenu extends MainPanel {
 
-	// Color.decode("0xA3BBC1");
-
-	// private Dimension buttonSize = new Dimension(this.WIDTH / 3,
-	// this.HEIGHT / 7);
-
 	public MainMenu() {
 
 		GridBagLayout gbl = new GridBagLayout();
@@ -40,9 +32,7 @@ public class MainMenu extends MainPanel {
 
 		menu.setOpaque(false);
 
-		// private GridLayout grid = null;
 		JButton antifireFacilities = new JButton("œ–Œ“»¬ŒœŒ∆¿–Õ» —⁄Œ–⁄∆≈Õ»ﬂ");
-		// serviceButton.setPreferredSize(buttonSize);
 		// serviceButton.setEnabled(ACCESS_MENU[0]);
 		antifireFacilities.addActionListener(new ActionListener() {
 
@@ -54,12 +44,12 @@ public class MainMenu extends MainPanel {
 				jDialog.setTitle("œ–Œ“»¬ŒœŒ∆¿–Õ» —⁄Œ–⁄∆≈Õ»ﬂ");
 				jDialog.setContentPane(sp);
 				jDialog.setResizable(false);
+				jDialog.pack();
 				jDialog.Show();
 			}
 		});
 
 		JButton officeButton = new JButton("—≈–¬»«Õ¿ œŒ–⁄◊ ¿");
-		// serviceButton.setPreferredSize(buttonSize);
 		// serviceButton.setEnabled(ACCESS_MENU[0]);
 		officeButton.addActionListener(new ActionListener() {
 
@@ -85,7 +75,6 @@ public class MainMenu extends MainPanel {
 			}
 		});
 		JButton newExtinguisher_Button = new JButton("ÕŒ¬» œŒ∆¿–Œ√¿—»“≈À»");
-		// newExtinguisher_Button.setPreferredSize(buttonSize);
 		// newExtinguisher_Button.setEnabled(ACCESS_MENU[4]);
 		newExtinguisher_Button.addActionListener(new ActionListener() {
 
@@ -116,7 +105,6 @@ public class MainMenu extends MainPanel {
 
 		});
 		JButton workingBook_Button = new JButton("–¿¡Œ“Õ¿  Õ»√¿");
-		// workingBook_Button.setPreferredSize(buttonSize);
 		// workingBook_Button.setEnabled(ACCESS_MENU[1]);
 		workingBook_Button.addActionListener(new ActionListener() {
 
@@ -199,7 +187,6 @@ public class MainMenu extends MainPanel {
 		});
 
 		JButton invoiceButton = new JButton("‘¿ “”–»");
-		// invoiceButton.setPreferredSize(buttonSize);
 		// invoiceButton.setEnabled(ACCESS_MENU[2]);
 		invoiceButton.addActionListener(new ActionListener() {
 
@@ -234,7 +221,6 @@ public class MainMenu extends MainPanel {
 
 
 		JButton reportsButton = new JButton("—œ–¿¬ »");
-		// reportsButton.setPreferredSize(buttonSize);
 		// reportsButton.setEnabled(ACCESS_MENU[3]);
 		reportsButton.addActionListener(new ActionListener() {
 
@@ -251,7 +237,6 @@ public class MainMenu extends MainPanel {
 
 		});
 		JButton editClientButton = new JButton("–≈ƒ¿ “»–¿Õ≈ Õ¿ \n  À»≈Õ“»");
-		// editClientButton.setPreferredSize(buttonSize);
 		editClientButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -267,7 +252,6 @@ public class MainMenu extends MainPanel {
 
 		});
 		JButton newClientButton = new JButton("ÕŒ¬  À»≈Õ“");
-		// newClientButton.setPreferredSize(buttonSize);
 		newClientButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -345,8 +329,6 @@ public class MainMenu extends MainPanel {
 			}
 		}
 
-
-
 		JPanel noMinimizable = new JPanel();
 		noMinimizable.setOpaque(false);
 
@@ -371,11 +353,9 @@ public class MainMenu extends MainPanel {
 				"actionMapKey");
 		this.getActionMap().put("actionMapKey", someAction);
 
-		// menu.setAlignmentY(Component.CENTER_ALIGNMENT);
 		this.add(menu);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		// Color.LIGHT_GRAY.brighter().darker();//
 		Color currColor = Color.decode("0xFF1141");
 		this.setBackground(currColor);
 

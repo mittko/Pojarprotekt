@@ -1,6 +1,6 @@
 package db.àrtikul;
 
-import Exceptions.ErrorDialog;
+import exceptions.ErrorDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

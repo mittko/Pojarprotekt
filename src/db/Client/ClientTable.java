@@ -1,8 +1,8 @@
 package db.Client;
 
-import Exceptions.DBException;
-import Log.DB_Err;
-import NewClient.editClient.IncorrectPerson;
+import exceptions.DBException;
+import log.DB_Err;
+import clients.editclient.IncorrectPerson;
 import db.Conecting;
 import db.modify.AddColumn;
 import net.GetCurrentIP;
@@ -76,8 +76,8 @@ public class ClientTable extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -90,8 +90,8 @@ public class ClientTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return update;
 			}
@@ -118,9 +118,9 @@ public class ClientTable extends MainPanel {
 			return insert;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка ", e);
+			DBException.showErrorMessage("Грешка ", e);
 			DB_Err.writeErros(e.toString());
-			Log.DB_Err.writeErros(e.toString());
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insert;
 
@@ -164,9 +164,9 @@ public class ClientTable extends MainPanel {
 			return insert;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка ", e);
+			DBException.showErrorMessage("Грешка ", e);
 			DB_Err.writeErros(e.toString());
-			Log.DB_Err.writeErros(e.toString());
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insert;
 			// e.printStackTrace();
@@ -206,9 +206,9 @@ public class ClientTable extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка ", e);
+			DBException.showErrorMessage("Грешка ", e);
 			DB_Err.writeErros(e.toString());
-			Log.DB_Err.writeErros(e.toString());
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
@@ -307,7 +307,7 @@ public class ClientTable extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -368,7 +368,7 @@ public class ClientTable extends MainPanel {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -426,7 +426,7 @@ public class ClientTable extends MainPanel {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -486,7 +486,7 @@ public class ClientTable extends MainPanel {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;

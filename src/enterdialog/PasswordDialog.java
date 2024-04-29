@@ -1,9 +1,9 @@
 package enterdialog;
 
-import Calendar.GeneralTechnicalReview;
-import Exceptions.InOutException;
-import Log.IOErrorsWriter;
-import WorkingBook.WorkingBook;
+import calendar.GeneralTechnicalReview;
+import exceptions.InOutException;
+import log.IOErrorsWriter;
+import workingbook.WorkingBook;
 import db.Client.ClientTable;
 import db.TeamDB.Member;
 import db.WorkPrice.WorkPriceDB;
@@ -24,11 +24,7 @@ import java.util.ArrayList;
 
 public class PasswordDialog extends MainPanel {
 
-	private JLabel user = null;
-
 	private JTextField field = null;
-	private TooltipButton button = null;
-	private JLabel password = null;
 	private JPasswordField enterPassword = null;
 	private String[] user_password = null;
 	JustFrame enterFrame = null;
@@ -40,7 +36,7 @@ public class PasswordDialog extends MainPanel {
 		basePanel.setOpaque(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 
-		user = new JLabel("œŒ“–≈¡»“≈À");
+		JLabel user = new JLabel("œŒ“–≈¡»“≈À");
 		user.setForeground(Color.WHITE);
 
 		user.setFont(new Font(Font.DIALOG, Font.BOLD, getFontSize()));
@@ -48,16 +44,15 @@ public class PasswordDialog extends MainPanel {
 		field = new JTextField(20);
 		field.setBorder(BorderFactory.createLoweredBevelBorder());
 
-		button = new TooltipButton("");// (setIcons(enterImage));
-		// button.setPreferredSize(new
-		// Dimension(40,field.getPreferredSize().height));
+		TooltipButton button = new TooltipButton("");// (setIcons(enterImage));
+
 		button.setPreferredSize(new Dimension((int) (field.getPreferredSize()
 				.getWidth() * 0.1),
 				(int) (field.getPreferredSize().getHeight())));
 		;
 		button.setAutoSizedIcon(button, new LoadIcon().setIcons(enterImage));
 
-		password = new JLabel("œ¿–ŒÀ¿");
+		JLabel password = new JLabel("œ¿–ŒÀ¿");
 		password.setFont(new Font(Font.DIALOG, Font.BOLD, getFontSize()));
 		password.setForeground(Color.WHITE);
 
@@ -155,7 +150,7 @@ public class PasswordDialog extends MainPanel {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			IOErrorsWriter.writeIO(e.toString());
-			InOutException.showIOException(e);
+			InOutException.showErrorMessage(e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -168,7 +163,7 @@ public class PasswordDialog extends MainPanel {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				IOErrorsWriter.writeIO(e.toString());
-				InOutException.showIOException(e);
+				InOutException.showErrorMessage(e);
 				e.printStackTrace();
 			}
 		}
@@ -190,7 +185,7 @@ public class PasswordDialog extends MainPanel {
 					if (user_password == null) {
 						return null;
 					}
-//				
+
 					if (!field.getText().equals(user_password[0])) {
 						JOptionPane.showMessageDialog(null,
 								"√Â¯ÌÓ ÔÓÚÂ·ËÚÂÎÒÍÓ ËÏÂ!");
@@ -244,10 +239,6 @@ public class PasswordDialog extends MainPanel {
 											"default");
 
 									if (yes_no == 0) {
-
-										// Back_Up_Executor backupExecutor =
-										// new Back_Up_Executor();
-										// backupExecutor.execute();
 
 										DeleteFiles df = new DeleteFiles();
 										df.removeTmpFile();

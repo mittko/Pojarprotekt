@@ -16,12 +16,7 @@ public class AcquittanceGenerator extends BaseGenerator {
 //		return null;
 //	}
 	
-	private void print(int[] arr,int k) {
-		for (int i = 0; i < k; i++) {
-			System.out.print(arr[i] + " ");
-		}
-		System.out.println();
-	}
+
 	public static String digitsToString(int[] digits) {
 		StringBuilder	sb = new StringBuilder();
 			for(int i : digits) {

@@ -1,7 +1,7 @@
 package db;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -85,9 +85,9 @@ public class RemoveTable extends MainPanel {
 			delete = stat.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка ", e);
+			DBException.showErrorMessage("Грешка ", e);
 			DB_Err.writeErros(e.toString());
-			Log.DB_Err.writeErros(e.toString());
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
@@ -99,9 +99,9 @@ public class RemoveTable extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка ", e);
+				DBException.showErrorMessage("Грешка ", e);
 				DB_Err.writeErros(e.toString());
-				Log.DB_Err.writeErros(e.toString());
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -213,9 +213,9 @@ public class RemoveTable extends MainPanel {
 			// rows affected
 			System.out.println(row);
 		} catch (SQLException e) {
-			DBException.DBExceptions("Грешка ", e);
+			DBException.showErrorMessage("Грешка ", e);
 			DB_Err.writeErros(e.toString());
-			Log.DB_Err.writeErros(e.toString());
+			log.DB_Err.writeErros(e.toString());
 		}
 
 	}

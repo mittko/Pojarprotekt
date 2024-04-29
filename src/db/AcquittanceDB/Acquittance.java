@@ -1,6 +1,6 @@
 package db.AcquittanceDB;
 
-import Exceptions.DBException;
+import exceptions.DBException;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -23,8 +23,8 @@ public class Acquittance extends MainPanel {
 			stat.execute(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -55,8 +55,8 @@ public class Acquittance extends MainPanel {
 			updateCount = stat.getUpdateCount();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
@@ -68,8 +68,8 @@ public class Acquittance extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}

@@ -1,9 +1,7 @@
 package db.аrtikul;
 
-import Exceptions.DBException;
-import Log.DB_Err;
-import db.modify.AddColumn;
-import db.modify.InitColumnsTable;
+import exceptions.DBException;
+import log.DB_Err;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -41,7 +39,7 @@ public class Artikuli_DB extends MainPanel {
 			System.out.println("table created succesfully!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -75,8 +73,8 @@ public class Artikuli_DB extends MainPanel {
 			System.out.println("table created succesfully!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
@@ -110,8 +108,8 @@ public class Artikuli_DB extends MainPanel {
 			System.out.println("table created succesfully!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
 			try {
@@ -211,7 +209,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return 0;
@@ -228,7 +226,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -280,7 +278,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -297,7 +295,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
@@ -327,7 +325,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 
 		} catch (SQLException e) {
-			DBException.DBExceptions("Грешка",e);
+			DBException.showErrorMessage("Грешка",e);
 			DB_Err.writeErros(e.getMessage());
 			e.printStackTrace();
 			return null;
@@ -344,7 +342,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -375,7 +373,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -392,7 +390,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -425,7 +423,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -442,7 +440,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
@@ -476,7 +474,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -493,7 +491,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -538,7 +536,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -555,7 +553,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
@@ -588,7 +586,7 @@ public class Artikuli_DB extends MainPanel {
 			// update = stat.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -622,7 +620,7 @@ public class Artikuli_DB extends MainPanel {
 			update = stat.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -659,7 +657,7 @@ public class Artikuli_DB extends MainPanel {
 			return value;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -676,7 +674,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -714,7 +712,7 @@ public class Artikuli_DB extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
@@ -728,7 +726,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -763,7 +761,7 @@ public class Artikuli_DB extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
@@ -777,7 +775,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -802,7 +800,7 @@ public class Artikuli_DB extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
@@ -816,7 +814,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return update;
@@ -843,7 +841,7 @@ public class Artikuli_DB extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
@@ -857,7 +855,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return update;
@@ -892,7 +890,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -909,7 +907,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
@@ -1005,7 +1003,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 
@@ -1022,7 +1020,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
@@ -1044,7 +1042,7 @@ public class Artikuli_DB extends MainPanel {
 			insert = stat.executeUpdate(command);
 			return insert;
 		} catch (SQLException e) {
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(command);
 			System.out.println(e.getMessage());;
 			return insert;
@@ -1057,7 +1055,7 @@ public class Artikuli_DB extends MainPanel {
 					connect.close();
 				}
 			} catch (SQLException e2) {
-				DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e2);
+				DBException.showErrorMessage("\u0413\u0440\u0435\u0448\u043a\u0430", e2);
 				DB_Err.writeErros(e2.toString());
 				e2.printStackTrace();
 				return insert;
@@ -1083,7 +1081,7 @@ public class Artikuli_DB extends MainPanel {
 			return insert;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return insert;
@@ -1097,7 +1095,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(command);
 				e.printStackTrace();
 				return insert;
@@ -1128,7 +1126,7 @@ public class Artikuli_DB extends MainPanel {
 			return delete;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return delete;
@@ -1142,7 +1140,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return delete;
@@ -1171,7 +1169,7 @@ public class Artikuli_DB extends MainPanel {
 			return delete;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return delete;
@@ -1185,7 +1183,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return delete;
@@ -1220,7 +1218,7 @@ public class Artikuli_DB extends MainPanel {
 			// update = stat.executeUpdate(command);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -1254,8 +1252,8 @@ public class Artikuli_DB extends MainPanel {
 			return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
 		} finally {
@@ -1268,8 +1266,8 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -1293,8 +1291,8 @@ public class Artikuli_DB extends MainPanel {
 			return delete;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
-			Log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return delete;
 		} finally {
@@ -1307,8 +1305,8 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
-				Log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 
 			}
@@ -1593,7 +1591,7 @@ public class Artikuli_DB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -1609,7 +1607,7 @@ public class Artikuli_DB extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 			}

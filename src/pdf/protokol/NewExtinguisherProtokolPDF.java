@@ -1,7 +1,7 @@
 package pdf.protokol;
 
-import Exceptions.PDFException;
-import Log.PdfErr;
+import exceptions.PDFException;
+import log.PdfErr;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -227,7 +227,7 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 					12.5f, 6f, 4f, 6f, 5f });
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 			return false;
@@ -384,7 +384,7 @@ public class NewExtinguisherProtokolPDF extends PdfCreator {
 					12.5f, 6f, 4f, 6f, 5f });
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 			return false;

@@ -1,7 +1,7 @@
 package db;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -39,7 +39,7 @@ public class GetFromScanner extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			return null;
 		} finally {
@@ -55,7 +55,7 @@ public class GetFromScanner extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
+				log.DB_Err.writeErros(e.toString());
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
@@ -90,7 +90,7 @@ public class GetFromScanner extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			return null;
 		} finally {
@@ -106,7 +106,7 @@ public class GetFromScanner extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
+				log.DB_Err.writeErros(e.toString());
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return null;
@@ -138,8 +138,8 @@ public class GetFromScanner extends MainPanel {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -155,8 +155,8 @@ public class GetFromScanner extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 				return null;
 			}
@@ -187,8 +187,8 @@ public class GetFromScanner extends MainPanel {
 			/**/
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			Log.DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			log.DB_Err.writeErros(e.toString());
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return null;
 		} finally {
@@ -204,8 +204,8 @@ public class GetFromScanner extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				Log.DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				log.DB_Err.writeErros(e.toString());
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 				return null;
 			}

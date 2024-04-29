@@ -1,6 +1,5 @@
 package admin.аrtikul;
 
-import admin.аrtikul.Workers.ChangeArtikulQuantityWorker;
 import utils.EditableField;
 import utils.MainPanel;
 import utils.MyMath;
@@ -197,68 +196,5 @@ public class ChangeQuantityArtikulDialog extends MainPanel {
 		this.add(basePanel2);
 	}
 
-	private double calcFinalValue(String currValue, String percentProfit) {
-
-		double currVal = 0;
-		double percentProf = 0;
-
-		try {
-			if (currValue.isEmpty()) {
-				currVal = 0;
-			} else {
-				currVal = Double.parseDouble(currValue);
-			}
-		} catch (NumberFormatException e) {
-			return -1;
-		}
-		try {
-			if (percentProfit.isEmpty()) {
-				percentProf = 0;
-			} else {
-				percentProf = Double.parseDouble(percentProfit);
-			}
-		} catch (NumberFormatException e) {
-			return -1;
-		}
-		return MyMath.round(
-				currVal + MyMath.getValueFromPercent(currVal, percentProf), 2);
-
-	}
-
-	private boolean checkUserInput(String artikulItem, String currValueItem,
-			String invoiceNumber, String client, String date, String seller,
-			String percentProfitItem) {
-		if (artikulItem.equals("") || skladItem.equals("")
-				|| medItem.equals("") || oldValueItem.equals("")
-				|| currValueItem.equals("") || invoiceNumber.equals("")
-				|| client.equals("") || date.equals("") || seller.equals("")
-				|| percentProfitItem.equals("")) {
-			JOptionPane.showMessageDialog(null, "Има непопълнени полета !");
-			return false;
-		}
-
-		try {
-			Double d1 = Double.parseDouble(skladItem);
-			Double d2 = Double.parseDouble(oldValueItem);
-			Double d3 = Double.parseDouble(currValueItem);
-			Double d4 = Double.parseDouble(percentProfitItem);
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Невалидни данни!");
-			return false;
-		}
-		return true;
-	}
-
-	boolean isAvailable(String artikulItem) {
-		for (int i = 0; i < AvailableArtikulsTable.artikulTableModel
-				.getRowCount(); i++) {
-			if (AvailableArtikulsTable.artikulTableModel.getValueAt(i, 0)
-					.toString().equals(artikulItem)) {
-				// System.out.println("IS AVAILABLE!");
-				return true;
-			}
-		}
-		return false;
-	}
 
 }

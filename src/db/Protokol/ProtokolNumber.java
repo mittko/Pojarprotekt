@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import net.GetCurrentIP;
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import utils.MainPanel;
 
 public class ProtokolNumber extends MainPanel {
@@ -41,7 +41,7 @@ public class ProtokolNumber extends MainPanel {
 			System.out.println("protokol number init succesfully!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 		} finally {
 			try {
@@ -75,7 +75,7 @@ public class ProtokolNumber extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -112,7 +112,7 @@ public class ProtokolNumber extends MainPanel {
 			// System.out.println("protokol number updated succesfully!");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
@@ -127,7 +127,7 @@ public class ProtokolNumber extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				// e.printStackTrace();

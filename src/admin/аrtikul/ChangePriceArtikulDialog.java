@@ -1,7 +1,6 @@
 package admin.аrtikul;
 
-import admin.аrtikul.Workers.GetDeliveryValueForArtikul;
-import admin.аrtikul.Workers.UpdatePriceArtikulWorker;
+import admin.аrtikul.workers.GetDeliveryValueForArtikul;
 import mydate.MyGetDate;
 import utils.EditableField;
 import utils.MainPanel;
@@ -143,29 +142,6 @@ public class ChangePriceArtikulDialog extends MainPanel {
 							(differents / deliveryValue) * 100, 2);
 				}
 				percentProfitField.setText(wantedPercent + "");
-				// calc delivery value from final value and percent !!!!
-				// JTextField textField = (JTextField) e.getSource();
-				// if (textField.getText().equals("")
-				// || textField.getText().isEmpty()) {
-				// return;
-				// }
-				// double bigFinalValue = 0;
-				// double percent = 0;
-				// try {
-				// bigFinalValue = Double.parseDouble(textField.getText());
-				// } catch (Exception ex) {
-				// bigFinalValue = 0;
-				// }
-				// try {
-				// percent = Double.parseDouble(percentProfitField.getText());
-				// } catch (Exception ex) {
-				// bigFinalValue = 0;
-				// }
-				// double wantedDeliveryValue = MyMath.findXFromPercentAndValue(
-				// percent, bigFinalValue);
-				// deliveryValueField.setText(MyMath.round(wantedDeliveryValue,
-				// 2)
-				// + "");
 
 			}
 
@@ -362,40 +338,5 @@ public class ChangePriceArtikulDialog extends MainPanel {
 
 	}
 
-	private boolean checkUserInput(String artikulItem, String currValueItem,
-			String invoiceNumber, String client, String date, String seller,
-			String percentProfitItem) {
-		if (artikulItem.equals("") || skladItem.equals("")
-				 || oldValueItem.equals("")
-				|| currValueItem.equals("") || invoiceNumber.equals("")
-				|| client.equals("") || date.equals("") || seller.equals("")
-				|| percentProfitItem.equals("")) {
-			JOptionPane.showMessageDialog(null, "Има непопълнени полета !");
-			return false;
-		}
-
-		try {
-			Double d1 = Double.parseDouble(skladItem);
-			Double d2 = Double.parseDouble(oldValueItem);
-			Double d3 = Double.parseDouble(currValueItem);
-			Double d4 = Double.parseDouble(percentProfitItem);
-		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Невалидни данни!");
-			return false;
-		}
-		return true;
-	}
-
-	boolean isAvailable(String artikulItem) {
-		for (int i = 0; i < AvailableArtikulsTable.artikulTableModel
-				.getRowCount(); i++) {
-			if (AvailableArtikulsTable.artikulTableModel.getValueAt(i, 0)
-					.toString().equals(artikulItem)) {
-				// System.out.println("IS AVAILABLE!");
-				return true;
-			}
-		}
-		return false;
-	}
 
 }

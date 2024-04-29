@@ -1,6 +1,6 @@
 package acquittance.windows;
 
-import invoicewindow.ProtokolAndProformSearchTabs;
+import invoice.invoicewindow.ProtokolAndProformSearchTabs;
 import run.JustFrame;
 import utils.MainPanel;
 

@@ -11,11 +11,6 @@ import javax.swing.JPanel;
 import utils.MainPanel;
 
 public class PasswordComponent extends MainPanel {
-	// private Image img = null;
-	private final JPanel north = new JPanel();
-	private final JPanel east = new JPanel();
-	private final JPanel west = new JPanel();
-	private final JPanel south = new JPanel();
 
 	public PasswordComponent() {
 
@@ -24,31 +19,26 @@ public class PasswordComponent extends MainPanel {
 		PasswordDialog front = new PasswordDialog();
 
 		this.add(front, BorderLayout.CENTER);
-		// north.setPreferredSize(new Dimension(this.WIDTH-20,this.HEIGHT/2
-		// +10));
+
+		JPanel north = new JPanel();
 		north.setOpaque(false);
 		this.add(north, BorderLayout.NORTH);
-		// south.setPreferredSize(new Dimension(this.WIDTH - 20, this.HEIGHT / 3
-		// - 60));
+
+		JPanel south = new JPanel();
 		this.add(south, BorderLayout.SOUTH);
 		south.setOpaque(false);
-		// east.setPreferredSize(new Dimension(this.WIDTH / 8, this.HEIGHT));
+
+		JPanel east = new JPanel();
 		east.setOpaque(false);
 		this.add(east, BorderLayout.EAST);
-		// west.setPreferredSize(new Dimension(this.WIDTH / 8, this.HEIGHT));
+
+		JPanel west = new JPanel();
 		west.setOpaque(false);
 		this.add(west, BorderLayout.WEST);
 
-		// this.setPreferredSize(new Dimension(this.WIDTH - 20, this.HEIGHT -
-		// 90));
 	}
 
-	/*
-	 * @Override public void paintComponent(Graphics g) {
-	 * super.paintComponent(g);
-	 * 
-	 * g.drawImage(img,this.WIDTH/4,(this.HEIGHT/3) + 30,100,100,null); }
-	 */
+
 
 	/**
 	 * @param args

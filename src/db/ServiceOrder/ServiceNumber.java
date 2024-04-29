@@ -1,7 +1,7 @@
 package db.ServiceOrder;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -55,7 +55,7 @@ public class ServiceNumber extends MainPanel {
 		//	System.out.printf("so number%s taken succesfully\n",so);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -92,7 +92,7 @@ public class ServiceNumber extends MainPanel {
 		    return update;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return update;
@@ -107,7 +107,7 @@ public class ServiceNumber extends MainPanel {
 				}
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				DB_Err.writeErros(e.toString());
 				e.printStackTrace();
 				return update;

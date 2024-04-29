@@ -1,10 +1,8 @@
 package acquittance.sklad.workers;
 
-import admin.‡rtikul.Workers.BiggestPriceForInvoiceWorker;
+import admin.‡rtikul.workers.BiggestPriceForInvoiceWorker;
 import db.‡rtikul.Artikuli_DB;
-import invoice.Sklad.SkladArtiklulPanel;
-import invoice.Sklad.SkladArtikulFrame;
-import utils.MainPanel;
+import invoice.sklad.SkladArtikulFrame;
 import utils.MyMath;
 
 import javax.swing.*;
@@ -41,14 +39,6 @@ public class SkladArtikulGreyPanel extends SkladArtikulFrame {
 
                 String med = skladTable.getValueAt( row, 2).toString(); // ÏÂÌ‡ Â‰ËÌËˆ‡
 
-
-                // String value = "";
-                // try {
-                // value = skladTable.getValueAt(row, 3).toString();
-                // } catch (Exception ex) {
-                // JOptionPane.showMessageDialog(null, ex.toString());
-                // return;
-                // }
                 String quantity = skladTable.getValueAt(row, 4).toString();
 
                 double val = new BiggestPriceForInvoiceWorker(artikul)

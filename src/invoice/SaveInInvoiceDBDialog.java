@@ -1,11 +1,11 @@
 package invoice;
 
-import Exceptions.DBException;
-import invoice.Fiskal.CreateBonFPrint;
-import invoice.worker.*;
-import invoicewindow.ArtikulTab;
-import invoicewindow.SearchFromProformTab;
-import invoicewindow.SearchFromProtokolTab;
+import exceptions.DBException;
+import invoice.fiskal.CreateBonFPrint;
+import invoice.workers.*;
+import invoice.invoicewindow.ArtikulTab;
+import invoice.invoicewindow.SearchFromProformTab;
+import invoice.invoicewindow.SearchFromProtokolTab;
 import mydate.MyGetDate;
 import utils.BevelLabel;
 import utils.MainPanel;
@@ -226,14 +226,14 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-							DBException.DBExceptions(
+							DBException.showErrorMessage(
 									"Error during update artikuls quantity !",
 									e);
 						}
 					} catch (Exception ex) {
 						// TODO Auto-generated catch block
 						ex.printStackTrace();
-						DBException.DBExceptions(
+						DBException.showErrorMessage(
 								"Error  during saving invoice !", ex);
 					}
 
@@ -263,13 +263,13 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-							DBException.DBExceptions(
+							DBException.showErrorMessage(
 									"Error during saving proform !", e);
 						}
 					} catch (Exception ex2) {
 						// TODO Auto-generated catch block
 						ex2.printStackTrace();
-						DBException.DBExceptions(
+						DBException.showErrorMessage(
 								"Error during saving proform !", ex2);
 					}
 				} else if( (acquittanceRadioButton.isSelected() && fiskalRadioButton.isSelected())
@@ -318,13 +318,13 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-							DBException.DBExceptions(
+							DBException.showErrorMessage(
 									"Error during saving acquittance !", e);
 						}
 					} catch (Exception ex) {
 						// TODO Auto-generated catch block
 						ex.printStackTrace();
-						DBException.DBExceptions(
+						DBException.showErrorMessage(
 								"Error during saving acquittance !", ex);
 					}
 				} else if(fiskalRadioButton.isSelected()) {
@@ -357,7 +357,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 					} catch (Exception ex) {
 						// TODO Auto-generated catch block
 						ex.printStackTrace();
-						DBException.DBExceptions(
+						DBException.showErrorMessage(
 								"Error during saving invoice !", ex);
 					}
 				}

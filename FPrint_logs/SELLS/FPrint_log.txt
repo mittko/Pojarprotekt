@@ -1,0 +1,3 @@
+20210816 14:10:34:602:Exception in method Resident_TimerTimerCannot open file "D:\FPrint_logs\SELLS\sell.txt". The process cannot access the file because it is being used by another process
+20220215 08:51:17:975:Exception in method Resident_TimerTimerCannot open file "D:\FPrint_logs\SELLS\sell.txt". The process cannot access the file because it is being used by another process
+20220719 14:32:55:995:Exception in method Resident_TimerTimerCannot open file "D:\FPrint_logs\SELLS\sell.txt". The process cannot access the file because it is being used by another process

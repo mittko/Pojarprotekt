@@ -11,16 +11,11 @@ import java.util.Locale;
 public class AcquittanceAutoSortRenderer extends DefaultTableCellRenderer {
 
     private Color background = null;
-    private JTable refferenceTable = null;
 
-    public AcquittanceAutoSortRenderer() {
+	public AcquittanceAutoSortRenderer() {
     	background = Color.decode("0xD8E6FF");
     }
-	public AcquittanceAutoSortRenderer(JTable refferenceTable) {
-	 background = Color.decode("0xD8E6FF");
-	 this.refferenceTable = refferenceTable;
-	 setColumnsWidth(refferenceTable);
-	}
+
 	@Override
 	public Component getTableCellRendererComponent(JTable table,Object value,
 			boolean isSelected,boolean hasFocus,int row,int column) {
@@ -52,10 +47,8 @@ public class AcquittanceAutoSortRenderer extends DefaultTableCellRenderer {
 			int quantity = Integer.parseInt(value.toString());
 				if(quantity <= 5) {
 					c.setForeground(Color.red);
-		    	} else if(quantity > 5) {
+		    	} else {
 				c.setForeground(Color.green.darker().darker());
-			  } else {
-				  c.setForeground(Color.black);
 			  }
 		} else if(column == 3) {
 			c.setForeground(Color.blue);
@@ -88,21 +81,4 @@ public class AcquittanceAutoSortRenderer extends DefaultTableCellRenderer {
 		// TODO Auto-generated method stub
 
 	}
-    private void setColumnsWidth(JTable table) {
-    	table.getTableHeader().setReorderingAllowed(false);
-	//table.getTableHeader().setResizingAllowed(false);
-	table.getColumnModel().getColumn(0).setPreferredWidth(150);
-    	table.getTableHeader().getColumnModel().getColumn(0)
-		.setPreferredWidth((new MainPanel().getWidth()) / 3);
-       table.getTableHeader().getColumnModel().getColumn(1)
-		.setPreferredWidth(50);
-        table.getTableHeader().getColumnModel().getColumn(2)
-	.setPreferredWidth(50);
-        table.getTableHeader().getColumnModel().getColumn(3)
-	.setPreferredWidth(100);
-        table.getTableHeader().getColumnModel().getColumn(4)
-		.setPreferredWidth(50);
-       table.getTableHeader().getColumnModel().getColumn(5)
-		.setPreferredWidth(50);
-    }
 }

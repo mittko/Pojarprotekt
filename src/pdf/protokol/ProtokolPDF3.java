@@ -1,7 +1,7 @@
 package pdf.protokol;
 
-import Exceptions.PDFException;
-import Log.PdfErr;
+import exceptions.PDFException;
+import log.PdfErr;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -178,7 +178,7 @@ public class ProtokolPDF3 extends PdfCreator {
 					12.5f, 6f, 4f, 6f, 5f });
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 			return false;
@@ -542,7 +542,7 @@ public class ProtokolPDF3 extends PdfCreator {
 					12.5f, 6f, 4f, 6f, 5f });
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			PDFException.showPDFException(e);
+			PDFException.showErrorMessage(e);
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 			System.out.println("Document Exception");
@@ -591,21 +591,6 @@ public class ProtokolPDF3 extends PdfCreator {
 						{30}
 				};
 
-		float[][] footY2 = {
-				{20},
-				{35},
-				{50},
-				{65},
-				{80},
-				{95,95},
-				{110, 110, 110, 110},
-				{125, 125},
-				{140, 140, 140},
-				{155,155},
-				{170},
-				{185},
-				{200}
-		};
 
 		String client = clData[0];
 		String mol = clData[4];
@@ -638,7 +623,6 @@ public class ProtokolPDF3 extends PdfCreator {
 		for(int i = 0;i < footX2.length;i++) {
 			y -= 15;
 			for(int j = 0;j < footX2[i].length;j++) {
-			//	System.out.print(bottomText[i][j]+" ");
 
 				if (y /*- footY2[i][j]*/ <= document.bottom()) {
 			            document.newPage();
@@ -646,12 +630,8 @@ public class ProtokolPDF3 extends PdfCreator {
 		        }
 				setText(bottomText[i][j], footX2[i][j],y  /*- footY2[i][j]*/ , arial, 9);
 			}
-			//System.out.println();
+
 		}
-
-	//	setText("- По време на извършеното обслужване на посочените пожарогасители",30,y -=20 , arial, 9);
-
-	//	setText("  са сменени части, консумативи и извършени дейности както следва:",30,y -=20 , arial, 9);
 
 		for(Map.Entry<Object,Integer> entry : parts.entrySet()) {
 			if (y - 15 <= document.bottom()) {

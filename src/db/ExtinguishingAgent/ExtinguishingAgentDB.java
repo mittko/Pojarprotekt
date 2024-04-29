@@ -1,7 +1,7 @@
 package db.ExtinguishingAgent;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -25,8 +25,8 @@ public class ExtinguishingAgentDB {
             System.out.println("table created successfully !");
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            Log.DB_Err.writeErros(e.toString());
-            DBException.DBExceptions("Грешка", e);
+            log.DB_Err.writeErros(e.toString());
+            DBException.showErrorMessage("Грешка", e);
             e.printStackTrace();
         } finally {
             try {
@@ -38,8 +38,8 @@ public class ExtinguishingAgentDB {
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                Log.DB_Err.writeErros(e.toString());
-                DBException.DBExceptions("Грешка", e);
+                log.DB_Err.writeErros(e.toString());
+                DBException.showErrorMessage("Грешка", e);
                 e.printStackTrace();
             }
         }
@@ -59,8 +59,8 @@ public class ExtinguishingAgentDB {
          return insert;
          } catch (SQLException e) {
          // TODO Auto-generated catch block
-         DBException.DBExceptions("Грешка", e);
-         Log.DB_Err.writeErros(e.toString());
+         DBException.showErrorMessage("Грешка", e);
+         log.DB_Err.writeErros(e.toString());
          e.printStackTrace();
          return insert;
              } finally {
@@ -73,8 +73,8 @@ public class ExtinguishingAgentDB {
              }
              } catch (SQLException e) {
              // TODO Auto-generated catch block
-             DBException.DBExceptions("Грешка", e);
-             Log.DB_Err.writeErros(e.toString());
+             DBException.showErrorMessage("Грешка", e);
+             log.DB_Err.writeErros(e.toString());
              e.printStackTrace();
              }
          }
@@ -95,7 +95,7 @@ public class ExtinguishingAgentDB {
             update = ps.executeUpdate();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            DBException.DBExceptions("Грешка", e);
+            DBException.showErrorMessage("Грешка", e);
             DB_Err.writeErros(e.toString());
             e.printStackTrace();
         } finally {
@@ -137,7 +137,7 @@ public class ExtinguishingAgentDB {
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            DBException.DBExceptions("Грешка", e);
+            DBException.showErrorMessage("Грешка", e);
             DB_Err.writeErros(e.toString());
             e.printStackTrace();
             return null;
@@ -154,7 +154,7 @@ public class ExtinguishingAgentDB {
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                DBException.DBExceptions("Грешка", e);
+                DBException.showErrorMessage("Грешка", e);
                 DB_Err.writeErros(e.toString());
                 e.printStackTrace();
             }
@@ -178,7 +178,7 @@ public class ExtinguishingAgentDB {
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
-            DBException.DBExceptions("Грешка", e);
+            DBException.showErrorMessage("Грешка", e);
             DB_Err.writeErros(e.toString());
             e.printStackTrace();
             return null;
@@ -195,7 +195,7 @@ public class ExtinguishingAgentDB {
                 }
             } catch (SQLException e) {
                 // TODO Auto-generated catch block
-                DBException.DBExceptions("Грешка", e);
+                DBException.showErrorMessage("Грешка", e);
                 DB_Err.writeErros(e.toString());
                 e.printStackTrace();
             }

@@ -10,12 +10,9 @@ import utils.LoadIcon;
 
 public class JDialoger extends JDialog {
 
-	private String pathToIcon;
-	private ImageIcon icon;
-
 	public JDialoger() {
-		pathToIcon = "src/Images/nero_3.png";
-		icon = new ImageIcon(pathToIcon);
+		String pathToIcon = "src/Images/nero_3.png";
+		ImageIcon icon = new ImageIcon(pathToIcon);
 		this.setIconImage(new LoadIcon().setIcons("nero_3.png").getImage());
 	}
 

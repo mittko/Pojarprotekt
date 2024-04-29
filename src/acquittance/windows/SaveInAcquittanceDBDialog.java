@@ -1,11 +1,11 @@
 package acquittance.windows;
 
-import Exceptions.DBException;
-import invoice.worker.DecreaseArtikulQuantityWorker;
-import invoice.worker.GetAqcuittanceNumberWorker;
-import invoice.worker.SaveInAcquittanceWorker;
-import invoicewindow.SearchFromProformTab;
-import invoicewindow.SearchFromProtokolTab;
+import exceptions.DBException;
+import invoice.workers.DecreaseArtikulQuantityWorker;
+import invoice.workers.GetAqcuittanceNumberWorker;
+import invoice.workers.SaveInAcquittanceWorker;
+import invoice.invoicewindow.SearchFromProformTab;
+import invoice.invoicewindow.SearchFromProtokolTab;
 import utils.BevelLabel;
 import utils.MainPanel;
 import utils.MyMath;
@@ -112,13 +112,13 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
-								DBException.DBExceptions(
+								DBException.showErrorMessage(
 										"Error during saving acquittance !", e);
 							}
 						} catch (Exception ex) {
 							// TODO Auto-generated catch block
 							ex.printStackTrace();
-							DBException.DBExceptions(
+							DBException.showErrorMessage(
 									"Error during saving acquittance !", ex);
 						}
 					}

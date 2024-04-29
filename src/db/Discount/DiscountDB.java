@@ -1,7 +1,7 @@
 package db.Discount;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
+import log.DB_Err;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -36,7 +36,7 @@ public class DiscountDB extends MainPanel {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 		} finally {
@@ -78,7 +78,7 @@ public class DiscountDB extends MainPanel {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			DB_Err.writeErros(e.toString());
-			DBException.DBExceptions("Грешка", e);
+			DBException.showErrorMessage("Грешка", e);
 			e.printStackTrace();
 			return 0;
 		//	e.printStackTrace();
@@ -96,7 +96,7 @@ public class DiscountDB extends MainPanel {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				DB_Err.writeErros(e.toString());
-				DBException.DBExceptions("Грешка", e);
+				DBException.showErrorMessage("Грешка", e);
 				e.printStackTrace();
 				return 0;
 			//	e.printStackTrace();

@@ -1,6 +1,6 @@
 package net;
 
-import Log.OtherErr;
+import log.OtherErr;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

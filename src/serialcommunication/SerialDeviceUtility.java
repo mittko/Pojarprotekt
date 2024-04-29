@@ -1,7 +1,7 @@
 package serialcommunication;
 
 
-import serialcommunication.Daisy.GetAnswer;
+import serialcommunication.daisyprinter.GetAnswer;
 
 import javax.swing.*;
 import java.awt.*;

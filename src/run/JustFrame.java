@@ -17,10 +17,10 @@ public class JustFrame extends JFrame {
 
 	private String pathToIcon;
 	private ImageIcon icon;
-	private int fontSize = 17;
 
 	@Override
 	public Font getFont() {
+		int fontSize = 17;
 		return new Font(Font.DIALOG_INPUT, Font.BOLD, fontSize);
 	}
 
@@ -33,8 +33,6 @@ public class JustFrame extends JFrame {
 		HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 		WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
 		UIManager.put("TabbedPane.font", getFont());
-		// pathToIcon = "src/Images/nero_3.png";
-		// icon = new ImageIcon(pathToIcon);
 		this.setTitle("œŒ∆¿–œ–Œ“≈ “");
 		this.setIconImage(new LoadIcon().setIcons("nero_3.png").getImage());// (Painter.getResizedImage(icon.getImage(),130,200).getImage());
 		this.setSize(WIDTH, HEIGHT);

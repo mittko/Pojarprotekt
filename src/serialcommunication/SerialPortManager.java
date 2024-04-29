@@ -2,11 +2,11 @@ package serialcommunication;
 
 
 import gnu.io.*;
-import serialcommunication.Daisy.GetAnswer;
-import serialcommunication.Daisy.SerialReader;
-import serialcommunication.DatecsLP50.CommPortReceiver;
-import serialcommunication.DatecsLP50.CommPortSender;
-import serialcommunication.DatecsLP50.ProtocolImpl;
+import serialcommunication.daisyprinter.GetAnswer;
+import serialcommunication.daisyprinter.SerialReader;
+import serialcommunication.datecsLP50.CommPortReceiver;
+import serialcommunication.datecsLP50.CommPortSender;
+import serialcommunication.datecsLP50.ProtocolImpl;
 
 import javax.swing.*;
 import java.io.IOException;

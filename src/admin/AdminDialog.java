@@ -1,14 +1,13 @@
 package admin;
 
-import NewClient.editClient.EditClientPanel;
+import clients.editclient.EditClientPanel;
 import admin.àrtikul.ArtikulTable;
 import admin.àrtikul.ArtikulTableGrey;
-import admin.àrtikul.AvailableArtikulsTable;
-import admin.Doing.UpdateWorkPrice;
-import admin.Parts.Price.UpdatePriceOfParts;
-import admin.Parts.Quantity.PartsQuantityTable;
-import admin.SkladExtinguisher.MainFrame_SkladNewExtinguisher;
-import admin.Team.TeamTable;
+import admin.doing.UpdateWorkPrice;
+import admin.parts.price.UpdatePriceOfParts;
+import admin.parts.quantity.PartsQuantityTable;
+import admin.sklad.MainFrame_SkladNewExtinguisher;
+import admin.team.TeamTable;
 import admin.extinguishingagent.ExtinguishingAgentDialog;
 import run.JDialoger;
 import utils.MainPanel;
@@ -22,7 +21,7 @@ import java.awt.event.KeyEvent;
 
 public class AdminDialog extends MainPanel implements ActionListener {
 
-	private JPasswordField passField;
+	private final JPasswordField passField;
 
 	private String command = "";
 	private final String PARTS_PRICES = "Öåíè íà ðåçåðâíè ÷àñòè";

@@ -1,12 +1,8 @@
 package db.creditnote;
 
-import Exceptions.DBException;
-import Log.DB_Err;
+import exceptions.DBException;
 import db.modify.AddColumn;
-import db.modify.InitColumnsTable;
-import mydate.MyGetDate;
 import net.GetCurrentIP;
-import utils.MainPanel;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -68,8 +64,8 @@ public class CreditNoteTable {
             insert = statement.executeUpdate(command);
         } catch (SQLException e) {
             e.printStackTrace();
-            Log.DB_Err.writeErros(e.getMessage());
-            DBException.DBExceptions("Грешка",e);
+            log.DB_Err.writeErros(e.getMessage());
+            DBException.showErrorMessage("Грешка",e);
         } finally {
             if(statement != null) {
                 try {
@@ -115,8 +111,8 @@ public class CreditNoteTable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Log.DB_Err.writeErros(e.getMessage());
-            DBException.DBExceptions("Грешка",e);
+            log.DB_Err.writeErros(e.getMessage());
+            DBException.showErrorMessage("Грешка",e);
         } finally {
             if(statement != null) {
                 statement.close();
@@ -165,7 +161,7 @@ public class CreditNoteTable {
             update = statement.executeUpdate(command);
             return update;
         } catch (SQLException e) {
-            DBException.DBExceptions("Грешка",e);
+            DBException.showErrorMessage("Грешка",e);
         } finally {
 
                 try {
@@ -176,7 +172,7 @@ public class CreditNoteTable {
                         connection.commit();
                     }
                 } catch (SQLException e) {
-                    DBException.DBExceptions("Грешка",e);
+                    DBException.showErrorMessage("Грешка",e);
                 }
         }
         return update;
@@ -199,8 +195,8 @@ public class CreditNoteTable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Log.DB_Err.writeErros(e.getMessage());
-            DBException.DBExceptions("Грешка",e);
+            log.DB_Err.writeErros(e.getMessage());
+            DBException.showErrorMessage("Грешка",e);
         } finally {
             try {
             if(statement != null) {

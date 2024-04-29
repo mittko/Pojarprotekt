@@ -5,17 +5,15 @@ package db.Report;
 //
 
 
-import java.util.HashMap;
 import java.sql.ResultSetMetaData;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import Log.DB_Err;
-import Exceptions.DBException;
+import log.DB_Err;
+import exceptions.DBException;
 import java.sql.DriverManager;
 
-import db.Report.ArtikulAsCode;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -46,7 +44,7 @@ public class ReportRequest extends MainPanel
 			}
 		}
 		catch (SQLException e) {
-			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
+			DBException.showErrorMessage("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -90,7 +88,7 @@ public class ReportRequest extends MainPanel
 			}
 		}
 		catch (SQLException e) {
-			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
+			DBException.showErrorMessage("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -134,7 +132,7 @@ public class ReportRequest extends MainPanel
 			}
 		}
 		catch (SQLException e) {
-			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
+			DBException.showErrorMessage("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
@@ -178,7 +176,7 @@ public class ReportRequest extends MainPanel
 			}
 		}
 		catch (SQLException e) {
-			DBException.DBExceptions("\u0413\u0440\u0435\u0448\u043a\u0430", e);
+			DBException.showErrorMessage("\u0413\u0440\u0435\u0448\u043a\u0430", e);
 			DB_Err.writeErros(e.toString());
 			e.printStackTrace();
 			return null;
