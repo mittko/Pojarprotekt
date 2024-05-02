@@ -236,6 +236,7 @@ public class ArtikulTab extends MainPanel {
 
 				if (yes_no == 0) {
 					dftm.setRowCount(0);
+					clear();
 				}
 			}
 
@@ -260,10 +261,7 @@ public class ArtikulTab extends MainPanel {
 			public void onTableChanged(TableModelEvent tableModelEvent) {
 				super.onTableChanged(tableModelEvent);
 
-				if(dftm.getRowCount() == 0) {
-					clear();
-					return;
-				}
+
 				switch (tableModelEvent.getType()) {
 					case TableModelEvent.INSERT:
 					case TableModelEvent.DELETE:
@@ -284,6 +282,9 @@ public class ArtikulTab extends MainPanel {
 			public void removeAt(int row) {
 				super.removeAt(row);
 				dftm.removeRow(onlyArticulsTable.getSelectedRow());
+				if(dftm.getRowCount() == 0) {
+					clear();
+				}
 			}
 		};
 		// скрий кoлoни фактура и кoнтрагент
@@ -463,7 +464,6 @@ public class ArtikulTab extends MainPanel {
 		// acquittanceNumLabel.setName("");
 		sumFieldNoTax.setText("");
 		sumField.setText("");
-		dftm.setRowCount(0);
 		discountField.setText("");
 		choiceDiscountButton.setDefaultIcon();
 		paymentCombo.setSelectedIndex(0);

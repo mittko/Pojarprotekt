@@ -195,8 +195,8 @@ public class SearchFromProtokolTab extends MainPanel {
 				}
 
 				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
-							frame,
-							jd);
+						frame,
+						jd);
 				loader.execute();
 
 				JDialoger jDialog = new JDialoger();
@@ -204,7 +204,7 @@ public class SearchFromProtokolTab extends MainPanel {
 				jDialog.setTitle("Артикули");
 				jDialog.setResizable(false);
 				jDialog.Show();
-				}
+			}
 
 		});
 
@@ -230,8 +230,10 @@ public class SearchFromProtokolTab extends MainPanel {
 								"Да", "Не" }, // this is the array
 						"default");
 
-				if (yes_no == 0)
+				if (yes_no == 0) {
 					invoiceTableModel.setRowCount(0);
+                    clear();
+				}
 			}
 
 		});
@@ -343,18 +345,16 @@ public class SearchFromProtokolTab extends MainPanel {
 			public void onTableChanged(TableModelEvent tableModelEvent) {
 				super.onTableChanged(tableModelEvent);
 
-				if(invoiceTableModel.getRowCount() == 0) {
-					clear();
-					return;
-				}
 				switch (tableModelEvent.getType()) {
 					case TableModelEvent.INSERT:
 					case TableModelEvent.DELETE:
+
 						ArrayList<Double> totals = new ArrayList<>();
 						for(int row = 0;row < invoiceTableModel.getRowCount();row++) {
 							double total = Double.parseDouble(invoiceTableModel.getValueAt(row,3).toString());
 							totals.add(total);
 						}
+
 						choiceDiscountButton.setTotals(totals);
 						calcFinalSum();
 						break;
@@ -367,6 +367,9 @@ public class SearchFromProtokolTab extends MainPanel {
 			public void removeAt(int row) {
 				super.removeAt(row);
 				invoiceTableModel.removeRow(row);
+				if(invoiceTableModel.getRowCount() == 0) {
+					clear();
+				}
 			}
 		};
 
@@ -548,7 +551,6 @@ public class SearchFromProtokolTab extends MainPanel {
 		sumFieldNoTax.setText("");
 		sumField.setText("");
 		paymenCombo.setSelectedIndex(0);
-		invoiceTableModel.setRowCount(0);
 		protokolNumberSet.clear();
 		INVOICE_CURRENT_CLIENT = "";
 		registrationVatCheckBox.setIcon(null);

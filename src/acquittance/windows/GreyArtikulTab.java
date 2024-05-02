@@ -127,7 +127,7 @@ public class GreyArtikulTab extends MainPanel {
 						choiceDiscountButton.isSelected());
 
 				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
-					skladArtikulGreyPanel,	new JDialog());
+						skladArtikulGreyPanel, new JDialog());
 				loader.execute();
 
 				JDialoger jDialog = new JDialoger();
@@ -174,16 +174,16 @@ public class GreyArtikulTab extends MainPanel {
 				}
 
 				SaveInAcquittanceDBDialog save = new SaveInAcquittanceDBDialog(// here protokol
-																// number is not
-																// needed and is
-																// marked as -
-																// (without
-																// protokol)
+						// number is not
+						// needed and is
+						// marked as -
+						// (without
+						// protokol)
 						clientCombo.getSelectedItem().toString(), paymentCombo
-								.getSelectedItem().toString(), discountField
-								.getText(), String.format(Locale.ENGLISH,"%f",
+						.getSelectedItem().toString(), discountField
+						.getText(), String.format(Locale.ENGLISH,"%f",
 						MyMath.round(getDanOsnova(), 2)), personName, MyGetDate
-								.getReversedSystemDate(),
+						.getReversedSystemDate(),
 						// invoice
 						// proform
 						dftm,  // there is invoice num label
@@ -221,6 +221,7 @@ public class GreyArtikulTab extends MainPanel {
 
 				if (yes_no == 0) {
 					dftm.setRowCount(0);
+					clear();
 				}
 			}
 
@@ -266,10 +267,7 @@ public class GreyArtikulTab extends MainPanel {
 			@Override
 			public void onTableChanged(TableModelEvent tableModelEvent) {
 				super.onTableChanged(tableModelEvent);
-				if(dftm.getRowCount() == 0) {
-					clear();
-					return;
-				}
+
 				switch (tableModelEvent.getType()) {
 					case TableModelEvent.INSERT:
 					case TableModelEvent.DELETE:
@@ -290,6 +288,9 @@ public class GreyArtikulTab extends MainPanel {
 			public void removeAt(int row) {
 				super.removeAt(row);
 				dftm.removeRow(row);
+				if (dftm.getRowCount() == 0) {
+					clear();
+				}
 			}
 		};
 
@@ -412,7 +413,7 @@ public class GreyArtikulTab extends MainPanel {
 	}
 
 	public void calcFinalSum() {
-		 double valu = 0.0;
+		double valu = 0.0;
 		for (int row = 0; row < dftm.getRowCount(); row++) {
 			valu += Double.parseDouble(dftm.getValueAt(row, 4).toString());
 		}

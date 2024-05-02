@@ -185,6 +185,12 @@ public class WorkingBook extends MainPanel {
 												clientLabel
 														.setName(CURRENT_CLIENT);
 
+												System.out.println("dop danni("+fromBarcod[10].toString()+")");
+												clientLabel.setToolTipText(
+														fromBarcod[10].toString().isEmpty()
+																? getHTML_Text("Няма допълнителни данни") :
+																getHTML_Text(fromBarcod[10].toString()));
+
 												switchPanel(fromBarcod[1]); // type
 
 											} else {
@@ -294,6 +300,10 @@ public class WorkingBook extends MainPanel {
 
 												clientLabel
 														.setName(CURRENT_CLIENT);
+												clientLabel.setToolTipText(
+														fromSerial[10].toString().isEmpty()
+																? getHTML_Text("Нямя допълнителни данни") :
+																getHTML_Text(fromSerial[10].toString()));
 
 												switchPanel(fromSerial[1]); // type
 
@@ -824,7 +834,6 @@ public class WorkingBook extends MainPanel {
 				break;
 		}
 	}
-
 
 
 	private void returnButtonsEnabled(boolean enabled) {
