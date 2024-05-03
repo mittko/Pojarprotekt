@@ -1,7 +1,8 @@
 package workingbook.workers;
 
 import javaprinters.print.PrintWithoutOpenPdf;
-import pdf.protokol.ProtokolPDF3;
+import pdf.protokol.ProtokolPDF;
+import pdf.protokol.ProtokolPDFBase;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
 import utils.MainPanel;
@@ -75,7 +76,7 @@ public class ProtokolPrinter {
 		// create pdf
 
 		for (int printing = 0; printing < 1; printing++) {
-			ProtokolPDF3 protokolPDF3 = new ProtokolPDF3();
+			ProtokolPDF protokolPDF3 = new ProtokolPDF();
 			boolean pdf = protokolPDF3.processPdf(dtm, partsMap, clientsData,
 					PROTOKOL_NUMBER, timeStamp + helpers[printing], startIndex,
 					endIndex, protokolDate);

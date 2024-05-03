@@ -78,9 +78,10 @@ public class PrintProtokolWorker extends SwingWorker {
 					NewExtinguisherProtokolPDF p = new NewExtinguisherProtokolPDF();
 					// create pdf
 
-					boolean pdf = p.processPdf2(dftm, partsMap, clientsData,
+					boolean pdf = p.processPdf(dftm, partsMap, clientsData,
 							protokolNumber, timeStamp + helpers[printing], 0,
-							dftm.getRowCount());
+							dftm.getRowCount(),MyGetDate.getReversedSystemDate());
+
 					if (pdf) {
 
 						// run pdf
