@@ -204,69 +204,71 @@ public class InvoicePDF extends PdfCreator {
 		mainTable.addCell(value);
 
 		sumOfRows += mainTable.getRowHeight(0);
-		float tablePos = endY - 65;
-		float nextTablePos = tablePos;
+		float nextTablePos = endY - 65;
 		int row = 0;
 		float danOsnova = 0;
-		for (row = 0; dftm != null && row < endIndex; row++) {
+		int RANGE = 0;
+		//for(int i = 0;i < 10;i++) {
+			for (row = 0; dftm != null && row < endIndex; row++) {
+               RANGE++;
 
-			if (tablePos - sumOfRows < document.bottom()) {
-				sumOfRows = 0;
-				mainTable.writeSelectedRows(0, -1, from, row + 1, 30, tablePos,
-						writer.getDirectContent());
-				nextTablePos = 820;
-				from = row + 1;
-				document.newPage();
+				PdfPCell rowCell = new PdfPCell(new Phrase(row + 1 + "", arial10)); // row
+				rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				String obslujvane = dftm.getValueAt(row + startIndex, 0).toString();
+				/*
+				 * if(obslujvane.contains("( Нов )")) { obslujvane =
+				 * obslujvane.replace("( Нов )", ""); }
+				 */
+				if (obslujvane.contains("литра")) {
+					obslujvane = obslujvane.replace("литра", "л");
+				}
+				PdfPCell partCell = new PdfPCell(new Phrase(obslujvane, arial10)); // uslugi
+				// //
+				// dftm.getValueAt(row+startIndex,column).toString()
+				partCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+				PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
+						row + startIndex, 1).toString(), arial10));// measure
+				measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				PdfPCell quantityCell = new PdfPCell(new Phrase(dftm.getValueAt(
+						row + startIndex, 2).toString(), arial10));
+				quantityCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				double doublePrice = Double.parseDouble(dftm.getValueAt(
+						row + startIndex, 3).toString());
+				PdfPCell priceCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
+						"%.2f", doublePrice), arial10));
+				priceCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				double doubleValue = Double.parseDouble(dftm.getValueAt(
+						row + startIndex, 4).toString());
+				PdfPCell valueCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
+						"%.2f", doubleValue), arial10));
+				valueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+				danOsnova += doubleValue;// Double.parseDouble(dftm.getValueAt(row+startIndex,4).toString());
+
+				mainTable.addCell(rowCell);
+				mainTable.addCell(partCell);
+				mainTable.addCell(measureCell);
+				mainTable.addCell(quantityCell);
+				mainTable.addCell(priceCell);
+				mainTable.addCell(valueCell);
+
+				sumOfRows += mainTable.getRowHeight(row + 1);
+
+				if (nextTablePos - sumOfRows < document.bottom()) {
+					sumOfRows = 0;
+					mainTable.writeSelectedRows(0, -1, from, RANGE + 1, 15, nextTablePos,
+							writer.getDirectContent());
+					from = RANGE + 1;
+					nextTablePos = document.top();
+					document.newPage();
+				}
 			}
-
-			PdfPCell rowCell = new PdfPCell(new Phrase(row + 1 + "", arial10)); // row
-			rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-			String obslujvane = dftm.getValueAt(row + startIndex, 0).toString();
-			/*
-			 * if(obslujvane.contains("( Нов )")) { obslujvane =
-			 * obslujvane.replace("( Нов )", ""); }
-			 */
-			if (obslujvane.contains("литра")) {
-				obslujvane = obslujvane.replace("литра", "л");
-			}
-			PdfPCell partCell = new PdfPCell(new Phrase(obslujvane, arial10)); // uslugi
-			// //
-																		// dftm.getValueAt(row+startIndex,column).toString()
-			partCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
-			PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
-					row + startIndex, 1).toString(), arial10));// measure
-			measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-			PdfPCell quantityCell = new PdfPCell(new Phrase(dftm.getValueAt(
-					row + startIndex, 2).toString(), arial10));
-			quantityCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-			double doublePrice = Double.parseDouble(dftm.getValueAt(
-					row + startIndex, 3).toString());
-			PdfPCell priceCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
-					"%.2f", doublePrice), arial10));
-			priceCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-			double doubleValue = Double.parseDouble(dftm.getValueAt(
-					row + startIndex, 4).toString());
-			PdfPCell valueCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
-					"%.2f", doubleValue), arial10));
-			valueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-			danOsnova += doubleValue;// Double.parseDouble(dftm.getValueAt(row+startIndex,4).toString());
-
-			mainTable.addCell(rowCell);
-			mainTable.addCell(partCell);
-			mainTable.addCell(measureCell);
-			mainTable.addCell(quantityCell);
-			mainTable.addCell(priceCell);
-			mainTable.addCell(valueCell);
-
-			sumOfRows += mainTable.getRowHeight(row + 1);
-
-		}
+	//	} // end of test cycle
 		mainTable.setTotalWidth(550);
 		try {
 			mainTable.setWidths(new float[] { nWidth, doingWidth, measureWidth,
@@ -351,7 +353,7 @@ public class InvoicePDF extends PdfCreator {
 			return false;
 		}
 		if (endY - ddsTable.getTotalHeight() < document.bottom()) {
-			endY = 820;
+			endY = document.top();
 			document.newPage();
 		}
 
@@ -381,16 +383,21 @@ public class InvoicePDF extends PdfCreator {
 			return false;
 		}
 		if (endY - lastTable.getTotalHeight() < document.bottom()) {
-			endY = 820;
+			endY = document.top();
 			document.newPage();
 		}
 
 		lastTable.writeSelectedRows(0, -1, endX, endY,
 				writer.getDirectContent());
 
+		if(endY - 60 < document.bottom()) {
+			endY = document.top();
+		} else {
+			endY -= 60;
+		}
 		setTextWithSpacing("Съгласно чл.6 ал.1 от Закона на счетоводството, чл.114 от ЗДДС и чл.78 от" +
 						" ППЗДДС печатът и подписът не са задължителни реквизити на фактура.", 0f, 20,
-				endY - 60, "arial", 7);
+				endY, "arial", 7);
 
 		document.close();
 

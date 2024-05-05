@@ -66,6 +66,8 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 						ORIGINAL[i], 0, mergedTableModel.getRowCount(),
 						MainPanel.personName);
 
+
+
 				// update invoice number
 				if (isCreated) {
 
