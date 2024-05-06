@@ -28,11 +28,10 @@ public class AcquittancePDFromReports extends PdfCreator {
 	private String BIC = "";
 	private String IBAN = "";
 	private float nextAcquittanceTableY;
-	private final int fontSize = 12;
 
 	public void createAcquittancePDF2(ArrayList<String> clientInfo2,
-			DefaultTableModel dftm, String timeStamp, int startIndex,
-			int endIndex) {
+									  DefaultTableModel dftm, String timeStamp, int startIndex,
+									  int endIndex) {
 
 		if (clientInfo2.size() > 0) {
 			name = clientInfo2.get(0); // name or firm
@@ -62,11 +61,11 @@ public class AcquittancePDFromReports extends PdfCreator {
 		// arial10 = new Font(getBaseFont("arial"),fontSize);
 		// set title
 		float titleX = (document.right() / 2) - 100; // ??????
-		float titleY = 800;
+		float titleY = document.top();
 
 
 		setText("—“Œ Œ¬¿ –¿«œ»— ¿ \u2116 "
-				+ dftm.getValueAt(startIndex, 0).toString(), titleX, titleY,
+						+ dftm.getValueAt(startIndex, 0).toString(), titleX, titleY,
 				"arialbd", 12);
 
 		// set up table
@@ -146,7 +145,7 @@ public class AcquittancePDFromReports extends PdfCreator {
 		upTable.setTotalWidth(500);
 
 		float upTableX = 50;
-		float upTableY = 790;
+		float upTableY = document.top() - 20;//790;
 		upTable.writeSelectedRows(0, -1, upTableX, upTableY,
 				writer.getDirectContent());
 
@@ -156,28 +155,39 @@ public class AcquittancePDFromReports extends PdfCreator {
 				endIndex, writer);
 
 		float x2 = upTableX;
-		float y2 = nextAcquittanceTableY - 60;
+		float y2 = nextAcquittanceTableY - 50;
 
 		// set separator
 		drawLine(writer.getDirectContent(), 0, 600.0f, y2 + 20);
 
 		// repeat same table
 		setText("—“Œ Œ¬¿ –¿«œ»— ¿ \u2116 "
-				+ dftm.getValueAt(startIndex, 0).toString(), titleX, y2 - 10,
+						+ dftm.getValueAt(startIndex, 0).toString(), titleX, y2,
 				"arialbd", 12);
 
-		upTable.writeSelectedRows(0, -1, x2, y2 - 20,
+		if(y2 - 20  - upTable.getTotalHeight() <= document.bottom()) {
+			y2 = document.top();
+			document.newPage();
+		} else {
+			y2 -= 20;
+		}
+		upTable.writeSelectedRows(0, -1, x2, y2,
 				writer.getDirectContent());
 
-		setMainTable(dftm, x2, y2 - (upTable.getTotalHeight() + 30),
-				startIndex, endIndex, writer);
+		if(y2 - (upTable.getTotalHeight() + 30) <= document.bottom()) {
+			y2 = document.top();
+			document.newPage();
+		} else {
+			y2 -= (upTable.getTotalHeight() + 30);
+		}
+		setMainTable(dftm, x2, y2, startIndex, endIndex, writer);
 
 		document.close();
 
 	}
 
 	private void setMainTable(DefaultTableModel dftm, float mainTableX,
-			float mainTableY, int startIndex, int endIndex, PdfWriter pdfWriter) {
+							  float mainTableY, int startIndex, int endIndex, PdfWriter pdfWriter) {
 
 		PdfPTable mainTable = new PdfPTable(6);
 
@@ -228,75 +238,76 @@ public class AcquittancePDFromReports extends PdfCreator {
 		float finalSum = 0;
 		boolean go = false;
 
-		// for(int i = 0;i < 5;i++) { // test cycle
+		//for(int i = 0;i < 10;i++) { // test cycle
 
-		for (int row = 0; row < endIndex; row++) {
+			for (int row = 0; row < endIndex; row++) {
 
-			RANGE++;
+				RANGE++;
 
-			sumOfRows += mainTable.getRowHeight(row); // row
+				PdfPCell rowCell = new PdfPCell(new Phrase(RANGE + "", arial10));
+				rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+				mainTable.addCell(rowCell);
 
-			PdfPCell rowCell = new PdfPCell(new Phrase(RANGE + "", arial10));
-			rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			mainTable.addCell(rowCell);
+				// System.out.println(sumOfRows + " " + document.bottom());
 
-			// System.out.println(sumOfRows + " " + document.bottom());
+				String doing = dftm.getValueAt(row + startIndex, 6).toString();
+				if (doing.contains("( ÕÓ‚ )")) {
+					doing = doing.replace("( ÕÓ‚ )", "");
+				}
+				if (doing.contains("ÎËÚ‡")) {
+					doing = doing.replace("ÎËÚ‡", "Î");
+				}
+				PdfPCell doingCell = new PdfPCell(new Phrase(doing, arial10));
+				doingCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
-			String doing = dftm.getValueAt(row + startIndex, 6).toString();
-			if (doing.contains("( ÕÓ‚ )")) {
-				doing = doing.replace("( ÕÓ‚ )", "");
+				mainTable.addCell(doingCell);
+
+				PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
+						row + startIndex, 7).toString(), arial10));
+				measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				mainTable.addCell(measureCell);
+
+				String quantity = (dftm.getValueAt(row + startIndex, 8).toString());
+
+				PdfPCell quantCell = new PdfPCell(
+						new Phrase(quantity + "", arial10));
+				quantCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				mainTable.addCell(quantCell);
+
+				PdfPCell pricCell = new PdfPCell(new Phrase(dftm.getValueAt(
+						row + startIndex, 9).toString(), arial10));
+				pricCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				mainTable.addCell(pricCell);
+
+				String sumOfPrices = dftm.getValueAt(row + startIndex, 10)
+						.toString();
+
+				finalSum += Float.parseFloat(sumOfPrices);
+
+				PdfPCell valCell = new PdfPCell(new Phrase(sumOfPrices, arial10));
+				valCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+				mainTable.addCell(valCell);
+
+				sumOfRows += mainTable.getRowHeight(row+1); // row
+				//
+				if (mainTableNextY - (sumOfRows) <= document.bottom()) {
+					sumOfRows = 0;
+					mainTable.writeSelectedRows(0, -1, from, RANGE + 1, mainTableX,
+							mainTableNextY, pdfWriter.getDirectContent());
+					mainTableNextY = document.top();
+					from = RANGE + 1;
+					document.newPage();
+					go = true;
+					System.out.println("NEW LINE");
+				}
+
 			}
-			if (doing.contains("ÎËÚ‡")) {
-				doing = doing.replace("ÎËÚ‡", "Î");
-			}
-			PdfPCell doingCell = new PdfPCell(new Phrase(doing, arial10));
-			doingCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
-			mainTable.addCell(doingCell);
-
-			PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
-					row + startIndex, 7).toString(), arial10));
-			measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-			mainTable.addCell(measureCell);
-
-			String quantity = (dftm.getValueAt(row + startIndex, 8).toString());
-
-			PdfPCell quantCell = new PdfPCell(
-					new Phrase(quantity + "", arial10));
-			quantCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-			mainTable.addCell(quantCell);
-
-			PdfPCell pricCell = new PdfPCell(new Phrase(dftm.getValueAt(
-					row + startIndex, 9).toString(), arial10));
-			pricCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-			mainTable.addCell(pricCell);
-
-			String sumOfPrices = dftm.getValueAt(row + startIndex, 10)
-					.toString();
-
-			finalSum += Float.parseFloat(sumOfPrices);
-
-			PdfPCell valCell = new PdfPCell(new Phrase(sumOfPrices, arial10));
-			valCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-			mainTable.addCell(valCell);
-			//
-			if (mainTableY - (sumOfRows) < document.bottom()) {
-				sumOfRows = 0;
-				mainTable.writeSelectedRows(0, -1, from, RANGE + 1, mainTableX,
-						mainTableNextY, pdfWriter.getDirectContent());
-				mainTableNextY = 820;
-				from = RANGE + 1;
-				document.newPage();
-				go = true;
-			}
-
-		}
-
-		// } // end of test cycle
+	//	} // end of test cycle
 		try {
 			mainTable.setWidths(new int[] { 20, 300, 80, 80, 80, 80 });
 		} catch (DocumentException e) {
@@ -305,12 +316,12 @@ public class AcquittancePDFromReports extends PdfCreator {
 			PdfErr.pdfErros(e.toString());
 			e.printStackTrace();
 		}
-		mainTable.writeSelectedRows(0, -1, from, RANGE + 1, mainTableX,
+		mainTable.writeSelectedRows(0, -1, from, -1, mainTableX,
 				mainTableNextY, pdfWriter.getDirectContent());
 
 		float dateBottomX = bottomTextX - 10;
-		float dateBottomY = (go ? 800 : mainTableY - 15);
-		for (int i = from; i < RANGE + 1; i++) {
+		float dateBottomY = (go ? document.top() - 15 : mainTableNextY - 15);
+		for (int i = from; i < mainTable.getRows().size(); i++) {
 			dateBottomY -= mainTable.getRowHeight(i);
 		}
 
@@ -350,7 +361,7 @@ public class AcquittancePDFromReports extends PdfCreator {
 	}
 
 	private void drawLine(PdfContentByte cb, float startX, float endX,
-			float startY) {
+						  float startY) {
 
 		cb.setLineWidth(0.5f); // Make a bit thicker than 1.0 default
 		cb.setGrayStroke(0);// (0.95f); // 1 = black, 0 = white
@@ -358,7 +369,6 @@ public class AcquittancePDFromReports extends PdfCreator {
 		cb.lineTo(endX, startY);
 		cb.stroke();
 	}
-
 
 
 	private String extractOnlyDigit(String str) {

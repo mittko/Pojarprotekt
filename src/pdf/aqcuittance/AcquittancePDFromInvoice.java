@@ -152,6 +152,8 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 		upTable.writeSelectedRows(0, -1, upTableX, upTableY,
 				writer.getDirectContent());
 
+		//upTable.getTotalHeight();
+
 		// set main table
 		setMainTable(dftm, upTableX,
 				upTableY - (upTable.getTotalHeight() + 15), startIndex,
@@ -167,10 +169,23 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 		setText("—“Œ Œ¬¿ –¿«œ»— ¿ \u2116 " + acquittanceNumber, titleX,
 				y2 - 10, "arialbd", 12);
 
-		upTable.writeSelectedRows(0, -1, x2, y2 - 20,
+		if(y2 - 20  - upTable.getTotalHeight() <= document.bottom()) {
+			y2 = document.top();
+			document.newPage();
+		} else {
+			y2 -= 20;
+		}
+		upTable.writeSelectedRows(0, -1, x2, y2,
 				writer.getDirectContent());
 
-		setMainTable(dftm, x2, y2 - (upTable.getTotalHeight() + 30),
+
+		if(y2 - (upTable.getTotalHeight() + 30) <= document.bottom()) {
+			y2 = document.top();
+			document.newPage();
+		} else {
+			y2 -= (upTable.getTotalHeight() + 30);
+		}
+		setMainTable(dftm, x2, y2,
 				startIndex, endIndex, finalSumIndex, writer);
 
 		document.close();
@@ -230,7 +245,7 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 		float finalSum = 0;
 		boolean go = false;
 
-		// for(int i = 0;i < 5;i++) { // test cycle
+	//	 for(int i = 0;i < 10;i++) { // test cycle
 
 		for (int row = 0; row < endIndex; row++) {
 
@@ -239,7 +254,6 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 			finalSum += Float.parseFloat(dftm.getValueAt(row + startIndex, 4)
 					.toString());
 
-			sumOfRows += mainTable.getRowHeight(row); // row
 
 			PdfPCell rowCell = new PdfPCell(new Phrase(RANGE + "", arial10));
 			rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -284,12 +298,14 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 			valCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
 			mainTable.addCell(valCell);
+
+			sumOfRows += mainTable.getRowHeight(row + 1); // row
 			//
-			if (mainTableY - (sumOfRows) < document.bottom()) {
+			if (mainTableNextY - (sumOfRows) < document.bottom()) {
 				sumOfRows = 0;
 				mainTable.writeSelectedRows(0, -1, from, RANGE + 1, mainTableX,
 						mainTableNextY, pdfWriter.getDirectContent());
-				mainTableNextY = 820;
+				mainTableNextY = document.top();
 				from = RANGE + 1;
 				document.newPage();
 				go = true;
@@ -297,7 +313,7 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 
 		}
 
-		// } // end of test cycle
+	// } // end of test cycle
 		try {
 			mainTable.setWidths(new int[] { 20, 300, 80, 80, 80, 80 });
 		} catch (DocumentException e) {
@@ -310,8 +326,8 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 				mainTableNextY, pdfWriter.getDirectContent());
 
 		float dateBottomX = bottomTextX - 10;
-		float dateBottomY = (go == true ? 800 : mainTableY - 15);
-		for (int i = from; i < RANGE + 1; i++) {
+		float dateBottomY = (go ? document.top() - 15 : mainTableNextY - 15);
+		for (int i = from; i < mainTable.getRows().size(); i++) {
 			dateBottomY -= mainTable.getRowHeight(i);
 		}
 
