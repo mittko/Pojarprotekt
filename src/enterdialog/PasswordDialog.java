@@ -113,7 +113,6 @@ public class PasswordDialog extends MainPanel {
 		this.setOpaque(false);
 
 		init();
-	//	initFirstValues();
 
 	}
 

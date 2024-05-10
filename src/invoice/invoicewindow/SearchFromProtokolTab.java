@@ -544,6 +544,7 @@ public class SearchFromProtokolTab extends MainPanel {
 	}
 
 	public static void clear() {
+		invoiceTableModel.setRowCount(0);
 		searchField.setText("");
 		discountField.setText("");
 		choiceDiscountButton.setSelected(true); // !!!! attention

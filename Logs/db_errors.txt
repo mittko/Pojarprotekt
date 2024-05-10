@@ -22,3 +22,13 @@ java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error c
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Mon May 06 09:10:17 EEST 2024
 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Mon May 06 09:24:51 EEST 2024
+
+java.sql.SQLTransactionRollbackException: A lock could not be obtained within the time requested  Thu May 09 10:22:39 EEST 2024
+
+java.sql.SQLTransactionRollbackException: A lock could not be obtained within the time requested  Thu May 09 10:22:39 EEST 2024
+
+java.sql.SQLTransactionRollbackException: A lock could not be obtained within the time requested  Thu May 09 10:24:20 EEST 2024
+
+java.sql.SQLTransactionRollbackException: A lock could not be obtained within the time requested  Thu May 09 10:28:02 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri May 10 03:18:28 EEST 2024

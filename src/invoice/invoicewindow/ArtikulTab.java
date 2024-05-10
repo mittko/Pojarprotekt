@@ -462,6 +462,7 @@ public class ArtikulTab extends MainPanel {
 
 	public static void clear() {
 		// acquittanceNumLabel.setName("");
+		dftm.setRowCount(0);
 		sumFieldNoTax.setText("");
 		sumField.setText("");
 		discountField.setText("");
