@@ -236,6 +236,7 @@ public class InvoicePDF extends PdfCreator {
 						row + startIndex, 2).toString(), arial10));
 				quantityCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
+
 				double doublePrice = Double.parseDouble(dftm.getValueAt(
 						row + startIndex, 3).toString());
 				PdfPCell priceCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,

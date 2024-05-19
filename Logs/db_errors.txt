@@ -32,3 +32,9 @@ java.sql.SQLTransactionRollbackException: A lock could not be obtained within th
 java.sql.SQLTransactionRollbackException: A lock could not be obtained within the time requested  Thu May 09 10:28:02 EEST 2024
 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri May 10 03:18:28 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri May 10 03:38:41 EEST 2024
+
+java.sql.SQLSyntaxErrorException: Syntax error: Encountered "order" at line 1, column 22.  Tue May 14 01:03:46 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Sun May 19 10:30:36 EEST 2024

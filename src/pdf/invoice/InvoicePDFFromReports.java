@@ -210,71 +210,82 @@ public class InvoicePDFFromReports extends PdfCreator {
 		float danOsnova = 0;
         int RANGE = 0;
 		//for(int i = 0;i < 10;i++) {
-			for (row = 0; dftm != null && row < stop; row++) {
-				RANGE++;
+		for (row = 0; dftm != null && row < stop; row++) {
+			RANGE++;
 
 
-				PdfPCell rowCell = new PdfPCell(new Phrase(row + 1 + "", arial10)); // row
-				rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			PdfPCell rowCell = new PdfPCell(new Phrase(row + 1 + "", arial10)); // row
+			rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-				String obslujvane = dftm.getValueAt(row + startIndex, 9).toString();
-				/*
+			String obslujvane = dftm.getValueAt(row + startIndex, 9).toString();
+			/*
 				 * if(obslujvane.contains("( Нов )")) { obslujvane =
 				 * obslujvane.replace("( Нов )", ""); }
 				 */
-				if (obslujvane.contains("литра")) {
-					obslujvane = obslujvane.replace("литра", "л");
-				}
-				PdfPCell partCell = new PdfPCell(new Phrase(obslujvane, arial10)); // uslugi
-				// //
-				// dftm.getValueAt(row+startIndex,column).toString()
-				partCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-
-				PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
-						row + startIndex, 10).toString(), arial10));// measure
-				measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-				PdfPCell quantityCell = new PdfPCell(new Phrase(dftm.getValueAt(
-						row + startIndex, 11).toString(), arial10));
-				quantityCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-				int q = Integer.parseInt(dftm.getValueAt(row + startIndex, 11)
-						.toString());
-
-				double doublePrice = Double.parseDouble(dftm.getValueAt(
-						row + startIndex, 12).toString());
-				PdfPCell priceCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
-						"%.2f", doublePrice), arial10));
-				priceCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-				double doubleValue = q * doublePrice;
-
-				PdfPCell valueCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
-						"%.2f", doubleValue), arial10));
-				valueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
-
-				danOsnova += doubleValue;// Double.parseDouble(dftm.getValueAt(row+startIndex,4).toString());
-
-				mainTable.addCell(rowCell);
-				mainTable.addCell(partCell);
-				mainTable.addCell(measureCell);
-				mainTable.addCell(quantityCell);
-				mainTable.addCell(priceCell);
-				mainTable.addCell(valueCell);
-
-				sumOfRows += mainTable.getRowHeight(row + 1);
-
-				if (nextTablePos - sumOfRows < document.bottom()) {
-					sumOfRows = 0;
-					mainTable.writeSelectedRows(0, -1, from, RANGE + 1, 15, nextTablePos,
-							writer.getDirectContent());
-					nextTablePos = document.top();
-					from = RANGE + 1;
-					document.newPage();
-				}
-
+			if (obslujvane.contains("литра")) {
+				obslujvane = obslujvane.replace("литра", "л");
 			}
-	//	} // end of test cycles
+			PdfPCell partCell = new PdfPCell(new Phrase(obslujvane, arial10)); // uslugi
+			// //
+			// dftm.getValueAt(row+startIndex,column).toString()
+			partCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+			PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
+					row + startIndex, 10).toString(), arial10));// measure
+			measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+			PdfPCell quantityCell = new PdfPCell(new Phrase(dftm.getValueAt(
+					row + startIndex, 11).toString(), arial10));
+			quantityCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+
+			double q = 0;
+			try {
+				q = Double.parseDouble(dftm.getValueAt(row + startIndex, 11)
+						.toString());
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			double doublePrice = 0;
+			try {
+				doublePrice = Double.parseDouble(dftm.getValueAt(
+						row + startIndex, 12).toString());
+				System.out.println("PRICE=" + doublePrice);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			PdfPCell priceCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
+					"%.2f", doublePrice), arial10));
+			priceCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+			double doubleValue = q * doublePrice;
+
+			PdfPCell valueCell = new PdfPCell(new Phrase(String.format(Locale.ROOT,
+					"%.2f", doubleValue), arial10));
+			valueCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+
+			danOsnova += doubleValue;// Double.parseDouble(dftm.getValueAt(row+startIndex,4).toString());
+
+			mainTable.addCell(rowCell);
+			mainTable.addCell(partCell);
+			mainTable.addCell(measureCell);
+			mainTable.addCell(quantityCell);
+			mainTable.addCell(priceCell);
+			mainTable.addCell(valueCell);
+
+			sumOfRows += mainTable.getRowHeight(row + 1);
+
+			if (nextTablePos - sumOfRows < document.bottom()) {
+				sumOfRows = 0;
+				mainTable.writeSelectedRows(0, -1, from, RANGE + 1, 15, nextTablePos,
+						writer.getDirectContent());
+				nextTablePos = document.top();
+				from = RANGE + 1;
+				document.newPage();
+			}
+
+		}
+		//	} // end of test cycles
 		mainTable.setTotalWidth(550);
 		try {
 			mainTable.setWidths(new float[] { nWidth, doingWidth, measureWidth,

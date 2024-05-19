@@ -147,19 +147,19 @@ public abstract class AddArtikulDialog extends MainPanel
 		final EditableField barcodeField = new EditableField("Баркод", 10);
 
 		final GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.gridwidth = 2;
 		gbc.insets = new Insets(0, 0, 0, 0);
 		final GridBagConstraints gbc2 = new GridBagConstraints();
-		gbc2.fill = 2;
+		gbc2.fill = GridBagConstraints.HORIZONTAL;
 		gbc2.gridx = 1;
 		gbc2.gridy = 0;
 		gbc2.gridwidth = 3;
 		gbc2.insets = new Insets(0, 0, 0, 0);
 		final GridBagConstraints gbc3 = new GridBagConstraints();
-		gbc3.fill = 2;
+		gbc3.fill = GridBagConstraints.HORIZONTAL;
 		gbc3.gridx = 0;
 		gbc3.gridy = 1;
 		gbc3.gridwidth = 3;
