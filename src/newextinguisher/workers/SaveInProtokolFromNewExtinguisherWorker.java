@@ -1,5 +1,6 @@
 package newextinguisher.workers;
 
+import generators.ProtokolGenerator;
 import newextinguisher.NewExtinguisherWindow;
 import db.NewExtinguisher.ExtinguishersInfo;
 import db.NewExtinguisher.NewExtinguishers_DB;
@@ -8,7 +9,6 @@ import db.Protokol.ProtokolTable;
 import db.ServiceOrder.ServiceNumber;
 import generators.GenerateSO;
 import generators.NumGenerator;
-import generators.ProtokolGenerator;
 import mydate.MyGetDate;
 
 import javax.swing.*;

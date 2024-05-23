@@ -326,4 +326,23 @@ public class InvoiceNumber extends MainPanel {
 	 * update; } } }
 	 */
 
+	public static String getInvoiceCount(String dbPath) {
+		Connection connection = null;
+		Statement statement = null;
+		String sqlCommand = String.format("select max(integer(id)) from %s where length(id) = 10",dbPath);
+		ResultSet resultSet = null;
+		int num = 0;
+		try {
+			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sqlCommand);
+			while (resultSet.next()) {
+				num = resultSet.getInt(1);
+				break;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return String.format("%010d",num+1);
+	}
 }

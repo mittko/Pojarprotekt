@@ -2,7 +2,6 @@ package admin;
 
 import clients.editclient.EditClientPanel;
 import admin.àrtikul.ArtikulTable;
-import admin.àrtikul.ArtikulTableGrey;
 import admin.doing.UpdateWorkPrice;
 import admin.parts.price.UpdatePriceOfParts;
 import admin.parts.quantity.PartsQuantityTable;
@@ -171,7 +170,12 @@ public class AdminDialog extends MainPanel implements ActionListener {
 							}
 
 							case ARTIKUL_PRICE2: {
-								ArtikulTableGrey artikulTableGrey = new ArtikulTableGrey();
+								ArtikulTable artikulTableGrey = new ArtikulTable() {
+									@Override
+									public String getTableName() {
+										return GREY_AVAILABLE_ARTIKULS;
+									}
+								};
 								JDialoger jDialoger = new JDialoger();
 								jDialoger.setContentPane(artikulTableGrey);
 								jDialoger.setResizable(false);

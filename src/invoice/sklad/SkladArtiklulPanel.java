@@ -142,7 +142,11 @@ public class SkladArtiklulPanel extends SkladArtikulFrame implements ILoadArtiku
     }
 
     public ArrayList<Object[]> getArtikuls() {
-        return Artikuli_DB.getAvailableArtikuls(AVAILABLE_ARTIKULS);
+        return Artikuli_DB.getAvailableArtikuls(getDBTable());
+    }
+
+    public String getDBTable() {
+        return AVAILABLE_ARTIKULS;
     }
 
     private void goodbyeCruelWorld() {

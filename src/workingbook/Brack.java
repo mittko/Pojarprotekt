@@ -3,10 +3,8 @@ package workingbook;
 import parts.renderers.ScrabRenderer;
 import workingbook.workers.PrintProtokolBrackWorker;
 import workingbook.workers.SaveInBrackWorker;
-import workingbook.workers.getBrackNumberWorker;
 import db.Brack.BrackNumber;
 import db.Common;
-import generators.ProtokolGenerator;
 import run.JustFrame;
 import utils.BevelLabel;
 import utils.LoadIcon;
@@ -52,11 +50,10 @@ public class Brack extends MainPanel {
 
 	private final BrackNumber bn = new BrackNumber();
 
-	 public static BevelLabel brackNumberLabel = null;
+	 //public static BevelLabel brackNumberLabel = null;
 	 
 	public Brack(String br_number) {
 
-		ProtokolGenerator pg = new ProtokolGenerator();
 	  
       this.BRACK_NUMBER = br_number;
       
@@ -154,16 +151,13 @@ public class Brack extends MainPanel {
 					JDialog jd = ((JDialog)(SwingUtilities.getWindowAncestor(Brack.this)));
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						
-					getBrackNumberWorker getBrackNumber = new getBrackNumberWorker();
-					
+
+					SaveInBrackWorker sw = new SaveInBrackWorker(jd);
 					try {
-						BRACK_NUMBER = getBrackNumber.doInBackground();
+						BRACK_NUMBER = sw.doInBackground();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new RuntimeException(e);
 					}
-					SaveInBrackWorker sw = new SaveInBrackWorker(jd,BRACK_NUMBER);
-					sw.execute();
 				}
 			}
 			
@@ -175,14 +169,10 @@ public class Brack extends MainPanel {
 	 
 	 helpPanel.add(printServiceButton);
 	 
-	brackNumberLabel = new BevelLabel(labelHeight);
-
-	brackNumberLabel.setTitle("Протокол за Брак \u2116 ");
-    brackNumberLabel.setName(br_number);
-   
-  
-	
-	helpPanel.add(brackNumberLabel);
+//	brackNumberLabel = new BevelLabel(labelHeight);
+//	brackNumberLabel.setTitle("Протокол за Брак \u2116 ");
+//    brackNumberLabel.setName(br_number);
+//	helpPanel.add(brackNumberLabel);
 	
 	northPanel.add(helpPanel,BorderLayout.NORTH);
 

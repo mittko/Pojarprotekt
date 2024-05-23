@@ -38,3 +38,19 @@ java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error c
 java.sql.SQLSyntaxErrorException: Syntax error: Encountered "order" at line 1, column 22.  Tue May 14 01:03:46 EEST 2024
 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Sun May 19 10:30:36 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Mon May 20 09:52:17 EEST 2024
+
+insert into ArtikulsDB values ('Гранулиран Сорбент',2,'брой','24.31','00000041857','Мева България ЕООД','20.05.2024','Администратор','21.55','')  Tue May 21 11:14:16 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Wed May 22 09:20:19 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Wed May 22 09:21:11 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Wed May 22 10:25:52 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Thu May 23 03:32:16 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Thu May 23 05:49:09 EEST 2024
+
+java.sql.SQLIntegrityConstraintViolationException: The statement was aborted because it would have caused a duplicate key value in a unique or primary key constraint or unique index identified by 'SQL160518104531640' defined on 'PROTOKOLTABLEDB5'.  Thu May 23 09:06:40 EEST 2024

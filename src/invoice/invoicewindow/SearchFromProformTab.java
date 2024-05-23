@@ -132,7 +132,7 @@ public class SearchFromProformTab extends MainPanel {
 					return;
 				}
 
-				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(INVOICE_PARENT,INVOICE_CHILD,
+				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(
 						PROTOKOL_NUMBER,
 						clientLabel.getName(), paymentLabel.getName(),
 						discountLabel.getName(), MyMath.round(

@@ -1,10 +1,9 @@
 package workingbook.workers;
 
+import db.Protokol.ProtokolNumber;
 import workingbook.Brack;
 import workingbook.WorkingBook;
-import db.Brack.BrackNumber;
 import db.Brack.ProtBrackTable;
-import generators.ProtokolGenerator;
 import mydate.MyGetDate;
 import utils.MainPanel;
 
@@ -15,24 +14,22 @@ import java.util.ArrayList;
 public class SaveInBrackWorker extends SwingWorker {
 	private int result = 0;
 	private JDialog jd = null;
-	private String BRACK_NUMBER = null;
-	private final ProtokolGenerator pg = new ProtokolGenerator();
-	private final BrackNumber bn = new BrackNumber();
-	private int[] next_brack_number = null;
 
-	public SaveInBrackWorker(JDialog jd, String brackNumber) {
+
+
+
+	public SaveInBrackWorker(JDialog jd) {
 		this.jd = jd;
-		this.BRACK_NUMBER = brackNumber;
 	}
 
 	@Override
-	protected Void doInBackground() throws Exception {
+	public String doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
+		final String protocolBrackNumberAsString = ProtokolNumber.getProtokolCount(MainPanel.BRACK);
+
 		try {
-			// update brack number
-			next_brack_number = pg.updateProtokol(BRACK_NUMBER);
-			
+
 
 				for (int row = 0; row < Brack.dtm_Scrab.getRowCount(); row++) {
 					result = ProtBrackTable.insertIntoBrackTableDB(
@@ -43,7 +40,7 @@ public class SaveInBrackWorker extends SwingWorker {
 							Brack.dtm_Scrab.getValueAt(row, 4).toString(), // serial
 							Brack.dtm_Scrab.getValueAt(row, 5).toString(), // category
 							Brack.dtm_Scrab.getValueAt(row, 6).toString(), // brand
-							getReasons(row), BRACK_NUMBER,
+							getReasons(row), protocolBrackNumberAsString,
 							MainPanel.personName, MyGetDate.getReversedSystemDate());
 					if (result <= 0) {
 						break;
@@ -57,10 +54,7 @@ public class SaveInBrackWorker extends SwingWorker {
 					}
 				}
 				// update to new brack number
-				if(result > 0) {
-				int update = bn.updateBrackNumber(pg
-						.digitsToString(next_brack_number));
-				}
+
 				
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -73,15 +67,13 @@ public class SaveInBrackWorker extends SwingWorker {
 						JOptionPane.showMessageDialog(null,
 								"Данните са записани успешно!");
 						Brack.printServiceButton.setEnabled(true);
-						Brack.brackNumberLabel.setName(pg
-								.digitsToString(next_brack_number));
 					}
 
 				}
 
 			});
 		}
-		return null;
+		return protocolBrackNumberAsString;
 	}
 
 	public String getReasons(int row) {

@@ -2,7 +2,6 @@ package acquittance.windows;
 
 import exceptions.DBException;
 import invoice.workers.DecreaseArtikulQuantityWorker;
-import invoice.workers.GetAqcuittanceNumberWorker;
 import invoice.workers.SaveInAcquittanceWorker;
 import invoice.invoicewindow.SearchFromProformTab;
 import invoice.invoicewindow.SearchFromProtokolTab;
@@ -91,14 +90,11 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 						jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 						try {
-							GetAqcuittanceNumberWorker getAcquittanceNumber = new GetAqcuittanceNumberWorker();
-							String updateAcquittanceNumber = getAcquittanceNumber
-									.doInBackground();
 							SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
-									copyOriginTableModel, updateAcquittanceNumber,
+									copyOriginTableModel,
 									MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 									// without ДДС sum/1.2 по старо му
-									personName, CLIENT, date, acquittanceLabel, jd);
+									personName, CLIENT, date,  jd);
 					     	WRITE_IN_ACQUITTANCE_SUCCESS = saveInAcquittance.doInBackground();
 							try {
 								if (WRITE_IN_ACQUITTANCE_SUCCESS ) {

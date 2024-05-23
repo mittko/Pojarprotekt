@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import db.RemoveTable;
 import net.GetCurrentIP;
 import exceptions.DBException;
 import log.DB_Err;
@@ -147,13 +148,40 @@ public class ProtokolNumber extends MainPanel {
 	 * connect.close(); } } catch (SQLException e) { // TODO Auto-generated
 	 * catch block e.printStackTrace(); } } }
 	 */
+
+	public static String getProtokolCount(String dbPath) {
+		Connection connection = null;
+		Statement statement = null;
+		String sqlCommand = String.format("select max(integer(number)) from %s",dbPath);
+		//select max(integer(number)) from %s where number != null
+		ResultSet resultSet = null;
+		int num = 0;
+		try {
+			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sqlCommand);
+			while (resultSet.next()) {
+				num = resultSet.getInt(1);
+				break;
+				//String str = resultSet.getString(1);
+				//System.out.println(str);
+				//RemoveTable.deleteDocument(MainPanel.PROTOKOL,str);
+
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return String.format("%07d",num+1);
+	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		ProtokolNumber pr = new ProtokolNumber();
+		getProtokolCount(PROTOKOL);
 
-		 updateProtokolNumberInDB("0017027"); // 7
-		String protokolNumber = getProtokolNumber();// 0010295
-		System.out.println(protokolNumber);
+		//	 updateProtokolNumberInDB("0017027"); // 7
+		//	String protokolNumber = getProtokolNumber();// 0010295
+		//	System.out.println(protokolNumber);
 	}
 
 }

@@ -1,7 +1,7 @@
 package acquittance.windows;
 
 import acquittance.renderers.AcquittanceCustomTableCellRenderer;
-import acquittance.sklad.workers.SkladArtikulGreyPanel;
+import invoice.sklad.SkladArtiklulPanel;
 import invoice.sklad.workers.LoadAllArtikulsFromInvoiceWorker;
 import invoice.workers.GetDiscountWorker;
 import mydate.MyGetDate;
@@ -119,12 +119,19 @@ public class GreyArtikulTab extends MainPanel {
 					return;
 				}
 
-				SkladArtikulGreyPanel skladArtikulGreyPanel = new SkladArtikulGreyPanel(
+				SkladArtiklulPanel skladArtikulGreyPanel = new SkladArtiklulPanel(
 						dftm/*
 				 * , sumField
 				 */, discountField.getText().isEmpty() ? 0 : Double
 						.parseDouble(discountField.getText()),
-						choiceDiscountButton.isSelected());
+						choiceDiscountButton.isSelected()) {
+
+					@Override
+					public String getDBTable() {
+						return GREY_AVAILABLE_ARTIKULS;
+					}
+
+				};
 
 				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
 						skladArtikulGreyPanel, new JDialog());

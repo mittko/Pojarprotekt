@@ -1,6 +1,5 @@
 package workingbook;
 
-import newextinguisher.workers.getProtokolNumberWorker;
 import workingbook.renderers.DoingRenderer;
 import workingbook.workers.PrintProtokolWorker;
 import workingbook.workers.SaveInProtokolWorker;
@@ -51,7 +50,7 @@ public class View extends MainPanel {
 
 	private String PDF_PROTOKOL_NUMBER = null;
 
-	public static BevelLabel protokolNumberLabel = null;
+	//public static BevelLabel protokolNumberLabel = null;
 
 	public View(String protokolNumber) {
 
@@ -111,22 +110,11 @@ public class View extends MainPanel {
 							.getWindowAncestor(View.this)));
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-					getProtokolNumberWorker gpn = new getProtokolNumberWorker();
-					try {
-						DB_PROTOKOL_NUMBER = gpn.doInBackground();
-
-					} catch (Exception e2) {
-						// TODO Auto-generated catch block
-						e2.printStackTrace();
-					}
 
 					SaveInProtokolWorker sw = new SaveInProtokolWorker(jd,
-							DB_PROTOKOL_NUMBER, getPartsMap());
+						 getPartsMap());
 					try {
-						int result = sw.doInBackground();
-						if (result > 0) {
-							PDF_PROTOKOL_NUMBER = DB_PROTOKOL_NUMBER;
-						}
+						PDF_PROTOKOL_NUMBER = sw.doInBackground();
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -195,9 +183,9 @@ public class View extends MainPanel {
 			}
 		});
 
-		protokolNumberLabel = new BevelLabel(labelHeight);
-		protokolNumberLabel.setTitle(" Протокол № ");
-		protokolNumberLabel.setName(protokolNumber);
+//		protokolNumberLabel = new BevelLabel(labelHeight);
+//		protokolNumberLabel.setTitle(" Протокол № ");
+//		protokolNumberLabel.setName(protokolNumber);
 
 		partsList = new JList<>(new DefaultListModel<>());
 
@@ -303,7 +291,7 @@ public class View extends MainPanel {
 
 		northNorth.add(printProtokolButton);
 
-		northNorth.add(protokolNumberLabel);
+		//northNorth.add(protokolNumberLabel);
 
 		northNorth.add(removeRowButton);
 

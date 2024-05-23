@@ -354,7 +354,7 @@ public class Artikuli_DB extends MainPanel {
 	public static ArrayList<String> getArtikulsName(String dbTable) {
 		Connection connect = null;
 		Statement stat = null;
-		String command = "select artikul from " + dbTable
+		String command = "select distinct artikul from " + dbTable
 				+ " order by artikul";
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;

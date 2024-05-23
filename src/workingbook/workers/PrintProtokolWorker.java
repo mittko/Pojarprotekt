@@ -1,7 +1,6 @@
 package workingbook.workers;
 
 import workingbook.View;
-import generators.ProtokolGenerator;
 import mydate.MyGetDate;
 import utils.ChoisePrinterDialog;
 
@@ -16,7 +15,6 @@ public class PrintProtokolWorker extends SwingWorker {
 	
 	private String PROTOKOL_NUMBER = null;
 	private JDialog jd = null;
-	private final ProtokolGenerator pg = new ProtokolGenerator();
 	private DefaultTableModel dftm = null;
 	private TreeMap<Object,Integer> partsMap = null;
 	private boolean pdf = false;

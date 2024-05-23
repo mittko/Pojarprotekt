@@ -3,7 +3,6 @@ package invoice;
 import invoice.workers.PrintAcquittancePdfWorker;
 import invoice.workers.PrintInvoicePdfWorker;
 import invoice.workers.PrintProformPdfWorker;
-import generators.InvoiceGenerator;
 import utils.ChoisePrinterDialog;
 import utils.MainPanel;
 
@@ -33,7 +32,7 @@ public class PrintInvoiceDialog extends JPanel {
 
 		// varaibles to create pdf
 
-		InvoiceGenerator ig = new InvoiceGenerator();
+
 
 		JPanel basePanel = new JPanel();
 		basePanel.setBorder(BorderFactory.createRaisedBevelBorder());

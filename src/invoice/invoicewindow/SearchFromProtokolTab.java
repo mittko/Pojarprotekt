@@ -1,6 +1,4 @@
 package invoice.invoicewindow;
-
-import acquittance.sklad.workers.SkladArtikulGreyPanel;
 import acquittance.windows.SaveInAcquittanceDBDialog;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.renderers.CustomTableCellRenderer;
@@ -179,12 +177,17 @@ public class SearchFromProtokolTab extends MainPanel {
 
 				SkladArtikulFrame frame = null;
 				if(isGrey) {
-					frame = new SkladArtikulGreyPanel(
+					frame = new SkladArtiklulPanel(
 							invoiceTableModel/*
 					 * , sumField
 					 */, discountField.getText().isEmpty() ? 0 : Double
 							.parseDouble(discountField.getText()),
-							choiceDiscountButton.isSelected());
+							choiceDiscountButton.isSelected()) {
+						@Override
+						public String getDBTable() {
+							return GREY_AVAILABLE_ARTIKULS;
+						}
+					};
 
 				} else {
 					frame = new SkladArtiklulPanel(
@@ -274,9 +277,7 @@ public class SearchFromProtokolTab extends MainPanel {
 
 				if(!isGrey) {
 					SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(
-							INVOICE_PARENT,
-							INVOICE_CHILD
-							,protokolNumber,
+							protokolNumber,
 							INVOICE_CURRENT_CLIENT,
 							paymenCombo.getSelectedItem().toString(),
 							discountField.getText(),

@@ -108,7 +108,7 @@ public class RemoveTable extends MainPanel {
 		return delete;
 	}
 
-	private int deleteDocument(String destination, String numOfDocument) {
+	public static int deleteDocument(String destination, String numOfDocument) {
 		Connection connect = null;
 		Statement stat = null;
 		int update = 0;
@@ -168,6 +168,7 @@ public class RemoveTable extends MainPanel {
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		RemoveTable r = new RemoveTable();
+		deleteDocument(PROTOKOL,"0000002387");
 		//int rw = r.deleteExtinguisher(PROTOKOL, "7000001438010");
 		//System.out.println("document deleted " + rw);
 

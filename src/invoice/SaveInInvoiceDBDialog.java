@@ -41,7 +41,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 
 	private final DefaultTableModel copyOriginTableModel = new DefaultTableModel();
 
-	public SaveInInvoiceDBDialog(final String parentTable, final String childTable, final String protokolNumber, String client,
+	public SaveInInvoiceDBDialog(final String protokolNumber, String client,
 								 final String payment, final String discount, final String sum,
 								 final String personName, final String date, boolean calledFromInvoiceWindow,
 								 final boolean calledFromProformWindow, boolean isAcquittance,
@@ -202,16 +202,12 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						|| invoiceRadioButton.isSelected()) {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-					GetInvoiceNumberWorker getInvoiceNumber = new GetInvoiceNumberWorker();
-					String updatedInvoiceNumber;
 					try {
-						updatedInvoiceNumber = getInvoiceNumber
-								.doInBackground();
+
 						SaveInInvoiceDBWorker saveinInvoice = new SaveInInvoiceDBWorker(
-								parentTable,childTable,
 								jd, payment, discount, sum, CLIENT, personName,
-								date, updatedInvoiceNumber, protokolNumber,
-								copyOriginTableModel, invoiceLabel, isVatRegistered);
+								date, protokolNumber,
+								copyOriginTableModel, isVatRegistered);
 
 						try {
 							WRITE_IN_INVOICE_SUCCESS = saveinInvoice
@@ -249,14 +245,29 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 				} else if(proformRadioButton.isSelected()) {
 
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-					GetProformNumberWorker getProformNumber = new GetProformNumberWorker();
-					String updateProformNumber = null;
+
 					try {
-						updateProformNumber = getProformNumber.doInBackground();
-						SaveInProformDBWorker saveinProform = new SaveInProformDBWorker(
+
+						SaveInInvoiceDBWorker saveinProform = new SaveInInvoiceDBWorker(
 								jd, payment, discount, sum, CLIENT, personName,
-								date, updateProformNumber, protokolNumber,
-								copyOriginTableModel, proformLabel,isVatRegistered);
+								date, protokolNumber,
+								copyOriginTableModel,isVatRegistered) {
+
+							@Override
+							public String getParentTable() {
+								return PROFORM_PARENT;
+							}
+
+							@Override
+							public String getChildTable() {
+								return PROFORM_CHILD;
+							}
+
+							@Override
+							public boolean isInvoice() {
+								return false;
+							}
+						};
 						try {
 							WRITE_IN_PROFORM_SUCCESS = saveinProform
 									.doInBackground();
@@ -277,27 +288,23 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 					try {
-						GetAqcuittanceNumberWorker getAcquittanceNumber = new GetAqcuittanceNumberWorker();
-						String updateAcquittanceNumber = getAcquittanceNumber
-								.doInBackground();
+
 						SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
-								copyOriginTableModel, updateAcquittanceNumber,
+								copyOriginTableModel,
 								MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 								// по старо му sum/1.2 without ДДС
-								personName, CLIENT, date, acquittanceLabel, jd);
+								personName, CLIENT, date, jd);
 						WRITE_IN_ACQUITTANCE_SUCCESS = saveInAcquittance.doInBackground();
 						try {
 							// acquittance + fiskal bon
 							if (WRITE_IN_ACQUITTANCE_SUCCESS && fiskalRadioButton.isSelected()) {
 								// save in reports sells(invoices)
-								String fiskalOfficialNumber = MyGetDate
-										.generateFiskalBonNumber();
+
 								SaveFiskalBonInInvoiceDBWorker saveFiskalInInvoice =
 										new SaveFiskalBonInInvoiceDBWorker(
-												parentTable,childTable,
 												jd, payment, discount, sum, CLIENT, personName,
-												date, fiskalOfficialNumber, protokolNumber,
-												copyOriginTableModel, invoiceLabel);
+												date, protokolNumber,
+												copyOriginTableModel);
 								boolean WRITE_IN_FISKAL_SUCCESS = saveFiskalInInvoice
 										.doInBackground();
 
@@ -333,10 +340,9 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 							.generateFiskalBonNumber();
 					SaveFiskalBonInInvoiceDBWorker saveFiskalInInvoice = new
 							SaveFiskalBonInInvoiceDBWorker(
-									parentTable,childTable,
 							jd, payment, discount, sum, CLIENT, personName,
-							date, fiskalOfficialNumber, protokolNumber,
-							copyOriginTableModel, invoiceLabel);
+							date, protokolNumber,
+							copyOriginTableModel);
 					try {
 						WRITE_IN_FISKAL_SUCCESS = saveFiskalInInvoice
 								.doInBackground();

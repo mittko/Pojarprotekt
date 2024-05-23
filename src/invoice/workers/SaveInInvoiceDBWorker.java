@@ -3,7 +3,6 @@ package invoice.workers;
 import db.Invoice.InvoiceChildDB;
 import db.Invoice.InvoiceNumber;
 import db.Invoice.InvoiceParent_DB;
-import generators.InvoiceGenerator;
 import invoice.PrintInvoiceDialog;
 import run.JDialoger;
 import utils.BevelLabel;
@@ -12,11 +11,13 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+import static utils.MainPanel.INVOICE_CHILD;
+import static utils.MainPanel.INVOICE_PARENT;
+
 public class SaveInInvoiceDBWorker extends SwingWorker {
-	private int updateInvoiceNumber = 0;
+
 	private int parent = 0;
 	private int child = 0;
-	private final InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
 	private JDialog jd = null;
 	private String payment = null;
 	private String discount = null;
@@ -24,21 +25,16 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 	private String currentClient = null;
 	private String personName = null;
 	private String date = null;
-	private String INVOICE_NUMBER = null;
 	private String PROTOKOL_NUMBER = null;
-	private int[] next_invoice = null;
 	private final DefaultTableModel dftm;
-	private final BevelLabel numLabel;
-    private final String parentTable;
-    private final String childTable;
+
 
 	private boolean isVatRegistered;
-	public SaveInInvoiceDBWorker(String parentTable,String childTable, JDialog jd, String payment, String discount,
-			String sum, String currentClient, String personName, String date,
-			String invoiceNumber, String protokolNumber,
-			DefaultTableModel dftm, BevelLabel numLabel, boolean isVatRegistered) {
-		this.parentTable = parentTable;
-		this.childTable = childTable;
+	public SaveInInvoiceDBWorker(JDialog jd, String payment, String discount,
+								 String sum, String currentClient, String personName, String date,
+								 String protokolNumber,
+								 DefaultTableModel dftm, boolean isVatRegistered) {
+
 		this.jd = jd;
 		this.payment = payment;
 		this.discount = discount;
@@ -46,10 +42,8 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 		this.currentClient = currentClient;// taken from combobox
 		this.personName = personName;
 		this.date = date;
-		this.INVOICE_NUMBER = invoiceNumber;
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
-		this.numLabel = numLabel;
 		this.isVatRegistered = isVatRegistered;
 	}
 
@@ -57,11 +51,12 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 	public Boolean doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
-		try {
+		final String invoiceNumberAsString = InvoiceNumber.getInvoiceCount(getParentTable());
 
+		try {
 			// save data in invoice parent
 
-			parent = InvoiceParent_DB.insertIntoInvoiceParent(parentTable,INVOICE_NUMBER,// invoice
+			parent = InvoiceParent_DB.insertIntoInvoiceParent(getParentTable(),invoiceNumberAsString,// invoice
 																				// number
 					PROTOKOL_NUMBER, payment, // payment
 					discount, // discount
@@ -74,8 +69,8 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 			if (parent > 0) {
 				for (int row = 0; row < dftm.getRowCount(); row++) {
 
-					child = InvoiceChildDB.insertIntoInvoiceChild(childTable,
-							INVOICE_NUMBER, dftm.getValueAt(row, 0).toString(), // make
+					child = InvoiceChildDB.insertIntoInvoiceChild(getChildTable(),
+							invoiceNumberAsString, dftm.getValueAt(row, 0).toString(), // make
 							dftm.getValueAt(row, 1).toString(), // med
 							dftm.getValueAt(row, 2).toString(), // quantity
 							dftm.getValueAt(row, 3).toString(), // one price
@@ -85,14 +80,7 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 
 				}
 			}
-			if (parent > 0 && child > 0) {
-				// update invoice number
-				next_invoice = invoiceGenerator.updateInvocie(INVOICE_NUMBER);
 
-				updateInvoiceNumber = InvoiceNumber
-						.updateInvoiceNumber(invoiceGenerator
-								.digitsToString(next_invoice));
-			}
 
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -103,18 +91,10 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					if (parent > 0 && child > 0) {
 
-						if (updateInvoiceNumber > 0) {
-							if (numLabel != null) { // ако се извиква само от
-													// артикули може да е null
-								numLabel.setName(invoiceGenerator
-										.digitsToString(next_invoice));
-							}
-							// if it called from search from protokol panel
-							// clearProtokolDetails();
+						// if it called from search from protokol panel
+						// clearProtokolDetails();
 
-							showPrintDialog(INVOICE_NUMBER);
-
-						}
+						showPrintDialog(invoiceNumberAsString);
 					}
 
 				}
@@ -129,14 +109,22 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 																			// number
 				null, // proform number
 				null, // acquittance number
-				currentClient, date, Double.parseDouble(sum), payment, true, // print
+				currentClient, date, Double.parseDouble(sum), payment, isInvoice(), // print
 																				// protokol
-				false,// print proform
+				!isInvoice(),// print proform
 				false); // print acquittance
 
 		JDialoger jDialoger = new JDialoger();
 		jDialoger.setContentPane(pd);
 		jDialoger.Show();
 	}
-
+	public boolean isInvoice() {
+		return true;
+	}
+	public String getParentTable() {
+		return INVOICE_PARENT;
+	}
+	public String getChildTable() {
+		return INVOICE_CHILD;
+	}
 }

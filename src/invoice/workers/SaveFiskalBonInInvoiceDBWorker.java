@@ -2,17 +2,19 @@ package invoice.workers;
 
 import db.Invoice.InvoiceChildDB;
 import db.Invoice.InvoiceParent_DB;
-import generators.InvoiceGenerator;
+import mydate.MyGetDate;
 import utils.BevelLabel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
+import static utils.MainPanel.INVOICE_CHILD;
+import static utils.MainPanel.INVOICE_PARENT;
+
 public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
-	private final int updateInvoiceNumber = 0;
+
 	private int child = 0;
-	private final InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
 	private JDialog jd = null;
 	private String payment = null;
 	private String discount = null;
@@ -20,19 +22,14 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 	private String currentClient = null;
 	private String personName = null;
 	private String date = null;
-	private String INVOICE_NUMBER = null;
 	private String PROTOKOL_NUMBER = null;
-	private final int[] next_invoice = null;
 	private final DefaultTableModel dftm;
-	private final String parentTable;
-    private final String childTable;
-	public SaveFiskalBonInInvoiceDBWorker(String parentTable, String childTable,
-										  JDialog jd, String payment,
+
+	public SaveFiskalBonInInvoiceDBWorker(
+			JDialog jd, String payment,
 			String discount, String sum, String currentClient,
-			String personName, String date, String invoiceNumber,
-			String protokolNumber, DefaultTableModel dftm, BevelLabel numLabel) {
-		this.parentTable = parentTable;
-		this.childTable = childTable;
+			String personName, String date,
+			String protokolNumber, DefaultTableModel dftm) {
 		this.jd = jd;
 		this.payment = payment;
 		this.discount = discount;
@@ -40,7 +37,6 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 		this.currentClient = currentClient;// taken from combobox
 		this.personName = personName;
 		this.date = date;
-		this.INVOICE_NUMBER = invoiceNumber;
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
 	}
@@ -49,13 +45,16 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 	public Boolean doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
+		String fiskalOfficialNumber = MyGetDate
+				.generateFiskalBonNumber();
+
 		int parent = 0;
 		try {
 
 			// save data in invoice parent
 
-			parent = InvoiceParent_DB.insertIntoInvoiceParent(parentTable,
-					INVOICE_NUMBER,// invoice  number
+			parent = InvoiceParent_DB.insertIntoInvoiceParent(getParentTable(),
+					fiskalOfficialNumber,// invoice  number
 					PROTOKOL_NUMBER, payment, // payment
 					discount, // discount
 					sum, // final sum
@@ -67,8 +66,8 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 			if (parent > 0) {
 				for (int row = 0; row < dftm.getRowCount(); row++) {
 
-					child = InvoiceChildDB.insertIntoInvoiceChild(childTable,
-							INVOICE_NUMBER, dftm.getValueAt(row, 0).toString(), // make
+					child = InvoiceChildDB.insertIntoInvoiceChild(getChildTable(),
+							fiskalOfficialNumber, dftm.getValueAt(row, 0).toString(), // make
 							dftm.getValueAt(row, 1).toString(), // med
 							dftm.getValueAt(row, 2).toString(), // quantity
 							dftm.getValueAt(row, 3).toString(), // one price
@@ -92,5 +91,13 @@ public class SaveFiskalBonInInvoiceDBWorker extends SwingWorker {
 		}
 		return parent > 0 && child > 0;
 	}
+
+	private String getParentTable() {
+		return INVOICE_PARENT;
+	}
+	private String getChildTable() {
+		return INVOICE_CHILD;
+	}
+
 
 }

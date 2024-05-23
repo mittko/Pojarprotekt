@@ -184,8 +184,7 @@ public class ArtikulTab extends MainPanel {
 					return;
 				}
 
-				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(INVOICE_PARENT,
-						INVOICE_CHILD,
+				SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(
 						"-",// here protokol
 						// number is not
 						// needed and is
