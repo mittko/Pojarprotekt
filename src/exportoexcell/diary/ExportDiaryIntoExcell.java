@@ -195,18 +195,22 @@ public class ExportDiaryIntoExcell {
 			TreeSet<String> protokolNumbers = new TreeSet<String>();
 			// populate set with protokol numbers
 			for (Object[] datum : extractedData) {
-				protokolNumbers.add(datum[12].toString());
+
+				if(datum[12] != null) {
+					String protocolNumber = datum[12].toString();
+					protokolNumbers.add(protocolNumber);
+				}
 			}
 
 			GetInvoiceNumberFromProtokolWorker getInvoiceNumber = new GetInvoiceNumberFromProtokolWorker(
 					protokolNumbers);
-			HashMap<String, String> invoiceNumbersMap = getInvoiceNumber
+			HashMap<String, String> invoiceNumbersMapsss = getInvoiceNumber
 					.doInBackground();
 
 			sheet.getSettings().setScaleFactor(95);
 			sheet.getSettings().setPrintGridLines(true);
 			sheet.getSettings().setLeftMargin(0.25);// <- use inches this is
-													// santimeters -> (0.64);
+			// santimeters -> (0.64);
 			sheet.getSettings().setRightMargin(0.25);// (0.64);
 			sheet.getSettings().setTopMargin(0.35);// (0.91);
 			sheet.getSettings().setBottomMargin(0.35);// (0.91);
@@ -257,6 +261,10 @@ public class ExportDiaryIntoExcell {
 			int lastIndex = tableRow;
 			while (dataRow < extractedData.size()) {
 
+				if(extractedData.get(dataRow)[12] == null) {
+					dataRow++;
+					continue;
+				}
 				if (currentHeight >= pageHeight) {
 					// sheet.addRowPageBreak(tableRow);
 					setHeaders(sheet, tableRow, tableRow + 1);
@@ -271,7 +279,7 @@ public class ExportDiaryIntoExcell {
 						.toString();
 				if (dataRow == 0
 						|| (dataRow > 0 && !protokolNumber.equals(extractedData
-								.get(dataRow - 1)[12].toString()))) {
+						.get(dataRow - 1)[12].toString()))) {
 
 					String clientString = (String) extractedData.get(dataRow)[0];
 					// set left alignment
@@ -284,7 +292,7 @@ public class ExportDiaryIntoExcell {
 					sheet.addCell(protokolNumberLabel);
 
 					Label invoiceNumberLabel = new Label(2, tableRow,
-							invoiceNumbersMap.get(protokolNumber), font9);
+							invoiceNumbersMapsss.get(protokolNumber), font9);
 
 					sheet.addCell(invoiceNumberLabel);
 
@@ -374,10 +382,10 @@ public class ExportDiaryIntoExcell {
 				}
 
 				Label chasti = new Label(7, tableRow, stringChasti, fontH8);// ???
-																			// fontH8
-																			// gi
-																			// sabira
-																			// vsichkite
+				// fontH8
+				// gi
+				// sabira
+				// vsichkite
 				sheet.addCell(chasti);
 
 				// set model
@@ -578,7 +586,7 @@ public class ExportDiaryIntoExcell {
 	}
 
 	private WritableCellFormat getExcellCellFormat(FontName fontName,
-			int fontSize, Colour color) {
+												   int fontSize, Colour color) {
 		/*
 		 * Colour colour = Colour.BLACK; WritableFont wfontStatus = new
 		 * WritableFont(WritableFont.createFont("Arial"),

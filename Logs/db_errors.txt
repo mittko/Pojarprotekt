@@ -54,3 +54,13 @@ java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error c
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Thu May 23 05:49:09 EEST 2024
 
 java.sql.SQLIntegrityConstraintViolationException: The statement was aborted because it would have caused a duplicate key value in a unique or primary key constraint or unique index identified by 'SQL160518104531640' defined on 'PROTOKOLTABLEDB5'.  Thu May 23 09:06:40 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri May 24 09:57:12 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 192.168.1.156 on port 1527 with message Connection timed out: connect.  Fri May 24 08:59:10 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 192.168.1.156 on port 1527 with message Connection timed out: connect.  Fri May 24 08:59:40 EEST 2024
+
+java.sql.SQLSyntaxErrorException: Syntax error: Encountered "order" at line 1, column 31.  Fri May 24 09:08:04 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Sat May 25 08:54:26 EEST 2024

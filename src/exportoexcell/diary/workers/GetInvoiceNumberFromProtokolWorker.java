@@ -24,9 +24,7 @@ public class GetInvoiceNumberFromProtokolWorker extends SwingWorker  {
 	@Override
 	public HashMap<String,String> doInBackground() throws Exception {
 		// TODO Auto-generated method stub
-		HashMap<String,String> invoiceNumbers = 
-				InvoiceParent_DB.getInvoiceNumbersFromProtokol(protokolNumbers);
-		return invoiceNumbers;
+		return InvoiceParent_DB.getInvoiceNumbersFromProtokol(protokolNumbers);
 	}
 
 }

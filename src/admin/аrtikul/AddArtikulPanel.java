@@ -21,8 +21,8 @@ public class AddArtikulPanel extends AddArtikulDialog
 {
 
 
-	private IEditArtikuls iEditArtikuls;
-	private String dbTable;
+	private final IEditArtikuls iEditArtikuls;
+	private final String dbTable;
 	public AddArtikulPanel(IEditArtikuls iEditArtikuls,String dbTable, String artikulItem,
 						   String skladitem,  String invoiceNumber, String client, String percentProfit) {
 		super(dbTable,artikulItem, skladitem,  invoiceNumber, client, percentProfit);
@@ -43,7 +43,7 @@ public class AddArtikulPanel extends AddArtikulDialog
 	@Override
 	public void saveInDB(ClientsListComboBox2 clientComboBox,
 						 ArtikulsListComboBox artikulsComboBox,
-						 JTextField skladField, JTextField medField,
+						 JTextField skladField, MedComboBox medComboBox,
 						 JTextField deliveryValueField,
 						 JTextField bigFinalValueField,
 						 EditableField invoiceField,
@@ -63,7 +63,7 @@ public class AddArtikulPanel extends AddArtikulDialog
 		iEditArtikuls.addArtikul(
 				clientComboBox.getSelectedItem().toString(),
 				artikulsComboBox.getEditor().getItem().toString(),
-				skladField.getText(), medField.getText(),
+				skladField.getText(), medComboBox.getSelectedItem().toString(),
 				deliveryValueField.getText(),
 				bigFinalValueField.getText(),
 				invoiceField.getText(),

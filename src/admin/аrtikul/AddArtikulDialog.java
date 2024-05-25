@@ -6,7 +6,8 @@
 
 package admin.аrtikul;
 
-import utils.MyMath;
+import admin.аrtikul.workers.GetCurrArtikulValueInSkladWorker;
+import utils.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,10 +26,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import utils.ArtikulsListComboBox;
-import utils.EditableField;
-import utils.ClientsListComboBox2;
-import utils.MainPanel;
 
 public abstract class AddArtikulDialog extends MainPanel
 {
@@ -36,8 +33,10 @@ public abstract class AddArtikulDialog extends MainPanel
 	private EditableField invoiceField;
 	private final ArtikulsListComboBox artikulsComboBox;
 	private JTextField skladField;
-	private JTextField medField;
+	private MedComboBox medComboBox;
 	private JTextField deliveryValueField;
+	private JTextField currValueField;
+
 	private JTextField bigFinalValueField;
 	private JTextField percentProfitField;
 	private JTextField dateField;
@@ -50,10 +49,10 @@ public abstract class AddArtikulDialog extends MainPanel
 
 	}
 
-	public AddArtikulDialog(String artikulsDB, final String artikulItem, final String skladitem,  final String invoiceNumber, final String client,  final String percentProfit) {
+	public AddArtikulDialog(final String artikulsDB, final String artikulItem, final String skladitem, final String invoiceNumber, final String client, final String percentProfit) {
 		this.invoiceField = null;
 		this.skladField = null;
-		this.medField = null;
+		this.medComboBox = null;
 		this.deliveryValueField = null;
 		this.bigFinalValueField = null;
 		this.percentProfitField = null;
@@ -70,7 +69,30 @@ public abstract class AddArtikulDialog extends MainPanel
 		final JLabel artikulLabel = new JLabel("Артикул");
 		final JLabel skladLabel = new JLabel("Брой");
 		final JLabel medLabel = new JLabel("Мер. единица  ");
+		final JButton currValueButton = new JButton("Текуща сена");
+		currValueButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+                String item = artikulsComboBox.getSelectedItem().toString();
+                double value = new GetCurrArtikulValueInSkladWorker(
+						artikulsDB,
+						item
+				).doInBackground();
+				currValueField.setText(String.format("%.2f",value).replace(",","."));
+			}
+		});
 		final JButton deliveryValueButton = new JButton("Доставна цена");
+		deliveryValueButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+               String item = artikulsComboBox.getSelectedItem().toString();
+			   double value = new GetCurrArtikulValueInSkladWorker(
+					   DELIVERY_ARTIKULS,
+					   item
+			   ).doInBackground();
+			   deliveryValueField.setText(String.format("%.2f",value).replace(",","."));
+			}
+		});
 		final JLabel dateLabel = new JLabel("    Дата");
 		final JPanel rightPanel = new JPanel();
 		rightPanel.setOpaque(false);
@@ -100,15 +122,7 @@ public abstract class AddArtikulDialog extends MainPanel
 				final String skladNum = textField.getText();
 			}
 		});
-		(this.medField = new JTextField(6)).setText("брой");
-		this.medField.setEditable(true);
-		this.medField.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(final KeyEvent ke) {
-				final JTextField textField = (JTextField)ke.getSource();
-				final String med = textField.getText();
-			}
-		});
+		this.medComboBox = new MedComboBox();
 
 		(this.deliveryValueField = new JTextField(6)).setForeground(Color.red);
 		this.deliveryValueField.addKeyListener(new KeyAdapter() {
@@ -117,6 +131,14 @@ public abstract class AddArtikulDialog extends MainPanel
 				final JTextField textField = (JTextField)ke.getSource();
 				if (textField.getText().equals("") || textField.getText().isEmpty()) {}
 				AddArtikulDialog.this.setPercentProfit("0", textField.getText(), AddArtikulDialog.this.bigFinalValueField.getText());
+			}
+		});
+		this.currValueField = new JTextField(6);
+		this.currValueField.setEditable(false);
+		this.currValueField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				super.keyReleased(e);
 			}
 		});
 		(this.bigFinalValueField = new JTextField(6)).setForeground(Color.red);
@@ -146,135 +168,164 @@ public abstract class AddArtikulDialog extends MainPanel
 
 		final EditableField barcodeField = new EditableField("Баркод", 10);
 
-		final GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 2;
-		gbc.insets = new Insets(0, 0, 0, 0);
-		final GridBagConstraints gbc2 = new GridBagConstraints();
-		gbc2.fill = GridBagConstraints.HORIZONTAL;
-		gbc2.gridx = 1;
-		gbc2.gridy = 0;
-		gbc2.gridwidth = 3;
-		gbc2.insets = new Insets(0, 0, 0, 0);
-		final GridBagConstraints gbc3 = new GridBagConstraints();
-		gbc3.fill = GridBagConstraints.HORIZONTAL;
-		gbc3.gridx = 0;
-		gbc3.gridy = 1;
-		gbc3.gridwidth = 3;
-		gbc3.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc4 = new GridBagConstraints();
-		gbc4.fill = 2;
-		gbc4.gridx = 1;
-		gbc4.gridy = 1;
-		gbc4.gridwidth = 3;
-		gbc4.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc5 = new GridBagConstraints();
-		gbc5.fill = GridBagConstraints.HORIZONTAL;
-		gbc5.gridx = 0;
-		gbc5.gridy = 2;
-		gbc5.gridwidth = 1;
-		gbc5.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc6 = new GridBagConstraints();
-		gbc6.fill = GridBagConstraints.HORIZONTAL;
-		gbc6.gridx = 1;
-		gbc6.gridy = 2;
-		gbc6.gridwidth = 1;
-		gbc6.insets = new Insets(5, 0, 0, 0);
+		final GridBagConstraints gbc00 = new GridBagConstraints();
+		gbc00.fill = GridBagConstraints.HORIZONTAL;
+		gbc00.gridx = 0;
+		gbc00.gridy = 0;
+		gbc00.gridwidth = 2;
+		gbc00.insets = new Insets(0, 0, 0, 0);
+
+		final GridBagConstraints gbc01 = new GridBagConstraints();
+		gbc01.fill = GridBagConstraints.HORIZONTAL;
+		gbc01.gridx = 0;
+		gbc01.gridy = 1;
+		gbc01.gridwidth = 3;
+		gbc01.insets = new Insets(5, 0, 0, 0);
+
+		final GridBagConstraints gbc02 = new GridBagConstraints();
+		gbc02.fill = GridBagConstraints.HORIZONTAL;
+		gbc02.gridx = 0;
+		gbc02.gridy = 2;
+		gbc02.gridwidth = 1;
+		gbc02.insets = new Insets(5, 0, 0, 0);
+
+		final GridBagConstraints gbc03 = new GridBagConstraints();
+		gbc03.fill = 2;
+		gbc03.gridx = 0;
+		gbc03.gridy = 3;
+		gbc03.insets = new Insets(5, 0, 0, 0);
+
+		final GridBagConstraints gbc04 = new GridBagConstraints();
+		gbc04.fill = 2;
+		gbc04.gridx = 0;
+		gbc04.gridy = 4;
+		gbc04.gridwidth = 1;
+		gbc04.insets = new Insets(5, 0, 0, 0);
+
+		final GridBagConstraints gbc05 = new GridBagConstraints();
+		gbc05.fill = 2;
+		gbc05.gridx = 0;
+		gbc05.gridy = 5;
+		gbc05.gridwidth = 1;
+		gbc05.insets = new Insets(5, 0, 0, 0);
+
+		final GridBagConstraints gbc10 = new GridBagConstraints();
+		gbc10.fill = GridBagConstraints.HORIZONTAL;
+		gbc10.gridx = 1;
+		gbc10.gridy = 0;
+		gbc10.gridwidth = 3;
+		gbc10.insets = new Insets(0, 0, 0, 0);
 
 		final GridBagConstraints gbc11 = new GridBagConstraints();
 		gbc11.fill = 2;
-		gbc11.gridx = 0;
-		gbc11.gridy = 4;
+		gbc11.gridx = 1;
+		gbc11.gridy = 1;
+		gbc11.gridwidth = 3;
 		gbc11.insets = new Insets(5, 0, 0, 0);
+
 		final GridBagConstraints gbc12 = new GridBagConstraints();
-		gbc12.fill = 2;
+		gbc12.fill = GridBagConstraints.HORIZONTAL;
 		gbc12.gridx = 1;
-		gbc12.gridy = 4;
+		gbc12.gridy = 2;
 		gbc12.gridwidth = 1;
 		gbc12.insets = new Insets(5, 0, 0, 0);
 
-		final GridBagConstraints gbc22 = new GridBagConstraints();
-		gbc22.fill = 2;
-		gbc22.gridx = 0;
-		gbc22.gridy = 7;
-		gbc22.gridwidth = 1;
-		gbc22.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc23 = new GridBagConstraints();
-		gbc23.fill = 2;
-		gbc23.gridx = 1;
-		gbc23.gridy = 7;
-		gbc23.gridwidth = 1;
-		gbc23.insets = new Insets(5, 0, 0, 0);
+		final GridBagConstraints gbc13 = new GridBagConstraints();
+		gbc13.fill = 2;
+		gbc13.gridx = 1;
+		gbc13.gridy = 3;
+		gbc13.gridwidth = 1;
+		gbc13.insets = new Insets(5, 0, 0, 0);
 
-		final GridBagConstraints gbc25 = new GridBagConstraints();
-		gbc25.fill = 2;
-		gbc25.gridx = 0;
-		gbc25.gridy = 8;
-		gbc25.gridwidth = 1;
-		gbc25.insets = new Insets(5, 0, 0, 0);
-		final GridBagConstraints gbc26 = new GridBagConstraints();
-		gbc26.fill = 2;
-		gbc26.gridx = 1;
-		gbc26.gridy = 8;
-		gbc26.gridwidth = 1;
-		gbc26.insets = new Insets(5, 0, 0, 0);
+		final GridBagConstraints gbc14 = new GridBagConstraints();
+		gbc14.fill = 2;
+		gbc14.gridx = 1;
+		gbc14.gridy = 4;
+		gbc14.gridwidth = 1;
+		gbc14.insets = new Insets(5, 0, 0, 0);
 
-		this.saveInDBButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(final ActionEvent arg0) {
-				if (!AddArtikulDialog.this.checkUserInput(AddArtikulDialog.this.artikulsComboBox.getEditor().getItem().toString(), AddArtikulDialog.this.skladField.getText(), AddArtikulDialog.this.medField.getText(), AddArtikulDialog.this.deliveryValueField.getText(), AddArtikulDialog.this.bigFinalValueField.getText(), AddArtikulDialog.this.invoiceField.getText(), AddArtikulDialog.this.clientComboBox.getSelectedItem().toString(), AddArtikulDialog.this.dateField.getText(), AddArtikulDialog.this.percentProfitField.getText())) {
-					return;
-				}
-				saveInDB(AddArtikulDialog.this.clientComboBox, AddArtikulDialog.this.artikulsComboBox,
-						AddArtikulDialog.this.skladField, AddArtikulDialog.this.medField,
-						AddArtikulDialog.this.deliveryValueField, AddArtikulDialog.this.bigFinalValueField,
-						AddArtikulDialog.this.invoiceField,
-						AddArtikulDialog.this.dateField, AddArtikulDialog.this.personField,
-						AddArtikulDialog.this.percentProfitField,barcodeField);
-			}
-		});
-		rightPanel.add(clientLabel, gbc);
-		rightPanel.add(this.clientComboBox, gbc2);
-		rightPanel.add(artikulLabel, gbc3);
-		rightPanel.add(this.artikulsComboBox, gbc4);
+		final GridBagConstraints gbc15 = new GridBagConstraints();
+		gbc15.fill = 2;
+		gbc15.gridx = 1;
+		gbc15.gridy = 5;
+		gbc15.gridwidth = 1;
+		gbc15.insets = new Insets(5, 0, 0, 0);
 
-		rightPanel.add(invoiceLabel,gbc5);
+		GridBagConstraints gbc06 = new GridBagConstraints();
+		gbc06.gridx = 0;
+		gbc06.gridy = 6;
+
+		GridBagConstraints gbc16 = new GridBagConstraints();
+		gbc16.gridx = 2;
+		gbc16.gridy = 6;
+
+		final JPanel percentProfitPanel = new JPanel();
+		percentProfitPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+		percentProfitPanel.add(new JLabel("% Печалба"));
+		percentProfitPanel.add(this.percentProfitField);
 
 		JPanel invoicePanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
 		invoicePanel.add(invoiceField);
 		invoicePanel.add(dateLabel);
 		invoicePanel.add(dateField);
 
-		rightPanel.add(invoicePanel, gbc6);
-
 		JPanel datePanel = new JPanel();
 		datePanel.setLayout(new FlowLayout(FlowLayout.LEADING));
-
-		rightPanel.add(skladLabel, gbc11);
 
 		JPanel skladFieldPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
 		skladFieldPanel.add(skladField);
 		skladFieldPanel.add(medLabel);
-		skladFieldPanel.add(medField);
+		skladFieldPanel.add(medComboBox);
 
-		rightPanel.add(skladFieldPanel, gbc12);
+		final JPanel deliveryFinalValuePanel = new JPanel();
+		deliveryFinalValuePanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+		deliveryFinalValuePanel.add(deliveryValueField);
+		deliveryFinalValuePanel.add(new JLabel("Крайна цена"));
+		deliveryFinalValuePanel.add(this.bigFinalValueField);
 
-		final JPanel percentProfitPanel = new JPanel();
-		percentProfitPanel.setLayout(new FlowLayout(0));
-		percentProfitPanel.add(new JLabel("% Печалба"));
-		percentProfitPanel.add(this.percentProfitField);
+		JPanel currValuePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		currValuePanel.add(currValueField);
+		currValuePanel.add(percentProfitPanel);
 
-		rightPanel.add(deliveryValueButton, gbc22);
+		JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		savePanel.add(new JLabel("                "));
+		savePanel.add(saveInDBButton);
 
-		final JPanel middleFinalValuePanel = new JPanel();
-		middleFinalValuePanel.setLayout(new FlowLayout(0));
-		middleFinalValuePanel.add(deliveryValueField);
-		middleFinalValuePanel.add(new JLabel("Крайна цена"));
-		middleFinalValuePanel.add(this.bigFinalValueField);
-		middleFinalValuePanel.add(percentProfitPanel);
-		rightPanel.add(middleFinalValuePanel, gbc23);
+		this.saveInDBButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent arg0) {
+				if (!AddArtikulDialog.this.checkUserInput(AddArtikulDialog.this.artikulsComboBox.getEditor().getItem().toString(), AddArtikulDialog.this.skladField.getText(), AddArtikulDialog
+						.this.medComboBox.getSelectedItem().toString(), AddArtikulDialog.this.deliveryValueField.getText(), AddArtikulDialog.this.bigFinalValueField.getText(), AddArtikulDialog.this.invoiceField.getText(), AddArtikulDialog.this.clientComboBox.getSelectedItem().toString(), AddArtikulDialog.this.dateField.getText(), AddArtikulDialog.this.percentProfitField.getText())) {
+					return;
+				}
+				saveInDB(AddArtikulDialog.this.clientComboBox, AddArtikulDialog.this.artikulsComboBox,
+						AddArtikulDialog.this.skladField, AddArtikulDialog.this.medComboBox,
+						AddArtikulDialog.this.deliveryValueField, AddArtikulDialog.this.bigFinalValueField,
+						AddArtikulDialog.this.invoiceField,
+						AddArtikulDialog.this.dateField, AddArtikulDialog.this.personField,
+						AddArtikulDialog.this.percentProfitField,barcodeField);
+			}
+		});
+		rightPanel.add(clientLabel, gbc00);
+		rightPanel.add(artikulLabel, gbc01);
+		rightPanel.add(invoiceLabel,gbc02);
+		rightPanel.add(skladLabel, gbc03);
+		rightPanel.add(currValueButton, gbc04);
+		rightPanel.add(deliveryValueButton, gbc05);
+
+		rightPanel.add(barcodeField,gbc06);
+
+		rightPanel.add(this.clientComboBox, gbc10);
+		rightPanel.add(this.artikulsComboBox, gbc11);
+		rightPanel.add(invoicePanel, gbc12);
+		rightPanel.add(skladFieldPanel, gbc13);
+		rightPanel.add(currValuePanel, gbc14);
+		rightPanel.add(deliveryFinalValuePanel,gbc15);
+
+
+		rightPanel.add(savePanel, gbc16);
+
+
 		final JButton loadButton = new JButton("Презареди");
 		loadButton.addActionListener(new ActionListener() {
 			@Override
@@ -283,8 +334,8 @@ public abstract class AddArtikulDialog extends MainPanel
 			}
 		});
 
-		barcodeField.setPreferredSize(new Dimension((int)(middleFinalValuePanel.getPreferredSize().getWidth() * 0.2f),
-				(int)(middleFinalValuePanel.getPreferredSize().getHeight() * 0.9f)));
+		barcodeField.setPreferredSize(new Dimension((int)(deliveryFinalValuePanel.getPreferredSize().getWidth() * 0.2f),
+				(int)(deliveryFinalValuePanel.getPreferredSize().getHeight() * 0.9f)));
 		barcodeField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -295,15 +346,11 @@ public abstract class AddArtikulDialog extends MainPanel
 				ArrayList<String> list = selectArtikulsByBarcode(barcodeField.getText());
 				if(list != null) {
 					if(list.size() > 0) {
-
 						artikulsComboBox.setSelectedItem(list.get(0));
-						medField.setText(list.get(2));
 						clientComboBox.setSelectedItem(list.get(5));
-
 					} else {
 
 						artikulsComboBox.setSelectedItem("");
-						medField.setText("");
 						clientComboBox.setSelectedItem("");
 						JOptionPane.showMessageDialog(null,"Не е намерен такъв елемент !");
 
@@ -311,12 +358,10 @@ public abstract class AddArtikulDialog extends MainPanel
 				}
 			}
 		});
-		rightPanel.add(barcodeField, gbc25);
 
-		JPanel savePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		savePanel.add(new JLabel("                "));
-		savePanel.add(saveInDBButton);
-		rightPanel.add(savePanel, gbc26);
+
+
+
 
 		basePanel2.add(rightPanel);
 		this.add(basePanel2);
@@ -410,7 +455,7 @@ public abstract class AddArtikulDialog extends MainPanel
 
 	public abstract void saveInDB(ClientsListComboBox2 clientComboBox,
 								  ArtikulsListComboBox artikulsComboBox,
-								  JTextField skladField, JTextField medField,
+								  JTextField skladField, MedComboBox medComboBox,
 								  JTextField deliveryValueField,
 								  JTextField bigFinalValueField,
 								  EditableField invoiceField,

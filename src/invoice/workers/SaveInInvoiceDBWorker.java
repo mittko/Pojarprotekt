@@ -105,9 +105,9 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 	}
 
 	private void showPrintDialog(String invoiceNumber) {
-		PrintInvoiceDialog pd = new PrintInvoiceDialog(dftm, invoiceNumber, // invoice
+		PrintInvoiceDialog pd = new PrintInvoiceDialog(dftm, isInvoice() ? invoiceNumber : null, // invoice
 																			// number
-				null, // proform number
+				isInvoice() ? null : invoiceNumber, // proform number
 				null, // acquittance number
 				currentClient, date, Double.parseDouble(sum), payment, isInvoice(), // print
 																				// protokol

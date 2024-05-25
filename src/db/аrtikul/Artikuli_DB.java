@@ -164,7 +164,7 @@ public class Artikuli_DB extends MainPanel {
 	// }
 	// }
 
-	public static double getCurrValueForArtikulInAvailables(String artikul/*
+	public static double getCurrValueForArtikulInAvailables(String dbPath, String artikul/*
 																		 * ,
 																		 * String
 																		 * kontragent
@@ -176,7 +176,7 @@ public class Artikuli_DB extends MainPanel {
 		double bestValue = 0;
 		Connection connect = null;
 		Statement stat = null;
-		String command = "select value from " + AVAILABLE_ARTIKULS
+		String command = "select value from " + dbPath
 				+ " where artikul = '" + artikul + "'";/*
 														 * "' and client = '" +
 														 * kontragent + "'" +
