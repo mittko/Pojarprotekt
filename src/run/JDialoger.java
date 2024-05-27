@@ -2,6 +2,7 @@ package run;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -17,6 +18,8 @@ public class JDialoger extends JDialog {
 	}
 
 	public void Show() {
+		Locale locale = new Locale("bg","BG");
+		this.getInputContext().selectInputMethod(locale);
 		this.setModal(true);
 		this.pack();
 		this.setJDialogLocationOnTheCenter();

@@ -3,6 +3,7 @@ package run;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.Locale;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -17,6 +18,8 @@ public class JustFrame extends JFrame {
 
 	private String pathToIcon;
 	private ImageIcon icon;
+
+	final Locale locale = new Locale("bg","BG");
 
 	@Override
 	public Font getFont() {
@@ -38,7 +41,7 @@ public class JustFrame extends JFrame {
 		this.setSize(WIDTH, HEIGHT);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        this.getInputContext().selectInputMethod(locale);
 	}
 
 	public void setFrameLocationOnTheCenter() {
