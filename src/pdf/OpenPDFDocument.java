@@ -16,7 +16,10 @@ public class OpenPDFDocument {
 			if (pdfFile.exists()) {
 
 				if (Desktop.isDesktopSupported()) {
-					Desktop.getDesktop().open(pdfFile);
+				//	Desktop.getDesktop().open(pdfFile);
+
+					Desktop.getDesktop().print(pdfFile);
+
 				} else {
                      JOptionPane.showMessageDialog(null, "Awt Desktop is not supported!");
 				     log.OtherErr.otherErros("Awt Desktop is not supported");

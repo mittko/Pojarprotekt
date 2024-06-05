@@ -1,6 +1,7 @@
 package invoice.workers;
 
 import javaprinters.print.PrintWithoutOpenPdf;
+import pdf.OpenPDFDocument;
 import pdf.invoice.InvoicePDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
@@ -71,14 +72,14 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 				// update invoice number
 				if (isCreated) {
 
-					// OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
-					// "\\Фактура-"
-					// + timeStamps[0] + "-" + invoiceNumber + ".pdf");
+					 OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
+					 "\\Фактура-"
+					 + timeStamps[0] + "-" + invoiceNumber + ".pdf");
 
-					PrintWithoutOpenPdf.printWithoutDialog(
-							MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
-									+ timeStamps[i] + "-" + invoiceNumber
-									+ ".pdf", ps, copies[i]);
+//					PrintWithoutOpenPdf.printWithoutDialog(
+//							MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
+//									+ timeStamps[i] + "-" + invoiceNumber
+//									+ ".pdf", ps, copies[i]);
 
 				}
 			}

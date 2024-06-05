@@ -1,5 +1,6 @@
 package reports.workers;
 
+import javaprinters.print.PrintWithoutOpenPdf;
 import pdf.invoice.InvoicePDFFromReports;
 import pdf.OpenPDFDocument;
 import db.Client.ClientTable;
@@ -97,9 +98,9 @@ public class PrintReportsForInvoiceDocumentsType extends SwingWorker {
 					 OpenPDFDocument.pdfRunner(PATH + "\\" + TITLE + "-"
 					 + timeStamps[i] + "-" + Number + ".pdf");
 
-				/*	PrintWithoutOpenPdf.printWithoutDialog(PATH, "\\" + TITLE
-							+ "-" + timeStamps[i] + "-" + Number + ".pdf", ps,
-							copies[i]);*/
+//					PrintWithoutOpenPdf.printWithoutDialog(PATH, "\\" + TITLE
+//							+ "-" + timeStamps[i] + "-" + Number + ".pdf", ps,
+//							copies[i]);
 
 				}
 			}

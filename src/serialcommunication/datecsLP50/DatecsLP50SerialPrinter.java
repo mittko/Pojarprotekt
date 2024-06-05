@@ -1,7 +1,6 @@
 package serialcommunication.datecsLP50;
 
 
-import static serialcommunication.SerialPortManager.connect;
 
 public class DatecsLP50SerialPrinter {
     private final String deleteForm = "FK\"Test\"";
@@ -24,7 +23,7 @@ public class DatecsLP50SerialPrinter {
         DatecsLP50SerialPrinter datecsLP50SerialPrinter =
                 new DatecsLP50SerialPrinter();
 // connects to the port which name (e.g. COM1) is in the first argument
-        connect("COM2");
+       // connect("COM2");
         datecsLP50SerialPrinter.sendMessage("123456789012");
         // if stream is not bound in.read() method returns -1
     }

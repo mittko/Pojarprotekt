@@ -94,11 +94,11 @@ public class ServiceOrder extends MainPanel {
 
 	public BevelLabel serviceNumberLabel;
 
-	private GenerateSO genSO;
+	private final GenerateSO genSO;
 
-	private BarcodGenerator bGen;
+	private final BarcodGenerator bGen;
 
-	private int[] allDigits;
+	private final int[] allDigits;
 
 	private int[] barcodDigits;
 

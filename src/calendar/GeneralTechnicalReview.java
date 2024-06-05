@@ -6,6 +6,7 @@ import calendar.renderers.DetailsRenderer;
 import calendar.renderers.MyTableCellRenderer;
 import exportoexcell.diary.ChoiseDateForDiary;
 import db.Calendar.GeneralTechnicalReviewDB;
+import http.technical_review.TechnicalReviewService;
 import menu.MainMenu;
 import mydate.MyGetDate;
 import run.JDialoger;
@@ -267,6 +268,19 @@ public class GeneralTechnicalReview extends MainPanel {
 		final JFrame f = (JFrame) SwingUtilities
 				.getWindowAncestor(GeneralTechnicalReview.this);
 		f.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+		final String from = "01." + MyGetDate.getCurrentMonth() + "."
+				+ MyGetDate.getCurrentYear();
+		final String to = MyGetDate.getDaysFromCurrentMonth() + "."
+				+ MyGetDate.getCurrentMonth() + "."
+				+ MyGetDate.getCurrentYear();
+
+		TechnicalReviewService service = new TechnicalReviewService();
+
+		int a = 0;
+
+		service.getTechnicalReview(from,to);
+
 		SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 
 			@SuppressWarnings("finally")
@@ -279,16 +293,13 @@ public class GeneralTechnicalReview extends MainPanel {
 					// MainPanel.loadSallerData();
 
 					// then ????? 01 or curr date
-					String from = "01." + MyGetDate.getCurrentMonth() + "."
-							+ MyGetDate.getCurrentYear();
-					String to = MyGetDate.getDaysFromCurrentMonth() + "."
-							+ MyGetDate.getCurrentMonth() + "."
-							+ MyGetDate.getCurrentYear();
+
 
 					list = GeneralTechnicalReviewDB.getTechnicalPreview(from,
 							to);
 
 					getResult(list);
+
 				} finally {
 					SwingUtilities.invokeLater(new Runnable() {
 
@@ -328,7 +339,7 @@ public class GeneralTechnicalReview extends MainPanel {
 			// key[4] -> P
 			// key[5] -> HI
 			// key[6] -> number
-			// key[7] -. additional_data
+			// key[7] -. additional_dataDA
 			if (!helpSet.contains(used_number)) {
 				value = new ArrayList<Extinguishers>();
 				value.add(new Extinguishers(id, key[1], key[2], !key[3]

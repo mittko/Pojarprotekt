@@ -36,11 +36,14 @@ public class GeneralTechnicalReviewDB extends MainPanel {
 					+ from
 					+ "') and Date('" + to + "') ) and (uptodate is null)";//
 
+
+
 			rs = stat.executeQuery(sql);
 			ResultSetMetaData rsmd = rs.getMetaData();
 			ArrayList<Object> newObject = new ArrayList<Object>();
 			while (rs.next()) {
 				newObject = new ArrayList<Object>();
+				rsmd = rs.getMetaData();
 				for (int i = 0; i < rsmd.getColumnCount(); i++) {
 					newObject.add(rs.getString(i + 1));
 				}
