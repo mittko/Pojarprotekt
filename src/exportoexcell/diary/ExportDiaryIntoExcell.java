@@ -69,7 +69,7 @@ public class ExportDiaryIntoExcell {
 	String HI;
 	HashMap<String, ClientInfo> clientMap = new HashMap<String, ClientInfo>();
 
-	private class ClientInfo {
+	private static class ClientInfo {
 		private final String city;
 		private final String tel;
 
@@ -122,6 +122,13 @@ public class ExportDiaryIntoExcell {
 		imageInBytes4 = getImageInBytes(workingDir + "/Images/спас.jpg");
 	}
 
+//	Does JXL support XLSX?
+//	Here the most significant difference between JXL and Apache POI is, JXL does not support the ". xlsx"
+//	format (Excel 2007 and +) , it just supports the old ". xls" format.
+//	Where as Apache POI supports both XLS and XLSX formats.
+//  For now you should convert .xls to .xlsx manually from Excel document (Save as ...)
+
+
 	public void createDiary(String from, String to) throws Exception {
 		init();
 
@@ -133,6 +140,7 @@ public class ExportDiaryIntoExcell {
 				+ MyGetDate.getReversedSystemDate() + " Дневник.xls");
 		try {
 			workBook = Workbook.createWorkbook(diaryFile);
+
 			WritableSheet sheet = workBook.createSheet("Fisrt Sheet", 0);
 
 			setFoot(sheet);
@@ -466,9 +474,6 @@ public class ExportDiaryIntoExcell {
 						break;
 					case "Христо Георгин":
 						sheet.addImage(getImage(tableRow, 18, imageInBytes2));
-						break;
-					case "Георги Ильов":
-						sheet.addImage(getImage(tableRow, 18, imageInBytes3));
 						break;
 					case "Спас Ильов":
 						sheet.addImage(getImage(tableRow, 18, imageInBytes4));

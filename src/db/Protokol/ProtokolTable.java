@@ -44,45 +44,7 @@ public class ProtokolTable extends MainPanel {
 	 * e); e.printStackTrace(); } } }
 	 */
 
-	private void createAutoIncrementProtokolTable() {
 
-		Connection connection = null;
-		Statement statement = null;
-
-		String command = "create table PROTOCOL_TABLE_AUTOINCREMENT2 "
-				+ "(number INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1)"
-				+ " ,client varchar(200), type varchar(150),"
-				+ " wheight varchar(30), barcod varchar(30), serial varchar(30), category varchar(20),"
-				+ " brand varchar(50), T_O varchar(20), P varchar(20), HI varchar(20),"
-				+ " parts varchar(1000), value varchar(20), "
-				+ " person varchar(100), date varchar(20), kontragent varchar(200),"
-				+ " invoiceByKontragent varchar(20) , additional_data varchar(200) )";
-		try {
-			connection = DriverManager.getConnection(GetCurrentIP.DB_PATH);
-			statement = connection.createStatement();
-			statement.execute(command);
-			System.out.println("table created successfully !");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				if (statement != null) {
-					statement.close();
-				}
-				if (connection != null) {
-					connection.close();
-				}
-			} catch (SQLException e) { // TODO Auto-generated catch block
-				log.DB_Err.writeErros(e.toString());
-				DBException.showErrorMessage("Грешка", e);
-				System.err.println(e.getMessage());
-			}
-		}
-
-
-
-	}
 
 	public static int[] insertIntoProtokolTableDB(DefaultTableModel protokolTableModel, String number, String tehnik,
 										  String date) {

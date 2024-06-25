@@ -64,3 +64,13 @@ java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error c
 java.sql.SQLSyntaxErrorException: Syntax error: Encountered "order" at line 1, column 31.  Fri May 24 09:08:04 EEST 2024
 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Sat May 25 08:54:26 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri Jun 21 09:24:32 EEST 2024
+
+insert into ArtikulsDB values ('Лопата равна',2,'броя','25','10000108370','ДЖЕНЕРАЛ ДИСТРИБЮШЪН АД','21.06.2024','Администратор','57.04','')  Fri Jun 21 11:53:09 EEST 2024
+
+insert into ArtikulsDB values ('Лопата равна',2,'броя','25','10000108370','ДЖЕНЕРАЛ ДИСТРИБЮШЪН АД','21.05.2024','Администратор','57.04','')  Fri Jun 21 11:56:03 EEST 2024
+
+insert into ArtikulsDB values ('Кирка',3,'броя','25','10000108370','ДЖЕНЕРАЛ ДИСТРИБЮШЪН АД','21.05.2024','Администратор','-20.36','')  Fri Jun 21 11:59:40 EEST 2024
+
+insert into ArtikulsDB values ('Брадва',2,'броя','30','10000108370','ДЖЕНЕРАЛ ДИСТРИБЮШЪН АД','21.05.2024','Администратор','-42.57','')  Fri Jun 21 00:01:14 EEST 2024
