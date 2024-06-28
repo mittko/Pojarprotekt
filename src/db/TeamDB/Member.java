@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import models.User;
 import net.GetCurrentIP;
 import exceptions.DBException;
 import utils.MainPanel;
@@ -163,26 +164,38 @@ public class Member extends MainPanel {
 		return result;
 	}
 
-	public static String[] getUser(String usser) {
+	public static User getUser(String usser) {
 		Connection connect = null;
 		Statement stat = null;
 		ResultSet rs = null;
 		String command = "select usser, password, Service_Order, Working_Book,"
 				+ " Invoice, Reports,"
 				+ " New_Ext , Hidden_Menu, Acquittance from " + TEAM// ,
-				// Acquittance
 				+ " where usser = " + "'" + usser + "'";
 		String[] obj = new String[] { "user", "password", "no", "no", "no",
 				"no", "no", "no", "no" };//
 		// da se dobawi , Acquittance no
+		User user = new User();
 		try {
 			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
 			stat = connect.createStatement();
 			rs = stat.executeQuery(command);
 			while (rs.next()) {
-				for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
-					obj[i] = rs.getString(i + 1);
-				}
+				user.setUsser(rs.getString(1));
+				user.setPassword(rs.getString(2));
+				user.setService_Order(rs.getString(3));
+				user.setWorking_Book(rs.getString(4));
+				user.setInvoice(rs.getString(5));
+				user.setReports(rs.getString(6));
+				user.setNew_Ext(rs.getString(7));
+				user.setHidden_Menu(rs.getString(8));
+				user.setAcquittance(rs.getString(9));
+
+
+//				for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
+//					obj[i] = rs.getString(i + 1);
+//
+//				}
 				break;
 			}
 		} catch (SQLException e) {
@@ -207,7 +220,7 @@ public class Member extends MainPanel {
 				e.printStackTrace();
 			}
 		}
-		return obj;
+		return user;
 	}
 
 	public static int updateAllColumnValues(String column, String value) {

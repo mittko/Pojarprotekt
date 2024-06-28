@@ -6,8 +6,11 @@ import calendar.renderers.DetailsRenderer;
 import calendar.renderers.MyTableCellRenderer;
 import exportoexcell.diary.ChoiseDateForDiary;
 import db.Calendar.GeneralTechnicalReviewDB;
+import http.RequestCallback;
+import http.technical_review.IGetTechnicalReview;
 import http.technical_review.TechnicalReviewService;
 import menu.MainMenu;
+import models.TechnicalReview;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.HeaderTable;
@@ -21,6 +24,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.*;
+import java.util.List;
 
 public class GeneralTechnicalReview extends MainPanel {
 
@@ -259,6 +263,7 @@ public class GeneralTechnicalReview extends MainPanel {
 		this.add(noMinimize);
 
 	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
@@ -279,47 +284,107 @@ public class GeneralTechnicalReview extends MainPanel {
 
 		int a = 0;
 
-		service.getTechnicalReview(from,to);
-
-		SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
-
-			@SuppressWarnings("finally")
+		service.getTechnicalReview(from, to, new RequestCallback() {
 			@Override
-			protected Boolean doInBackground() throws Exception {
-				// TODO Auto-generated method stub
-
-				try {
-					// load saller data
-					// MainPanel.loadSallerData();
-
-					// then ????? 01 or curr date
-
-
-					list = GeneralTechnicalReviewDB.getTechnicalPreview(from,
-							to);
-
-					getResult(list);
-
-				} finally {
-					SwingUtilities.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-
-							// TODO Auto-generated method stub
-							visualizeResult();
-
-							f.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-
-						}
-
-					});
-
-				}
-				return true;
+			public <T> void callback(List<T> objects) {
+				getResult2((List<TechnicalReview>) objects);
+				visualizeResult();
+				f.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
-		};
-		sw.execute();
+		});
+
+//		SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
+//
+//			@SuppressWarnings("finally")
+//			@Override
+//			protected Boolean doInBackground() throws Exception {
+//				// TODO Auto-generated method stub
+//
+//				try {
+//					// load saller data
+//					// MainPanel.loadSallerData();
+//
+//					// then ????? 01 or curr date
+//
+//
+//					list = GeneralTechnicalReviewDB.getTechnicalPreview(from,
+//							to);
+//
+//					getResult(list);
+//
+//				} finally {
+//					SwingUtilities.invokeLater(new Runnable() {
+//
+//						@Override
+//						public void run() {
+//
+//							// TODO Auto-generated method stub
+//							visualizeResult();
+//
+//							f.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//
+//						}
+//
+//					});
+//
+//				}
+//				return true;
+//			}
+//		};
+//		sw.execute();
+	}
+
+	private void getResult2(List<TechnicalReview> list) {
+		ArrayList<Extinguishers> value = null;
+		for (TechnicalReview technicalReview : list) {
+			String id = technicalReview.getClient() + " " + technicalReview.getNumber();//key[0] + " " + key[6];
+			String used_number = technicalReview.getNumber();// key[6].toString();
+			String additional_data = technicalReview.getAdditional_data() != null ?
+					technicalReview.getAdditional_data() : " - ";
+
+			// ArrayList<Extinguishers> value = detailsMap.get(id); // check if
+			// key (client)
+			// exist in hashtable
+			// key[0] -> client
+			// key[1] -> type
+			// key[2] -> wheight
+			// key[3] -> T_O
+			// key[4] -> P
+			// key[5] -> HI
+			// key[6] -> number
+			// key[7] -. additional_dataDA
+			if (!helpSet.contains(used_number)) {
+				value = new ArrayList<Extinguishers>();
+				value.add(new Extinguishers(id, technicalReview.getType(),
+						technicalReview.getWheight(), !technicalReview.getT_O()
+						.equals("не") ? MyGetDate.getUrgentDays(
+						MyGetDate.getReversedSystemDate(), technicalReview.getT_O())
+						: technicalReview.getT_O(), !technicalReview.getP().equals("не") ? MyGetDate.getUrgentDays(
+						MyGetDate.getReversedSystemDate(), technicalReview.getP())
+						: technicalReview.getP(), !technicalReview.getHI().equals("не") ? MyGetDate.getUrgentDays(
+						MyGetDate.getReversedSystemDate(), technicalReview.getHI())
+						: technicalReview.getHI(), additional_data));
+
+				detailsMap.put(
+						new Protokol_ID(technicalReview.getClient(), technicalReview.getNumber()),
+						value);
+
+				mouseClickMap.put(id, value);
+
+				helpSet.add(used_number);
+
+			} else {
+
+				value.add(new Extinguishers(id, technicalReview.getType(), technicalReview.getWheight(), !technicalReview.getT_O()
+						.equals("не") ? MyGetDate.getUrgentDays(
+						MyGetDate.getReversedSystemDate(), technicalReview.getT_O())
+						: technicalReview.getT_O(), !technicalReview.getP().equals("не") ? MyGetDate.getUrgentDays(
+						MyGetDate.getReversedSystemDate(), technicalReview.getP())
+						: technicalReview.getP(), !technicalReview.getHI().equals("не") ? MyGetDate.getUrgentDays(
+						MyGetDate.getReversedSystemDate(), technicalReview.getHI())
+						: technicalReview.getHI(), additional_data));
+			}
+		}
 	}
 
 	private void getResult(ArrayList<Object[]> list) {

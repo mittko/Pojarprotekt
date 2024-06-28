@@ -1,6 +1,7 @@
 package db.аrtikul;
 
 import exceptions.DBException;
+import exceptions.InOutException;
 import log.DB_Err;
 import jxl.Cell;
 import jxl.Sheet;
@@ -11,10 +12,13 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
+import log.IOErrorsWriter;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -1482,6 +1486,42 @@ public class Artikuli_DB extends MainPanel {
 		// GetDate.getReversedSystemDate(),// дата
 		// "Спас Ильов"); // продавач
 		// }
+
+		read("D:\\translations_de.csv");
+	}
+
+	private static void read(String filepath) {
+		FileReader fileReader = null;
+		BufferedReader buff = null;
+		String line = null;
+		try {
+			fileReader =  new FileReader(filepath);
+			buff = new BufferedReader(fileReader);
+			while( (line = buff.readLine()) != null){
+				String[] spl = line.split(";");
+				System.out.printf("<string name=\"%s\">%s</string>\n",spl[0],spl[1]);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			IOErrorsWriter.writeIO(e.toString());
+			InOutException.showErrorMessage(e);
+			e.printStackTrace();
+		} finally {
+			try {
+				if(fileReader != null) {
+					fileReader.close();
+				}
+				if(buff != null) {
+					buff.close();
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				IOErrorsWriter.writeIO(e.toString());
+				InOutException.showErrorMessage(e);
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static Object[][] readExcel(String fileName) {
@@ -1496,9 +1536,10 @@ public class Artikuli_DB extends MainPanel {
 
 				for (int row = 0; row < sheet.getRows(); row++) {
 					Cell cell = sheet.getCell(column, row);
-					obj[row][column] = cell.getContents();
+					//	obj[row][column] = cell.getContents();
+					System.out.print(cell.getContents()+" ");
 				}
-
+				System.out.println();
 			}
 		} catch (IOException | BiffException e) {
 			// TODO Auto-generated catch block

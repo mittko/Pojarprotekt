@@ -82,3 +82,7 @@ java.sql.SQLException: DERBY SQL error: SQLCODE: -1, SQLSTATE: XJ040, SQLERRMC: 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Wed Jun 05 04:30:15 EEST 2024
 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Wed Jun 05 05:04:09 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Wed Jun 26 10:57:47 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Thu Jun 27 08:52:01 EEST 2024

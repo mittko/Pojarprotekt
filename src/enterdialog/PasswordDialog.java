@@ -2,7 +2,10 @@ package enterdialog;
 
 import calendar.GeneralTechnicalReview;
 import exceptions.InOutException;
+import http.RequestCallback2;
+import http.user.GetUserService;
 import log.IOErrorsWriter;
+import models.User;
 import workingbook.WorkingBook;
 import db.Client.ClientTable;
 import db.TeamDB.Member;
@@ -26,7 +29,7 @@ public class PasswordDialog extends MainPanel {
 
 	private JTextField field = null;
 	private JPasswordField enterPassword = null;
-	private String[] user_password = null;
+	private final User user = null;
 	JustFrame enterFrame = null;
 	GeneralTechnicalReview tr = null;
 
@@ -173,95 +176,183 @@ public class PasswordDialog extends MainPanel {
 
 		frame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-
+		GetUserService userService = new GetUserService();
+		userService.getUser(field.getText(), new RequestCallback2() {
 			@Override
-			protected Void doInBackground() throws Exception {
-				// TODO Auto-generated method stub
-				try {
+			public <T> void callback(T t) {
+				frame.dispose();
 
-					user_password = Member.getUser(field.getText());
-					if (user_password == null) {
-						return null;
-					}
+				User user = (User) t;
 
-					if (!field.getText().equals(user_password[0])) {
+				if (!field.getText().equals(user.getUsser())) {
+					JOptionPane.showMessageDialog(null,
+							"Грешно потребителско име!");
+					return;
+				} else {
+					String password = new String(
+							enterPassword.getPassword());
+					if (!password.equals(user.getPassword())) {
 						JOptionPane.showMessageDialog(null,
-								"Грешно потребителско име!");
-						return null;
-					} else {
-						String password = new String(
-								enterPassword.getPassword());
-						if (!password.equals(user_password[1])) {
-							JOptionPane.showMessageDialog(null,
-									"Грешно въведена парола!");
-							return null;
+								"Грешно въведена парола!");
+						return;
+					}
+				}
+				// variable init
+				personName = user.getUsser();
+
+
+
+				ACCESS_MENU[0] = user.getService_Order().equals("yes");
+				ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
+				ACCESS_MENU[2] = user.getInvoice().equals("yes");
+				ACCESS_MENU[3] = user.getReports().equals("yes");
+				ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
+				ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
+				ACCESS_MENU[6] = user.getAcquittance().equals("yes");
+
+
+				tr = new GeneralTechnicalReview();
+				enterFrame = new JustFrame();
+				enterFrame.add(tr);
+				enterFrame.setResizable(false);
+				tr.loadData();
+
+				enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
+				enterFrame.setFrameLocationOnTheCenter();
+				enterFrame.addWindowListener(new WindowAdapter() {
+					@Override
+					public void windowClosing(WindowEvent we) {
+						int yes_no = JOptionPane.showOptionDialog(
+								null, "Изход", "ПОЖАРПРОТЕКТ",
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null,
+								new String[] { "Да", "Не" }, // this
+								// is
+								// the
+								// array
+								"default");
+
+						if (yes_no == 0) {
+
+							DeleteFiles df = new DeleteFiles();
+							df.removeTmpFile();
+
+							enterFrame
+									.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+						} else {
+							enterFrame
+									.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 						}
 					}
-
-					loadSallerDataAndDoingPrice();
-
-					SwingUtilities.invokeLater(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-
-							frame.dispose();
-							// variable init
-							personName = user_password[0];
-
-							for (int i = 2; i < user_password.length; i++) {
-								if (user_password[i].equals("yes"))
-									ACCESS_MENU[i - 2] = true;
-							}
-
-							tr = new GeneralTechnicalReview();
-							enterFrame = new JustFrame();
-							enterFrame.add(tr);
-							enterFrame.setResizable(false);
-							tr.loadData();
-
-							enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
-							enterFrame.setFrameLocationOnTheCenter();
-							enterFrame.addWindowListener(new WindowAdapter() {
-								@Override
-								public void windowClosing(WindowEvent we) {
-									int yes_no = JOptionPane.showOptionDialog(
-											null, "Изход", "ПОЖАРПРОТЕКТ",
-											JOptionPane.YES_NO_OPTION,
-											JOptionPane.QUESTION_MESSAGE, null,
-											new String[] { "Да", "Не" }, // this
-																			// is
-																			// the
-																			// array
-											"default");
-
-									if (yes_no == 0) {
-
-										DeleteFiles df = new DeleteFiles();
-										df.removeTmpFile();
-
-										enterFrame
-												.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-									} else {
-										enterFrame
-												.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-									}
-								}
-							});
-						}
-
-					});
-				} finally {
-					frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				}
-				return null;
+				});
 			}
+		});
 
-		};
-		worker.execute();
+		loadSallerDataAndDoingPrice();
+
+
+//		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+//
+//			@Override
+//			protected Void doInBackground() throws Exception {
+//				// TODO Auto-generated method stub
+//				try {
+//
+//
+//					user = Member.getUser(field.getText());
+//					if (user == null) {
+//						return null;
+//					}
+//
+//					if (!field.getText().equals(user.getUsser())) {
+//						JOptionPane.showMessageDialog(null,
+//								"Грешно потребителско име!");
+//						return null;
+//					} else {
+//						String password = new String(
+//								enterPassword.getPassword());
+//						if (!password.equals(user.getPassword())) {
+//							JOptionPane.showMessageDialog(null,
+//									"Грешно въведена парола!");
+//							return null;
+//						}
+//					}
+//
+//					loadSallerDataAndDoingPrice();
+//
+//					SwingUtilities.invokeLater(new Runnable() {
+//
+//						@Override
+//						public void run() {
+//							// TODO Auto-generated method stub
+//
+//							frame.dispose();
+//							// variable init
+//							personName = user.getUsser();
+//
+//
+//
+//                            ACCESS_MENU[0] = user.getService_Order().equals("yes");
+//							ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
+//							ACCESS_MENU[2] = user.getInvoice().equals("yes");
+//							ACCESS_MENU[3] = user.getReports().equals("yes");
+//							ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
+//							ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
+//							ACCESS_MENU[6] = user.getAcquittance().equals("yes");
+//
+//
+////							for (int i = 2; i < user_password.length; i++) {
+////								if (user_password[i].equals("yes"))
+////									ACCESS_MENU[i - 2] = true;
+////							}
+//
+//							tr = new GeneralTechnicalReview();
+//							enterFrame = new JustFrame();
+//							enterFrame.add(tr);
+//							enterFrame.setResizable(false);
+//							tr.loadData();
+//
+//							enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
+//							enterFrame.setFrameLocationOnTheCenter();
+//							enterFrame.addWindowListener(new WindowAdapter() {
+//								@Override
+//								public void windowClosing(WindowEvent we) {
+//									int yes_no = JOptionPane.showOptionDialog(
+//											null, "Изход", "ПОЖАРПРОТЕКТ",
+//											JOptionPane.YES_NO_OPTION,
+//											JOptionPane.QUESTION_MESSAGE, null,
+//											new String[] { "Да", "Не" }, // this
+//																			// is
+//																			// the
+//																			// array
+//											"default");
+//
+//									if (yes_no == 0) {
+//
+//										DeleteFiles df = new DeleteFiles();
+//										df.removeTmpFile();
+//
+//										enterFrame
+//												.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//									} else {
+//										enterFrame
+//												.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+//									}
+//								}
+//							});
+//						}
+//
+//					});
+//				} finally {
+//					frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//				}
+//				return null;
+//			}
+//
+//		};
+//		worker.execute();
 	}
 
 	private void loadSallerDataAndDoingPrice() {
