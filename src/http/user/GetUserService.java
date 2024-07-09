@@ -20,7 +20,7 @@ public class GetUserService extends ServiceAPI {
                 if (response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
-                    ErrorDialog.showErrorMessage(response.code()+"");
+                    ErrorDialog.showHttpError(response);
                 }
             }
 

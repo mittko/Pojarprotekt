@@ -1,6 +1,7 @@
 package http.technical_review;
 
 import com.google.gson.Gson;
+import exceptions.ErrorDialog;
 import http.RequestCallback;
 import http.base.ServiceAPI;
 import models.TechnicalReview;
@@ -28,13 +29,13 @@ public class TechnicalReviewService extends ServiceAPI {
                     callback.callback(response.body());
 
                 } else {
-
+                    ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<TechnicalReview>> call, Throwable throwable) {
-                System.out.println(throwable.getMessage());
+                ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

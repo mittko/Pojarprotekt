@@ -1,5 +1,6 @@
 package http.client;
 
+import exceptions.ErrorDialog;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
 import models.Firm;
@@ -17,12 +18,16 @@ public class GetClientService extends ServiceAPI {
         getService().getFirm(client).enqueue(new Callback<Firm>() {
             @Override
             public void onResponse(Call<Firm> call, Response<Firm> response) {
-                requestCallback2.callback(response.body());
+                if(response.isSuccessful()) {
+                    requestCallback2.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
             }
 
             @Override
             public void onFailure(Call<Firm> call, Throwable throwable) {
-
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
