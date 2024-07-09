@@ -8,5 +8,5 @@ import retrofit2.http.Query;
 public interface IGetUser {
 
     @GET("/user_data")
-    public Call<User> getUser(@Query("user") String user);
+    Call<User> getUser(@Query("user") String user);
 }

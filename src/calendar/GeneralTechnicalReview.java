@@ -292,46 +292,6 @@ public class GeneralTechnicalReview extends MainPanel {
 				f.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			}
 		});
-
-//		SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
-//
-//			@SuppressWarnings("finally")
-//			@Override
-//			protected Boolean doInBackground() throws Exception {
-//				// TODO Auto-generated method stub
-//
-//				try {
-//					// load saller data
-//					// MainPanel.loadSallerData();
-//
-//					// then ????? 01 or curr date
-//
-//
-//					list = GeneralTechnicalReviewDB.getTechnicalPreview(from,
-//							to);
-//
-//					getResult(list);
-//
-//				} finally {
-//					SwingUtilities.invokeLater(new Runnable() {
-//
-//						@Override
-//						public void run() {
-//
-//							// TODO Auto-generated method stub
-//							visualizeResult();
-//
-//							f.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//
-//						}
-//
-//					});
-//
-//				}
-//				return true;
-//			}
-//		};
-//		sw.execute();
 	}
 
 	private void getResult2(List<TechnicalReview> list) {
@@ -354,7 +314,7 @@ public class GeneralTechnicalReview extends MainPanel {
 			// key[6] -> number
 			// key[7] -. additional_dataDA
 			if (!helpSet.contains(used_number)) {
-				value = new ArrayList<Extinguishers>();
+				value = new ArrayList<>();
 				value.add(new Extinguishers(id, technicalReview.getType(),
 						technicalReview.getWheight(), !technicalReview.getT_O()
 						.equals("не") ? MyGetDate.getUrgentDays(
@@ -383,56 +343,6 @@ public class GeneralTechnicalReview extends MainPanel {
 						: technicalReview.getP(), !technicalReview.getHI().equals("не") ? MyGetDate.getUrgentDays(
 						MyGetDate.getReversedSystemDate(), technicalReview.getHI())
 						: technicalReview.getHI(), additional_data));
-			}
-		}
-	}
-
-	private void getResult(ArrayList<Object[]> list) {
-		ArrayList<Extinguishers> value = null;
-		for (Object[] key : list) {
-			String id = key[0] + " " + key[6];
-			String used_number = key[6].toString();
-			String additional_data = key[7] != null ? key[7].toString() : " - ";
-
-			// ArrayList<Extinguishers> value = detailsMap.get(id); // check if
-			// key (client)
-			// exist in hashtable
-			// key[0] -> client
-			// key[1] -> type
-			// key[2] -> wheight
-			// key[3] -> T_O
-			// key[4] -> P
-			// key[5] -> HI
-			// key[6] -> number
-			// key[7] -. additional_dataDA
-			if (!helpSet.contains(used_number)) {
-				value = new ArrayList<Extinguishers>();
-				value.add(new Extinguishers(id, key[1], key[2], !key[3]
-						.equals("не") ? MyGetDate.getUrgentDays(
-						MyGetDate.getReversedSystemDate(), key[3].toString())
-						: key[3], !key[4].equals("не") ? MyGetDate.getUrgentDays(
-						MyGetDate.getReversedSystemDate(), key[4].toString())
-						: key[4], !key[5].equals("не") ? MyGetDate.getUrgentDays(
-						MyGetDate.getReversedSystemDate(), key[5].toString())
-						: key[5], additional_data));
-
-				detailsMap.put(
-						new Protokol_ID(key[0].toString(), key[6].toString()),
-						value);
-
-				mouseClickMap.put(id, value);
-
-				helpSet.add(used_number);
-
-			} else {
-				value.add(new Extinguishers(id, key[1], key[2], !key[3]
-						.equals("не") ? MyGetDate.getUrgentDays(
-						MyGetDate.getReversedSystemDate(), key[3].toString())
-						: key[3], !key[4].equals("не") ? MyGetDate.getUrgentDays(
-						MyGetDate.getReversedSystemDate(), key[4].toString())
-						: key[4], !key[5].equals("не") ? MyGetDate.getUrgentDays(
-						MyGetDate.getReversedSystemDate(), key[5].toString())
-						: key[5], additional_data));
 			}
 		}
 	}

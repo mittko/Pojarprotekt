@@ -1,5 +1,6 @@
 package http.user;
 
+import exceptions.ErrorDialog;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
 import models.User;
@@ -16,14 +17,16 @@ public class GetUserService extends ServiceAPI {
         getService().getUser(user).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
-                    callback.callback( response.body());
+                if (response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showErrorMessage(response.code()+"");
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable throwable) {
-
+                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

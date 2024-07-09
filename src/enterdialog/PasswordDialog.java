@@ -1,15 +1,14 @@
 package enterdialog;
 
 import calendar.GeneralTechnicalReview;
+import exceptions.ErrorDialog;
 import exceptions.InOutException;
 import http.RequestCallback2;
+import http.client.GetClientService;
 import http.user.GetUserService;
 import log.IOErrorsWriter;
+import models.Firm;
 import models.User;
-import workingbook.WorkingBook;
-import db.Client.ClientTable;
-import db.TeamDB.Member;
-import db.WorkPrice.WorkPriceDB;
 import net.GetCurrentIP;
 import run.DeleteFiles;
 import run.JustFrame;
@@ -23,7 +22,6 @@ import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class PasswordDialog extends MainPanel {
 
@@ -171,222 +169,108 @@ public class PasswordDialog extends MainPanel {
 		}
 	}
 	private void validateEnter() {
-		final JFrame frame = (JFrame) SwingUtilities
-				.getWindowAncestor(PasswordDialog.this);
+				final JFrame frame = (JFrame) SwingUtilities
+						.getWindowAncestor(PasswordDialog.this);
 
-		frame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		        frame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-		GetUserService userService = new GetUserService();
-		userService.getUser(field.getText(), new RequestCallback2() {
-			@Override
-			public <T> void callback(T t) {
-				frame.dispose();
-
-				User user = (User) t;
-
-				if (!field.getText().equals(user.getUsser())) {
-					JOptionPane.showMessageDialog(null,
-							"Грешно потребителско име!");
-					return;
-				} else {
-					String password = new String(
-							enterPassword.getPassword());
-					if (!password.equals(user.getPassword())) {
-						JOptionPane.showMessageDialog(null,
-								"Грешно въведена парола!");
-						return;
-					}
-				}
-				// variable init
-				personName = user.getUsser();
-
-
-
-				ACCESS_MENU[0] = user.getService_Order().equals("yes");
-				ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
-				ACCESS_MENU[2] = user.getInvoice().equals("yes");
-				ACCESS_MENU[3] = user.getReports().equals("yes");
-				ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
-				ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
-				ACCESS_MENU[6] = user.getAcquittance().equals("yes");
-
-
-				tr = new GeneralTechnicalReview();
-				enterFrame = new JustFrame();
-				enterFrame.add(tr);
-				enterFrame.setResizable(false);
-				tr.loadData();
-
-				enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
-				enterFrame.setFrameLocationOnTheCenter();
-				enterFrame.addWindowListener(new WindowAdapter() {
+				GetUserService userService = new GetUserService();
+				userService.getUser(field.getText(), new RequestCallback2() {
 					@Override
-					public void windowClosing(WindowEvent we) {
-						int yes_no = JOptionPane.showOptionDialog(
-								null, "Изход", "ПОЖАРПРОТЕКТ",
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE, null,
-								new String[] { "Да", "Не" }, // this
-								// is
-								// the
-								// array
-								"default");
+					public <T> void callback(T t) {
+						frame.dispose();
 
-						if (yes_no == 0) {
+						User user = (User) t;
 
-							DeleteFiles df = new DeleteFiles();
-							df.removeTmpFile();
-
-							enterFrame
-									.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+						if (!field.getText().equals(user.getUsser())) {
+							ErrorDialog.showErrorMessage("Грешно потребителско име!");
+							return;
 						} else {
-							enterFrame
-									.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+							String password = new String(
+									enterPassword.getPassword());
+							if (!password.equals(user.getPassword())) {
+								ErrorDialog.showErrorMessage("Грешно въведена парола!");
+								return;
+							}
 						}
+						// variable init
+						personName = user.getUsser();
+
+						ACCESS_MENU[0] = user.getService_Order().equals("yes");
+						ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
+						ACCESS_MENU[2] = user.getInvoice().equals("yes");
+						ACCESS_MENU[3] = user.getReports().equals("yes");
+						ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
+						ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
+						ACCESS_MENU[6] = user.getAcquittance().equals("yes");
+
+						tr = new GeneralTechnicalReview();
+						enterFrame = new JustFrame();
+						enterFrame.add(tr);
+						enterFrame.setResizable(false);
+						tr.loadData();
+
+						enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
+						enterFrame.setFrameLocationOnTheCenter();
+						enterFrame.addWindowListener(new WindowAdapter() {
+							@Override
+							public void windowClosing(WindowEvent we) {
+								int yes_no = JOptionPane.showOptionDialog(
+										null, "Изход", "ПОЖАРПРОТЕКТ",
+										JOptionPane.YES_NO_OPTION,
+										JOptionPane.QUESTION_MESSAGE, null,
+										new String[] { "Да", "Не" }, // this
+										// is
+										// the
+										// array
+										"default");
+
+								if (yes_no == 0) {
+
+									DeleteFiles df = new DeleteFiles();
+									df.removeTmpFile();
+
+									enterFrame
+											.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+								} else {
+									enterFrame
+											.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+								}
+							}
+						});
+
+
+						loadSallerData();
 					}
 				});
-			}
-		});
-
-		loadSallerDataAndDoingPrice();
 
 
-//		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-//
-//			@Override
-//			protected Void doInBackground() throws Exception {
-//				// TODO Auto-generated method stub
-//				try {
-//
-//
-//					user = Member.getUser(field.getText());
-//					if (user == null) {
-//						return null;
-//					}
-//
-//					if (!field.getText().equals(user.getUsser())) {
-//						JOptionPane.showMessageDialog(null,
-//								"Грешно потребителско име!");
-//						return null;
-//					} else {
-//						String password = new String(
-//								enterPassword.getPassword());
-//						if (!password.equals(user.getPassword())) {
-//							JOptionPane.showMessageDialog(null,
-//									"Грешно въведена парола!");
-//							return null;
-//						}
-//					}
-//
-//					loadSallerDataAndDoingPrice();
-//
-//					SwingUtilities.invokeLater(new Runnable() {
-//
-//						@Override
-//						public void run() {
-//							// TODO Auto-generated method stub
-//
-//							frame.dispose();
-//							// variable init
-//							personName = user.getUsser();
-//
-//
-//
-//                            ACCESS_MENU[0] = user.getService_Order().equals("yes");
-//							ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
-//							ACCESS_MENU[2] = user.getInvoice().equals("yes");
-//							ACCESS_MENU[3] = user.getReports().equals("yes");
-//							ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
-//							ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
-//							ACCESS_MENU[6] = user.getAcquittance().equals("yes");
-//
-//
-////							for (int i = 2; i < user_password.length; i++) {
-////								if (user_password[i].equals("yes"))
-////									ACCESS_MENU[i - 2] = true;
-////							}
-//
-//							tr = new GeneralTechnicalReview();
-//							enterFrame = new JustFrame();
-//							enterFrame.add(tr);
-//							enterFrame.setResizable(false);
-//							tr.loadData();
-//
-//							enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
-//							enterFrame.setFrameLocationOnTheCenter();
-//							enterFrame.addWindowListener(new WindowAdapter() {
-//								@Override
-//								public void windowClosing(WindowEvent we) {
-//									int yes_no = JOptionPane.showOptionDialog(
-//											null, "Изход", "ПОЖАРПРОТЕКТ",
-//											JOptionPane.YES_NO_OPTION,
-//											JOptionPane.QUESTION_MESSAGE, null,
-//											new String[] { "Да", "Не" }, // this
-//																			// is
-//																			// the
-//																			// array
-//											"default");
-//
-//									if (yes_no == 0) {
-//
-//										DeleteFiles df = new DeleteFiles();
-//										df.removeTmpFile();
-//
-//										enterFrame
-//												.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//									} else {
-//										enterFrame
-//												.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-//									}
-//								}
-//							});
-//						}
-//
-//					});
-//				} finally {
-//					frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//				}
-//				return null;
-//			}
-//
-//		};
-//		worker.execute();
+
 	}
 
-	private void loadSallerDataAndDoingPrice() {
-		SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
+	private void loadSallerData() {
 
+		GetClientService clientService = new GetClientService();
+		clientService.getFirm(SALLER_TITLE, new RequestCallback2() {
 			@Override
-			protected Void doInBackground() throws Exception {
-				// TODO Auto-generated method stub
-
-				ArrayList<String> sallerData = ClientTable
-						.getClientDetails(SALLER_TITLE);
-
-				SALLER_NAME = sallerData.get(0);
-				SALLER_CITY = sallerData.get(1);
-				SALLER_ADDRESS = sallerData.get(2);
-				SALLER_EIK = sallerData.get(3);
-				SALLER_MOL = sallerData.get(4);
-				SALLER_E_MAIL = sallerData.get(5);
-				SALLER_PERSON_CONTACT = sallerData.get(6);
-				SALLER_PERSON_TELEFON = sallerData.get(7);
-				SALLER_BANK = sallerData.get(8);
-				SALLER_BIC = sallerData.get(9);
-				SALLER_IBAN = sallerData.get(10);
-
-
-				WorkingBook.TO_PRICE = WorkPriceDB.getWorkValue(MainPanel.TO);
-
-				WorkingBook.HI_PRICE = WorkPriceDB.getWorkValue(HI);
-
-				return null;
+			public <T> void callback(T t) {
+				Firm firm = (Firm) t;
+				if(firm != null) {
+					SALLER_NAME = firm.getFirm();
+					SALLER_CITY = firm.getCity();
+					SALLER_ADDRESS = firm.getAddress();
+					SALLER_EIK = firm.getEik();
+					SALLER_MOL = firm.getMol();
+					SALLER_E_MAIL = firm.getEmail();
+					SALLER_PERSON_CONTACT = firm.getPerson();
+					SALLER_PERSON_TELEFON = firm.getTelPerson();
+					SALLER_BANK = firm.getBank();
+					SALLER_BIC = firm.getBic();
+					SALLER_IBAN = firm.getIban();
+				}
 			}
-
-		};
-		sw.execute();
+		});
 
 	}
 
