@@ -178,7 +178,8 @@ public class PasswordDialog extends MainPanel {
 				userService.getUser(field.getText(), new RequestCallback2() {
 					@Override
 					public <T> void callback(T t) {
-						frame.dispose();
+
+						frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 						User user = (User) t;
 
@@ -193,6 +194,10 @@ public class PasswordDialog extends MainPanel {
 								return;
 							}
 						}
+
+						frame.dispose();
+
+
 						// variable init
 						personName = user.getUsser();
 
@@ -206,11 +211,7 @@ public class PasswordDialog extends MainPanel {
 
 						tr = new GeneralTechnicalReview();
 						enterFrame = new JustFrame();
-						enterFrame.add(tr);
 						enterFrame.setResizable(false);
-						tr.loadData();
-
-						enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
 						enterFrame.setFrameLocationOnTheCenter();
 						enterFrame.addWindowListener(new WindowAdapter() {
 							@Override
@@ -239,7 +240,10 @@ public class PasswordDialog extends MainPanel {
 								}
 							}
 						});
-
+						enterFrame.add(tr);
+						enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
+						enterFrame.pack();
+						tr.loadData();
 
 						loadSallerData();
 					}

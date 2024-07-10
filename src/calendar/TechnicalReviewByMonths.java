@@ -2,6 +2,9 @@ package calendar;
 
 import calendar.renderers.MontsTableRenderer;
 import db.Calendar.TenhicalReviewByMonthsDB;
+import http.RequestCallback;
+import http.technical_review.TechnicalReviewService;
+import models.TechnicalReview;
 import mydate.MyGetDate;
 import run.JustFrame;
 import utils.HeaderTable;
@@ -17,6 +20,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
+import java.util.List;
 
 public class TechnicalReviewByMonths extends MainPanel {
 
@@ -70,12 +74,11 @@ public class TechnicalReviewByMonths extends MainPanel {
 							ArrayList<Extinguishers> value = mouseClickMap
 									.get(KEY);
 							if (value != null) {
-								for (int i = 0; i < value.size(); i++) {
-									Extinguishers ext = value.get(i);
-									detailsTableModel.addRow(new Object[] {
+								for (Extinguishers ext : value) {
+									detailsTableModel.addRow(new Object[]{
 											ext.type + " " + ext.wheight,
 											ext.TO_date, ext.P_Date,
-											ext.HI_Date, ext.additional_data });
+											ext.HI_Date, ext.additional_data});
 								}
 								// show rows on the left
 								headerTable2.tableModel.fireTableDataChanged();
@@ -228,9 +231,118 @@ public class TechnicalReviewByMonths extends MainPanel {
 				from = from + currentYear;
 				to = to + currentYear;
 
-				Worker w = new Worker();
-				w.execute();
+				TechnicalReviewService service = new TechnicalReviewService();
+				service.getTechnicalReview(from, to, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						
+						List<TechnicalReview> technicalReviews = (List<TechnicalReview>) objects;
+						// hide column numbers
+						headerTable.tableModel.setRowCount(0);
+						headerTable2.tableModel.setRowCount(0);
+						// clear table contents
+						clientTableModel.setRowCount(0);
+						detailsTableModel.setRowCount(0);
+						final JDialog ancestor = (JDialog) SwingUtilities
+								.getWindowAncestor(TechnicalReviewByMonths.this);
+						ancestor.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
+
+						if (technicalReviews.size() > 0) {
+
+							helpSet.clear();
+
+							resultMap.clear();
+
+							mouseClickMap.clear();
+
+							for (TechnicalReview technicalReview : technicalReviews) {
+                                // key[0] -> client
+								// key[1] -> type
+								// key[2] -> wheight
+								// key[3] -> T_O
+								// key[4] -> P
+								// key[5] -> HI
+								// key[6] -> number
+								// key[7] -. additional_dataDA
+								String used_number = technicalReview.getNumber(); //extinguisher[6].toString();
+
+								String id = technicalReview.getClient() + 
+										" " + technicalReview.getNumber();// extinguisher[0] + " " + extinguisher[6];
+
+								String additional_data = 
+										technicalReview.getAdditional_data() != null ? technicalReview.getAdditional_data()
+												:  " - ";
+								//		extinguisher[7] != null ? extinguisher[7].toString() : " - ";
+
+								Extinguishers newExt = new Extinguishers(
+										id,
+										technicalReview.getType(),
+										technicalReview.getWheight(),
+										!technicalReview.getT_O().equals("не") ? MyGetDate.getUrgentDays(
+												MyGetDate.getReversedSystemDate(),
+												technicalReview.getT_O())
+												: technicalReview.getT_O(),
+										!technicalReview.getP().equals("не") ? MyGetDate.getUrgentDays(
+												MyGetDate.getReversedSystemDate(),
+												technicalReview.getP())
+												: technicalReview.getP(),
+										!technicalReview.getHI().equals("не") ? MyGetDate.getUrgentDays(
+												MyGetDate.getReversedSystemDate(),
+												technicalReview.getHI())
+												: technicalReview.getHI(), additional_data);
+
+								if (!helpSet.contains(used_number)) {
+
+									ArrayList<Extinguishers> extList = new ArrayList<>();
+									extList.add(newExt);
+
+									resultMap.put(new Protokol_ID(technicalReview.getClient(),
+													technicalReview.getNumber()),
+											extList);
+
+									helpSet.add(used_number);
+
+									mouseClickMap.put(id, extList);
+								} else {
+									ArrayList<Extinguishers> extList = mouseClickMap
+											.get(id);
+									if (extList != null)
+										extList.add(newExt);
+								}
+
+							}
+
+						}
+
+						if (technicalReviews.size() > 0) {
+
+							ArrayList<Extinguishers> sorted = new ArrayList<>();
+							for (Map.Entry<Protokol_ID, ArrayList<Extinguishers>> clients : resultMap
+									.entrySet()) {
+								Extinguishers client = clients.getValue()
+										.get(0);
+
+								sorted.add(client);
+							}
+							// Collections.sort(sorted);
+
+							for (Extinguishers extinguishers : sorted) {
+
+								clientTableModel.addRow(new Object[]{extinguishers.client});
+							}
+						}
+						setSetVerticalScrollBars(clientTable);
+
+						ancestor.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						// show rows on the left
+
+						headerTable.tableModel.fireTableDataChanged();
+						headerTable.tableModel.fireTableRowsUpdated(0,
+								headerTable.tableModel.getRowCount() - 1);
+						
+					}
+				});
 			}
 
 		});
@@ -252,142 +364,6 @@ public class TechnicalReviewByMonths extends MainPanel {
 		f.setTitle("Календар");
 	}
 
-	class Worker extends SwingWorker<Void, Void> {
-
-		public Worker() {
-
-		}
-
-		@Override
-		protected Void doInBackground() throws Exception {
-			// TODO Auto-generated method stub
-			final JDialog ancestor = (JDialog) SwingUtilities
-					.getWindowAncestor(TechnicalReviewByMonths.this);
-
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					// hide column numbers
-					headerTable.tableModel.setRowCount(0);
-					headerTable2.tableModel.setRowCount(0);
-					// clear table contents
-					clientTableModel.setRowCount(0);
-					detailsTableModel.setRowCount(0);
-					ancestor.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				}
-
-			});
-
-			try {
-
-				detailList = TenhicalReviewByMonthsDB.getDetailsFrom_To(from,
-						to);
-
-				if (detailList.size() > 0) {
-
-					helpSet.clear();
-
-					resultMap.clear();
-
-					mouseClickMap.clear();
-
-					for (Object[] extinguisher : detailList) {
-
-						String used_number = extinguisher[6].toString();
-
-						String id = extinguisher[0] + " " + extinguisher[6];
-
-						String additional_data = extinguisher[7] != null ? extinguisher[7]
-								.toString() : " - ";
-
-						Extinguishers newExt = new Extinguishers(
-								id,
-								extinguisher[1],
-								extinguisher[2],
-								!extinguisher[3].equals("не") ? MyGetDate.getUrgentDays(
-										MyGetDate.getReversedSystemDate(),
-										extinguisher[3].toString())
-										: extinguisher[3],
-								!extinguisher[4].equals("не") ? MyGetDate.getUrgentDays(
-										MyGetDate.getReversedSystemDate(),
-										extinguisher[4].toString())
-										: extinguisher[4],
-								!extinguisher[5].equals("не") ? MyGetDate.getUrgentDays(
-										MyGetDate.getReversedSystemDate(),
-										extinguisher[5].toString())
-										: extinguisher[5], additional_data);
-
-						if (!helpSet.contains(used_number)) {
-
-							ArrayList<Extinguishers> extList = new ArrayList<Extinguishers>();
-							extList.add(newExt);
-
-							resultMap.put(
-									new Protokol_ID(extinguisher[0].toString(),
-											extinguisher[6].toString()),
-									extList);
-
-							helpSet.add(used_number);
-
-							mouseClickMap.put(id, extList);
-						} else {
-							ArrayList<Extinguishers> extList = mouseClickMap
-									.get(id);
-							if (extList != null)
-								extList.add(newExt);
-						}
-
-					}
-
-				}
-
-			} finally {
-				SwingUtilities.invokeLater(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-
-						// sort innermap order by urgentdays and insert into
-						// table model
-						if (detailList.size() > 0) {
-
-							ArrayList<Extinguishers> sorted = new ArrayList<Extinguishers>();
-							for (Map.Entry<Protokol_ID, ArrayList<Extinguishers>> clients : resultMap
-									.entrySet()) {
-								Extinguishers client = clients.getValue()
-										.get(0);
-
-								sorted.add(client);
-							}
-							// Collections.sort(sorted);
-
-							for (int i = 0; i < sorted.size(); i++) {
-
-								clientTableModel.addRow(new Object[] { sorted
-										.get(i).client });
-							}
-						}
-						setSetVerticalScrollBars(clientTable);
-
-						detailList.clear();
-						ancestor.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-						// show rows on the left
-
-						headerTable.tableModel.fireTableDataChanged();
-						headerTable.tableModel.fireTableRowsUpdated(0,
-								headerTable.tableModel.getRowCount() - 1);
-
-					}
-				});
-
-			}
-			return null;
-
-		}
-	}
 
 	private void setSetVerticalScrollBars(JTable table) {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
