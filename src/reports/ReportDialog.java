@@ -1,6 +1,9 @@
 package reports;
 
 import files.TextReader;
+import http.RequestCallback;
+import http.reports.GetReportsService;
+import models.ServiceOrderReports;
 import reports.gui_edt.*;
 import db.Common;
 import db.NewExtinguisher.NewExtinguishers_DB;
@@ -15,6 +18,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ReportDialog extends MainPanel {
 
@@ -440,30 +445,9 @@ public class ReportDialog extends MainPanel {
 							case SERVICE:
 							case PROTOKOL:
 							case BRACK:
-								try {
 
-									data = ReportRequest
-											.getReports(buildCommandForSO_Table_Protokol_Brack(destination));
-								} finally {
-									switch (destination) {
-										case SERVICE:
-											title = SO_Title;
-											break;
-										case PROTOKOL:
-											title = Protokol_Title;
-											break;
-										case BRACK:
-											title = Brack_Title;
-											break;
-										default:
-											break;
-									}
-									SwingUtilities.invokeLater(new EDTSO_Pr_Br(
-											data, jDialog, No, "—Ô‡‚ÍË " + title,
-											destination));
-									No = ""; // clear current number
+								buildCommandForSO_Table_Protokol_Brack(destination, jDialog);
 
-								}
 								break;
 							case INVOICE_PARENT:
 							case PROFORM_PARENT:
@@ -682,183 +666,99 @@ public class ReportDialog extends MainPanel {
 		});
 	}
 
-	private String buildCommandForSO_Table_Protokol_Brack(String dest) {
+	private String buildCommandForSO_Table_Protokol_Brack(String dest, JDialog jDialog) {
+		GetReportsService getReportsService = new GetReportsService();
 
-		StringBuilder mainCommand1 = new StringBuilder();
-		int selectedCriterii = 0;
-		String selectWhat = "";
+		HashMap<String, String> optionsParam = new HashMap<>();
+
+		if (clientCombo.getSelectedItem() != null && !clientCombo.getSelectedItem().equals("")) {
+			optionsParam.put("client",clientCombo.getSelectedItem().toString());
+		}
+
+		if (!so_field.getText().isEmpty() && dest.equals(SERVICE)) {
+			optionsParam.put("number",so_field.getText());
+		}
+		if (!prot_field.getText().isEmpty()
+				&& (dest.equals(PROTOKOL) || dest.equals(BRACK))) {
+			optionsParam.put("number",prot_field.getText());
+		}
+
+		if (typeCombo.getSelectedItem() != null && !typeCombo.getSelectedItem().equals("")) {
+			optionsParam.put("type",typeCombo.getSelectedItem().toString());
+		}
+		if (wheightCombo.getSelectedItem() != null && !wheightCombo.getSelectedItem().equals("")) {
+			optionsParam.put("wheight",wheightCombo.getSelectedItem().toString());
+		}
+		if (catCombo.getSelectedItem() != null && !catCombo.getSelectedItem().equals("")) {
+			optionsParam.put("category",catCombo.getSelectedItem().toString());
+		}
+		if (brandCombo.getSelectedItem() != null && !brandCombo.getSelectedItem().equals("")) {
+			optionsParam.put("brand",brandCombo.getSelectedItem().toString());
+		}
+
+		if (doingCombo.isEnabled() && doingCombo.getSelectedItem() != null &&
+				!doingCombo.getSelectedItem().equals("")) {
+
+			String selectedItem = doingCombo.getSelectedItem().toString();
+
+			switch (selectedItem) {
+				case "“Œ":
+					optionsParam.put("doing", "“Œ");
+					break;
+				case "œ":
+					optionsParam.put("doing","œ");
+					break;
+				case "’»":
+					optionsParam.put("doing","’»");
+					break;
+				case "“Œ,œ":
+					optionsParam.put("doing","“Œ,œ");
+					break;
+				case "“Œ,œ,’»":
+					optionsParam.put("doing","“Œ,œ,’»");
+					break;
+			}
+
+		}
+		if (!serial.getText().isEmpty()) {
+			optionsParam.put("serial",serial.getText());
+		} else if (!barcod.getText().isEmpty()) {
+			optionsParam.put("barcode",barcod.getText());
+		}
+
+		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
+			optionsParam.put("fromDate",fromDate.getText());
+			optionsParam.put("toDate",toDate.getText());
+		}
+
 		switch (dest) {
 			case SERVICE:
-				selectWhat = "select client, type, wheight, barcod, serial, category, brand, "
-						+ "T_O, P, HI, done, number, person, date , additional_data from ";
+				title = SO_Title;
+				getReportsService.getServiceOrders(optionsParam, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						for(T serviceOrderReports : objects) {
+							System.out.println(serviceOrderReports.toString());
+						}
+
+						SwingUtilities.invokeLater(new EDTSO_Pr_Br(
+								(ArrayList) objects, jDialog, No, "—Ô‡‚ÍË " + title,
+								destination));
+						No = ""; // clear current number
+					}
+				});
 				break;
 			case PROTOKOL:
-				selectWhat = "select client, type, wheight, barcod, serial, category, brand,"
-						+ " T_O, P, HI, parts, value, number, person, date , kontragent, invoiceByKontragent, additional_data, uptodate from ";
+				title = Protokol_Title;
 				break;
 			case BRACK:
-				selectWhat = "select * from ";
+				title = Brack_Title;
 				break;
 			default:
 				break;
 		}
 
-		mainCommand1.append(selectWhat).append(dest); // "select * from "
-
-		if (!clientCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			String client = clientCombo.getSelectedItem().toString();
-			mainCommand1.append("client = " + "'").append(client).append("'");
-			selectedCriterii++;
-		}
-
-		if (!so_field.getText().isEmpty() && dest.equals(SERVICE)) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			// this works !!! mainCommand1.append("substr(barcod,1,10) like " +
-			// "'"
-			// + so_field.getText() + "'");
-			mainCommand1.append("number = " + "'").append(so_field.getText()).append("'");
-			No = so_field.getText();
-			selectedCriterii++;
-		}
-		if (!prot_field.getText().isEmpty()
-				&& (dest.equals(PROTOKOL) || dest.equals(BRACK))) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			// if (dest.equals(PROTOKOL)) {
-			mainCommand1.append("number = " + "'").append(prot_field.getText()).append("'");
-			// }
-			No = prot_field.getText();
-			selectedCriterii++;
-		}
-
-		if (!typeCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("type = " + "'" + typeCombo.getSelectedItem()
-					+ "'");
-			selectedCriterii++;
-		}
-		if (!wheightCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("wheight = " + "'").append(wheightCombo.getSelectedItem()).append("'");
-			selectedCriterii++;
-		}
-		if (!catCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("category = " + "'").append(catCombo.getSelectedItem()).append("'");
-			selectedCriterii++;
-		}
-		if (!brandCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("brand = " + "'").append(brandCombo.getSelectedItem()).append("'");
-			selectedCriterii++;
-		}
-
-		if (doingCombo.isEnabled() && !doingCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			String selectedItem = doingCombo.getSelectedItem().toString();
-
-			switch (selectedItem) {
-				case "“Œ":
-					mainCommand1
-							.append("T_O not = 'ÌÂ' and P = 'ÌÂ' and HI = 'ÌÂ'");
-					break;
-				case "œ":
-					mainCommand1
-							.append("P not = 'ÌÂ' and T_O = 'ÌÂ' and HI = 'ÌÂ'");
-					break;
-				case "’»":
-					mainCommand1
-							.append("HI not = 'ÌÂ' and T_O = 'ÌÂ' and P = 'ÌÂ'");
-					break;
-				case "“Œ,œ":
-					mainCommand1
-							.append("T_O not = 'ÌÂ' and P not = 'ÌÂ' and HI = 'ÌÂ'");
-					break;
-				case "“Œ,œ,’»":
-					mainCommand1
-							.append("T_O not = 'ÌÂ' and P not = 'ÌÂ' and HI not = 'ÌÂ'");
-					break;
-			}
-
-			selectedCriterii++;
-		} else {
-			// do nothing
-		}
-		if (!serial.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("serial = " + "'").append(serial.getText()).append("'");
-			selectedCriterii++;
-			No = serial.getText();
-		} else if (!barcod.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("barcod = " + "'").append(barcod.getText()).append("'");
-			selectedCriterii++;
-			No = barcod.getText();
-		}
-
-		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
-			selectedCriterii++;
-		}
-
-		// if (destination.equals(SERVICE) || destination.equals(PROTOKOL)) {
-		// if (flag) {
-		// mainCommand1.append(" and ");
-		// } else {
-		// mainCommand1.append(" where ");
-		// }
-		// mainCommand1.append("uptodate = 'not null'");
-		// }
-
-		// add sorting
-		mainCommand1.append(" order by CAST(date as DATE) desc");
-
-		return mainCommand1.toString();
+		return null;
 	}
 
 	//

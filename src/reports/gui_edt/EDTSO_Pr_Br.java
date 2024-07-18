@@ -7,13 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class EDTSO_Pr_Br implements Runnable {
-	private final ArrayList<Object[]> data;
+public class EDTSO_Pr_Br<T> implements Runnable {
+	private final ArrayList<T> data;
 	private final JDialog jd;
 	private final String title;
 	private final String destination;
 
-	public EDTSO_Pr_Br(ArrayList<Object[]> data, JDialog jd, String No,
+	public EDTSO_Pr_Br(ArrayList<T> data, JDialog jd, String No,
 			String title, String destination) {
 		this.data = data;
 		this.jd = jd;
@@ -30,7 +30,7 @@ public class EDTSO_Pr_Br implements Runnable {
 			return;
 		}
 		if (data.size() > 0) {
-			ReportTableSO_Pr_Br rt = new ReportTableSO_Pr_Br(data, destination);
+			ReportTableSO_Pr_Br<T> rt = new ReportTableSO_Pr_Br<T>(data, destination);
 			JDialoger jDialog = new JDialoger();
 			jDialog.setContentPane(rt);
 			jDialog.setTitle(title);

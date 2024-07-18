@@ -1,5 +1,6 @@
 package reports;
 
+import models.ServiceOrderReports;
 import reports.renderers.JTableX;
 import reports.renderers.ProtokolBrackTableRenderer;
 import reports.renderers.ProtokolTableRenderer;
@@ -27,7 +28,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-public class ReportTableSO_Pr_Br extends MainPanel {
+public class ReportTableSO_Pr_Br<T> extends MainPanel {
 
 	private DefaultTableModel dftm = null;
 	private JTableX table = null;
@@ -35,7 +36,7 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 	private String[] titles = null;
 	private int SELECTED_INDEX = -1;
 
-	public ReportTableSO_Pr_Br(ArrayList<Object[]> data, String destination) {
+	public ReportTableSO_Pr_Br(ArrayList<T> data, String destination) {
 		this.setLayout(new BorderLayout());
 
 		JPanel northPanel = new JPanel();
@@ -216,44 +217,83 @@ public class ReportTableSO_Pr_Br extends MainPanel {
 
 		table.setRowHeight(MainPanel.getFontSize() + 15);
 
-
+		int totalFireExtinguishers = 0;
 		switch (destination) {
 			case SERVICE:
 				table.setDefaultRenderer(Object.class, new ServiceTableRenderer());
+
+				for (T t : data) {
+
+					ServiceOrderReports serviceOrderReports = (ServiceOrderReports)t;
+					Object[] newObj = new Object[titles.length];
+					for (int init = 0; init < newObj.length; init++) {
+
+						newObj[0] = serviceOrderReports.getClient();
+						newObj[1] = serviceOrderReports.getType();
+						newObj[2] = serviceOrderReports.getWheight();
+						newObj[3] = serviceOrderReports.getBarcod();
+						newObj[4] = serviceOrderReports.getSerial();
+						newObj[5] = serviceOrderReports.getCategory();
+						newObj[6] = serviceOrderReports.getBrand();
+						newObj[7] = serviceOrderReports.getT_O();
+						newObj[8] = serviceOrderReports.getP();
+						newObj[9] = serviceOrderReports.getHI();
+						newObj[10] = serviceOrderReports.getDone();
+						newObj[11] = serviceOrderReports.getNumber();
+						newObj[12] = serviceOrderReports.getPerson();
+						newObj[13] = serviceOrderReports.getDate();
+						newObj[14] = serviceOrderReports.getAdditional_data();
+					}
+					dftm.addRow(newObj);
+				}
 				break;
 			case PROTOKOL:
 				table.setDefaultRenderer(Object.class, new ProtokolTableRenderer());
+
+//				for (Object[] datum : data) {
+//
+//					Object[] newObj = new Object[titles.length];
+//					for (int init = 0; init < newObj.length; init++) {
+//						Object str = datum[init];
+//						if(init == newObj.length - 1) { // column uptodate
+//
+//							if (str == null) {
+//									str = "не";
+//									totalFireExtinguishers++;
+//							} else {
+//									str = "да";
+//							}
+//
+//						} else if (str == null) {
+//							str = "";
+//						}
+//						newObj[init] = str;// obj[init];
+//					}
+//					dftm.addRow(newObj);
+//
+//				}
 				break;
 			case BRACK:
 				table.setDefaultRenderer(Object.class,
 						new ProtokolBrackTableRenderer());
+
+//				for (Object[] datum : data) {
+//
+//					Object[] newObj = new Object[titles.length];
+//					for (int init = 0; init < newObj.length; init++) {
+//						Object str = datum[init];
+//						if (str == null) {
+//							str = "";
+//						}
+//						newObj[init] = str;// obj[init];
+//					}
+//					dftm.addRow(newObj);
+//
+//				}
 				break;
 		}
 
-		int totalFireExtinguishers = 0;
-		for (Object[] datum : data) {
 
-			Object[] newObj = new Object[titles.length];
-			for (int init = 0; init < newObj.length; init++) {
-				Object str = datum[init];
-				if(init == newObj.length - 1) { // column uptodate
-				
-					if(destination.equalsIgnoreCase(PROTOKOL)) {
-						if (str == null) {
-								str = "не";
-							totalFireExtinguishers++;
-						} else {
-								str = "да";
-						}
-					}
-				} else if (str == null) {
-					str = "";
-				}
-				newObj[init] = str;// obj[init];
-			}
-			dftm.addRow(newObj);
-
-		}
 		Object[] rowForTotalFireExtinguishers = {"","","","","","","","","",""
 		,"","","","","","","","Общ брой пожарогасители: ",totalFireExtinguishers+""};
         dftm.addRow(rowForTotalFireExtinguishers);
