@@ -666,7 +666,7 @@ public class ReportDialog extends MainPanel {
 		});
 	}
 
-	private String buildCommandForSO_Table_Protokol_Brack(String dest, JDialog jDialog) {
+	private void buildCommandForSO_Table_Protokol_Brack(String dest, JDialog jDialog) {
 		GetReportsService getReportsService = new GetReportsService();
 
 		HashMap<String, String> optionsParam = new HashMap<>();
@@ -737,9 +737,6 @@ public class ReportDialog extends MainPanel {
 				getReportsService.getServiceOrders(optionsParam, new RequestCallback() {
 					@Override
 					public <T> void callback(List<T> objects) {
-						for(T serviceOrderReports : objects) {
-							System.out.println(serviceOrderReports.toString());
-						}
 
 						SwingUtilities.invokeLater(new EDTSO_Pr_Br(
 								(ArrayList) objects, jDialog, No, "Справки " + title,
@@ -750,15 +747,35 @@ public class ReportDialog extends MainPanel {
 				break;
 			case PROTOKOL:
 				title = Protokol_Title;
+
+
+				getReportsService.getProtokols(optionsParam, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						SwingUtilities.invokeLater(new EDTSO_Pr_Br(
+								(ArrayList) objects, jDialog, No, "Справки " + title,
+								destination));
+						No = ""; // clear current number
+					}
+				});
 				break;
 			case BRACK:
 				title = Brack_Title;
+
+				getReportsService.getBrack(optionsParam, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						SwingUtilities.invokeLater(new EDTSO_Pr_Br(
+								(ArrayList) objects, jDialog, No, "Справки " + title,
+								destination));
+						No = ""; // clear current number
+					}
+				});
 				break;
 			default:
 				break;
 		}
 
-		return null;
 	}
 
 	//

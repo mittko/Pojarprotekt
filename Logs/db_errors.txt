@@ -94,3 +94,5 @@ java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error c
 java.sql.SQLException: SQL text pointer is null.  Thu Jul 18 09:50:20 EEST 2024
 
 java.sql.SQLException: SQL text pointer is null.  Thu Jul 18 09:52:50 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri Jul 19 09:11:37 EEST 2024

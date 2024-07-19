@@ -1,5 +1,7 @@
 package reports;
 
+import models.BrakReports;
+import models.ProtokolReports;
 import models.ServiceOrderReports;
 import reports.renderers.JTableX;
 import reports.renderers.ProtokolBrackTableRenderer;
@@ -224,9 +226,8 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 
 				for (T t : data) {
 
-					ServiceOrderReports serviceOrderReports = (ServiceOrderReports)t;
+					ServiceOrderReports<T> serviceOrderReports = (ServiceOrderReports)t;
 					Object[] newObj = new Object[titles.length];
-					for (int init = 0; init < newObj.length; init++) {
 
 						newObj[0] = serviceOrderReports.getClient();
 						newObj[1] = serviceOrderReports.getType();
@@ -237,59 +238,69 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 						newObj[6] = serviceOrderReports.getBrand();
 						newObj[7] = serviceOrderReports.getT_O();
 						newObj[8] = serviceOrderReports.getP();
-						newObj[9] = serviceOrderReports.getHI();
+						newObj[9] = serviceOrderReports.getHi();
 						newObj[10] = serviceOrderReports.getDone();
 						newObj[11] = serviceOrderReports.getNumber();
 						newObj[12] = serviceOrderReports.getPerson();
 						newObj[13] = serviceOrderReports.getDate();
 						newObj[14] = serviceOrderReports.getAdditional_data();
-					}
+
 					dftm.addRow(newObj);
 				}
 				break;
 			case PROTOKOL:
 				table.setDefaultRenderer(Object.class, new ProtokolTableRenderer());
 
-//				for (Object[] datum : data) {
-//
-//					Object[] newObj = new Object[titles.length];
-//					for (int init = 0; init < newObj.length; init++) {
-//						Object str = datum[init];
-//						if(init == newObj.length - 1) { // column uptodate
-//
-//							if (str == null) {
-//									str = "не";
-//									totalFireExtinguishers++;
-//							} else {
-//									str = "да";
-//							}
-//
-//						} else if (str == null) {
-//							str = "";
-//						}
-//						newObj[init] = str;// obj[init];
-//					}
-//					dftm.addRow(newObj);
-//
-//				}
+                for(T t : data) {
+					ProtokolReports<T> protokolReports = (ProtokolReports<T>) t;
+					Object[] newObj = new Object[titles.length];
+
+					newObj[0] = protokolReports.getClient();
+					newObj[1] = protokolReports.getType();
+					newObj[2] = protokolReports.getWheight();
+					newObj[3] = protokolReports.getBarcod();
+					newObj[4] = protokolReports.getSerial();
+					newObj[5] = protokolReports.getCategory();
+					newObj[6] = protokolReports.getBrand();
+					newObj[7] = protokolReports.getT_O();
+					newObj[8] = protokolReports.getP();
+					newObj[9] = protokolReports.getHi();
+					newObj[10] = protokolReports.getParts();
+					newObj[11] = protokolReports.getValue();
+					newObj[12] = protokolReports.getNumber();
+					newObj[13] = protokolReports.getPerson();
+					newObj[14] = protokolReports.getDate();
+					newObj[15] = protokolReports.getKontragent();
+					newObj[16] = protokolReports.getInvoiceByKontragent();
+					newObj[17] = protokolReports.getAdditional_data();
+					newObj[18] = protokolReports.getUptodate();
+
+					dftm.addRow(newObj);
+
+				}
 				break;
 			case BRACK:
 				table.setDefaultRenderer(Object.class,
 						new ProtokolBrackTableRenderer());
 
-//				for (Object[] datum : data) {
-//
-//					Object[] newObj = new Object[titles.length];
-//					for (int init = 0; init < newObj.length; init++) {
-//						Object str = datum[init];
-//						if (str == null) {
-//							str = "";
-//						}
-//						newObj[init] = str;// obj[init];
-//					}
-//					dftm.addRow(newObj);
-//
-//				}
+                for(T t : data) {
+
+					BrakReports brakReports = (BrakReports)t;
+					Object[] newObj = new Object[titles.length];
+					newObj[0] = brakReports.getClient();
+					newObj[1] = brakReports.getType();
+					newObj[2] = brakReports.getWheight();
+					newObj[3] = brakReports.getBarcod();
+					newObj[4] = brakReports.getSerial();
+					newObj[5] = brakReports.getCategory();
+					newObj[6] = brakReports.getBrand();
+					newObj[7] = brakReports.getReasons();
+					newObj[8] = brakReports.getNumber();
+					newObj[9] = brakReports.getTehnik();
+					newObj[10] = brakReports.getDate();
+
+					dftm.addRow(newObj);
+				}
 				break;
 		}
 

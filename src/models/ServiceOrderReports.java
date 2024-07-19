@@ -8,9 +8,34 @@ public class ServiceOrderReports<T> {
     private String serial;
     private String category;
     private String brand;
-    private String T_O;
-    private String P;
-    private String HI;
+
+    public String getT_O() {
+        return t_O;
+    }
+
+    public void setT_O(String t_O) {
+        this.t_O = t_O;
+    }
+
+    public String getP() {
+        return p;
+    }
+
+    public void setP(String p) {
+        this.p = p;
+    }
+
+    public String getHi() {
+        return hi;
+    }
+
+    public void setHi(String hi) {
+        this.hi = hi;
+    }
+
+    private String t_O;
+    private String p;
+    private String hi;
     private String done;
     private String number;
     private String person;
@@ -73,29 +98,6 @@ public class ServiceOrderReports<T> {
         this.brand = brand;
     }
 
-    public String getT_O() {
-        return T_O;
-    }
-
-    public void setT_O(String t_O) {
-        T_O = t_O;
-    }
-
-    public String getP() {
-        return P;
-    }
-
-    public void setP(String p) {
-        P = p;
-    }
-
-    public String getHI() {
-        return HI;
-    }
-
-    public void setHI(String HI) {
-        this.HI = HI;
-    }
 
     public String getDone() {
         return done;
@@ -137,24 +139,5 @@ public class ServiceOrderReports<T> {
         this.additional_data = additional_data;
     }
 
-    @Override
-    public String toString() {
-        return "ServiceOrderReports{" +
-                "client='" + client + '\'' +
-                ", type='" + type + '\'' +
-                ", wheight='" + wheight + '\'' +
-                ", barcod='" + barcod + '\'' +
-                ", serial='" + serial + '\'' +
-                ", category='" + category + '\'' +
-                ", brand='" + brand + '\'' +
-                ", T_O='" + T_O + '\'' +
-                ", P='" + P + '\'' +
-                ", HI='" + HI + '\'' +
-                ", done='" + done + '\'' +
-                ", number='" + number + '\'' +
-                ", person='" + person + '\'' +
-                ", date='" + date + '\'' +
-                ", additional_data='" + additional_data + '\'' +
-                '}';
-    }
+
 }

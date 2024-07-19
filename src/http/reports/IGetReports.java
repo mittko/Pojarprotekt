@@ -1,5 +1,7 @@
 package http.reports;
 
+import models.BrakReports;
+import models.ProtokolReports;
 import models.ServiceOrderReports;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
@@ -14,6 +16,14 @@ public interface IGetReports {
 
     @GET("/service_orders")
     Call<List<ServiceOrderReports>> getServiceOrders(@QueryMap HashMap<String, String> optionsParams);
+
+    @GET("/protokols")
+    Call<List<ProtokolReports>> getProtokols(@QueryMap HashMap<String,String> optionsParam);
+
+    @GET("/brack")
+    Call<List<BrakReports>> getBrack(@QueryMap HashMap<String, String> optionsParam);
+
+
 
 }
 
