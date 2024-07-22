@@ -8,13 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class EDTInvoice extends MainPanel implements Runnable {
+public class EDTInvoice<T> extends MainPanel implements Runnable {
 
-	private ArrayList<Object[]> childData = null;
+	private ArrayList<T> childData = null;
 	private JDialog jd = null;
 	private final String titles;
 
-	public EDTInvoice(ArrayList<Object[]> data, JDialog jd, String No,
+	public EDTInvoice(ArrayList<T> data, JDialog jd, String No,
 			String titles) {
 		this.childData = data;
 		// this.parentInvoiceMap = parentMap;

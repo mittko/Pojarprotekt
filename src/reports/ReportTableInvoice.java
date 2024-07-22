@@ -1,6 +1,7 @@
 package reports;
 
 import exceptions.ErrorDialog;
+import models.InvoiceReports;
 import reports.renderers.InvoiceTableRenderer;
 import reports.workers.ExportToExcellWorkerInvocie;
 import reports.workers.PrintReportsForInvoiceDocumentsType;
@@ -25,7 +26,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class ReportTableInvoice extends MainPanel {
+public class ReportTableInvoice<T> extends MainPanel {
 
 	private DefaultTableModel dftm = null;
 	private final JTable table;
@@ -35,7 +36,7 @@ public class ReportTableInvoice extends MainPanel {
 	private String PATH;
 	public static int MOUSE_MOTION_ROW = -1;
 
-	public ReportTableInvoice(ArrayList<Object[]> childData) {
+	public ReportTableInvoice(ArrayList<T> childData) {
 		MOUSE_MOTION_ROW = -1;
 
 		JPanel basePanel = new JPanel();
@@ -242,7 +243,45 @@ public class ReportTableInvoice extends MainPanel {
 		};
 
 
-		for (Object[] childDatum : childData) {
+		for (T t : childData) {
+			InvoiceReports invoiceReports = (InvoiceReports)t;
+			Object[] childDatum = new Object[dftm.getColumnCount()];
+			childDatum[0] = invoiceReports.getId();
+			childDatum[1] = invoiceReports.getPayment();
+			childDatum[2] = invoiceReports.getDiscount();
+			childDatum[3] = invoiceReports.getValue();
+			childDatum[4] = invoiceReports.getClient();
+			childDatum[5] = invoiceReports.getSaller();
+			childDatum[6] = invoiceReports.getDate();
+//			private String id;
+//			private String payment;
+//			private String discount;
+//			private String value;
+//			private String client;
+//			private String saller;
+//			private String date;
+
+
+			// child table varaiables
+			childDatum[7] = invoiceReports.getProtokol();
+			childDatum[8] = invoiceReports.get_id();
+			childDatum[9] = invoiceReports.getMake();
+			childDatum[10] = invoiceReports.getMed();
+			childDatum[11] = invoiceReports.getQuantity();
+			childDatum[12] = invoiceReports.getPrice();
+			childDatum[13] = invoiceReports.get_value();
+
+			childDatum[14] = invoiceReports.get_client();
+			childDatum[15] = invoiceReports.getKontragent();
+			childDatum[16] = invoiceReports.getInvoiceByKontragent();
+
+//			private String _id;
+//			private String make;
+//			private String med;
+//			private String quantity;
+//			private String price;
+//			private String _value;
+//			private String _client;
 			dftm.addRow(childDatum);
 		}
 

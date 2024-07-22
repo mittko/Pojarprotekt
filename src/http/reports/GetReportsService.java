@@ -4,6 +4,7 @@ import exceptions.ErrorDialog;
 import http.RequestCallback;
 import http.base.ServiceAPI;
 import models.BrakReports;
+import models.InvoiceReports;
 import models.ProtokolReports;
 import models.ServiceOrderReports;
 import retrofit2.Call;
@@ -69,6 +70,42 @@ public class GetReportsService extends ServiceAPI {
             @Override
             public void onFailure(Call<List<BrakReports>> call, Throwable throwable) {
                 ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getInvoices(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getInvoices(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
+            @Override
+            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getProforms(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getProforms(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
+            @Override
+            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
+                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

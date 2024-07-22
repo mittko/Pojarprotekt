@@ -451,31 +451,24 @@ public class ReportDialog extends MainPanel {
 								break;
 							case INVOICE_PARENT:
 							case PROFORM_PARENT:
-								try {
+
 
 									// get info for parent
 									switch (destination) {
 										case INVOICE_PARENT:
 											invoiceTitle = "Фактура";
-											d = Common
-													.getInfoForParentAndChildTable(buildCommandForInvoice());
+
+											buildCommandForInvoice(invoiceTitle,jDialog);
 											break;
 										case PROFORM_PARENT:
 											invoiceTitle = "Проформа";
-											d = Common
-													.getInfoForParentAndChildTable(buildCommandForProform());
+
+											buildCommandForInvoice(invoiceTitle,jDialog);
 											break;
 										default:
 											break;
 									}
-								} finally {
 
-									SwingUtilities
-											.invokeLater(new EDTInvoice(d, jDialog,
-													No, "Справки " + invoiceTitle));
-									No = "";
-
-								}
 
 								break;
 							case ACQUITTANCE_PARENT:
@@ -824,26 +817,50 @@ public class ReportDialog extends MainPanel {
 		return sb.toString();
 	}
 
-	private String buildCommandForInvoice() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("select * from " + INVOICE_PARENT + "," + INVOICE_CHILD
-				+ " where InvoiceParentDB5.id = InvoiceChildDB7.id");
+	private String buildCommandForInvoice(String invoiceTitle, JDialog jDialog) {
+		HashMap<String, String> optionsParam = new HashMap<>();
 
 		if (!clientCombo.getSelectedItem().equals("")) {
-			sb.append(" and InvoiceParentDB5.client = '").append(clientCombo.getSelectedItem()).append("'");
+			optionsParam.put("client",clientCombo.getSelectedItem().toString());
 		}
 		if (!fact_field.getText().isEmpty()) {
-			sb.append(" and InvoiceParentDB5.id = " + "'").append(fact_field.getText()).append("'");
+			optionsParam.put("invoice",fact_field.getText());
 		}
 		// add date
 		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			sb.append(" and InvoiceParentDB5.date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
+			optionsParam.put("fromDate",fromDate.getText());
+			optionsParam.put("toDate", toDate.getText());
 		}
 		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and InvoiceChildDB7.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
+			optionsParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
 		}
-		sb.append(" order by CAST(date as DATE) desc");
-		return sb.toString();
+
+		GetReportsService service = new GetReportsService();
+		if(invoiceTitle.equals("Фактура")) {
+			service.getInvoices(optionsParam, new RequestCallback() {
+				@Override
+				public <T> void callback(List<T> objects) {
+					SwingUtilities
+							.invokeLater(new EDTInvoice((ArrayList) objects, jDialog,
+									No, "Справки " + invoiceTitle));
+					No = "";
+
+				}
+			});
+		} else {
+
+			service.getProforms(optionsParam, new RequestCallback() {
+				@Override
+				public <T> void callback(List<T> objects) {
+					SwingUtilities
+							.invokeLater(new EDTInvoice((ArrayList) objects, jDialog,
+									No, "Справки " + invoiceTitle));
+					No = "";
+				}
+			});
+		}
+
+		return null;
 	}
 
 	private String buildSearchCommandForArtikuls() {
