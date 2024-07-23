@@ -1,9 +1,7 @@
 package http.reports;
 
-import models.BrakReports;
-import models.InvoiceReports;
-import models.ProtokolReports;
-import models.ServiceOrderReports;
+import clients.editclient.IncorrectPerson;
+import models.*;
 import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
@@ -29,6 +27,18 @@ public interface IGetReports {
 
     @GET("/proforms")
     Call<List<InvoiceReports>> getProforms(@QueryMap HashMap<String, String> optionsParam);
+
+    @GET("/acquittance")
+    Call<List<AcquittanceReports>> getAcquittance(@QueryMap HashMap<String, String> optionParam);
+
+    @GET("/artikuls")
+    Call<List<ArtikulsReports>> getArtikuls();
+
+    @GET("/new_extinguishers")
+    Call<List<NewExtinguishersReports>> getNewExtinguishers();
+
+    @GET("/clients")
+    Call<List<IncorrectPerson>> getClients();
 
 
 

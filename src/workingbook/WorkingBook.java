@@ -584,7 +584,7 @@ public class WorkingBook extends MainPanel {
 		int labHeight = (int) (north.getPreferredSize().getHeight() * 0.9);
 		BevelLabel tehnikLabel = new BevelLabel(labHeight);
 
-		tehnikLabel.setTitle(Enums.Оператор.name() +  ": ");
+		tehnikLabel.setTitle(Enums.Operator.name() +  ": ");
 		tehnikLabel.setName(personName);
 
 		clientLabel = new BevelLabel(labHeight);

@@ -245,7 +245,7 @@ public class SearchFromProformTab extends MainPanel {
 		proformNumLabel.setName("");
 
 		sallerLabel = new BevelLabel(labelHeight2);
-		sallerLabel.setTitle(Enums.Оператор.name() + ": ");
+		sallerLabel.setTitle(Enums.Operator.name() + ": ");
 		sallerLabel.setName("");
 
 		BevelLabel sumLabel = new BevelLabel(labelHeight2);

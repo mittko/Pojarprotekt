@@ -432,7 +432,7 @@ public class NewExtinguisherWindow extends MainPanel {
 		float labelHeight = (int) (southPanel.getPreferredSize().getHeight() * 0.8);
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
 
-		sallerLabel.setTitle(Enums.Оператор.name() +  ": ");
+		sallerLabel.setTitle(Enums.Operator.name() +  ": ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);

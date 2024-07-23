@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ComboBoxEditor;
 import javax.swing.JComboBox;
@@ -21,6 +22,8 @@ import javax.swing.UIManager;
 
 import clients.editclient.IncorrectPerson;
 import db.Client.ClientTable;
+import http.RequestCallback;
+import http.reports.GetReportsService;
 
 public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {
 	ArrayList<IncorrectPerson> v;
@@ -39,10 +42,6 @@ public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {
 		this.setEditable(true);
 		this.setSelectedItem("");
 
-		for (int i = 0; i < firms.size(); i++) {
-			v.add(firms.get(i));
-			this.addItem(v.get(i));
-		}
 
 		this.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
 
@@ -189,40 +188,19 @@ public class ClientsListComboBox2 extends JComboBox<IncorrectPerson> {
 	}
 
 	private void init() {
-		SWorker sw = new SWorker();
-		try {
-			firms = sw.doInBackground();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
+		GetReportsService service = new GetReportsService();
+		service.getClients(new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				firms = (ArrayList<IncorrectPerson>) objects;
+				for (int i = 0; i < firms.size(); i++) {
+					v.add(firms.get(i));
+					addItem(v.get(i));
+				}
+			}
+		});
 	}
 
-	class SWorker extends SwingWorker {
-
-		// List f = null;
-		ArrayList<IncorrectPerson> firm = null;
-
-		public SWorker() {
-			// f = null;
-			firm = new ArrayList<IncorrectPerson>();
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		protected ArrayList<IncorrectPerson> doInBackground() throws Exception {
-			// TODO Auto-generated method stub
-
-			firm = ClientTable.getClients2(); // Arrays.asList(Conecting.getClients());
-
-			// Collections.sort(firm);
-			/*
-			 * for(int i = 0;i < f.size();i++) { String s = (String)f.get(i);
-			 * firm.add(s); }
-			 */
-			return firm;
-		}
-
-	}
 
 }

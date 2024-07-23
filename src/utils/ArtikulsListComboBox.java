@@ -1,11 +1,18 @@
 package utils;
 
 import db.àrtikul.Artikuli_DB;
+import http.RequestCallback;
+import http.reports.GetReportsService;
+import models.ArtikulsReports;
+import models.NewExtinguishersReports;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
+
+import static utils.MainPanel.AVAILABLE_ARTIKULS;
 
 public class ArtikulsListComboBox extends JComboBox<String> implements ActionListener {
 	ArrayList<String> v;
@@ -20,12 +27,8 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
     private final String dbTable;
 	public ArtikulsListComboBox(String dbTable) {
 		this.dbTable = dbTable;
-		v = new ArrayList<>();
+
 		init();
-		for (int i = 0; i < artikuls.size(); i++) {
-			v.add(artikuls.get(i));
-			this.addItem(v.get(i));
-		}
 
 		this.setEditable(true);
 		this.setSelectedItem("");
@@ -205,7 +208,7 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 				}
 				JPanel panel = new JPanel();
 				ArtikulsListComboBox testing;
-				testing = new ArtikulsListComboBox(MainPanel.AVAILABLE_ARTIKULS);
+				testing = new ArtikulsListComboBox(AVAILABLE_ARTIKULS);
 				panel.add(testing);
 				JFrame frame = new JFrame();
 				frame.getContentPane().add(panel);
@@ -220,49 +223,50 @@ public class ArtikulsListComboBox extends JComboBox<String> implements ActionLis
 	}
 
 	private void init() {
-		SWorker sw = new SWorker(dbTable);
-		try {
-			artikuls = sw.doInBackground();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
+		GetReportsService service = new GetReportsService();
+
+		if(dbTable.equals(AVAILABLE_ARTIKULS)) {
+			service.getArtikulsNames(new RequestCallback() {
+				@Override
+				public <T> void callback(List<T> objects) {
+					for(T t : objects) {
+						ArtikulsReports artikulsReports = (ArtikulsReports)t;
+						artikuls.add(artikulsReports.getArtikul());
+					}
+					v = new ArrayList<>();
+					for (int i = 0; i < artikuls.size(); i++) {
+						v.add(artikuls.get(i));
+						addItem(v.get(i));
+					}
+				}
+			});
+		} else {
+
+			service.getNewExtinguishers(new RequestCallback() {
+				@Override
+				public <T> void callback(List<T> objects) {
+					for(T t : objects) {
+						NewExtinguishersReports newExtinguishersReports = (NewExtinguishersReports) t;
+						artikuls.add(newExtinguishersReports.getType());
+					}
+					v = new ArrayList<>();
+					for (int i = 0; i < artikuls.size(); i++) {
+						v.add(artikuls.get(i));
+						addItem(v.get(i));
+					}
+				}
+			});
 		}
+
 	}
 
 	public void refreshData() {
-		SWorker sw = new SWorker(dbTable);
-		try {
-			artikuls.clear();
-			v.clear();
-			this.removeAllItems();
-			artikuls = sw.doInBackground();
-			for (int i = 0; i < artikuls.size(); i++) {
-				v.add(artikuls.get(i));
-				this.addItem(v.get(i));
-			}
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		artikuls.clear();
+		v.clear();
+		this.removeAllItems();
+		init();
 	}
 
-	static class SWorker extends SwingWorker {
-
-		ArrayList<String> art = null;
-        private String dbTable;
-		public SWorker(String dbTable) {
-			art = new ArrayList<String>();
-			this.dbTable = dbTable;
-		}
-
-		@SuppressWarnings("unchecked")
-		@Override
-		protected ArrayList<String> doInBackground() throws Exception {
-			// TODO Auto-generated method stub
-			art = Artikuli_DB.getArtikulsName(dbTable);
-			return art;
-		}
-
-	}
 
 }

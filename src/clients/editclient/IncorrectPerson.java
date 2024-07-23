@@ -2,13 +2,14 @@ package clients.editclient;
 
 public class IncorrectPerson {
 	private String name;
-	private String icorrect;
+	private String incorrectPerson;
 
 	public IncorrectPerson(String name, String icorrect) {
 		super();
 		this.name = name;
-		this.icorrect = icorrect;
+		this.incorrectPerson = icorrect;
 	}
+
 
 	public String getName() {
 		return name;
@@ -19,11 +20,11 @@ public class IncorrectPerson {
 	}
 
 	public String getIcorrect() {
-		return icorrect;
+		return incorrectPerson;
 	}
 
-	public void setIcorrect(String icorrect) {
-		this.icorrect = icorrect;
+	public void setIncorrect(String icorrect) {
+		this.incorrectPerson = icorrect;
 	}
 
 	@Override

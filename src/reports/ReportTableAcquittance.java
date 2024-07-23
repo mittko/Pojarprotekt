@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
+import models.AcquittanceReports;
 import utils.LoadIcon;
 import utils.MainPanel;
 import utils.TooltipButton;
@@ -29,16 +30,16 @@ import reports.renderers.AcquittanceTableRender;
 import reports.workers.ExportToExcellWorkerAcquittance;
 import reports.workers.PrintAcquittanceWorker;
 
-public class ReportTableAcquittance extends MainPanel {
+public class ReportTableAcquittance<T> extends MainPanel {
 
 	private final JTable table;
 	public DefaultTableModel dftm;
 	private int SELECTED_INDEX = -1;
-	ArrayList<Object[]> childData;
+	ArrayList<T> childData;
 	private ParentAcquittanceInfo info;
 	public static int MOUSE_MOTION_ROW = -1;
 
-	public ReportTableAcquittance(ArrayList<Object[]> childData) {
+	public ReportTableAcquittance(ArrayList<T> childData) {
 		MOUSE_MOTION_ROW = -1;
 		this.childData = childData;
 
@@ -115,7 +116,35 @@ public class ReportTableAcquittance extends MainPanel {
 				return false;
 			}
 		};
-		for (Object[] childDatum : childData) {
+		for (T t : childData) {
+			AcquittanceReports acquittanceReports = (AcquittanceReports) t;
+//			private String id;
+//			private String value;
+//			private String client;
+//			private String saller;
+//			private String date;
+//			private String _id;
+//			private String artikul;
+//			private String med;
+//			private String quantity;
+//			private String price;
+//			private String _value;
+//			private String _client;
+
+			Object[] childDatum = new Object[dftm.getColumnCount()];
+			childDatum[0] = acquittanceReports.getId();
+			childDatum[1] = acquittanceReports.getValue();
+			childDatum[2] = acquittanceReports.getClient();
+			childDatum[3] = acquittanceReports.getSaller();
+			childDatum[4] = acquittanceReports.getDate();
+			childDatum[5] = acquittanceReports.get_id();
+			childDatum[6] = acquittanceReports.getArtikul();
+			childDatum[7] = acquittanceReports.getMed();
+			childDatum[8] = acquittanceReports.getQuantity();
+			childDatum[9] = acquittanceReports.getPrice();
+			childDatum[10] = acquittanceReports.get_value();
+			childDatum[11] = acquittanceReports.get_client();
+
 			dftm.addRow(childDatum);
 		}
 		table = new JTable(dftm);
@@ -126,7 +155,9 @@ public class ReportTableAcquittance extends MainPanel {
 		table.getColumnModel().getColumn(5).setMinWidth(0);
 		table.getColumnModel().getColumn(5).setMaxWidth(0);
 		table.getColumnModel().getColumn(5).setWidth(0);
-
+		table.getColumnModel().getColumn(11).setMinWidth(0);
+		table.getColumnModel().getColumn(11).setMaxWidth(0);
+		table.getColumnModel().getColumn(11).setWidth(0);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 		table.addMouseListener(new MouseAdapter() {

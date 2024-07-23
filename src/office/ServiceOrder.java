@@ -1087,7 +1087,7 @@ public class ServiceOrder extends MainPanel {
 		float labelHeight = (int) (south.getPreferredSize().getHeight() * 0.7);
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
 
-		sallerLabel.setTitle(Enums.Оператор.name() + ": ");//("  Продавач: ");
+		sallerLabel.setTitle(Enums.Operator.name() + ": ");//("  Продавач: ");
 		sallerLabel.setName(personName);
 
 		clientLabel = new BevelLabel(labelHeight);

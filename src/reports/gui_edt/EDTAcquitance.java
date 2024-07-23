@@ -10,14 +10,14 @@ import run.JDialoger;
 import reports.ReportTableAcquittance;
 import utils.MainPanel;
 
-public class EDTAcquitance extends MainPanel implements Runnable {
-	private ArrayList<Object[]> data = null;
+public class EDTAcquitance<T> extends MainPanel implements Runnable {
+	private ArrayList<T> data = null;
 	private final JDialog jd;
 	private final String title;
 
 	private MainPanel content;
 
-	public EDTAcquitance(ArrayList<Object[]> data, JDialog jd, String title) {
+	public EDTAcquitance(ArrayList<T> data, JDialog jd, String title) {
 		this.data = data;
 		this.jd = jd;
 		this.title = title;

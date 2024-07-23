@@ -1,12 +1,10 @@
 package http.reports;
 
+import clients.editclient.IncorrectPerson;
 import exceptions.ErrorDialog;
 import http.RequestCallback;
 import http.base.ServiceAPI;
-import models.BrakReports;
-import models.InvoiceReports;
-import models.ProtokolReports;
-import models.ServiceOrderReports;
+import models.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,6 +104,78 @@ public class GetReportsService extends ServiceAPI {
             @Override
             public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
                  ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getAcquittance(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getAcquittance(optionsParam).enqueue(new Callback<List<AcquittanceReports>>() {
+            @Override
+            public void onResponse(Call<List<AcquittanceReports>> call, Response<List<AcquittanceReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<AcquittanceReports>> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getArtikulsNames(RequestCallback callback) {
+        getService().getArtikuls().enqueue(new Callback<List<ArtikulsReports>>() {
+            @Override
+            public void onResponse(Call<List<ArtikulsReports>> call, Response<List<ArtikulsReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ArtikulsReports>> call, Throwable throwable) {
+                  ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getNewExtinguishers(RequestCallback callback) {
+        getService().getNewExtinguishers().enqueue(new Callback<List<NewExtinguishersReports>>() {
+            @Override
+            public void onResponse(Call<List<NewExtinguishersReports>> call, Response<List<NewExtinguishersReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<NewExtinguishersReports>> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getClients(RequestCallback callback) {
+        getService().getClients().enqueue(new Callback<List<IncorrectPerson>>() {
+            @Override
+            public void onResponse(Call<List<IncorrectPerson>> call, Response<List<IncorrectPerson>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<IncorrectPerson>> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

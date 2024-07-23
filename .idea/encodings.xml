@@ -4,9 +4,12 @@
     <file url="file://$PROJECT_DIR$/src/calendar/GeneralTechnicalReview.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/db/Calendar/GeneralTechnicalReviewDB.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/enterdialog/PasswordDialog.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/AcquittanceReports.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/ArtikulsReports.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/BrakReports.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/Firm.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/InvoiceReports.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/NewExtinguishersReports.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ProtokolReports.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ServiceOrderReports.java" charset="UTF-8" />
     <file url="PROJECT" charset="windows-1251" />

@@ -3,9 +3,7 @@ package reports;
 import files.TextReader;
 import http.RequestCallback;
 import http.reports.GetReportsService;
-import models.ServiceOrderReports;
 import reports.gui_edt.*;
-import db.Common;
 import db.NewExtinguisher.NewExtinguishers_DB;
 import db.Report.ReportRequest;
 import db.creditnote.CreditNoteTable;
@@ -47,7 +45,7 @@ public class ReportDialog extends MainPanel {
 	private EditableField serial = null;
 	private EditableField barcod = null;
 	private final ArtikulsListComboBox artikulsComboBox;
-	private final NewExtinguishersComboBox newExtinguishersComboBox;
+	private final ArtikulsListComboBox newExtinguishersComboBox;
 
 	private ClientsListComboBox2 clientCombo = null;
 
@@ -181,6 +179,7 @@ public class ReportDialog extends MainPanel {
 		});
 
 		rbmi7 = new JRadioButtonMenuItem("Артикули");
+		rbmi7.setVisible(false);
 		rbmi7.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbmi7.addActionListener(new ActionListener() {
 
@@ -196,6 +195,7 @@ public class ReportDialog extends MainPanel {
 		});
 
 		rbmi8 = new JRadioButtonMenuItem("Нови Пожарогасители");
+		rbmi8.setVisible(false);
 		rbmi8.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		rbmi8.addActionListener(new ActionListener() {
 
@@ -370,7 +370,7 @@ public class ReportDialog extends MainPanel {
 
 		artikulsComboBox = new ArtikulsListComboBox(AVAILABLE_ARTIKULS);
 
-		newExtinguishersComboBox = new NewExtinguishersComboBox();
+		newExtinguishersComboBox = new ArtikulsListComboBox(NEW_EXTINGUISHERS);
 
 		clientCombo = new ClientsListComboBox2();
 		clientCombo.setPreferredSize(new Dimension(230, 30));
@@ -446,7 +446,7 @@ public class ReportDialog extends MainPanel {
 							case PROTOKOL:
 							case BRACK:
 
-								buildCommandForSO_Table_Protokol_Brack(destination, jDialog);
+								openSO_Table_Protokol_Brack(destination, jDialog);
 
 								break;
 							case INVOICE_PARENT:
@@ -458,12 +458,12 @@ public class ReportDialog extends MainPanel {
 										case INVOICE_PARENT:
 											invoiceTitle = "Фактура";
 
-											buildCommandForInvoice(invoiceTitle,jDialog);
+											openInvoices(invoiceTitle,jDialog);
 											break;
 										case PROFORM_PARENT:
 											invoiceTitle = "Проформа";
 
-											buildCommandForInvoice(invoiceTitle,jDialog);
+											openInvoices(invoiceTitle,jDialog);
 											break;
 										default:
 											break;
@@ -473,16 +473,8 @@ public class ReportDialog extends MainPanel {
 								break;
 							case ACQUITTANCE_PARENT:
 
-								try {
-									d = Common
-											.getInfoForParentAndChildTable(buildCommandForAcquittance());
+								openAcquittance(jDialog);
 
-								} finally {
-									EDTAcquitance edt = new EDTAcquitance(d,
-											jDialog, "Справки Стокова Разписка");
-									SwingUtilities.invokeLater(edt);
-
-								}
 								break;
 							case AVAILABLE_ARTIKULS: {
 								String command = buildSearchCommandForArtikuls();
@@ -659,7 +651,7 @@ public class ReportDialog extends MainPanel {
 		});
 	}
 
-	private void buildCommandForSO_Table_Protokol_Brack(String dest, JDialog jDialog) {
+	private void openSO_Table_Protokol_Brack(String dest, JDialog jDialog) {
 		GetReportsService getReportsService = new GetReportsService();
 
 		HashMap<String, String> optionsParam = new HashMap<>();
@@ -772,52 +764,38 @@ public class ReportDialog extends MainPanel {
 	}
 
 	//
-	private String buildCommandForAcquittance() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("select * from " + ACQUITTANCE_PARENT + ","
-				+ ACQUITTANCE_CHILD
-				+ " where AcquittanceParentDB.id = AcquittanceChildDB.id");
+	private String openAcquittance(JDialog jDialog) {
+		HashMap<String, String> optionParam = new HashMap<>();
 
-		if (!clientCombo.getSelectedItem().equals("")) {
-			sb.append(" and AcquittanceParentDB.client = '").append(clientCombo.getSelectedItem()).append("'");
+		if (clientCombo.getSelectedItem() != null && !clientCombo.getSelectedItem().equals("")) {
+			optionParam.put("client",clientCombo.getSelectedItem().toString());
 		}
 		if (!acquittanceField.getText().isEmpty()) {
-			sb.append(" and AcquittanceParentDB.id = " + "'").append(acquittanceField.getText()).append("'");
+			optionParam.put("acquittance",acquittanceField.getText());
 		}
 		// add date
 		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			sb.append(" and AcquittanceParentDB.date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
+			optionParam.put("fromDate",fromDate.getText());
+			optionParam.put("toDate",toDate.getText());
 		}
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and AcquittanceChildDB.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
+		if (artikulsComboBox.getSelectedItem() != null && !artikulsComboBox.getSelectedItem().toString().equals("")) {
+			optionParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
 		}
-		sb.append(" order by CAST(date as DATE) desc");
-		return sb.toString();
+		GetReportsService service = new GetReportsService();
+		service.getAcquittance(optionParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				EDTAcquitance edt = new EDTAcquitance((ArrayList<Object[]>) objects,
+						jDialog, "Справки Стокова Разписка");
+				SwingUtilities.invokeLater(edt);
+			}
+		});
+		return null;
 	}
 
-	private String buildCommandForProform() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("select * from " + PROFORM_PARENT + "," + PROFORM_CHILD
-				+ " where ProformParentDB.id = ProformChildDB2.id");
 
-		if (!clientCombo.getSelectedItem().equals("")) {
-			sb.append(" and ProformParentDB.client = '").append(clientCombo.getSelectedItem()).append("'");
-		}
-		if (!fact_field.getText().isEmpty()) {
-			sb.append(" and ProformParentDB.id = " + "'").append(fact_field.getText()).append("'");
-		}
-		// add date
-		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			sb.append(" and ProformParentDB.date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
-		}
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and ProformChildDB2.make = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
-		}
-		sb.append(" order by CAST(date as DATE) desc");
-		return sb.toString();
-	}
 
-	private String buildCommandForInvoice(String invoiceTitle, JDialog jDialog) {
+	private void openInvoices(String invoiceTitle, JDialog jDialog) {
 		HashMap<String, String> optionsParam = new HashMap<>();
 
 		if (!clientCombo.getSelectedItem().equals("")) {
@@ -860,103 +838,9 @@ public class ReportDialog extends MainPanel {
 			});
 		}
 
-		return null;
 	}
 
-	private String buildSearchCommandForArtikuls() {
-		StringBuilder mainCommand1 = new StringBuilder();
 
-		int selectedCriterii = 0;
-
-		mainCommand1.append("select * from " + AVAILABLE_ARTIKULS);
-
-		if (!clientCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
-			selectedCriterii++;
-		}
-		if (!fact_field.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where invoice = " + "'").append(fact_field.getText()).append("'");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and invoice = " + "'").append(fact_field.getText()).append("'");
-			}
-			selectedCriterii++;
-		}
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
-			selectedCriterii++;
-		}
-
-		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
-			selectedCriterii++;
-		}
-		mainCommand1.append(" order by CAST(date as DATE) desc");
-		return mainCommand1.toString();
-	}
-
-	private String buildCommandForNewExtinguishers() {
-		StringBuilder mainCommand1 = new StringBuilder();
-
-		int selectedCriterii = 0;
-
-		mainCommand1.append("select * from " + NEW_EXTINGUISHERS);
-
-		if (!clientCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
-			selectedCriterii++;
-		}
-		if (!fact_field.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where invoice = " + "'").append(fact_field.getText()).append("'");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and invoice = " + "'").append(fact_field.getText()).append("'");
-			}
-			selectedCriterii++;
-		}
-		if (!newExtinguishersComboBox.getSelectedItem().toString().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("type = " + "'").append(newExtinguishersComboBox.getSelectedItem().toString()).append("'");
-			selectedCriterii++;
-		}
-
-		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("date between " + "Date('" + fromDate.getText()
-					+ "')" + " and " + "Date('" + toDate.getText() + "')");
-			selectedCriterii++;
-		}
-		mainCommand1.append(" order by CAST(date as DATE)");
-		return mainCommand1.toString();
-	}
 
 	private String buildCommandForDeliveryArtikuls() {
 		StringBuilder mainCommand1 = new StringBuilder();
@@ -1076,5 +960,98 @@ public class ReportDialog extends MainPanel {
 		doingCombo.setEnabled(doing);
 
 	}
+	private String buildSearchCommandForArtikuls() {
+		StringBuilder mainCommand1 = new StringBuilder();
 
+		int selectedCriterii = 0;
+
+		mainCommand1.append("select * from " + AVAILABLE_ARTIKULS);
+
+		if (!clientCombo.getSelectedItem().equals("")) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where ");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and ");
+			}
+			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
+			selectedCriterii++;
+		}
+		if (!fact_field.getText().isEmpty()) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where invoice = " + "'").append(fact_field.getText()).append("'");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and invoice = " + "'").append(fact_field.getText()).append("'");
+			}
+			selectedCriterii++;
+		}
+		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where ");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and ");
+			}
+			mainCommand1.append("artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
+			selectedCriterii++;
+		}
+
+		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where ");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and ");
+			}
+			mainCommand1.append("date between " + "Date('").append(fromDate.getText()).append("')").append(" and ").append("Date('").append(toDate.getText()).append("')");
+			selectedCriterii++;
+		}
+		mainCommand1.append(" order by CAST(date as DATE) desc");
+		return mainCommand1.toString();
+	}
+
+	private String buildCommandForNewExtinguishers() {
+		StringBuilder mainCommand1 = new StringBuilder();
+
+		int selectedCriterii = 0;
+
+		mainCommand1.append("select * from " + NEW_EXTINGUISHERS);
+
+		if (!clientCombo.getSelectedItem().equals("")) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where ");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and ");
+			}
+			mainCommand1.append("client = " + "'").append(clientCombo.getSelectedItem()).append("'");
+			selectedCriterii++;
+		}
+		if (!fact_field.getText().isEmpty()) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where invoice = " + "'").append(fact_field.getText()).append("'");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and invoice = " + "'").append(fact_field.getText()).append("'");
+			}
+			selectedCriterii++;
+		}
+		if (!newExtinguishersComboBox.getSelectedItem().toString().equals("")) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where ");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and ");
+			}
+			mainCommand1.append("type = " + "'").append(newExtinguishersComboBox.getSelectedItem().toString()).append("'");
+			selectedCriterii++;
+		}
+
+		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
+			if (selectedCriterii == 0) {
+				mainCommand1.append(" where ");
+			} else if (selectedCriterii > 0) {
+				mainCommand1.append(" and ");
+			}
+			mainCommand1.append("date between " + "Date('" + fromDate.getText()
+					+ "')" + " and " + "Date('" + toDate.getText() + "')");
+			selectedCriterii++;
+		}
+		mainCommand1.append(" order by CAST(date as DATE)");
+		return mainCommand1.toString();
+	}
 }
