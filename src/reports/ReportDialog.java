@@ -497,15 +497,9 @@ public class ReportDialog extends MainPanel {
 								break;
 							}
 							case DELIVERY_ARTIKULS: {
-								String command =
-										buildCommandForDeliveryArtikuls();
-								ArrayList<Object[]> getDelivery = ReportRequest.getReportsForDelivery
-										(command, 1);
-								EDTDelivery edt = new EDTDelivery(getDelivery,
-										jDialog, "Справка Доставки "
-										+ fromDate.getText() + " - "
-										+ toDate.getText());
-								SwingUtilities.invokeLater(edt);
+
+
+								openDelivery(jDialog);
 
 								break;
 							}
@@ -842,53 +836,40 @@ public class ReportDialog extends MainPanel {
 
 
 
-	private String buildCommandForDeliveryArtikuls() {
-		StringBuilder mainCommand1 = new StringBuilder();
+	private void openDelivery(JDialog jDialog) {
 
-		int selectedCriterii = 0;
-		mainCommand1.append("select artikul, quantity, "
-				+ "med, value, kontragent, invoiceByKontragent,"
-				+ " date, operator from " + DELIVERY_ARTIKULS);
+		HashMap<String, String> optionsParam = new HashMap<>();
 
-		if (!clientCombo.getSelectedItem().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("kontragent = " + "'").append(clientCombo.getSelectedItem()).append("'");
-			selectedCriterii++;
+
+		if (clientCombo.getSelectedItem() != null && !clientCombo.getSelectedItem().equals("")) {
+
+			optionsParam.put("kontragent",clientCombo.getSelectedItem().toString());
 		}
 		if (!fact_field.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where invoiceByKontragent = " + "'"
-						+ fact_field.getText() + "'");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and invoiceByKontragent = " + "'").append(fact_field.getText()).append("'");
-			}
-			selectedCriterii++;
+
+			optionsParam.put("invoiceByKontragent",fact_field.getText());
 		}
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
-			selectedCriterii++;
+		if (artikulsComboBox.getSelectedItem() != null && !artikulsComboBox.getSelectedItem().toString().equals("")) {
+
+			optionsParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
 		}
 		if (!fromDate.getText().isEmpty() && !toDate.getText().isEmpty()) {
-			if (selectedCriterii == 0) {
-				mainCommand1.append(" where ");
-			} else if (selectedCriterii > 0) {
-				mainCommand1.append(" and ");
-			}
-			mainCommand1.append("date between Date('").append(fromDate.getText()).append("') and Date('").append(toDate.getText()).append("')");
-			selectedCriterii++;
-		}
-		//mainCommand1.append(" order by CAST(date as DATE)");
 
-		return mainCommand1.toString();
+			optionsParam.put("fromDate",fromDate.getText());
+			optionsParam.put("toDate",toDate.getText());
+		}
+
+        GetReportsService service = new GetReportsService();
+		service.getDeliveries(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				EDTDelivery edt = new EDTDelivery((ArrayList) objects,
+						jDialog, "Справка Доставки "
+						+ fromDate.getText() + " - "
+						+ toDate.getText());
+				SwingUtilities.invokeLater(edt);
+			}
+		});
 	}
 
 

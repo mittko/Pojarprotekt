@@ -1,7 +1,7 @@
 package admin;
 
 import clients.editclient.EditClientPanel;
-import admin.àrtikul.ArtikulTable;
+import admin.artikul.ArtikulTable;
 import admin.doing.UpdateWorkPrice;
 import admin.parts.price.UpdatePriceOfParts;
 import admin.parts.quantity.PartsQuantityTable;

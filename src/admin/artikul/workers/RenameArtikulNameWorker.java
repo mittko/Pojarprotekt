@@ -1,6 +1,6 @@
-package admin.àrtikul.workers;
+package admin.artikul.workers;
 
-import db.àrtikul.Artikuli_DB;
+import db.artikul.Artikuli_DB;
 import utils.MainPanel;
 
 import javax.swing.*;

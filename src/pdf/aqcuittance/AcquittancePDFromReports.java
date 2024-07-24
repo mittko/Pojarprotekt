@@ -337,10 +337,10 @@ public class AcquittancePDFromReports extends PdfCreator {
 		float finalSumY = dateBottomY;
 		// double danak = (20 * finalSum) / 100;
 
-		// добави ДДС
-		// 20 % // Стокова разписка без ДДС !!!111
-		float ДДС = 1.0f;
-		finalSum *= ДДС;
+		// добави DDS
+		// 20 % // Стокова разписка без DDS !!!111
+		float DDS = 1.0f;
+		finalSum *= DDS;
 
 		nextAcquittanceTableY = finalSumY;
 

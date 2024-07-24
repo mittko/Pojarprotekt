@@ -1,10 +1,10 @@
-package admin.àrtikul;
+package admin.artikul;
 
 import exceptions.DBException;
 import exceptions.ErrorDialog;
-import admin.àrtikul.renderers.ArtikulRenderer;
-import admin.àrtikul.workers.*;
-import db.àrtikul.Artikuli_DB;
+import admin.artikul.renderers.ArtikulRenderer;
+import admin.artikul.workers.*;
+import db.artikul.Artikuli_DB;
 import invoice.sklad.ILoadArtikuls;
 import run.JDialoger;
 import utils.EditableField;

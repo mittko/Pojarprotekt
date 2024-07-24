@@ -1,8 +1,8 @@
-package admin.àrtikul.workers;
+package admin.artikul.workers;
 
 import javax.swing.SwingWorker;
 
-import db.àrtikul.Artikuli_DB;
+import db.artikul.Artikuli_DB;
 
 public class GetCurrArtikulValueInSkladWorker extends SwingWorker {
 	private String artikul;

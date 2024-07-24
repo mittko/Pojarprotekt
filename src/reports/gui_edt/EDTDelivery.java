@@ -9,12 +9,12 @@ import javax.swing.JOptionPane;
 import reports.ReportTableDelivery;
 import run.JDialoger;
 
-public class EDTDelivery implements Runnable {
-	private ArrayList<Object[]> data = null;
+public class EDTDelivery<T> implements Runnable {
+	private ArrayList<T> data = null;
 	private final JDialog jd;
 	private final String title;
 
-	public EDTDelivery(ArrayList<Object[]> data, JDialog jd, String title) {
+	public EDTDelivery(ArrayList<T> data, JDialog jd, String title) {
 		this.data = data;
 		this.jd = jd;
 		this.title = title;

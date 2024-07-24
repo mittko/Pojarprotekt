@@ -1,4 +1,4 @@
-package admin.àrtikul.workers;
+package admin.artikul.workers;
 
 import invoice.sklad.ILoadArtikuls;
 

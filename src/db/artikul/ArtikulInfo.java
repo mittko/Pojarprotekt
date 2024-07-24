@@ -1,4 +1,4 @@
-package db.àrtikul;
+package db.artikul;
 
 import exceptions.ErrorDialog;
 

@@ -1,6 +1,6 @@
-package admin.àrtikul;
+package admin.artikul;
 
-import admin.àrtikul.workers.GetDeliveryValueForArtikul;
+import admin.artikul.workers.GetDeliveryValueForArtikul;
 import mydate.MyGetDate;
 import utils.EditableField;
 import utils.MainPanel;

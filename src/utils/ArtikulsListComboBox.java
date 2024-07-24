@@ -1,6 +1,5 @@
 package utils;
 
-import db.àrtikul.Artikuli_DB;
 import http.RequestCallback;
 import http.reports.GetReportsService;
 import models.ArtikulsReports;

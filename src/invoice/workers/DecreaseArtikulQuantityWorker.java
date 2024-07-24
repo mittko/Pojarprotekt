@@ -1,7 +1,7 @@
 package invoice.workers;
 
-import db.àrtikul.ArtikulInfo;
-import db.àrtikul.Artikuli_DB;
+import db.artikul.ArtikulInfo;
+import db.artikul.Artikuli_DB;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

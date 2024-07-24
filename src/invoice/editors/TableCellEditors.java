@@ -1,4 +1,4 @@
-package invoice.åditors;
+package invoice.editors;
 
 import java.awt.Component;
 

@@ -4,9 +4,9 @@
 // Decompiled by Procyon v0.5.36
 //
 
-package admin.àrtikul;
+package admin.artikul;
 
-import admin.àrtikul.workers.GetCurrArtikulValueInSkladWorker;
+import admin.artikul.workers.GetCurrArtikulValueInSkladWorker;
 import utils.*;
 
 import java.awt.*;

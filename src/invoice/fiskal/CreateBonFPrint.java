@@ -23,7 +23,7 @@ public class CreateBonFPrint extends CreateBon {
 	private final String TAX = "C";
 	private final String addValue = "2";
 	private final String substractValue = "1";
-	private final String надбавка = "20.00";
+	private final String nadbavka = "20.00";
 
 	public CreateBonFPrint() {
 

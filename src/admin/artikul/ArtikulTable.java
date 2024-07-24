@@ -1,4 +1,4 @@
-package admin.àrtikul;
+package admin.artikul;
 
 public class ArtikulTable extends AvailableArtikulsTable{
     @Override

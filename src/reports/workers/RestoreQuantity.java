@@ -1,7 +1,7 @@
 package reports.workers;
 
 import exceptions.ErrorDialog;
-import db.àrtikul.Artikuli_DB;
+import db.artikul.Artikuli_DB;
 import db.creditnote.CreditNoteTable;
 import mydate.MyGetDate;
 import utils.MainPanel;

@@ -1,8 +1,4 @@
-package admin.àrtikul;
-
-import utils.MainPanel;
-
-import java.util.ArrayList;
+package admin.artikul;
 
 public interface IEditArtikuls {
     void changeArtikulPrice(String artikul, String biggestPriceValue,String percentProfit,String kontragent,String invoice);

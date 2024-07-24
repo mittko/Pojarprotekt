@@ -1,4 +1,4 @@
-package admin.àrtikul;
+package admin.artikul;
 
 import run.JustFrame;
 import utils.MainPanel;

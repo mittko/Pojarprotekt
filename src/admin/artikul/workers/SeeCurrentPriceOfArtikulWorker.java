@@ -1,4 +1,4 @@
-package admin.àrtikul.workers;
+package admin.artikul.workers;
 
 import java.awt.Cursor;
 
@@ -6,7 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
-import db.àrtikul.Artikuli_DB;
+import db.artikul.Artikuli_DB;
 
 public class SeeCurrentPriceOfArtikulWorker extends SwingWorker {
     

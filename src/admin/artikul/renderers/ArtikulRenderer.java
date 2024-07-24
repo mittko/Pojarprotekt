@@ -1,4 +1,4 @@
-package admin.àrtikul.renderers;
+package admin.artikul.renderers;
 
 import java.awt.Color;
 import java.awt.Component;

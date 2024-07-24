@@ -179,4 +179,22 @@ public class GetReportsService extends ServiceAPI {
             }
         });
     }
+
+    public void getDeliveries(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getDeliveries(optionsParam).enqueue(new Callback<List<DeliveryReports>>() {
+            @Override
+            public void onResponse(Call<List<DeliveryReports>> call, Response<List<DeliveryReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DeliveryReports>> call, Throwable throwable) {
+                  ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }

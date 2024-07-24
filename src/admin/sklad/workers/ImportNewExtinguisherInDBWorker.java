@@ -1,6 +1,6 @@
 package admin.sklad.workers;
 
-import db.àrtikul.Artikuli_DB;
+import db.artikul.Artikuli_DB;
 import db.NewExtinguisher.NewExtinguishers_DB;
 import utils.BrandListComboBox;
 import utils.ClientsListComboBox2;

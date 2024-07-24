@@ -1,7 +1,7 @@
 package invoice.sklad;
 
-import invoice.åditors.TableCellEditors;
 import invoice.renderers.AutoSortRenderer;
+import invoice.editors.TableCellEditors;
 import utils.*;
 
 import javax.swing.*;

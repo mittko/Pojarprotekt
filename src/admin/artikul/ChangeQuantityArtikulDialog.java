@@ -1,8 +1,7 @@
-package admin.àrtikul;
+package admin.artikul;
 
 import utils.EditableField;
 import utils.MainPanel;
-import utils.MyMath;
 
 import javax.swing.*;
 import java.awt.*;

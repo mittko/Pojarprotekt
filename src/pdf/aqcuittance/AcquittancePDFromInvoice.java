@@ -344,8 +344,8 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 
 		// добави ДДС
 		// 20 % // Стокова разписка без ДДС !!!111
-		float ДДС = 1.0f;
-		finalSum *= ДДС;
+		float DDS = 1.0f;
+		finalSum *= DDS;
 
 		nextAcquittanceTableY = finalSumY;
 

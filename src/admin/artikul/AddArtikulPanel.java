@@ -4,10 +4,10 @@
 // Decompiled by Procyon v0.5.36
 //
 
-package admin.àrtikul;
+package admin.artikul;
 
 import exceptions.ErrorDialog;
-import db.àrtikul.Artikuli_DB;
+import db.artikul.Artikuli_DB;
 import run.JDialoger;
 import utils.*;
 

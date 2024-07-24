@@ -1,7 +1,7 @@
 package invoice.sklad;
 
-import admin.àrtikul.workers.BiggestPriceForInvoiceWorker;
-import db.àrtikul.Artikuli_DB;
+import admin.artikul.workers.BiggestPriceForInvoiceWorker;
+import db.artikul.Artikuli_DB;
 import utils.MyMath;
 
 import javax.swing.*;

@@ -40,6 +40,9 @@ public interface IGetReports {
     @GET("/clients")
     Call<List<IncorrectPerson>> getClients();
 
+    @GET("/deliveries")
+    Call<List<DeliveryReports>> getDeliveries(@QueryMap HashMap<String, String> optionsParam);
+
 
 
 }

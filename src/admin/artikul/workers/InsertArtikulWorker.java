@@ -4,13 +4,13 @@
 // Decompiled by Procyon v0.5.36
 // 
 
-package admin.àrtikul.workers;
+package admin.artikul.workers;
 
 import javax.swing.SwingUtilities;
 import java.awt.Cursor;
 import javax.swing.JOptionPane;
 
-import db.àrtikul.Artikuli_DB;
+import db.artikul.Artikuli_DB;
 import javax.swing.JDialog;
 import utils.EditableField;
 import javax.swing.JTextField;

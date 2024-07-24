@@ -1,5 +1,6 @@
 package reports;
 
+import models.DeliveryReports;
 import reports.renderers.DeliveryTableRenderer;
 import reports.workers.ExportToExcellWorkerDelivery;
 import run.JustFrame;
@@ -19,9 +20,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ReportTableDelivery extends MainPanel {
+public class ReportTableDelivery<T> extends MainPanel {
 
-	public ReportTableDelivery(ArrayList<Object[]> data, final String title) {
+	public ReportTableDelivery(ArrayList<T> data, final String title) {
 		JPanel childContainer = new JPanel();
 		JPanel northPanel = new JPanel();
 		childContainer.setLayout(new BorderLayout());
@@ -41,14 +42,16 @@ public class ReportTableDelivery extends MainPanel {
 		double allValues = 0;
 		HashMap<String, ArrayList<ArtikulDelivery>> deliveryMap = new HashMap<>();
 
-		for (Object[] datum : data) {
-			String invoice = datum[5].toString();
-			String kontragent = datum[4].toString();
-			String date = datum[6].toString();
-			String artikul = datum[0].toString();
-			String med = datum[2].toString();
-			String quantity = datum[1].toString();
-			String price = datum[3].toString();
+		for (T t : data) {
+			DeliveryReports deliveryReports = (DeliveryReports)t;
+
+			String invoice = deliveryReports.getInvoiceByKontragent();// datum[5].toString();
+			String kontragent = deliveryReports.getKontragent();// datum[4].toString();
+			String date =deliveryReports.getDate();//  datum[6].toString();
+			String artikul = deliveryReports.getArtikul();// datum[0].toString();
+			String med = deliveryReports.getMed();//datum[2].toString();
+			String quantity = deliveryReports.getQuantity();//datum[1].toString();
+			String price = deliveryReports.getValue();//datum[3].toString();
 
 			String key = invoice + "X" + kontragent;
 			if (!deliveryMap.containsKey(key)) {

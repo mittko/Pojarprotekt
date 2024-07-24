@@ -109,7 +109,7 @@
         </java>
     </target>
     <target name="Artikuli_DB (1)">
-        <java classname="db.admin.аrtikul.Artikuli_DB" failonerror="true" fork="yes">
+        <java classname="db.admin.artikul.Artikuli_DB" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
@@ -124,7 +124,7 @@
         </java>
     </target>
     <target name="ArtikulsMainFrame (1)">
-        <java classname="admin.аrtikul.ArtikulsMainFrame" failonerror="true" fork="yes">
+        <java classname="admin.artikul.ArtikulsMainFrame" failonerror="true" fork="yes">
             <classpath refid="Program.classpath"/>
         </java>
     </target>
