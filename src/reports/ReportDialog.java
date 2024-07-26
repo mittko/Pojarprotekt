@@ -3,8 +3,8 @@ package reports;
 import files.TextReader;
 import http.RequestCallback;
 import http.reports.GetReportsService;
-import models.DeliveryDataForSale;
-import models.InvoiceDataForSale;
+import models.DeliveryReports;
+import models.InvoiceReports;
 import reports.gui_edt.*;
 import db.NewExtinguisher.NewExtinguishers_DB;
 import db.Report.ReportRequest;
@@ -548,25 +548,27 @@ public class ReportDialog extends MainPanel {
 
 								// System.out.printf("%s %s\n", from, to);
 								// System.out.printf("%s %s\n", from2, to);
-								ArrayList<Object[]> deliveryBeforeFirstSelectedDate = ReportRequest
-										.getReportsForAvailability(buildCommandForDeliveryFromTo(
-												"01.06.2016", oneDayBeforeForm), 1);
-								ArrayList<Object[]> invoiceBeforeFirstSelectedDate = ReportRequest
-										.getReportsForAvailability(buildCommandForInvoiceFromTo(
-												"01.06.2016", oneDayBeforeForm), 1);
+//								ArrayList<Object[]> deliveryBeforeFirstSelectedDate = ReportRequest
+//										.getReportsForAvailability(buildCommandForDeliveryFromTo(
+//												"01.06.2016", oneDayBeforeForm), 1);
+//								ArrayList<Object[]> invoiceBeforeFirstSelectedDate = ReportRequest
+//										.getReportsForAvailability(buildCommandForInvoiceFromTo(
+//												"01.06.2016", oneDayBeforeForm), 1);
+//
+//								ArrayList<Object[]> deliveryBetweenSelectedDates = ReportRequest
+//										.getReportsForAvailability(buildCommandForDeliveryFromTo(
+//												from, to), 1);
+//								ArrayList<Object[]> invoiceBetweenSelectedDates = ReportRequest
+//										.getReportsForAvailability(buildCommandForInvoiceFromTo(
+//												from, to), 1);
+//								EDTAvailability edt = new EDTAvailability(
+//										deliveryBeforeFirstSelectedDate, invoiceBeforeFirstSelectedDate,
+//										deliveryBetweenSelectedDates, invoiceBetweenSelectedDates, from, to,
+//										jDialog, "Справка Наличност " + oneDayBeforeForm
+//										+ " - " + to);
+//								SwingUtilities.invokeLater(edt);
 
-								ArrayList<Object[]> deliveryBetweenSelectedDates = ReportRequest
-										.getReportsForAvailability(buildCommandForDeliveryFromTo(
-												from, to), 1);
-								ArrayList<Object[]> invoiceBetweenSelectedDates = ReportRequest
-										.getReportsForAvailability(buildCommandForInvoiceFromTo(
-												from, to), 1);
-								EDTAvailability edt = new EDTAvailability(
-										deliveryBeforeFirstSelectedDate, invoiceBeforeFirstSelectedDate,
-										deliveryBetweenSelectedDates, invoiceBetweenSelectedDates, from, to,
-										jDialog, "Справка Наличност " + oneDayBeforeForm
-										+ " - " + to);
-								SwingUtilities.invokeLater(edt);
+								openAvailability(from,to,jDialog);
 								break;
 							} case CREDIT_NOTE: {
 								ArrayList<ArrayList<Object>> notes =
@@ -876,9 +878,11 @@ public class ReportDialog extends MainPanel {
 		});
 	}
 
-	private ArrayList<DeliveryDataForSale> deliveryDataForSales;
-	private ArrayList<InvoiceDataForSale> invoiceDataForSales;
+	private ArrayList<DeliveryReports> deliveryDataForSales;
+	private ArrayList<InvoiceReports> invoiceDataForSales;
 	private void openSales(String fromDate, String toDate, JDialog jDialog) {
+		  deliveryDataForSales = null;
+		  invoiceDataForSales = null;
           GetReportsService service = new GetReportsService();
 		  HashMap<String, String> optionsParam = new HashMap<>();
 		  optionsParam.put("fromDate",fromDate);
@@ -890,7 +894,7 @@ public class ReportDialog extends MainPanel {
 		  service.getDeliveryDataForSale(optionsParam, new RequestCallback() {
 			  @Override
 			  public <T> void callback(List<T> objects) {
-				  deliveryDataForSales = (ArrayList<DeliveryDataForSale>) objects;
+				  deliveryDataForSales = (ArrayList<DeliveryReports>) objects;
 				  if(deliveryDataForSales != null && invoiceDataForSales != null) {
 					  EDTSales edt = new EDTSales(invoiceDataForSales,
 							  deliveryDataForSales, jDialog, "Справка Продажби "
@@ -903,7 +907,7 @@ public class ReportDialog extends MainPanel {
 		  service.getInvoiceDataForSale(optionsParam, new RequestCallback() {
 			  @Override
 			  public <T> void callback(List<T> objects) {
-				  invoiceDataForSales = (ArrayList<InvoiceDataForSale>) objects;
+				  invoiceDataForSales = (ArrayList<InvoiceReports>) objects;
 				  if(deliveryDataForSales != null && invoiceDataForSales != null) {
 					  EDTSales edt = new EDTSales(invoiceDataForSales,
 							  deliveryDataForSales, jDialog, "Справка Продажби "
@@ -915,28 +919,115 @@ public class ReportDialog extends MainPanel {
 		  });
 	}
 
-	private String buildCommandForSales2FromTo(String from, String to) {
-		StringBuilder mainCommand1 = new StringBuilder();
-		mainCommand1.append("select DeliveryArtikulsDB2.invoiceByKontragent, DeliveryArtikulsDB2.kontragent," +
-				" DeliveryArtikulsDB2.date, DeliveryArtikulsDB2.artikul, DeliveryArtikulsDB2.value from " +
-				DELIVERY_ARTIKULS + " where DeliveryArtikulsDB2.date between " + "Date('").append(from).append("')").append(" and ").append("Date('").append(to).append("')");
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			mainCommand1.append(" and DeliveryArtikulsDB2.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
-		}
-		return mainCommand1.toString();
-	}
+	List<DeliveryReports> deliveryDataForAvailabilityBeforeSelectedDate;
+	List<DeliveryReports> deliveryDataForAvailabilityBetweenSelectedDates;
+	List<InvoiceReports> invoiceDataForAvailabilityReportsBeforeSelectedDates;
 
-	private String buildCommandForSalesFromTo(String from, String to) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("select InvoiceChildDB7.id, InvoiceChildDB7.client, InvoiceChildDB7.invoiceByKontragent, InvoiceChildDB7.kontragent,"
-				+ " InvoiceChildDB7.artikul, InvoiceChildDB7.med, InvoiceChildDB7.quantity," +
-				" InvoiceChildDB7.price, InvoiceParentDB5.date from " +
-				INVOICE_CHILD + "," + INVOICE_PARENT + " where InvoiceParentDB5.id = InvoiceChildDB7.id" +
-				" and InvoiceParentDB5.date between " + "Date('").append(from).append("')").append(" and ").append("Date('").append(to).append("')");
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and  InvoiceChildDB7.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
+	List<InvoiceReports> invoiceDataForAvailabilityReportsBetweenSelectedDates;
+	private void openAvailability(String from, String to, JDialog jDialog) {
+
+		deliveryDataForAvailabilityBeforeSelectedDate = null;
+		deliveryDataForAvailabilityBetweenSelectedDates = null;
+		invoiceDataForAvailabilityReportsBeforeSelectedDates = null;
+		invoiceDataForAvailabilityReportsBetweenSelectedDates = null;
+
+		String oneDayBeforeForm = MyGetDate.getDateBeforeAnotherDate(1,
+				MyGetDate.getDateFromString(fromDate
+						.getText()));
+
+		HashMap<String, String> optionsParam = new HashMap<>();
+		optionsParam.put("fromDate","01.06.2016");
+		optionsParam.put("toDate",oneDayBeforeForm);
+
+		if(artikulsComboBox.getSelectedItem() != null && !artikulsComboBox.getSelectedItem().toString().isEmpty()) {
+			optionsParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
 		}
-		return sb.toString();
+
+		GetReportsService service = new GetReportsService();
+		service.getDeliveryDataForAvailability(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				deliveryDataForAvailabilityBeforeSelectedDate = (List<DeliveryReports>) objects;
+				if(deliveryDataForAvailabilityBeforeSelectedDate != null
+						&& deliveryDataForAvailabilityBetweenSelectedDates != null
+				        && invoiceDataForAvailabilityReportsBeforeSelectedDates != null
+				        && invoiceDataForAvailabilityReportsBetweenSelectedDates != null) {
+					EDTAvailability edt = new EDTAvailability(
+							(ArrayList) deliveryDataForAvailabilityBeforeSelectedDate,
+							(ArrayList) invoiceDataForAvailabilityReportsBeforeSelectedDates,
+							(ArrayList) deliveryDataForAvailabilityBetweenSelectedDates,
+							(ArrayList) invoiceDataForAvailabilityReportsBetweenSelectedDates, "01.06.2016", oneDayBeforeForm,
+							jDialog, "Справка Наличност " + oneDayBeforeForm
+							+ " - " + to);
+					SwingUtilities.invokeLater(edt);
+				}
+			}
+		});
+		service.getInvoiceDataForAvailability(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				invoiceDataForAvailabilityReportsBeforeSelectedDates = (List<InvoiceReports>) objects;
+				if(deliveryDataForAvailabilityBeforeSelectedDate != null
+						&& deliveryDataForAvailabilityBetweenSelectedDates != null
+						&& invoiceDataForAvailabilityReportsBeforeSelectedDates != null
+						&& invoiceDataForAvailabilityReportsBetweenSelectedDates != null) {
+					EDTAvailability edt = new EDTAvailability(
+							(ArrayList) deliveryDataForAvailabilityBeforeSelectedDate,
+							(ArrayList) invoiceDataForAvailabilityReportsBeforeSelectedDates,
+							(ArrayList) deliveryDataForAvailabilityBetweenSelectedDates,
+							(ArrayList) invoiceDataForAvailabilityReportsBetweenSelectedDates, "01.06.2016", oneDayBeforeForm,
+							jDialog, "Справка Наличност " + oneDayBeforeForm
+							+ " - " + to);
+					SwingUtilities.invokeLater(edt);
+				}
+			}
+		});
+
+		optionsParam.clear();
+		optionsParam.put("fromDate",from);
+		optionsParam.put("toDate",to);
+		if(artikulsComboBox.getSelectedItem() != null && !artikulsComboBox.getSelectedItem().toString().isEmpty()) {
+			optionsParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
+		}
+		service.getDeliveryDataForAvailability(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				deliveryDataForAvailabilityBetweenSelectedDates = (List<DeliveryReports>) objects;
+				if(deliveryDataForAvailabilityBeforeSelectedDate != null
+						&& deliveryDataForAvailabilityBetweenSelectedDates != null
+						&& invoiceDataForAvailabilityReportsBeforeSelectedDates != null
+						&& invoiceDataForAvailabilityReportsBetweenSelectedDates != null) {
+					EDTAvailability edt = new EDTAvailability(
+							(ArrayList) deliveryDataForAvailabilityBeforeSelectedDate,
+							(ArrayList) invoiceDataForAvailabilityReportsBeforeSelectedDates,
+							(ArrayList) deliveryDataForAvailabilityBetweenSelectedDates,
+							(ArrayList) invoiceDataForAvailabilityReportsBetweenSelectedDates, from, to,
+							jDialog, "Справка Наличност " + oneDayBeforeForm
+							+ " - " + to);
+					SwingUtilities.invokeLater(edt);
+				}
+			}
+		});
+		service.getInvoiceDataForAvailability(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				invoiceDataForAvailabilityReportsBetweenSelectedDates = (List<InvoiceReports>) objects;
+				if(deliveryDataForAvailabilityBeforeSelectedDate != null
+						&& deliveryDataForAvailabilityBetweenSelectedDates != null
+						&& invoiceDataForAvailabilityReportsBeforeSelectedDates != null
+						&& invoiceDataForAvailabilityReportsBetweenSelectedDates != null) {
+					EDTAvailability edt = new EDTAvailability(
+							(ArrayList) deliveryDataForAvailabilityBeforeSelectedDate,
+							(ArrayList) invoiceDataForAvailabilityReportsBeforeSelectedDates,
+							(ArrayList) deliveryDataForAvailabilityBetweenSelectedDates,
+							(ArrayList) invoiceDataForAvailabilityReportsBetweenSelectedDates, from, to,
+							jDialog, "Справка Наличност " + oneDayBeforeForm
+							+ " - " + to);
+					SwingUtilities.invokeLater(edt);
+				}
+			}
+		});
+
 	}
 
 	private String buildCommandForDeliveryFromTo(String from, String to) {

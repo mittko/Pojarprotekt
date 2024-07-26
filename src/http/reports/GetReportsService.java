@@ -199,9 +199,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getDeliveryDataForSale(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getDeliveryDataForSale(optionsParam).enqueue(new Callback<List<DeliveryDataForSale>>() {
+        getService().getDeliveryDataForSale(optionsParam).enqueue(new Callback<List<DeliveryReports>>() {
             @Override
-            public void onResponse(Call<List<DeliveryDataForSale>> call, Response<List<DeliveryDataForSale>> response) {
+            public void onResponse(Call<List<DeliveryReports>> call, Response<List<DeliveryReports>> response) {
                  if(response.isSuccessful()) {
                      callback.callback(response.body());
                  } else {
@@ -210,16 +210,16 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<DeliveryDataForSale>> call, Throwable throwable) {
+            public void onFailure(Call<List<DeliveryReports>> call, Throwable throwable) {
                     ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getInvoiceDataForSale(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getInvoiceDataForSale(optionsParam).enqueue(new Callback<List<InvoiceDataForSale>>() {
+        getService().getInvoiceDataForSale(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
             @Override
-            public void onResponse(Call<List<InvoiceDataForSale>> call, Response<List<InvoiceDataForSale>> response) {
+            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -228,8 +228,44 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<InvoiceDataForSale>> call, Throwable throwable) {
+            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getDeliveryDataForAvailability(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getDeliveryDataForAvailability(optionsParam).enqueue(new Callback<List<DeliveryReports>>() {
+            @Override
+            public void onResponse(Call<List<DeliveryReports>> call, Response<List<DeliveryReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<DeliveryReports>> call, Throwable throwable) {
+                  ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getInvoiceDataForAvailability(HashMap<String, String > optionsParam, RequestCallback callback) {
+        getService().getInvoiceDataForAvailability(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
+            @Override
+            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
+                       if(response.isSuccessful()) {
+                           callback.callback(response.body());
+                       } else {
+                           ErrorDialog.showHttpError(response);
+                       }
+            }
+
+            @Override
+            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
+                          ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

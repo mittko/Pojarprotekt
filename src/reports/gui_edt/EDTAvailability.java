@@ -8,20 +8,20 @@ import javax.swing.JDialog;
 import reports.ReportTableAvailability;
 import run.JDialoger;
 
-public class EDTAvailability implements Runnable {
-	private ArrayList<Object[]> deliveryBeforeFirstSelectedDate = null;
-	private ArrayList<Object[]> invoiceBeforeFirstSelectedDate = null;
-	private ArrayList<Object[]> deliveryBetweenSelectedDates = null;
-	private ArrayList<Object[]> invoiceBetweenSelectedDates = null;
+public class EDTAvailability<T> implements Runnable {
+	private ArrayList<T> deliveryBeforeFirstSelectedDate = null;
+	private ArrayList<T> invoiceBeforeFirstSelectedDate = null;
+	private ArrayList<T> deliveryBetweenSelectedDates = null;
+	private ArrayList<T> invoiceBetweenSelectedDates = null;
 	private final JDialog jd;
 	private final String title;
 	private final String from;
 	private final String to;
 
-	public EDTAvailability(ArrayList<Object[]> deliveryBeforeFirstSelectedDate,
-			ArrayList<Object[]> invoiceBeforeFirstSelectedDate,
-			ArrayList<Object[]> deliveryBetweenSelectedDates,
-			ArrayList<Object[]> invoiceToDate, String from, String to,
+	public EDTAvailability(ArrayList<T> deliveryBeforeFirstSelectedDate,
+			ArrayList<T> invoiceBeforeFirstSelectedDate,
+			ArrayList<T> deliveryBetweenSelectedDates,
+			ArrayList<T> invoiceToDate, String from, String to,
 			JDialog jd, String title) {
 		this.deliveryBeforeFirstSelectedDate = deliveryBeforeFirstSelectedDate;
 		this.invoiceBeforeFirstSelectedDate = invoiceBeforeFirstSelectedDate;

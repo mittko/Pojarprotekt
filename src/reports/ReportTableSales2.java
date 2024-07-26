@@ -1,7 +1,7 @@
 package reports;
 
-import models.DeliveryDataForSale;
-import models.InvoiceDataForSale;
+import models.DeliveryReports;
+import models.InvoiceReports;
 import reports.renderers.DeliveryTableRenderer;
 import reports.workers.ExportToExcellWorkerSales;
 import run.JustFrame;
@@ -43,7 +43,7 @@ public class ReportTableSales2<T> extends MainPanel {
 		// just create delivery
 		HashMap<String,ArrayList<ArtikulDelivery>> deliveryMap = new HashMap<>();
 		for (T t : delivery) {
-			DeliveryDataForSale deliveryDataForSale = (DeliveryDataForSale)t;
+			DeliveryReports deliveryDataForSale = (DeliveryReports) t;
 			String deliveryInvoice = deliveryDataForSale.getInvoiceByKontragent();// objects[0].toString();
 			String deliveryKontragent = deliveryDataForSale.getKontragent();// objects[1].toString();
 			String deliveryDat = deliveryDataForSale.getDate();// objects[2].toString();
@@ -65,7 +65,7 @@ public class ReportTableSales2<T> extends MainPanel {
 
 		// create map with all sells / invoices
 		for (T t : invoices) {
-			InvoiceDataForSale invoiceDataForSale = (InvoiceDataForSale)t;
+			InvoiceReports invoiceDataForSale = (InvoiceReports) t;
 			String invoice = invoiceDataForSale.getId();// objects[0].toString();
 			String client = invoiceDataForSale.getClient();// objects[1].toString();
 			String invoiceByKontragent = invoiceDataForSale.getInvoiceByKontragent();//objects[2].toString();

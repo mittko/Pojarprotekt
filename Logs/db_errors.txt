@@ -116,3 +116,11 @@ java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error c
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Tue Jul 23 08:33:08 EEST 2024
 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Tue Jul 23 08:35:19 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri Jul 26 00:03:56 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri Jul 26 00:04:01 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri Jul 26 00:04:04 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server 127.0.0.1 on port 1527 with message Connection refused: connect.  Fri Jul 26 00:04:07 EEST 2024

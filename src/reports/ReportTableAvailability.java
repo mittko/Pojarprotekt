@@ -1,5 +1,7 @@
 package reports;
 
+import models.DeliveryReports;
+import models.InvoiceReports;
 import reports.models.ColumnGroup;
 import reports.models.GroupableTableHeader;
 import reports.renderers.AvailabilityTableRenderer;
@@ -25,12 +27,12 @@ import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ReportTableAvailability extends MainPanel {
+public class ReportTableAvailability<T> extends MainPanel {
 	private final DecimalFormat format = new DecimalFormat("0.#");
-	public ReportTableAvailability(ArrayList<Object[]> deliveryBeforeFirstSelectedDate,
-                                   ArrayList<Object[]> invoiceBeforeFirstSelectedDate,
-                                   ArrayList<Object[]> deliveryBetweenSelectedDates,
-                                   ArrayList<Object[]> invoiceBetweenSelectedDates, final String from,
+	public ReportTableAvailability(ArrayList<T> deliveryBeforeFirstSelectedDate,
+                                   ArrayList<T> invoiceBeforeFirstSelectedDate,
+                                   ArrayList<T> deliveryBetweenSelectedDates,
+                                   ArrayList<T> invoiceBetweenSelectedDates, final String from,
                                    final String to, final String title) {
 
 		JPanel childContainer = new JPanel();
@@ -92,18 +94,19 @@ public class ReportTableAvailability extends MainPanel {
 		table.setDefaultRenderer(Object.class, new AvailabilityTableRenderer());
 
 		TreeMap<String, Artikul> artikuls = new TreeMap<String, Artikul>();
-		for (Object[] objects : deliveryBeforeFirstSelectedDate) {
+		for (T t : deliveryBeforeFirstSelectedDate) {
 
-			String artikul = objects[0].toString();
+			DeliveryReports deliveryReports = (DeliveryReports)t;
+			String artikul = deliveryReports.getArtikul();// objects[0].toString();
 
 			int deliveryQuantity = Integer
-					.parseInt(objects[1].toString());
+					.parseInt(deliveryReports.getQuantity());//objects[1].toString());
 
 			double deliveryValue = Double
-					.parseDouble(objects[2].toString()
+					.parseDouble(deliveryReports.getValue() //objects[2].toString()
 							.replace(",", "."));
 
-			String deliveryDate = objects[3].toString();
+			String deliveryDate = deliveryReports.getDate();// objects[3].toString();
 
 			if (!artikuls.containsKey(artikul)) {
 				artikuls.put(artikul, new Artikul(0, 0, 0, 0, 0,
@@ -116,14 +119,14 @@ public class ReportTableAvailability extends MainPanel {
 			art.deliveryPriceBeforeFirstSelectedDate = deliveryValue;
 
 		}
-		for (Object[] objects : invoiceBeforeFirstSelectedDate) {
+		for (T t : invoiceBeforeFirstSelectedDate) {
+			InvoiceReports invoiceData = (InvoiceReports) t;
+			String artikul = invoiceData.getArtikul();// objects[0].toString();
 
-			String artikul = objects[0].toString();
-
-			double invoiceQuantity = Double.parseDouble(objects[1]
+			double invoiceQuantity = Double.parseDouble(invoiceData.getQuantity()//objects[1]
 					.toString());
 			double invoicePrice = Double
-					.parseDouble(objects[2].toString()
+					.parseDouble(invoiceData.getPrice()//objects[2].toString()
 							.replace(",", "."));
 
 			if (artikuls.containsKey(artikul)) { // не може да има продажби без
@@ -133,7 +136,7 @@ public class ReportTableAvailability extends MainPanel {
 
 				Artikul art = artikuls.get(artikul);
 
-				String invoiceDateStr = objects[3].toString();
+				String invoiceDateStr = invoiceData.getDate();//objects[3].toString();
 				Date invoiceDate = MyGetDate.getDateFromString(invoiceDateStr);
 
 				int compare = invoiceDate.compareTo(art.firstDeliveryBeforeSelectedDate);
@@ -146,16 +149,17 @@ public class ReportTableAvailability extends MainPanel {
 
 		}
 
-		for (Object[] deliveryBetweenSelectedDate : deliveryBetweenSelectedDates) {
+		for (T t : deliveryBetweenSelectedDates) {
 
-			String artikul = deliveryBetweenSelectedDate[0].toString();
+			DeliveryReports deliveryReports = (DeliveryReports)t;
+			String artikul = deliveryReports.getArtikul();// deliveryBetweenSelectedDate[0].toString();
 
-			int deliveryQuantity = Integer.parseInt(deliveryBetweenSelectedDate[1]
+			int deliveryQuantity = Integer.parseInt(deliveryReports.getQuantity()//deliveryBetweenSelectedDate[1]
 					.toString());
 			double deliveryValue = Double
-					.parseDouble(deliveryBetweenSelectedDate[2].toString()
+					.parseDouble(deliveryReports.getValue()//deliveryBetweenSelectedDate[2].toString()
 							.replace(",", "."));
-			String deliveryDate = deliveryBetweenSelectedDate[3].toString();
+			String deliveryDate = deliveryReports.getDate();//deliveryBetweenSelectedDate[3].toString();
 
 			if (!artikuls.containsKey(artikul)) {
 				artikuls.put(artikul, new Artikul(0, 0, 0, 0, 0,
@@ -168,13 +172,13 @@ public class ReportTableAvailability extends MainPanel {
 			art.updateFirstDeliveryBeforeSelectedDate(MyGetDate.getDateFromString(deliveryDate));
 
 		}
-		for (Object[] invoiceBetweenSelectedDate : invoiceBetweenSelectedDates) {
+		for (T t : invoiceBetweenSelectedDates) {
+            InvoiceReports invoiceData = (InvoiceReports)t;
+			String artikul = invoiceData.getArtikul();//invoiceBetweenSelectedDate[0].toString();
 
-			String artikul = invoiceBetweenSelectedDate[0].toString();
-
-			double invoiceQuantity = Double.parseDouble(invoiceBetweenSelectedDate[1]
+			double invoiceQuantity = Double.parseDouble(invoiceData.getQuantity()//invoiceBetweenSelectedDate[1]
 					.toString());
-			double invoiceValue = Double.parseDouble(invoiceBetweenSelectedDate[2]
+			double invoiceValue = Double.parseDouble(invoiceData.getPrice()//invoiceBetweenSelectedDate[2]
 					.toString().replace(",", "."));
 
 
@@ -183,7 +187,7 @@ public class ReportTableAvailability extends MainPanel {
 				Artikul art = artikuls.get(artikul);
 
 
-				String invoiceDateStr = invoiceBetweenSelectedDate[3].toString();
+				String invoiceDateStr = invoiceData.getDate();//invoiceBetweenSelectedDate[3].toString();
 				Date invoiceDate = MyGetDate.getDateFromString(invoiceDateStr);
 
 
