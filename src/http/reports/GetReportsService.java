@@ -197,4 +197,40 @@ public class GetReportsService extends ServiceAPI {
             }
         });
     }
+
+    public void getDeliveryDataForSale(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getDeliveryDataForSale(optionsParam).enqueue(new Callback<List<DeliveryDataForSale>>() {
+            @Override
+            public void onResponse(Call<List<DeliveryDataForSale>> call, Response<List<DeliveryDataForSale>> response) {
+                 if(response.isSuccessful()) {
+                     callback.callback(response.body());
+                 } else {
+                     ErrorDialog.showHttpError(response);
+                 }
+            }
+
+            @Override
+            public void onFailure(Call<List<DeliveryDataForSale>> call, Throwable throwable) {
+                    ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getInvoiceDataForSale(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getInvoiceDataForSale(optionsParam).enqueue(new Callback<List<InvoiceDataForSale>>() {
+            @Override
+            public void onResponse(Call<List<InvoiceDataForSale>> call, Response<List<InvoiceDataForSale>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<InvoiceDataForSale>> call, Throwable throwable) {
+                  ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }

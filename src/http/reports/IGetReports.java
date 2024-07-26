@@ -43,6 +43,12 @@ public interface IGetReports {
     @GET("/deliveries")
     Call<List<DeliveryReports>> getDeliveries(@QueryMap HashMap<String, String> optionsParam);
 
+    @GET("/sales2")
+    Call<List<DeliveryDataForSale>> getDeliveryDataForSale(@QueryMap HashMap<String, String> optionsParam);
+
+    @GET("/sales")
+    Call<List<InvoiceDataForSale>> getInvoiceDataForSale(@QueryMap HashMap<String, String> optionsParam);
+
 
 
 }

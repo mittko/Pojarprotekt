@@ -1,5 +1,7 @@
 package reports;
 
+import models.DeliveryDataForSale;
+import models.InvoiceDataForSale;
 import reports.renderers.DeliveryTableRenderer;
 import reports.workers.ExportToExcellWorkerSales;
 import run.JustFrame;
@@ -20,9 +22,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class ReportTableSales2 extends MainPanel {
-	public ReportTableSales2(ArrayList<Object[]> invoices,
-                             ArrayList<Object[]> delivery, final String title) {
+public class ReportTableSales2<T> extends MainPanel {
+	public ReportTableSales2(ArrayList<T> invoices,
+                             ArrayList<T> delivery, final String title) {
 		JPanel childContainer = new JPanel();
 		JPanel northPanel = new JPanel();
 		childContainer.setLayout(new BorderLayout());
@@ -40,12 +42,13 @@ public class ReportTableSales2 extends MainPanel {
 
 		// just create delivery
 		HashMap<String,ArrayList<ArtikulDelivery>> deliveryMap = new HashMap<>();
-		for (Object[] objects : delivery) {
-			String deliveryInvoice = objects[0].toString();
-			String deliveryKontragent = objects[1].toString();
-			String deliveryDat = objects[2].toString();
-			String deliveryArtikul = objects[3].toString();
-			String deliveryPrice = objects[4].toString();
+		for (T t : delivery) {
+			DeliveryDataForSale deliveryDataForSale = (DeliveryDataForSale)t;
+			String deliveryInvoice = deliveryDataForSale.getInvoiceByKontragent();// objects[0].toString();
+			String deliveryKontragent = deliveryDataForSale.getKontragent();// objects[1].toString();
+			String deliveryDat = deliveryDataForSale.getDate();// objects[2].toString();
+			String deliveryArtikul = deliveryDataForSale.getArtikul();// objects[3].toString();
+			String deliveryPrice = deliveryDataForSale.getValue();//objects[4].toString();
 
 			String deliveryKey = deliveryInvoice + "X" + deliveryKontragent;
 
@@ -61,16 +64,17 @@ public class ReportTableSales2 extends MainPanel {
 		HashMap<String, ArrayList<ArtikulSale>> salesMap = new HashMap<>();
 
 		// create map with all sells / invoices
-		for (Object[] objects : invoices) {
-			String invoice = objects[0].toString();
-			String client = objects[1].toString();
-			String invoiceByKontragent = objects[2].toString();
-			String kontragent = objects[3].toString();
-			String artikul = objects[4].toString();
-			String med = objects[5].toString();
-			double quantity = Double.parseDouble(objects[6].toString());
-			double price = Double.parseDouble(objects[7].toString());
-			String date = objects[8].toString();
+		for (T t : invoices) {
+			InvoiceDataForSale invoiceDataForSale = (InvoiceDataForSale)t;
+			String invoice = invoiceDataForSale.getId();// objects[0].toString();
+			String client = invoiceDataForSale.getClient();// objects[1].toString();
+			String invoiceByKontragent = invoiceDataForSale.getInvoiceByKontragent();//objects[2].toString();
+			String kontragent = invoiceDataForSale.getKontragent();//objects[3].toString();
+			String artikul = invoiceDataForSale.getArtikul();//objects[4].toString();
+			String med = invoiceDataForSale.getMed();//objects[5].toString();
+			double quantity = Double.parseDouble(invoiceDataForSale.getQuantity());// Double.parseDouble(objects[6].toString());
+			double price = Double.parseDouble(invoiceDataForSale.getPrice());//objects[7].toString());
+			String date = invoiceDataForSale.getDate();// objects[8].toString();
 
 			String deliveryKey = invoiceByKontragent + "X" + kontragent;
 

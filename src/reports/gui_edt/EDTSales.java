@@ -8,14 +8,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class EDTSales extends MainPanel implements Runnable {
-	private ArrayList<Object[]> invoices = null;
-	private ArrayList<Object[]> delivery = null;
+public class EDTSales<T> extends MainPanel implements Runnable {
+	private ArrayList<T> invoices = null;
+	private ArrayList<T> delivery = null;
 
 	private final JDialog jd;
 	private final String title;
 
-	public EDTSales(ArrayList<Object[]> invoices, ArrayList<Object[]> delivery,
+	public EDTSales(ArrayList<T> invoices, ArrayList<T> delivery,
 			JDialog jd, String title) {
 		this.invoices = invoices;
 		this.delivery = delivery;

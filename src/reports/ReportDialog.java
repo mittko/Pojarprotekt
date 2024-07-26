@@ -3,6 +3,8 @@ package reports;
 import files.TextReader;
 import http.RequestCallback;
 import http.reports.GetReportsService;
+import models.DeliveryDataForSale;
+import models.InvoiceDataForSale;
 import reports.gui_edt.*;
 import db.NewExtinguisher.NewExtinguishers_DB;
 import db.Report.ReportRequest;
@@ -512,20 +514,22 @@ public class ReportDialog extends MainPanel {
 									return null;
 								}
 								// също трябва да се добави проверка продажбата да е след датата на доставката !!!
-								String from = fromDate.getText();
-								String to = toDate.getText();
-								ArrayList<Object[]> getDelivery = ReportRequest
-										.getReportsForSales(buildCommandForSales2FromTo(
-												"01.06.2016", to),4);
-								ArrayList<Object[]> getInvoice = ReportRequest
-										.getReportsForSales(buildCommandForSalesFromTo(
-												from, to), 5);
+//								String from = fromDate.getText();
+//								String to = toDate.getText();
+//								ArrayList<Object[]> getDelivery = ReportRequest
+//										.getReportsForSales(buildCommandForSales2FromTo(
+//												"01.06.2016", to),4);
+//								ArrayList<Object[]> getInvoice = ReportRequest
+//										.getReportsForSales(buildCommandForSalesFromTo(
+//												from, to), 5);
+//
+//								EDTSales edt = new EDTSales(getInvoice,
+//										getDelivery, jDialog, "Справка Продажби "
+//										+ fromDate.getText() + " - "
+//										+ toDate.getText());
+//								SwingUtilities.invokeLater(edt);
 
-								EDTSales edt = new EDTSales(getInvoice,
-										getDelivery, jDialog, "Справка Продажби "
-										+ fromDate.getText() + " - "
-										+ toDate.getText());
-								SwingUtilities.invokeLater(edt);
+								openSales(fromDate.getText(),toDate.getText(),jDialog);
 								break;
 							}
 							case AVAILABILITY: {
@@ -872,6 +876,44 @@ public class ReportDialog extends MainPanel {
 		});
 	}
 
+	private ArrayList<DeliveryDataForSale> deliveryDataForSales;
+	private ArrayList<InvoiceDataForSale> invoiceDataForSales;
+	private void openSales(String fromDate, String toDate, JDialog jDialog) {
+          GetReportsService service = new GetReportsService();
+		  HashMap<String, String> optionsParam = new HashMap<>();
+		  optionsParam.put("fromDate",fromDate);
+		  optionsParam.put("toDate",toDate);
+
+		  if(artikulsComboBox.getSelectedItem() != null && !artikulsComboBox.getSelectedItem().toString().isEmpty()) {
+			  optionsParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
+		  }
+		  service.getDeliveryDataForSale(optionsParam, new RequestCallback() {
+			  @Override
+			  public <T> void callback(List<T> objects) {
+				  deliveryDataForSales = (ArrayList<DeliveryDataForSale>) objects;
+				  if(deliveryDataForSales != null && invoiceDataForSales != null) {
+					  EDTSales edt = new EDTSales(invoiceDataForSales,
+							  deliveryDataForSales, jDialog, "Справка Продажби "
+							  + fromDate + " - "
+							  + toDate);
+					  SwingUtilities.invokeLater(edt);
+				  }
+			  }
+		  });
+		  service.getInvoiceDataForSale(optionsParam, new RequestCallback() {
+			  @Override
+			  public <T> void callback(List<T> objects) {
+				  invoiceDataForSales = (ArrayList<InvoiceDataForSale>) objects;
+				  if(deliveryDataForSales != null && invoiceDataForSales != null) {
+					  EDTSales edt = new EDTSales(invoiceDataForSales,
+							  deliveryDataForSales, jDialog, "Справка Продажби "
+							  + fromDate + " - "
+							  + toDate);
+					  SwingUtilities.invokeLater(edt);
+				  }
+			  }
+		  });
+	}
 
 	private String buildCommandForSales2FromTo(String from, String to) {
 		StringBuilder mainCommand1 = new StringBuilder();
