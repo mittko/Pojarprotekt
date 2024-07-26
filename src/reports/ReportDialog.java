@@ -3,6 +3,7 @@ package reports;
 import files.TextReader;
 import http.RequestCallback;
 import http.reports.GetReportsService;
+import models.CreditNoteReports;
 import models.DeliveryReports;
 import models.InvoiceReports;
 import reports.gui_edt.*;
@@ -514,20 +515,6 @@ public class ReportDialog extends MainPanel {
 									return null;
 								}
 								// също трябва да се добави проверка продажбата да е след датата на доставката !!!
-//								String from = fromDate.getText();
-//								String to = toDate.getText();
-//								ArrayList<Object[]> getDelivery = ReportRequest
-//										.getReportsForSales(buildCommandForSales2FromTo(
-//												"01.06.2016", to),4);
-//								ArrayList<Object[]> getInvoice = ReportRequest
-//										.getReportsForSales(buildCommandForSalesFromTo(
-//												from, to), 5);
-//
-//								EDTSales edt = new EDTSales(getInvoice,
-//										getDelivery, jDialog, "Справка Продажби "
-//										+ fromDate.getText() + " - "
-//										+ toDate.getText());
-//								SwingUtilities.invokeLater(edt);
 
 								openSales(fromDate.getText(),toDate.getText(),jDialog);
 								break;
@@ -542,39 +529,13 @@ public class ReportDialog extends MainPanel {
 								}
 								String from = fromDate.getText();
 								String to = toDate.getText();
-								String oneDayBeforeForm = MyGetDate.getDateBeforeAnotherDate(1,
-										MyGetDate.getDateFromString(fromDate
-												.getText()));
-
-								// System.out.printf("%s %s\n", from, to);
-								// System.out.printf("%s %s\n", from2, to);
-//								ArrayList<Object[]> deliveryBeforeFirstSelectedDate = ReportRequest
-//										.getReportsForAvailability(buildCommandForDeliveryFromTo(
-//												"01.06.2016", oneDayBeforeForm), 1);
-//								ArrayList<Object[]> invoiceBeforeFirstSelectedDate = ReportRequest
-//										.getReportsForAvailability(buildCommandForInvoiceFromTo(
-//												"01.06.2016", oneDayBeforeForm), 1);
-//
-//								ArrayList<Object[]> deliveryBetweenSelectedDates = ReportRequest
-//										.getReportsForAvailability(buildCommandForDeliveryFromTo(
-//												from, to), 1);
-//								ArrayList<Object[]> invoiceBetweenSelectedDates = ReportRequest
-//										.getReportsForAvailability(buildCommandForInvoiceFromTo(
-//												from, to), 1);
-//								EDTAvailability edt = new EDTAvailability(
-//										deliveryBeforeFirstSelectedDate, invoiceBeforeFirstSelectedDate,
-//										deliveryBetweenSelectedDates, invoiceBetweenSelectedDates, from, to,
-//										jDialog, "Справка Наличност " + oneDayBeforeForm
-//										+ " - " + to);
-//								SwingUtilities.invokeLater(edt);
 
 								openAvailability(from,to,jDialog);
 								break;
 							} case CREDIT_NOTE: {
-								ArrayList<ArrayList<Object>> notes =
-										CreditNoteTable.getCreditNotes();
-								EDTCreditNote edtCreditNote = new EDTCreditNote(notes,jDialog,"Кредитно Известие");
-								SwingUtilities.invokeLater(edtCreditNote);
+
+								openCreditNotes(jDialog);
+
 							}
 						}
 
@@ -1030,29 +991,20 @@ public class ReportDialog extends MainPanel {
 
 	}
 
-	private String buildCommandForDeliveryFromTo(String from, String to) {
-		StringBuilder mainCommand1 = new StringBuilder();
-		mainCommand1.append("select DeliveryArtikulsDB2.artikul, DeliveryArtikulsDB2.quantity, DeliveryArtikulsDB2.value, DeliveryArtikulsDB2.date from "
-				+ DELIVERY_ARTIKULS + " where DeliveryArtikulsDB2.date between "
-				+ "Date('").append(from).append("')").append(" and ").append("Date('").append(to).append("')");
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			mainCommand1.append(" and DeliveryArtikulsDB2.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
+	private void openCreditNotes(JDialog jDialog) {
+		GetReportsService service = new GetReportsService();
+		HashMap<String, String> optionsParam = new HashMap<>();
+		if (!fact_field.getText().isEmpty()) {
+			optionsParam.put("invoice",fact_field.getText());
 		}
-		return mainCommand1.toString();
-	}
-
-	private String buildCommandForInvoiceFromTo(String from, String to) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("select InvoiceChildDB7.artikul, InvoiceChildDB7.quantity," +
-						" InvoiceChildDB7.price, InvoiceParentDB5.date from " +
-						INVOICE_CHILD + "," + INVOICE_PARENT +
-						" where InvoiceParentDB5.id = InvoiceChildDB7.id" +
-						" and InvoiceParentDB5.date between " + "Date('")
-				.append(from).append("')").append(" and ").append("Date('").append(to).append("')");
-		if (!artikulsComboBox.getSelectedItem().toString().equals("")) {
-			sb.append(" and  InvoiceChildDB7.artikul = " + "'").append(artikulsComboBox.getSelectedItem().toString()).append("'");
-		}
-		return sb.toString();
+		service.getCreditNotes(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				List<CreditNoteReports> creditNotes = (List<CreditNoteReports>) objects;
+				EDTCreditNote edtCreditNote = new EDTCreditNote((ArrayList) creditNotes,jDialog,"Кредитно Известие");
+				SwingUtilities.invokeLater(edtCreditNote);
+			}
+		});
 	}
 
 	private void setComponentState(boolean so, boolean prot, boolean fact,

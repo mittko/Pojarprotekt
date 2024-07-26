@@ -55,7 +55,8 @@ public interface IGetReports {
     @GET("/invoice_data_for_availability")
     Call<List<InvoiceReports>> getInvoiceDataForAvailability(@QueryMap HashMap<String, String> optionsParam);
 
-
+    @GET("/credit_notes")
+    Call<List<CreditNoteReports>> getCreditNotes(@QueryMap HashMap<String,String> optionsParam);
 
 }
 

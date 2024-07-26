@@ -8,12 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class EDTCreditNote extends MainPanel implements Runnable {
-	private ArrayList<ArrayList<Object>> data = null;
+public class EDTCreditNote<T> extends MainPanel implements Runnable {
+	private ArrayList<T> data = null;
 	private final JDialog jd;
 	private final String title;
 
-	public EDTCreditNote(ArrayList<ArrayList<Object>> data, JDialog jd, String title) {
+	public EDTCreditNote(ArrayList<T> data, JDialog jd, String title) {
 		this.data = data;
 		this.jd = jd;
 		this.title = title;

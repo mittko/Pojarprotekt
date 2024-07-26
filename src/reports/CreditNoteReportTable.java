@@ -1,5 +1,6 @@
 package reports;
 
+import models.CreditNoteReports;
 import reports.renderers.InvoiceTableRenderer;
 import reports.workers.PrintReportsForInvoiceDocumentsType;
 import utils.MainPanel;
@@ -15,11 +16,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class CreditNoteReportTable extends MainPanel {
+public class CreditNoteReportTable<T> extends MainPanel {
 
     private final DefaultTableModel defaultTableModel;
     private int SELECTED_INDEX = -1;
-    public CreditNoteReportTable(ArrayList<ArrayList<Object>> data) {
+    public CreditNoteReportTable(ArrayList<T> data) {
         JPanel northPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton generateCreditNotePdfButton = new JButton("Генерирай PDF");
         generateCreditNotePdfButton.addActionListener(new ActionListener() {
@@ -66,9 +67,30 @@ public class CreditNoteReportTable extends MainPanel {
         };
 
 
-        for (ArrayList<Object> o : data) {
-            o.add(8,"");
-            defaultTableModel.addRow(o.toArray());
+        for (T t : data) {
+
+            CreditNoteReports creditNoteReports = (CreditNoteReports)t;
+            Object[] obj = new Object[defaultTableModel.getColumnCount()];
+            obj[0] = creditNoteReports.getId();
+            obj[1] = creditNoteReports.getPayment();
+            obj[2] = creditNoteReports.getDiscount();
+            obj[3] = creditNoteReports.getValue();
+            obj[4] = creditNoteReports.getClient();
+            obj[5] = creditNoteReports.getSaller();
+            obj[6] = creditNoteReports.getDate();
+            obj[7] = creditNoteReports.getProtokol_id();
+            obj[8] = "";
+            obj[9] = creditNoteReports.getArtikul();
+            obj[10] = creditNoteReports.getMed();
+            obj[11] = creditNoteReports.getQuantity();
+            obj[12] = creditNoteReports.getPrice();
+            obj[13] = creditNoteReports.getInvoiceSum();
+            obj[14] = creditNoteReports.getKontragent();
+            obj[15] = creditNoteReports.getInvoiceByKontragent();
+            obj[16] = creditNoteReports.getNote_id();
+            obj[17] = creditNoteReports.getCredit_note_date();
+
+            defaultTableModel.addRow(obj);
         }
         final JTable table = new JTable(defaultTableModel);
         table.setDefaultRenderer(Object.class, new InvoiceTableRenderer());

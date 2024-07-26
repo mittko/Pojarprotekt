@@ -269,4 +269,22 @@ public class GetReportsService extends ServiceAPI {
             }
         });
     }
+
+    public void getCreditNotes(HashMap<String, String> optionsParam, RequestCallback callback) {
+        getService().getCreditNotes(optionsParam).enqueue(new Callback<List<CreditNoteReports>>() {
+            @Override
+            public void onResponse(Call<List<CreditNoteReports>> call, Response<List<CreditNoteReports>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CreditNoteReports>> call, Throwable throwable) {
+                 ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }
