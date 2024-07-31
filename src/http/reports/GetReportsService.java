@@ -9,8 +9,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class GetReportsService extends ServiceAPI {
 
@@ -284,6 +287,24 @@ public class GetReportsService extends ServiceAPI {
             @Override
             public void onFailure(Call<List<CreditNoteReports>> call, Throwable throwable) {
                  ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void createCreditNote(BodyList bodyList) {
+        getService().createCreditNote(bodyList).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    JOptionPane.showMessageDialog(null,"Кредитното известие е записано успешно");
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

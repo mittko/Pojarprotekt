@@ -6,13 +6,12 @@
     <file url="file://$PROJECT_DIR$/src/enterdialog/PasswordDialog.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/AcquittanceReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/ArtikulsReports.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/BodyList.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/BrakReports.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/DeliveryDataForSale.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/models/DeliveryReports.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/CreditNoteBody.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/DeliveryReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/Firm.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/InvoiceDataForAvailabilityReports.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/models/InvoiceDataForSale.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/models/InvoiceReports.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/InvoiceReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/NewExtinguishersReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/ProtokolReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/ServiceOrderReports.java" charset="windows-1251" />

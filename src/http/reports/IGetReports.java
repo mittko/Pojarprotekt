@@ -3,10 +3,7 @@ package http.reports;
 import clients.editclient.IncorrectPerson;
 import models.*;
 import retrofit2.Call;
-import retrofit2.http.FieldMap;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
+import retrofit2.http.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +54,9 @@ public interface IGetReports {
 
     @GET("/credit_notes")
     Call<List<CreditNoteReports>> getCreditNotes(@QueryMap HashMap<String,String> optionsParam);
+
+    @POST("/insert_credit_note")
+    Call<String> createCreditNote(@Body BodyList bodyList);
 
 }
 

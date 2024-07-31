@@ -1,6 +1,10 @@
 package reports;
 
+import db.artikul.Artikuli_DB;
 import exceptions.ErrorDialog;
+import http.reports.GetReportsService;
+import models.BodyList;
+import models.CreditNoteBody;
 import models.InvoiceReports;
 import reports.renderers.InvoiceTableRenderer;
 import reports.workers.ExportToExcellWorkerInvocie;
@@ -141,11 +145,6 @@ public class ReportTableInvoice<T> extends MainPanel {
 				final String client = dftm.getValueAt(SELECTED_INDEX,4).toString();
 				final String invoiceNumOfDocument = dftm.getValueAt(SELECTED_INDEX,0).toString();
 
-				final HashSet<String> set = CreditNoteTable.getCreditNotesNumberSet();
-				boolean isDocumentWritten = set.contains(invoiceNumOfDocument);
-				if(isDocumentWritten) {
-					ErrorDialog.showErrorMessage("Вече има записано кредитно известие за този документ");
-				} else {
 					JDialoger dialoger = new JDialoger();
 					CreditNoteDialog creditNoteDialog = new CreditNoteDialog(client,
 							invoiceNumOfDocument,
@@ -156,65 +155,66 @@ public class ReportTableInvoice<T> extends MainPanel {
 									if(cmd.equals("Да")) {
 										Integer[] selectedIndexes = getSelectedIndexes(
 												SELECTED_INDEX, 0);
-										final HashSet<String> set = CreditNoteTable.getCreditNotesNumberSet();
-										final String creditNoteNumOfDocument = String.valueOf(set.size()+1);
 
-										RestoreQuantity restoreQuantity =
-												new RestoreQuantity(dftm, selectedIndexes[0], selectedIndexes.length,
-														creditNoteNumOfDocument, new MyCallback<Object>() {
-													@Override
-													public void call(Object obj) {
-														JDialoger jDialoger = new JDialoger();
-														CreditNoteDialog creditNoteDialog1 = new CreditNoteDialog(
-																client,
-																invoiceNumOfDocument,
-																"Желаете ли да принтирате кредитно известие ?",
-																new MyCallback<Object>() {
-																	@Override
-																	public void call(Object s) {
+										int startRow = selectedIndexes[0];
+										int endRow = selectedIndexes.length;
 
-																		JDialog jd = (JDialog) SwingUtilities
-																				.getWindowAncestor(ReportTableInvoice.this);
-																		jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+										ArrayList<CreditNoteBody> creditNoteList = new ArrayList<>();
 
-																		//	PrintService ps = ChoisePrinterDialog.showPrinters();
-																		//	if (ps == null) {
-																		//		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-																		//		return;
-																		//	}
-																		//	if (ps != null) {
+										for (int i = 0; i < endRow; i++) {
 
-																		TITLE = "Кредитно Известие";
-																		PATH = MainPanel.CREDIT_NOTE_PDF_PATH;
+											String invoiceNumOfDocument = dftm.getValueAt(i + startRow, 0).toString();
+											String payment = dftm.getValueAt(i + startRow, 1).toString();
+											String discount = dftm.getValueAt(i + startRow, 2).toString();
+											String sum = dftm.getValueAt(i + startRow, 3).toString();
+											String client = dftm.getValueAt(i + startRow, 4).toString();
+											String saller = dftm.getValueAt(i + startRow, 5).toString();
+											String date = dftm.getValueAt(i + startRow, 6).toString();
+											String protokolNumber = dftm.getValueAt(i + startRow, 7).toString();
 
-																		Integer[] selectedIndexes = getSelectedIndexes(
-																				SELECTED_INDEX, 0);
+											String artikul = dftm.getValueAt(i + startRow, 9)+"";
+											String med = dftm.getValueAt(i + startRow, 10).toString();
+											String quantity = dftm.getValueAt(i + startRow, 11).toString();
+											String price = dftm.getValueAt(i + startRow, 12).toString();
+											String value = dftm.getValueAt(i + startRow, 13).toString();
 
-																		System.out.println(TITLE);
-																		PrintReportsForInvoiceDocumentsType invoiceAndProformWorker
-																				= new PrintReportsForInvoiceDocumentsType(
-																				null,
-																				creditNoteNumOfDocument,
-																				dftm, jd, selectedIndexes[0],
-																				selectedIndexes.length, TITLE, PATH
-																				, MyGetDate.getReversedSystemDate());
-																		invoiceAndProformWorker.execute();
+											String kontragent = dftm.getValueAt(i + startRow, 15).toString();
+											String invoiceByKontragent = dftm.getValueAt(i + startRow, 16).toString();
 
-																	}
-																}
-														);
-														jDialoger.setContentPane(creditNoteDialog1);
-														jDialoger.Show();
-													}
-												});
-										restoreQuantity.execute();
+											CreditNoteBody creditNoteBody = new CreditNoteBody();
+											creditNoteBody.setId(invoiceNumOfDocument);
+											creditNoteBody.setPayment(payment);
+											creditNoteBody.setDiscount(Integer.parseInt(discount));
+											creditNoteBody.setSum(Float.parseFloat(sum));
+											creditNoteBody.setClient(client);
+											creditNoteBody.setSaller(saller);
+											creditNoteBody.setDate(date);
+											creditNoteBody.setProtokol_id(protokolNumber);
+											creditNoteBody.setArtikul(artikul);
+											creditNoteBody.setMed(med);
+											creditNoteBody.setQuantity(Integer.parseInt(quantity));
+											creditNoteBody.setPrice(Float.parseFloat(price));
+											creditNoteBody.setValue(Float.parseFloat(value));
+											creditNoteBody.setKontragent(kontragent);
+											creditNoteBody.setInvoiceByKontragent(invoiceByKontragent);
+											creditNoteBody.setCredit_note_date(MyGetDate.getReversedSystemDate());
+
+											creditNoteList.add(creditNoteBody);
+
+										}
+
+										GetReportsService service = new GetReportsService();
+										BodyList bodyList = new BodyList();
+										bodyList.setList(creditNoteList);
+										service.createCreditNote(bodyList);
+
 
 									}
 								}
 							});
 					dialoger.setContentPane(creditNoteDialog);
 					dialoger.Show();
-				}
+
 
 			}
 		});
