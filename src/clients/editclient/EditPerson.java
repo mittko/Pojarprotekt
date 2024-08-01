@@ -24,6 +24,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
+import http.RequestCallback2;
+import http.client.GetClientService;
+import jdk.nashorn.internal.scripts.JO;
+import models.Firm;
 import utils.BevelLabel;
 import utils.EditableField;
 import utils.LoadIcon;
@@ -33,15 +37,15 @@ import db.Client.FirmTable;
 import utils.MainPanel;
 
 public class EditPerson extends MainPanel {
-	JTextField name = null;
-	JTextField tel = null;
-	JTextField discountField = null;
+	static JTextField name = null;
+	static JTextField tel = null;
+	static JTextField discountField = null;
 	JPanel block = null;
 	JButton button = null;
 	int edit = 0;
 	int size = 45;
 	public static ArrayList<JComponent> components = null;
-	private JCheckBox incorrectClientCheckBox;
+	static JCheckBox incorrectClientCheckBox;
 
 	public EditPerson() {
 		components = new ArrayList<JComponent>();
@@ -98,7 +102,7 @@ public class EditPerson extends MainPanel {
 		final JLabel doneText = new JLabel();
 
 		final BevelLabel done = new BevelLabel((int) (bottom.getPreferredSize()
-				.getHeight() * 1.0));
+				.getHeight()));
 		/*
 		 * done.setPreferredSize(new Dimension(
 		 * (int)(bottom.getPreferredSize().getWidth() * 0.08),
@@ -144,85 +148,38 @@ public class EditPerson extends MainPanel {
 						.getWindowAncestor(EditPerson.this)));
 				jDialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				Thread thread = new Thread() {
+				GetClientService service = new GetClientService();
+				Firm firm = new Firm();
+				String incorrect = incorrectClientCheckBox
+						.isSelected() ? "да" : "не";
+
+
+				firm.setFirm(name.getText());
+				firm.setTelPerson(tel.getText());
+				firm.setDiscount(discountField.getText());
+				firm.setIncorrect_person(incorrect);
+
+                service.editClient(firm, EditClientPanel.clientCombo2.getSelectedItem().toString(), new RequestCallback2() {
 					@Override
-					public void run() {
-						try {
-							String NEW_FIRM_NAME = name.getText();
-							String OLD_FIRM_NAME = EditClientPanel.clientCombo2
-									.getSelectedItem().toString();
-							String incorrect = incorrectClientCheckBox
-									.isSelected() ? "да" : "не";
+					public <T> void callback(T t) {
+						int edit = (Integer)t;
 
-							edit = ClientTable.editPersonTable(OLD_FIRM_NAME,
-									NEW_FIRM_NAME, tel.getText(),
-									discountField.getText(), incorrect);
+						jDialog.setCursor(new Cursor(
+								Cursor.DEFAULT_CURSOR));
 
-							// here to add code to rename old name
-							// with new name in all tables !!!
-							// call updateFirmNameInTable method() from
-							// FirmTable class
-
-							int update = FirmTable.updateFirmNameInTable(
-									SERVICE, OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("SERVICE " + update);
-							update = FirmTable.updateFirmNameInTable(PROTOKOL,
-									OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("PROTOKOL " + update);
-							update = FirmTable.updateFirmNameInTable(BRACK,
-									OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("BRACK " + update);
-							update = FirmTable.updateFirmNameInTable(
-									INVOICE_PARENT, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("INVOICE_PARENT " + update);
-							update = FirmTable
-									.updateFirmNameInTable(INVOICE_CHILD,
-											OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("INVOICE_CHILD " + update);
-							update = FirmTable.updateFirmNameInTable(
-									PROFORM_PARENT, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("PROFORM_PARENT " + update);
-							update = FirmTable
-									.updateFirmNameInTable(PROFORM_CHILD,
-											OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("PROFORM_CHILD " + update);
-							update = FirmTable.updateFirmNameInTable(
-									ACQUITTANCE_PARENT, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("ACQUITTANCE_PARENT " +
-							// update);
-							update = FirmTable.updateFirmNameInTable(
-									ACQUITTANCE_CHILD, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("ACQUITTANCE_CHILD " +
-							// update);
-						} finally {
-
-							SwingUtilities.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									jDialog.setCursor(new Cursor(
-											Cursor.DEFAULT_CURSOR));
-									name.setText("");
-									tel.setText("");
-									discountField.setText("");
-									if (edit > 0) {
-										doneText.setText(" Данните са редактирани успешно!");
-										done.setAutoSizedIcon(done,
-												new LoadIcon().setIcons(acceptImage));
-										// done.setIcon(setIcons("accept2.png"));
-									}
-								}
-
-							});
+						if (edit > 0) {
+							doneText.setText(" Данните са редактирани успешно!");
+							done.setAutoSizedIcon(done,
+									new LoadIcon().setIcons(acceptImage));
+							name.setText("");
+							tel.setText("");
+							discountField.setText("");
+						} else {
+							JOptionPane.showMessageDialog(null,"Не намерен такъв клиент");
 						}
 					}
-				};
-				thread.start();
+				});
+
 			}
 
 		});

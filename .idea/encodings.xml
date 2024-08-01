@@ -8,6 +8,7 @@
     <file url="file://$PROJECT_DIR$/src/models/ArtikulsReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/BodyList.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/BrakReports.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/ClientBody.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/CreditNoteBody.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/DeliveryReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/Firm.java" charset="windows-1251" />

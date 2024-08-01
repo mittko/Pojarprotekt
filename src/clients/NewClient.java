@@ -67,11 +67,9 @@ public class NewClient extends MainPanel {
 				// TODO Auto-generated method stub
 				  card.next(center);
 				  if(on_off) {
-				//	  button.setIcon(new LoadIcon().setIcons("off2.png")) ;
 					  button.setAutoSizedIcon(button, new LoadIcon().setIcons("off2.png"));
 					
 				  } else {
-			//		  button.setIcon(new LoadIcon().setIcons("on2.png"));
 					  button.setAutoSizedIcon(button, new LoadIcon().setIcons("on2.png"));
 					
 				  }

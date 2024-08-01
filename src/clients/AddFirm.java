@@ -2,6 +2,9 @@ package clients;
 
 import document.TextFieldLimit;
 import db.Client.FirmTable;
+import http.RequestCallback2;
+import http.client.GetClientService;
+import models.Firm;
 import net.GetCurrentIP;
 import run.JustFrame;
 import utils.*;
@@ -214,51 +217,40 @@ public class AddFirm extends MainPanel {
 						.getWindowAncestor(AddFirm.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				Thread thread = new Thread() {
+				GetClientService service = new GetClientService();
+				Firm firmBody = new Firm();
+				firmBody.setFirm(firm.getText());
+				firmBody.setCity(city.getText());
+				firmBody.setAddress(address.getText());
+				firmBody.setEik(eik.getText());
+				firmBody.setMol(mol.getText());
+				firmBody.setEmail(email.getText());
+				firmBody.setPerson(person.getText());
+				firmBody.setTelPerson(telPerson.getText());
+				firmBody.setBank(bank.getText());
+				firmBody.setBic(BIC.getText());
+				firmBody.setIban(IBAN.getText());
+				firmBody.setDiscount(discountField.getText());
+				firmBody.setIncorrect_person(incorrectClientCheckBox.isSelected() ? "да" : "не");
+				firmBody.setVat_registration(registeredVATCheckBox.isSelected() ? "да" : "не");
+
+				service.insertFirm(firmBody, new RequestCallback2() {
 					@Override
-					public void run() {
-						try {
-							String incorrect = incorrectClientCheckBox
-									.isSelected() ? "да" : "не";
-                            String registrationVat = registeredVATCheckBox.
-									isSelected() ? "да" : "не";
+					public <T> void callback(T t) {
+						int result = (Integer)t;
+						jd.setCursor(new Cursor(
+								Cursor.DEFAULT_CURSOR));
 
-							insertion = FirmTable.insertIntoFirmTable(
-									GetCurrentIP.DB_PATH,
-									firm.getText(), city.getText(),
-									address.getText(), eik.getText(),
-									mol.getText(), email.getText(),
-									person.getText(), telPerson.getText(),
-									bank.getText(), BIC.getText(),
-									IBAN.getText(), discountField.getText(),
-									incorrect,
-									registrationVat
-							);
-
-
-						} finally {
-							SwingUtilities.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									jd.setCursor(new Cursor(
-											Cursor.DEFAULT_CURSOR));
-
-									if (insertion > 0) {
-										doneText.setText(" ƒанните са записани успешно!");
-										// done.setIcon(setIcons("accept2.png"));
-										done.setAutoSizedIcon(done,
-												new LoadIcon().setIcons(acceptImage));
-										clear();
-									}
-								}
-
-							});
+						if (result > 0) {
+							doneText.setText(" ƒанните са записани успешно!");
+							// done.setIcon(setIcons("accept2.png"));
+							done.setAutoSizedIcon(done,
+									new LoadIcon().setIcons(acceptImage));
+							clear();
 						}
 					}
-				};
-				thread.start();
+				});
+
 			}
 
 		});

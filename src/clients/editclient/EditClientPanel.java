@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.time.Period;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -17,6 +18,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import http.RequestCallback2;
+import http.client.GetClientService;
+import models.Firm;
 import run.JDialoger;
 import utils.ClientsListComboBox2;
 import utils.LoadIcon;
@@ -27,28 +31,22 @@ import clients.workers.RemoveClientWorker;
 
 public class EditClientPanel extends MainPanel {
 
-	private ImageIcon on = null;
-	private ImageIcon off = null;
+	private final ImageIcon on = null;
+	private final ImageIcon off = null;
 	private boolean on_off = false;
-	private EditFirm editFirm = null;
-	private EditPerson editPerson = null;
-	// public static ClientsListComboBox clientCombo = null; // to be able
-	// accessed
-	// from EditFirm
-	// class
+
 	public static ClientsListComboBox2 clientCombo2 = null;
 	private TooltipButton viewDataButton = null;
 	private TooltipButton switchButton = null;
-	private TooltipButton removeClientButton = null;
 	private String DESTINATION = FIRM;
 	private String NAME = "firm";
 
 	public EditClientPanel() {
 
-		editFirm = new EditFirm();
+		EditFirm editFirm = new EditFirm();
 		editFirm.setOpaque(false);
 
-		editPerson = new EditPerson();
+		EditPerson editPerson = new EditPerson();
 
 		editPerson.setOpaque(false);
 
@@ -74,6 +72,7 @@ public class EditClientPanel extends MainPanel {
 		center.add(editPerson);
 
 		switchButton = new TooltipButton("");
+		//switchButton.setVisible(false);
 		switchButton.setPreferredSize(new Dimension((int) (north
 				.getPreferredSize().getWidth() * 0.09), (int) (north
 				.getPreferredSize().getHeight() * 0.82)));
@@ -114,11 +113,7 @@ public class EditClientPanel extends MainPanel {
 			@Override
 			public void itemStateChanged(ItemEvent arg0) {
 				// TODO Auto-generated method stub
-				if (arg0.getItem().toString().length() > 0) {
-					viewDataButton.setEnabled(true);
-				} else {
-					viewDataButton.setEnabled(false);
-				}
+				viewDataButton.setEnabled(arg0.getItem().toString().length() > 0);
 			}
 
 		});
@@ -129,8 +124,7 @@ public class EditClientPanel extends MainPanel {
 				.getPreferredSize().getHeight() * 0.82)));
 		viewDataButton.setToolTipText(getHTML_Text("ВИЖ ДЕТАЙЛИ"));
 		viewDataButton.setAutoSizedIcon(viewDataButton, new LoadIcon().setIcons("lupa2.png"));
-		// viewDataButton.setPreferredSize(new Dimension(70,60));
-		// viewDataButton.setIcon(new LoadIcon().setIcons("lupa.png"));
+
 		viewDataButton.setEnabled(false);
 		viewDataButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		viewDataButton.addActionListener(new ActionListener() {
@@ -142,15 +136,42 @@ public class EditClientPanel extends MainPanel {
 						.getWindowAncestor(EditClientPanel.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				GetDataForClientWorker getClientData = new GetDataForClientWorker(
-						clientCombo2.getSelectedItem().toString(), DESTINATION,
-						NAME, jd);
-				getClientData.execute();
+				GetClientService  service = new GetClientService();
+				service.getFirm(clientCombo2.getSelectedItem().toString(), new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Firm firm = (Firm) t;
+						if(DESTINATION.equals(FIRM)) {
+							EditFirm.firm.setText(firm.getFirm());
+							EditFirm.address.setText(firm.getAddress());
+							EditFirm.eik.setText(firm.getEik());
+							EditFirm.city.setText(firm.getCity());
+							EditFirm.mol.setText(firm.getMol());
+							EditFirm.email.setText(firm.getEmail());
+							EditFirm.person.setText(firm.getPerson());
+							EditFirm.telPerson.setText(firm.getTelPerson());
+							EditFirm.bank.setText(firm.getBank());
+							EditFirm.BIC.setText(firm.getBic());
+							EditFirm.IBAN.setText(firm.getIban());
+							EditFirm.discountField.setText(String.valueOf(firm.getDiscount()));
+							EditFirm.incorrectClientCheckBox.setSelected(true);
+							EditFirm.registrationVatCheckBox.setSelected(true);
+						} else {
+							EditPerson.name.setText(firm.getFirm());
+							EditPerson.tel.setText(firm.getTelPerson());
+							EditPerson.discountField.setText(String.valueOf(firm.getDiscount()));
+							EditPerson.incorrectClientCheckBox.setSelected(true);
+						}
+
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					}
+				});
+
 			}
 
 		});
 
-		removeClientButton = new TooltipButton("");
+		TooltipButton removeClientButton = new TooltipButton("");
 		removeClientButton.setEnabled(ACCESS_MENU[5]); // HIDDEN MENU !!!!!
 		removeClientButton.setToolTipText(getHTML_Text("ИЗТРИЙ КЛИЕНТ"));
 		removeClientButton.setPreferredSize(new Dimension((int) (north
@@ -158,9 +179,7 @@ public class EditClientPanel extends MainPanel {
 				.getPreferredSize().getHeight() * 0.82)));
 		removeClientButton.setAutoSizedIcon(removeClientButton,
 				new LoadIcon().setIcons("кошче.gif"));
-		// viewDataButton.setPreferredSize(new Dimension(70,60));
-		// viewDataButton.setIcon(new LoadIcon().setIcons("lupa.png"));
-		// removeClientButton.setEnabled(false);
+
 		removeClientButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		removeClientButton.addActionListener(new ActionListener() {
 
@@ -183,9 +202,21 @@ public class EditClientPanel extends MainPanel {
 				JDialog jd = (JDialoger) SwingUtilities
 						.getWindowAncestor(EditClientPanel.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				RemoveClientWorker rcw = new RemoveClientWorker(clientCombo2
-						.getSelectedItem().toString(), DESTINATION, NAME, jd);
-				rcw.execute();
+
+				GetClientService service = new GetClientService();
+				service.deleteClient(clientCombo2.getSelectedItem().toString(), new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						int delete = (Integer)t;
+						if(delete > 0) {
+							JOptionPane.showMessageDialog(null,"Клиентът е изтрит успешно");
+						} else {
+							JOptionPane.showMessageDialog(null,"Не е намерен такъв клиент");
+						}
+					}
+				});
+
 
 			}
 

@@ -24,6 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
+import http.RequestCallback2;
+import http.client.GetClientService;
+import models.Firm;
 import utils.*;
 import document.TextFieldLimit;
 import db.Client.FirmTable;
@@ -31,23 +34,23 @@ import db.Client.FirmTable;
 public class EditFirm extends MainPanel {
 
 	JPanel block = null;
-	JTextField firm = null;
-	JTextField address = null;
-	JTextField eik = null;
-	JTextField city = null;
-	JTextField mol = null;
-	JTextField email = null;
-	JTextField person = null;
-	JTextField telPerson = null;
-	JTextField bank = null;
-	JTextField BIC = null;
-	JTextField IBAN = null;
-	JTextField discountField = null;
+	static JTextField firm = null;
+	static JTextField address = null;
+	static JTextField eik = null;
+	static JTextField city = null;
+	static JTextField mol = null;
+	static JTextField email = null;
+	static JTextField person = null;
+	static JTextField telPerson = null;
+	static JTextField bank = null;
+	static JTextField BIC = null;
+	static JTextField IBAN = null;
+	static JTextField discountField = null;
 	int edit = 0;
 	private int size = 45;
 	public static ArrayList<JComponent> components = null;
-	private final JCheckBox incorrectClientCheckBox;
-	private final JCheckBox registrationVatCheckBox;
+	static JCheckBox incorrectClientCheckBox;
+	static JCheckBox registrationVatCheckBox;
 	public EditFirm() {
 
 		components = new ArrayList<JComponent>();
@@ -230,88 +233,46 @@ public class EditFirm extends MainPanel {
 						.getWindowAncestor(EditFirm.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				Thread thread = new Thread() {
+				GetClientService service = new GetClientService();
+				String incorrect = incorrectClientCheckBox
+						.isSelected() ? "да" : "не";
+				String registrationVat = registrationVatCheckBox
+						.isSelected() ? "да" : "не";
+
+				Firm firmBody = new Firm();
+				firmBody.setFirm(firm.getText());
+				firmBody.setCity(city.getText());
+				firmBody.setAddress(address.getText());
+				firmBody.setEik(eik.getText());
+				firmBody.setMol(mol.getText());
+				firmBody.setEmail(email.getText());
+				firmBody.setPerson(person.getText());
+				firmBody.setTelPerson(telPerson.getText());
+				firmBody.setBank(bank.getText());
+				firmBody.setBic(BIC.getText());
+				firmBody.setIban(IBAN.getText());
+				firmBody.setDiscount(discountField.getText());
+				firmBody.setIncorrect_person(incorrect);
+				firmBody.setVat_registration(registrationVat);
+				service.editFirm(firmBody, EditClientPanel.clientCombo2.getSelectedItem().toString(), new RequestCallback2() {
 					@Override
-					public void run() {
-						try {
-							String NEW_FIRM_NAME = firm.getText();
-							String OLD_FIRM_NAME = EditClientPanel.clientCombo2
-									.getSelectedItem().toString();
+					public <T> void callback(T t) {
+						int edit = (Integer)t;
+						jd.setCursor(new Cursor(
+								Cursor.DEFAULT_CURSOR));
 
-							String incorrect = incorrectClientCheckBox
-									.isSelected() ? "да" : "не";
-                            String registrationVat = registrationVatCheckBox
-									.isSelected() ? "да" : "не";
-							edit = FirmTable.editFirmTable(OLD_FIRM_NAME,
-									NEW_FIRM_NAME, city.getText(),
-									address.getText(), eik.getText(),
-									mol.getText(), email.getText(),
-									person.getText(), telPerson.getText(),
-									bank.getText(), BIC.getText(),
-									IBAN.getText(), discountField.getText(),
-									incorrect,registrationVat);
-
-							// here to add code to rename old name
-							// with new name in all tables !!!
-
-							int update = FirmTable.updateFirmNameInTable(
-									SERVICE, OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("SERVICE " + update);
-							update = FirmTable.updateFirmNameInTable(PROTOKOL,
-									OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("PROTOKOL " + update);
-							update = FirmTable.updateFirmNameInTable(BRACK,
-									OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("BRACK " + update);
-							update = FirmTable.updateFirmNameInTable(
-									INVOICE_PARENT, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("INVOICE_PARENT " + update);
-							update = FirmTable
-									.updateFirmNameInTable(INVOICE_CHILD,
-											OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("INVOICE_CHILD " + update);
-							update = FirmTable.updateFirmNameInTable(
-									PROFORM_PARENT, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("PROFORM_PARENT " + update);
-							update = FirmTable
-									.updateFirmNameInTable(PROFORM_CHILD,
-											OLD_FIRM_NAME, NEW_FIRM_NAME);
-							// System.out.println("PROFORM_CHILD " + update);
-							update = FirmTable.updateFirmNameInTable(
-									ACQUITTANCE_PARENT, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("ACQUITTANCE_PARENT " +
-							// update);
-							update = FirmTable.updateFirmNameInTable(
-									ACQUITTANCE_CHILD, OLD_FIRM_NAME,
-									NEW_FIRM_NAME);
-							// System.out.println("ACQUITTANCE_CHILD " +
-							// update);
-						} finally {
-							SwingUtilities.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									jd.setCursor(new Cursor(
-											Cursor.DEFAULT_CURSOR));
-
-									if (edit > 0) {
-										doneText.setText(" Данните са редактирани успешно!");
-										done.setAutoSizedIcon(done,
-												new LoadIcon().setIcons(acceptImage));
-										// done.setIcon(setIcons("accept2.png"));
-										clear();
-									}
-								}
-
-							});
+						if (edit > 0) {
+							doneText.setText(" Данните са редактирани успешно!");
+							done.setAutoSizedIcon(done,
+									new LoadIcon().setIcons(acceptImage));
+							// done.setIcon(setIcons("accept2.png"));
+							clear();
+						} else {
+							JOptionPane.showMessageDialog(null,"Не е намерен такъв клиент");
 						}
 					}
-				};
-				thread.start();
+				});
+
 			}
 
 		});

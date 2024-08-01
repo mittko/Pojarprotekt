@@ -1,8 +1,9 @@
 package clients;
 
 import document.TextFieldLimit;
-import db.Client.ClientTable;
-import net.GetCurrentIP;
+import http.RequestCallback2;
+import http.client.GetClientService;
+import models.Firm;
 import run.JustFrame;
 import utils.BevelLabel;
 import utils.EditableField;
@@ -82,7 +83,7 @@ public class AddPerson extends MainPanel {
 		final JLabel doneText = new JLabel();
 
 		final BevelLabel done = new BevelLabel((int) (bottom.getPreferredSize()
-				.getHeight() * 1.0));
+				.getHeight()));
 		/*
 		 * done.setPreferredSize(new Dimension(
 		 * (int)(bottom.getPreferredSize().getWidth() * 0.08),
@@ -122,44 +123,33 @@ public class AddPerson extends MainPanel {
 						.getWindowAncestor(AddPerson.this)));
 				jDialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				Thread thread = new Thread() {
+				GetClientService service = new GetClientService();
+				Firm firmBody = new Firm();
+				String nameAsString = name.getText();
+
+				firmBody.setFirm(nameAsString);
+				firmBody.setTelPerson(tel.getText());
+				firmBody.setDiscount(discountField.getText());
+				firmBody.setIncorrect_person(incorrectClientCheckBox
+						.isSelected() ? "да" : "не");
+				service.insertClient(firmBody, new RequestCallback2() {
 					@Override
-					public void run() {
-						try {
-							String incorrect = incorrectClientCheckBox
-									.isSelected() ? "да" : "не";
+					public <T> void callback(T t) {
+						int result = (Integer)t;
+						jDialog.setCursor(new Cursor(
+								Cursor.DEFAULT_CURSOR));
 
-							insertion = ClientTable.insertIntoPersonTable(
-									GetCurrentIP.DB_PATH,
-									name.getText(), tel.getText(),
-									discountField.getText(), incorrect);
+						if (result > 0) {
+							name.setText("");
+							tel.setText("");
+							discountField.setText("");
+							doneText.setText(" Данните са записани успешно!");
+							done.setAutoSizedIcon(done,
+									new LoadIcon().setIcons(acceptImage));
 
-
-						} finally {
-
-							SwingUtilities.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									jDialog.setCursor(new Cursor(
-											Cursor.DEFAULT_CURSOR));
-									name.setText("");
-									tel.setText("");
-									discountField.setText("");
-									if (insertion > 0) {
-										doneText.setText(" Данните са записани успешно!");
-										done.setAutoSizedIcon(done,
-												new LoadIcon().setIcons(acceptImage));
-										// done.setIcon(setIcons("accept2.png"));
-									}
-								}
-
-							});
 						}
 					}
-				};
-				thread.start();
+				});
 			}
 
 		});
