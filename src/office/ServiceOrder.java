@@ -1,9 +1,15 @@
 package office;
 
+import db.Protokol.ProtokolTable;
 import document.TextFieldLimit;
 import exceptions.ErrorDialog;
 import clients.NewClient;
 import db.Client.ClientTable;
+import generators.NumGenerator;
+import http.RequestCallback2;
+import http.service_order.ServiceOrderService;
+import models.ServiceOrderBodyList;
+import models.ServiceOrderModel;
 import office.renderers.ExtinguisherRenderer;
 import office.renderers.MyComboRenderer;
 import office.renderers.MyTableRenderer;
@@ -560,25 +566,79 @@ public class ServiceOrder extends MainPanel {
 
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-					// SaveinServiceOrderDBWorker sw2 = new
-					// SaveinServiceOrderDBWorker(
-					// jd, SERVICE_NUMBER, CURRENT_CLIENT);
-					SaveinServiceOrderDBWorker sw2 = new SaveinServiceOrderDBWorker(
-							jd, ServiceOrder.this);
-					try {
 
-						SERVICE_NUMBER = sw2.doInBackground();
-						// digits = genSO.stringToArray(SERVICE_NUMBER); //
-						// update
-						// digits
-						barcodDigits = new int[2];
-						for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
-							allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					ServiceOrderService service = new ServiceOrderService();
+					ServiceOrderBodyList body = new ServiceOrderBodyList();
+					ArrayList<ServiceOrderModel> models = new ArrayList<>();
+					for(int row = 0;row < tModel.getRowCount();row++) {
+						ServiceOrderModel serviceOrderModel = new ServiceOrderModel();
+
+						serviceOrderModel.setClient(CURRENT_CLIENT);
+						serviceOrderModel.setType(tModel.getValueAt(row,0).toString());
+						serviceOrderModel.setWheight(tModel.getValueAt(row,1).toString());
+						serviceOrderModel.setBarcod(tModel.getValueAt(row,2).toString());
+						serviceOrderModel.setSerial(tModel.getValueAt(row,3).toString());
+						serviceOrderModel.setCategory(tModel.getValueAt(row,4).toString());
+						serviceOrderModel.setBrand(tModel.getValueAt(row,5).toString());
+						serviceOrderModel.setT_O(tModel.getValueAt(row,6).toString());
+						serviceOrderModel.setP(tModel.getValueAt(row,7).toString());
+						serviceOrderModel.setHi(tModel.getValueAt(row,8).toString());
+						serviceOrderModel.setDone(tModel.getValueAt(row,9).toString());
+						serviceOrderModel.setNumber(tModel.getValueAt(row,10).toString());
+						serviceOrderModel.setPerson(tModel.getValueAt(row,11).toString());
+						serviceOrderModel.setDate(tModel.getValueAt(row,12).toString());
+						serviceOrderModel.setAdditional_data(tModel.getValueAt(row,13).toString());
+
+						models.add(serviceOrderModel);
 					}
+
+					body.setServiceOrderModels(models);
+					service.insertServiceOrder(body, new RequestCallback2() {
+						@Override
+						public <T> void callback(T t) {
+							int insert = (Integer)t;
+
+							jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR)); // reset
+							// cursor
+
+							if (insert > 0) {
+
+
+
+								String updateNumber = NumGenerator.updateNum(SERVICE_NUMBER);
+								GenerateSO.updateServiceOrder(updateNumber);
+								SERVICE_NUMBER = GenerateSO.nextSO();
+
+								barcodDigits = new int[2];
+								for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
+									allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
+								}
+
+								JOptionPane.showMessageDialog(null,
+										"Данните са записани успешно!");
+								updateExtinguisher.clear();
+								serviceNumberLabel.setName(SERVICE_NUMBER);
+								tModel.setRowCount(0);
+							}
+						}
+					});
+
+//					SaveinServiceOrderDBWorker sw2 = new SaveinServiceOrderDBWorker(
+//							jd, ServiceOrder.this);
+//					try {
+//
+//						SERVICE_NUMBER = sw2.doInBackground();
+//						// digits = genSO.stringToArray(SERVICE_NUMBER); //
+//						// update
+//						// digits
+//						barcodDigits = new int[2];
+//						for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
+//							allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
+//						}
+//					} catch (Exception e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 
 					readBarcod.requestFocus();
 				}

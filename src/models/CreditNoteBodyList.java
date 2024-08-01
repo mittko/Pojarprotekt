@@ -2,9 +2,9 @@ package models;
 
 import java.util.List;
 
-public class BodyList {
+public class CreditNoteBodyList {
 
-    public BodyList(){}
+    public CreditNoteBodyList(){}
 
     List<CreditNoteBody> list;
 

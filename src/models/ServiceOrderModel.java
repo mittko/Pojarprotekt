@@ -1,6 +1,6 @@
 package models;
 
-public class ServiceOrderReports<T> {
+public class ServiceOrderModel {
     private String client;
     private String type;
     private String wheight;
@@ -8,6 +8,14 @@ public class ServiceOrderReports<T> {
     private String serial;
     private String category;
     private String brand;
+    private String t_O;
+    private String p;
+    private String hi;
+    private String done;
+    private String number;
+    private String person;
+    private String date;
+    private String additional_data;
 
     public String getT_O() {
         return t_O;
@@ -32,15 +40,6 @@ public class ServiceOrderReports<T> {
     public void setHi(String hi) {
         this.hi = hi;
     }
-
-    private String t_O;
-    private String p;
-    private String hi;
-    private String done;
-    private String number;
-    private String person;
-    private String date;
-    private String additional_data;
 
     public String getClient() {
         return client;

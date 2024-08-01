@@ -11,7 +11,7 @@ import java.util.List;
 public interface IGetReports {
 
     @GET("/service_orders")
-    Call<List<ServiceOrderReports>> getServiceOrders(@QueryMap HashMap<String, String> optionsParams);
+    Call<List<ServiceOrderModel>> getServiceOrders(@QueryMap HashMap<String, String> optionsParams);
 
     @GET("/protokols")
     Call<List<ProtokolReports>> getProtokols(@QueryMap HashMap<String,String> optionsParam);
@@ -56,7 +56,7 @@ public interface IGetReports {
     Call<List<CreditNoteReports>> getCreditNotes(@QueryMap HashMap<String,String> optionsParam);
 
     @POST("/insert_credit_note")
-    Call<String> createCreditNote(@Body BodyList bodyList);
+    Call<String> createCreditNote(@Body CreditNoteBodyList creditNoteBodyList);
 
 }
 

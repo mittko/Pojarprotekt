@@ -10,10 +10,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class GetReportsService extends ServiceAPI {
 
@@ -22,9 +20,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getServiceOrders(HashMap<String, String> optionsMap, RequestCallback callback) {
-        getService().getServiceOrders(optionsMap).enqueue(new Callback<List<ServiceOrderReports>>() {
+        getService().getServiceOrders(optionsMap).enqueue(new Callback<List<ServiceOrderModel>>() {
             @Override
-            public void onResponse(Call<List<ServiceOrderReports>> call, Response<List<ServiceOrderReports>> response) {
+            public void onResponse(Call<List<ServiceOrderModel>> call, Response<List<ServiceOrderModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -33,7 +31,7 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<ServiceOrderReports>> call, Throwable throwable) {
+            public void onFailure(Call<List<ServiceOrderModel>> call, Throwable throwable) {
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -291,8 +289,8 @@ public class GetReportsService extends ServiceAPI {
         });
     }
 
-    public void createCreditNote(BodyList bodyList) {
-        getService().createCreditNote(bodyList).enqueue(new Callback<String>() {
+    public void createCreditNote(CreditNoteBodyList creditNoteBodyList) {
+        getService().createCreditNote(creditNoteBodyList).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {

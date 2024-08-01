@@ -1,16 +1,12 @@
 package reports;
 
-import db.artikul.Artikuli_DB;
-import exceptions.ErrorDialog;
 import http.reports.GetReportsService;
-import models.BodyList;
+import models.CreditNoteBodyList;
 import models.CreditNoteBody;
 import models.InvoiceReports;
 import reports.renderers.InvoiceTableRenderer;
 import reports.workers.ExportToExcellWorkerInvocie;
 import reports.workers.PrintReportsForInvoiceDocumentsType;
-import reports.workers.RestoreQuantity;
-import db.creditnote.CreditNoteTable;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.LoadIcon;
@@ -28,7 +24,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class ReportTableInvoice<T> extends MainPanel {
 
@@ -204,9 +199,9 @@ public class ReportTableInvoice<T> extends MainPanel {
 										}
 
 										GetReportsService service = new GetReportsService();
-										BodyList bodyList = new BodyList();
-										bodyList.setList(creditNoteList);
-										service.createCreditNote(bodyList);
+										CreditNoteBodyList creditNoteBodyList = new CreditNoteBodyList();
+										creditNoteBodyList.setList(creditNoteList);
+										service.createCreditNote(creditNoteBodyList);
 
 
 									}
