@@ -7,7 +7,9 @@ import clients.NewClient;
 import db.Client.ClientTable;
 import generators.NumGenerator;
 import http.RequestCallback2;
+import http.client.GetClientService;
 import http.service_order.ServiceOrderService;
+import models.Firm;
 import models.ProtokolModels;
 import models.ServiceOrderBodyList;
 import models.ServiceOrderModel;
@@ -235,15 +237,20 @@ public class ServiceOrder extends MainPanel {
 										return;
 									}
 
-//									ArrayList<String> clientInfo =
-//											ClientTable.getClientDetails(fromBarcod[0].toString());
-//									if(clientInfo == null || clientInfo.isEmpty()) {
-//										ErrorDialog.showErrorMessage(
-//												String.format("Не е намерен такъв клиент %s",
-//														fromBarcod[0].toString()));
-//										// най-вероятно клиента е преименуван
-//										return;
-//									}
+									GetClientService service1 = new GetClientService();
+									service1.getFirm(protokolModel.getClient(), new RequestCallback2() {
+										@Override
+										public <T> void callback(T t) {
+											Firm firm = (Firm)t;
+											if(firm == null) {
+											ErrorDialog.showErrorMessage(
+												String.format("Не е намерен такъв клиент %s",
+														protokolModel.getClient()));
+										// най-вероятно клиента е преименуван
+											}
+										}
+									});
+
 
 									String weight = protokolModel.getWheight();
 
@@ -325,15 +332,19 @@ public class ServiceOrder extends MainPanel {
 									return;
 								}
 
-//									ArrayList<String> clientInfo =
-//											ClientTable.getClientDetails(fromBarcod[0].toString());
-//									if(clientInfo == null || clientInfo.isEmpty()) {
-//										ErrorDialog.showErrorMessage(
-//												String.format("Не е намерен такъв клиент %s",
-//														fromBarcod[0].toString()));
-//										// най-вероятно клиента е преименуван
-//										return;
-//									}
+								GetClientService service1 = new GetClientService();
+								service1.getFirm(protokolModel.getClient(), new RequestCallback2() {
+									@Override
+									public <T> void callback(T t) {
+										Firm firm = (Firm)t;
+										if(firm == null) {
+											ErrorDialog.showErrorMessage(
+													String.format("Не е намерен такъв клиент %s",
+															protokolModel.getClient()));
+											// най-вероятно клиента е преименуван
+										}
+									}
+								});
 
 								String weight = protokolModel.getWheight();
 
