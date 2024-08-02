@@ -8,6 +8,7 @@ import db.Client.ClientTable;
 import generators.NumGenerator;
 import http.RequestCallback2;
 import http.service_order.ServiceOrderService;
+import models.ProtokolModels;
 import models.ServiceOrderBodyList;
 import models.ServiceOrderModel;
 import office.renderers.ExtinguisherRenderer;
@@ -89,10 +90,6 @@ public class ServiceOrder extends MainPanel {
 	// object
 
 	public String SERVICE_NUMBER = null;
-
-	private Object[] fromBarcod = null;
-
-	private Object[] fromSerial = null;
 
 	private final SerialTable bt = new SerialTable();
 
@@ -217,101 +214,74 @@ public class ServiceOrder extends MainPanel {
 
 				if (!isBarcodAndSerialEntered.contains(readBarcod.getText().trim())) {
 
-					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 
-						@SuppressWarnings("finally")
+					ServiceOrderService service = new ServiceOrderService();
+					service.getProtokolInfoByBarcode(
+							readBarcod.getText().trim(),
+							null,new RequestCallback2() {
 						@Override
-						protected Boolean doInBackground() throws Exception {
-							// TODO Auto-generated method stub
-							try {
+						public <T> void callback(T t) {
+							ProtokolModels protokolModel = (ProtokolModels) t;
 
-								// check if extinguisher exist from Main3
+								if (protokolModel != null) {
 
-								fromBarcod = GetFromScanner
-										.getBarcodFromProtokolTableDB3(readBarcod
-												.getText().trim());
-
-							} finally {
-								SwingUtilities.invokeLater(new Runnable() {
-
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-										if (fromBarcod != null) {
-											if (fromBarcod.length > 0) {
-
-												if (tModel.getRowCount() > 0
-														&& !CURRENT_CLIENT
-														.equals(fromBarcod[0]
-																.toString())) {
-													ErrorDialog.showErrorMessage(
-																	"Въведен е друг клиент "
-																			+ fromBarcod[0]);
-													readBarcod.setText("");
-													return;
-												}
-
-												ArrayList<String> clientInfo =
-														ClientTable.getClientDetails(fromBarcod[0].toString());
-												if(clientInfo == null || clientInfo.isEmpty()) {
-													ErrorDialog.showErrorMessage(
-															String.format("Не е намерен такъв клиент %s",
-																	fromBarcod[0].toString()));
-													// най-вероятно клиента е преименуван
-													return;
-												}
-
-												String weight = fromBarcod[2].toString();
-
-												if(!isWeightValid(weight)) {
-												 ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
-														 weight));
-												 return;
-												}
-
-
-												insertDataFromScanner(fromBarcod);
-
-												updateExtinguisher
-														.add(fromBarcod[3]
-																.toString());
-
-												// set serial and barcode in
-												// hashtable as entered
-												isBarcodAndSerialEntered
-														.add(fromBarcod[3] // barcod
-																.toString());
-												isBarcodAndSerialEntered
-														.add(fromBarcod[4] // serial
-																.toString());
-												//
-												CURRENT_CLIENT = fromBarcod[0]
-														.toString();
-												clientLabel
-														.setName(CURRENT_CLIENT);
-
-												clientCombo
-														.setSelectedItem(CURRENT_CLIENT);
-												clientCombo.setEnabled(false);
-											} else {
-												JOptionPane
-														.showMessageDialog(
-																null,
-																"Не е намерен такъв елемент!");
-											}
-										}
+									if (tModel.getRowCount() > 0
+											&& !CURRENT_CLIENT
+											.equals(protokolModel.getClient())) {
+										ErrorDialog.showErrorMessage(
+												"Въведен е друг клиент "
+														+ protokolModel.getClient());
 										readBarcod.setText("");
-
+										return;
 									}
 
-								});
+//									ArrayList<String> clientInfo =
+//											ClientTable.getClientDetails(fromBarcod[0].toString());
+//									if(clientInfo == null || clientInfo.isEmpty()) {
+//										ErrorDialog.showErrorMessage(
+//												String.format("Не е намерен такъв клиент %s",
+//														fromBarcod[0].toString()));
+//										// най-вероятно клиента е преименуван
+//										return;
+//									}
+
+									String weight = protokolModel.getWheight();
+
+									if(!isWeightValid(weight)) {
+										ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
+												weight));
+										return;
+									}
 
 
-							}
-							return true;
+									insertDataFromScanner(protokolModel);
+
+									updateExtinguisher
+											.add(protokolModel.getBarcod());
+
+									// set serial and barcode in
+									// hashtable as entered
+									isBarcodAndSerialEntered
+											.add(protokolModel.getBarcod());
+									isBarcodAndSerialEntered
+											.add(protokolModel.getSerial());
+									//
+									CURRENT_CLIENT = protokolModel.getClient();
+									clientLabel.setName(CURRENT_CLIENT);
+
+									clientCombo.setSelectedItem(CURRENT_CLIENT);
+									clientCombo.setEnabled(false);
+								} else {
+									JOptionPane
+											.showMessageDialog(
+													null,
+													"Не е намерен такъв елемент!");
+								}
+
+							readBarcod.setText("");
 						}
-					};
-					sw.execute();
+					});
+
 				} else {
 					JOptionPane.showMessageDialog(new JLabel(),
 							"Този номер вече е въведен!");
@@ -333,104 +303,80 @@ public class ServiceOrder extends MainPanel {
 				// TODO Auto-generated method stub
 
 				if (!isBarcodAndSerialEntered.contains(serialNumber.getText().trim())) {
-					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
 
-						@SuppressWarnings("finally")
+
+					ServiceOrderService service = new ServiceOrderService();
+					service.getProtokolInfoByBarcode(
+							null,
+							serialNumber.getText(),new RequestCallback2() {
 						@Override
-						protected Boolean doInBackground() throws Exception {
-							// TODO Auto-generated method stub
-							try {
+						public <T> void callback(T t) {
+							ProtokolModels protokolModel = (ProtokolModels) t;
 
-								// first get data from db from Main3
+							if (protokolModel != null) {
 
-								fromSerial = GetFromScanner
-										.getSerialFromProtokolTableDB3(serialNumber
-												.getText().trim());
+								if (tModel.getRowCount() > 0
+										&& !CURRENT_CLIENT
+										.equals(protokolModel.getClient())) {
+									ErrorDialog.showErrorMessage(
+											"Въведен е друг клиент "
+													+ protokolModel.getClient());
+									serialNumber.setText("");
+									return;
+								}
 
-							} finally {
-								SwingUtilities.invokeLater(new Runnable() {
+//									ArrayList<String> clientInfo =
+//											ClientTable.getClientDetails(fromBarcod[0].toString());
+//									if(clientInfo == null || clientInfo.isEmpty()) {
+//										ErrorDialog.showErrorMessage(
+//												String.format("Не е намерен такъв клиент %s",
+//														fromBarcod[0].toString()));
+//										// най-вероятно клиента е преименуван
+//										return;
+//									}
 
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-										if (fromSerial != null) {
-											if (fromSerial.length > 0) {
+								String weight = protokolModel.getWheight();
 
-												if (tModel.getRowCount() > 0
-														&& !CURRENT_CLIENT
-														.equals(fromSerial[0]
-																.toString())) {
-													JOptionPane
-															.showMessageDialog(
-																	null,
-																	"Въведен е друг клиент "
-																			+ fromSerial[0]);
-													serialNumber.setText("");
-													return;
-												}
-
-												ArrayList<String> clientInfo =
-														ClientTable.getClientDetails(fromSerial[0].toString());
-												if(clientInfo == null || clientInfo.isEmpty()) {
-													ErrorDialog.showErrorMessage(String.format("Не е намерен такъв клиент %s",
-															fromSerial[0].toString()));
-													// най-вероятно клиента е преименуван
-													return;
-												}
+								if(!isWeightValid(weight)) {
+									ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
+											weight));
+									return;
+								}
 
 
+								insertDataFromScanner(protokolModel);
 
-												if(!isWeightValid(fromSerial[2].toString())) {
-													ErrorDialog.showErrorMessage(
-															String.format("Грешен формат на количество %s",fromSerial[2].toString()));
-													return;
-												}
-												insertDataFromScanner(fromSerial);
+								updateExtinguisher.add(protokolModel.getBarcod());
 
-												// add serial to update after
-												// save in db
-												updateExtinguisher
-														.add(fromSerial[3]
-																.toString());
-												// set serial and barcode in
-												// hashtable as entered
-												isBarcodAndSerialEntered
-														.add(fromSerial[3] // barcod
-																.toString());
-												isBarcodAndSerialEntered
-														.add(fromSerial[4] // serial
-																.toString());
-												//
-												CURRENT_CLIENT = fromSerial[0]
-														.toString();
-												clientLabel
-														.setName(CURRENT_CLIENT);
+								// set serial and barcode in
+								// hashtable as entered
+								isBarcodAndSerialEntered
+										.add(protokolModel.getBarcod());
+								isBarcodAndSerialEntered
+										.add(protokolModel.getSerial());
+								//
+								CURRENT_CLIENT = protokolModel.getClient();
+								clientLabel.setName(CURRENT_CLIENT);
 
-
-												clientCombo
-														.setSelectedItem(CURRENT_CLIENT);
-												clientCombo.setEnabled(false);
-											} else {
-												JOptionPane
-														.showMessageDialog(
-																null,
-																"Не е намерен такъв елемент!");
-											}
-											serialNumber.setText("");
-										}
-									}
-
-								});
-
+								clientCombo.setSelectedItem(CURRENT_CLIENT);
+								clientCombo.setEnabled(false);
+							} else {
+								JOptionPane
+										.showMessageDialog(
+												null,
+												"Не е намерен такъв елемент!");
 							}
-							return true;
+
+							serialNumber.setText("");
 						}
-					};
-					sw.execute();
+					});
+
 				} else {
 					JOptionPane.showMessageDialog(new JLabel(),
 							"Този номер вече е въведен!");
 					serialNumber.setText("");
+
+
 				}
 			}
 		});
@@ -622,23 +568,6 @@ public class ServiceOrder extends MainPanel {
 							}
 						}
 					});
-
-//					SaveinServiceOrderDBWorker sw2 = new SaveinServiceOrderDBWorker(
-//							jd, ServiceOrder.this);
-//					try {
-//
-//						SERVICE_NUMBER = sw2.doInBackground();
-//						// digits = genSO.stringToArray(SERVICE_NUMBER); //
-//						// update
-//						// digits
-//						barcodDigits = new int[2];
-//						for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
-//							allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
-//						}
-//					} catch (Exception e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 
 					readBarcod.requestFocus();
 				}
@@ -1227,7 +1156,7 @@ public class ServiceOrder extends MainPanel {
 
 
 
-	private void insertDataFromScanner(Object[] object) {
+	private void insertDataFromScanner(ProtokolModels protokolModel) {
 
 		/*
 		 * if(rows + tModel.getRowCount() > 99) {
@@ -1237,7 +1166,7 @@ public class ServiceOrder extends MainPanel {
 		// object[0] -> is client
 
 		// filter data (remove unneeded text)
-		String type = object[1].toString();
+		String type = protokolModel.getType();
 		if (type.toUpperCase().contains("ABC")
 				|| type.toUpperCase().contains("АВС")) {
 			type = type_Prah_ABC;
@@ -1254,7 +1183,7 @@ public class ServiceOrder extends MainPanel {
 		}
 
 		// restore brand property (remove content after comma )
-		String brand = object[6].toString();
+		String brand = protokolModel.getBrand();
 		int index = brand.indexOf(", носим");
 		int index2 = brand.indexOf(", возим");
 		if(index != -1) {
@@ -1269,7 +1198,7 @@ public class ServiceOrder extends MainPanel {
 		// тук в сервизна поръчка трябва да извлечем само втората стойност (килограмите на съда)
 		// иначе в работилницата ще покаже бъг.Трябва да се увеличи рамера на полето weight в база данни Протоколи
 		// защото гърми
-		String weight = object[2].toString();
+		String weight = protokolModel.getWheight();
 		String[] spl = weight.split("/");
 		if(spl.length == 1) {
 			weight = spl[0].trim();
@@ -1279,16 +1208,16 @@ public class ServiceOrder extends MainPanel {
 		Object[] obj = new Object[] {
 				type, // type
 				weight,
-				object[3], // barcod
-				object[4], // serial
-				object[5], // category
+				protokolModel.getBarcod(), // barcod
+				protokolModel.getSerial(), // serial
+				protokolModel.getCategory(), // category
 				brand,// brand
-				object[7], // TO
-				object[8], // P
-				object[9], // HI
+				protokolModel.getT_O(), // TO
+				protokolModel.getP(), // P
+				protokolModel.getHi(), // HI
 				"не", // done
 				SERVICE_NUMBER, personName, MyGetDate.getReversedSystemDate(),
-				object[10] != null ? object[10] : "" };
+				protokolModel.getAdditional_data() != null ? protokolModel.getAdditional_data() : "" };
 		// add barcode
 		// презаписва баркодовете
 		addOneBarcodeFromScanner(0, obj);
@@ -1428,6 +1357,9 @@ public class ServiceOrder extends MainPanel {
 	}
 
 	private boolean isWeightValid(String weight) {
+		if(weight == null) {
+			return false;
+		}
 		// тъй като килограмите идват от таблица протокол като двойка числа едното
 		// указващо реалните килограми след презареждането и второто килограмите на самият съд
 		// тук в сервизна поръчка трябва да извлечем само втората стойност (килограмите на съда)

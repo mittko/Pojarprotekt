@@ -1,7 +1,7 @@
 package reports;
 
 import models.BrakReports;
-import models.ProtokolReports;
+import models.ProtokolModels;
 import models.ServiceOrderModel;
 import reports.renderers.JTableX;
 import reports.renderers.ProtokolBrackTableRenderer;
@@ -252,28 +252,28 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 				table.setDefaultRenderer(Object.class, new ProtokolTableRenderer());
 
                 for(T t : data) {
-					ProtokolReports<T> protokolReports = (ProtokolReports<T>) t;
+					ProtokolModels protokolModels = (ProtokolModels) t;
 					Object[] newObj = new Object[titles.length];
 
-					newObj[0] = protokolReports.getClient();
-					newObj[1] = protokolReports.getType();
-					newObj[2] = protokolReports.getWheight();
-					newObj[3] = protokolReports.getBarcod();
-					newObj[4] = protokolReports.getSerial();
-					newObj[5] = protokolReports.getCategory();
-					newObj[6] = protokolReports.getBrand();
-					newObj[7] = protokolReports.getT_O();
-					newObj[8] = protokolReports.getP();
-					newObj[9] = protokolReports.getHi();
-					newObj[10] = protokolReports.getParts();
-					newObj[11] = protokolReports.getValue();
-					newObj[12] = protokolReports.getNumber();
-					newObj[13] = protokolReports.getPerson();
-					newObj[14] = protokolReports.getDate();
-					newObj[15] = protokolReports.getKontragent();
-					newObj[16] = protokolReports.getInvoiceByKontragent();
-					newObj[17] = protokolReports.getAdditional_data();
-					newObj[18] = protokolReports.getUptodate();
+					newObj[0] = protokolModels.getClient();
+					newObj[1] = protokolModels.getType();
+					newObj[2] = protokolModels.getWheight();
+					newObj[3] = protokolModels.getBarcod();
+					newObj[4] = protokolModels.getSerial();
+					newObj[5] = protokolModels.getCategory();
+					newObj[6] = protokolModels.getBrand();
+					newObj[7] = protokolModels.getT_O();
+					newObj[8] = protokolModels.getP();
+					newObj[9] = protokolModels.getHi();
+					newObj[10] = protokolModels.getParts();
+					newObj[11] = protokolModels.getValue();
+					newObj[12] = protokolModels.getNumber();
+					newObj[13] = protokolModels.getPerson();
+					newObj[14] = protokolModels.getDate();
+					newObj[15] = protokolModels.getKontragent();
+					newObj[16] = protokolModels.getInvoiceByKontragent();
+					newObj[17] = protokolModels.getAdditional_data();
+					newObj[18] = protokolModels.getUptodate();
 
 					dftm.addRow(newObj);
 

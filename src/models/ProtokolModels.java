@@ -1,6 +1,6 @@
 package models;
 
-public class ProtokolReports<T> {
+public class ProtokolModels {
     private String client;
     private String type;
     private String wheight;

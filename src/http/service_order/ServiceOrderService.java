@@ -1,8 +1,10 @@
 package http.service_order;
 
 import exceptions.ErrorDialog;
+import http.RequestCallback;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
+import models.ProtokolModels;
 import models.ServiceOrderBodyList;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +32,26 @@ public class ServiceOrderService extends ServiceAPI {
             public void onFailure(Call<Integer> call, Throwable throwable) {
                   callback.callback(0);
                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getProtokolInfoByBarcode(String barcode, String serialNumber,RequestCallback2 callback) {
+        getService().getProtokolInfoByBarcode(barcode,serialNumber).enqueue(new Callback<ProtokolModels>() {
+            @Override
+            public void onResponse(Call<ProtokolModels> call, Response<ProtokolModels> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    callback.callback(null);
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProtokolModels> call, Throwable throwable) {
+                    callback.callback(null);
+                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
