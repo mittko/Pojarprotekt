@@ -1,13 +1,9 @@
 package http.service_order;
 
-import http.base.ServiceAPI;
 import models.ProtokolModels;
 import models.ServiceOrderBodyList;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 public interface IServiceOrder {
 
@@ -17,5 +13,8 @@ public interface IServiceOrder {
     @GET("/protokol_info_barcode")
     Call<ProtokolModels> getProtokolInfoByBarcode(@Query("barcode") String barcode, @Query("serial_number") String serialNumber);
 
+
+    @GET("/next_serial_number")
+    Call<String> getNextSerialNumber();
 
 }

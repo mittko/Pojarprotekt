@@ -1,5 +1,7 @@
 package http.base;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,11 +21,13 @@ public class ServiceAPI {
                     .retryOnConnectionFailure(true)
                     .writeTimeout(30,TimeUnit.SECONDS);
 
+            Gson gson = new GsonBuilder().setLenient().create();
+
             OkHttpClient okHttpClient = builder.build();
             retrofit = new Retrofit.Builder()
                     .baseUrl("http://localhost:8080")
                     .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;

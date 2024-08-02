@@ -872,42 +872,58 @@ public class ServiceOrder extends MainPanel {
 							.showMessageDialog(null, "Вече е въведен номер!");
 					return;
 				}
-				SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
-
-					@SuppressWarnings("finally")
+				final JDialog jd = ((JDialog) (SwingUtilities
+						.getWindowAncestor(ServiceOrder.this)));
+				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+				ServiceOrderService service = new ServiceOrderService();
+				service.getNextSerialNumber(new RequestCallback2() {
 					@Override
-					protected Boolean doInBackground() throws Exception {
-						// TODO Auto-generated method stub
+					public <T> void callback(T t) {
+						String nextSerialNumber = (String)t;
 
-						final JDialog jd = ((JDialog) (SwingUtilities
-								.getWindowAncestor(ServiceOrder.this)));
-						jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-
-						try {
-
-							serial = bt.updateSerial(); // get and update serial
-							// from db
-						} finally {
-
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									jd.setCursor(new Cursor(
-											Cursor.DEFAULT_CURSOR));
-									if (serial != null) {
-										tModel.setValueAt(serial, CURRENT_ROW,
-												3);
-									}
-
-								}
-
-							});
+						jd.setCursor(new Cursor(
+								Cursor.DEFAULT_CURSOR));
+						if (nextSerialNumber != null) {
+							tModel.setValueAt(nextSerialNumber, CURRENT_ROW, 3);
 						}
-						return true;
 					}
-				};
-
-				sw.execute();
+				});
+//				SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
+//
+//					@SuppressWarnings("finally")
+//					@Override
+//					protected Boolean doInBackground() throws Exception {
+//						// TODO Auto-generated method stub
+//
+//						final JDialog jd = ((JDialog) (SwingUtilities
+//								.getWindowAncestor(ServiceOrder.this)));
+//						jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+//
+//						try {
+//
+//							serial = bt.updateSerial(); // get and update serial
+//							// from db
+//						} finally {
+//
+//							SwingUtilities.invokeLater(new Runnable() {
+//								@Override
+//								public void run() {
+//									jd.setCursor(new Cursor(
+//											Cursor.DEFAULT_CURSOR));
+//									if (serial != null) {
+//										tModel.setValueAt(serial, CURRENT_ROW,
+//												3);
+//									}
+//
+//								}
+//
+//							});
+//						}
+//						return true;
+//					}
+//				};
+//
+//				sw.execute();
 
 			}
 
