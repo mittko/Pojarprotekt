@@ -177,7 +177,7 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 						"Монтажен номер", "Категория", "Марка", "ТО", "П", "ХИ",
 						"Резервни Части", "Цена", " \u2116 на Протокол", "Техник",
 						"Дата на издаване", "Контрагент", "Фактура по доставка",
-						"Допълнителни данни", "Презаверен"};// "Допълнителни данни"
+						"Допълнителни данни", };//"Презаверен"};// "Допълнителни данни"
 
 
 				break;
@@ -273,7 +273,7 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 					newObj[15] = protokolModels.getKontragent();
 					newObj[16] = protokolModels.getInvoiceByKontragent();
 					newObj[17] = protokolModels.getAdditional_data();
-					newObj[18] = protokolModels.getUptodate();
+					//newObj[18] = protokolModels.getUptodate();
 
 					dftm.addRow(newObj);
 

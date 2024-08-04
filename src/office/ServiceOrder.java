@@ -549,7 +549,9 @@ public class ServiceOrder extends MainPanel {
 						models.add(serviceOrderModel);
 					}
 
+
 					body.setServiceOrderModels(models);
+					body.setBarcodesToUpdateInProtokol(updateExtinguisher);
 					service.insertServiceOrder(body, new RequestCallback2() {
 						@Override
 						public <T> void callback(T t) {
