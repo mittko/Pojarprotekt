@@ -1,16 +1,14 @@
 package office;
 
-import db.Protokol.ProtokolTable;
 import document.TextFieldLimit;
 import exceptions.ErrorDialog;
 import clients.NewClient;
-import db.Client.ClientTable;
 import generators.NumGenerator;
 import http.RequestCallback2;
 import http.client.GetClientService;
 import http.service_order.ServiceOrderService;
 import models.Firm;
-import models.ProtokolModels;
+import models.ProtokolModel;
 import models.ServiceOrderBodyList;
 import models.ServiceOrderModel;
 import office.renderers.ExtinguisherRenderer;
@@ -19,8 +17,6 @@ import office.renderers.MyTableRenderer;
 import office.models.*;
 import office.workers.PrintSerialBarcodesWorker;
 import office.workers.PrinterServiceOrderWorker;
-import office.workers.SaveinServiceOrderDBWorker;
-import db.GetFromScanner;
 import db.SerialNumber.SerialTable;
 import generators.BarcodGenerator;
 import generators.GenerateSO;
@@ -223,7 +219,7 @@ public class ServiceOrder extends MainPanel {
 							null,new RequestCallback2() {
 						@Override
 						public <T> void callback(T t) {
-							ProtokolModels protokolModel = (ProtokolModels) t;
+							ProtokolModel protokolModel = (ProtokolModel) t;
 
 								if (protokolModel != null) {
 
@@ -318,7 +314,7 @@ public class ServiceOrder extends MainPanel {
 							serialNumber.getText(),new RequestCallback2() {
 						@Override
 						public <T> void callback(T t) {
-							ProtokolModels protokolModel = (ProtokolModels) t;
+							ProtokolModel protokolModel = (ProtokolModel) t;
 
 							if (protokolModel != null) {
 
@@ -1185,7 +1181,7 @@ public class ServiceOrder extends MainPanel {
 
 
 
-	private void insertDataFromScanner(ProtokolModels protokolModel) {
+	private void insertDataFromScanner(ProtokolModel protokolModel) {
 
 		/*
 		 * if(rows + tModel.getRowCount() > 99) {

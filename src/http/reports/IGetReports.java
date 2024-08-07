@@ -14,7 +14,7 @@ public interface IGetReports {
     Call<List<ServiceOrderModel>> getServiceOrders(@QueryMap HashMap<String, String> optionsParams);
 
     @GET("/protokols")
-    Call<List<ProtokolModels>> getProtokols(@QueryMap HashMap<String,String> optionsParam);
+    Call<List<ProtokolModel>> getProtokols(@QueryMap HashMap<String,String> optionsParam);
 
     @GET("/brack")
     Call<List<BrakReports>> getBrack(@QueryMap HashMap<String, String> optionsParam);

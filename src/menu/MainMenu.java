@@ -114,29 +114,14 @@ public class MainMenu extends MainPanel {
 				final JFrame jf = (JFrame) SwingUtilities
 						.getWindowAncestor(MainMenu.this);
 				jf.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				SwingWorker startWorker = new SwingWorker() {
-					private String protokolNumber = null;
-					private String brackNumber = null;
 
-					@Override
-					protected Object doInBackground() throws Exception {
-						// TODO Auto-generated method stub
-						try {
-							brackNumber = BrackNumber.getBrackNumber();
-							protokolNumber = ProtokolNumber.getProtokolNumber();
-						} finally {
-							SwingUtilities.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									StartWorkerTabbedPane swf = new StartWorkerTabbedPane(
-											protokolNumber, brackNumber);
-									final JDialoger jDialog = new JDialoger();
-									jDialog.setContentPane(swf);
-									jDialog.setTitle("Работна книга");
-									jDialog.setResizable(false);
-									jDialog.addWindowListener(new WindowAdapter() {
+				// TODO Auto-generated method stub
+				StartWorkerTabbedPane swf = new StartWorkerTabbedPane();
+				final JDialoger jDialog = new JDialoger();
+				jDialog.setContentPane(swf);
+				jDialog.setTitle("Работна книга");
+				jDialog.setResizable(false);
+				jDialog.addWindowListener(new WindowAdapter() {
 										@Override
 										public void windowClosing(WindowEvent we) {
 											if (View.dtm_Extinguisher
@@ -172,15 +157,7 @@ public class MainMenu extends MainPanel {
 									jDialog.Show();
 									jf.setCursor(new Cursor(
 											Cursor.DEFAULT_CURSOR));
-								}
 
-							});
-						}
-						return null;
-					}
-
-				};
-				startWorker.execute();
 
 			}
 

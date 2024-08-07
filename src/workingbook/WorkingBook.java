@@ -1,5 +1,9 @@
 package workingbook;
 
+import exceptions.ErrorDialog;
+import http.RequestCallback2;
+import http.protokol.ProtokolService;
+import models.ServiceOrderModel;
 import parts.Dust;
 import parts.ReasonsBrack;
 import parts.Vodopenen;
@@ -116,8 +120,7 @@ public class WorkingBook extends MainPanel {
 
 				if (comboDoings.isEnabled()) {
 
-					JOptionPane
-							.showMessageDialog(null, "Има незаписани данни!");
+					JOptionPane.showMessageDialog(null, "Има незаписани данни!");
 
 					readBarcod.setText("");
 
@@ -126,92 +129,69 @@ public class WorkingBook extends MainPanel {
 
 				if (!isBarcodAndSerialEntered.contains(readBarcod.getText().trim())) {
 
-					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
-
-						@SuppressWarnings("finally")
+					ProtokolService service = new ProtokolService();
+					service.getServiceOrderByBarcode(readBarcod.getText().trim(),
+							null, new RequestCallback2() {
 						@Override
-						protected Boolean doInBackground() throws Exception {
-							// TODO Auto-generated method stub
-							try {
-								fromBarcod = GetFromScanner
-										.getBarcodFromServiceTableDB3(readBarcod
-												.getText().trim());
-							} finally {
-								SwingUtilities.invokeLater(new Runnable() {
+						public <T> void callback(T t) {
 
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-										// check if entered clients are same
-										if (fromBarcod != null) {
-											if (fromBarcod.length > 0) {
+							ServiceOrderModel serviceOrderModel = (ServiceOrderModel) t;
+								if (serviceOrderModel != null) {
 
-												// check client
-												if (!checkClient(fromBarcod[0]
-														.toString())) {
-													return;
-												}
-
-
-												for (int i = 0; i <= 6; i++) {
-													tModel.setValueAt(
-															fromBarcod[i], 0, i);
-												}
-
-												// set real wheigths in hidden
-												// column
-												// to write it in db
-												tModel.setValueAt(
-														fromBarcod[2], 0, 10);
-												// set допълнителни данни
-												tModel.setValueAt(
-														fromBarcod[10], 0, 11);
-
-												HI_Label.setForeground(fromBarcod[9].equals("не") ? Color.BLACK : Color.RED);
-												HI_Label.setName(fromBarcod[9]
-														.toString());
-												HI_Label.setToolTipText(getHTML_Text("Дата на следващо ХИ - "+fromBarcod[9]
-														.toString()));
-
-												comboDoings.setEnabled(true);
-												comboDoings.setSelectedIndex(0);
-
-												isBarcodAndSerialEntered
-														.add(fromBarcod[3]);
-
-												isBarcodAndSerialEntered
-														.add(fromBarcod[4]);
-
-												clientLabel
-														.setName(CURRENT_CLIENT);
-
-												System.out.println("dop danni("+fromBarcod[10].toString()+")");
-												clientLabel.setToolTipText(
-														fromBarcod[10].toString().isEmpty()
-																? getHTML_Text("Няма допълнителни данни") :
-																getHTML_Text(fromBarcod[10].toString()));
-
-												switchPanel(fromBarcod[1]); // type
-
-											} else {
-												JOptionPane
-														.showMessageDialog(
-																null,
-																"Не е намерен такъв елемент!");
-											}
-										}
-										readBarcod.setText("");
-
+									// check client
+									if (!checkClient(serviceOrderModel.getClient())) {
+										return;
 									}
 
-								});
 
+									tModel.setValueAt(serviceOrderModel.getClient(),0,0);
+									tModel.setValueAt(serviceOrderModel.getType(),0,1);
+									tModel.setValueAt(serviceOrderModel.getWheight(),0,2);
+									tModel.setValueAt(serviceOrderModel.getBarcod(),0,3);
+									tModel.setValueAt(serviceOrderModel.getSerial(),0, 4);
+									tModel.setValueAt(serviceOrderModel.getCategory(),0,5);
+									tModel.setValueAt(serviceOrderModel.getBrand(),0,6);
 
-							}
-							return true;
+									// set real wheigths in hidden
+									// column
+									// to write it in db
+									tModel.setValueAt(serviceOrderModel.getWheight()	/*fromBarcod[2]*/, 0, 10);
+									// set допълнителни данни
+									tModel.setValueAt(
+										serviceOrderModel.getAdditional_data()	/*fromBarcod[10]*/, 0, 11);
+
+									HI_Label.setForeground(serviceOrderModel.getHi().equals("не") ? Color.BLACK : Color.RED);
+									HI_Label.setName(serviceOrderModel.getHi() /*fromBarcod[9].toString()*/);
+									HI_Label.setToolTipText(getHTML_Text("Дата на следващо ХИ - "+serviceOrderModel.getHi()));
+
+									comboDoings.setEnabled(true);
+									comboDoings.setSelectedIndex(0);
+
+									isBarcodAndSerialEntered
+											.add(serviceOrderModel.getBarcod()/* fromBarcod[3]*/);
+
+									isBarcodAndSerialEntered
+											.add(serviceOrderModel.getSerial() /*fromBarcod[4]*/);
+
+									clientLabel
+											.setName(CURRENT_CLIENT);
+
+									System.out.println("dop danni("+serviceOrderModel.getAdditional_data()+")");
+									clientLabel.setToolTipText(
+											serviceOrderModel.getAdditional_data().isEmpty()
+													? getHTML_Text("Няма допълнителни данни") :
+													getHTML_Text(serviceOrderModel.getAdditional_data()));
+
+									switchPanel(serviceOrderModel.getType()); // type
+
+								} else {
+									ErrorDialog.showErrorMessage("Не е намерен такъв елемент!");
+								}
+
+							readBarcod.setText("");
 						}
-					};
-					sw.execute();
+					});
+
 				} else {
 
 					JOptionPane.showMessageDialog(null,
@@ -239,91 +219,68 @@ public class WorkingBook extends MainPanel {
 					return;
 				}
 				if (!isBarcodAndSerialEntered.contains(serialNumber.getText().trim())) {
-
-					SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
-
-						@SuppressWarnings("finally")
+					ProtokolService service = new ProtokolService();
+					service.getServiceOrderByBarcode(null, serialNumber.getText().trim(), new RequestCallback2() {
 						@Override
-						protected Boolean doInBackground() throws Exception {
-							// TODO Auto-generated method stub
-							try {
-								fromSerial = GetFromScanner
-										.getSerialFromServiceTableDB3(serialNumber
-												.getText().trim());
+						public <T> void callback(T t) {
 
-								// check if has hydrostatic examination
+							ServiceOrderModel serviceOrderModel = (ServiceOrderModel) t;
+							if (serviceOrderModel != null) {
 
-							} finally {
-								SwingUtilities.invokeLater(new Runnable() {
+								// check client
+								if (!checkClient(serviceOrderModel.getClient())) {
+									return;
+								}
 
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-										// check if entered clients are same
-										if (fromSerial != null) {
-											if (fromSerial.length > 0) {
 
-												if (!checkClient(fromSerial[0]
-														.toString())) {
-													return;
-												}
+								tModel.setValueAt(serviceOrderModel.getClient(),0,0);
+								tModel.setValueAt(serviceOrderModel.getType(),0,1);
+								tModel.setValueAt(serviceOrderModel.getWheight(),0,2);
+								tModel.setValueAt(serviceOrderModel.getBarcod(),0,3);
+								tModel.setValueAt(serviceOrderModel.getSerial(),0, 4);
+								tModel.setValueAt(serviceOrderModel.getCategory(),0,5);
+								tModel.setValueAt(serviceOrderModel.getBrand(),0,6);
 
-												for (int i = 0; i <= 6; i++) {
-													tModel.setValueAt(
-															fromSerial[i], 0, i);
-												}
+								// set real wheigths in hidden
+								// column
+								// to write it in db
+								tModel.setValueAt(serviceOrderModel.getWheight()	/*fromSerial[2]*/, 0, 10);
+								// set допълнителни данни
+								tModel.setValueAt(
+										serviceOrderModel.getAdditional_data()	/*fromSerial[10]*/, 0, 11);
 
-												// set real wheights in hidden
-												// column
-												// to write it in db
-												tModel.setValueAt(
-														fromSerial[2], 0, 10);
+								HI_Label.setForeground(serviceOrderModel.getHi().equals("не") ? Color.BLACK : Color.RED);
+								HI_Label.setName(serviceOrderModel.getHi() /*fromSerial[9].toString()*/);
+								HI_Label.setToolTipText(getHTML_Text("Дата на следващо ХИ - "+serviceOrderModel.getHi()));
 
-												// set допълнителни данни
-												tModel.setValueAt(
-														fromSerial[10], 0, 11);
+								comboDoings.setEnabled(true);
+								comboDoings.setSelectedIndex(0);
 
-												HI_Label.setForeground(fromSerial[9].equals("не") ? Color.BLACK : Color.RED);
-												HI_Label.setName(fromSerial[9]
-														.toString());
-												HI_Label.setToolTipText(getHTML_Text("Дата на следващо ХИ - "+fromSerial[9]
-														.toString()));
+								isBarcodAndSerialEntered
+										.add(serviceOrderModel.getBarcod()/* fromSerial[3]*/);
 
-												comboDoings.setEnabled(true);
-												comboDoings.setSelectedIndex(0);
+								isBarcodAndSerialEntered
+										.add(serviceOrderModel.getSerial() /*fromSerial[4]*/);
 
-												isBarcodAndSerialEntered
-														.add(fromSerial[3]);// barcod
+								clientLabel
+										.setName(CURRENT_CLIENT);
 
-												isBarcodAndSerialEntered
-														.add(fromSerial[4]);// serial
+								System.out.println("dop danni("+serviceOrderModel.getAdditional_data()+")");
+								clientLabel.setToolTipText(
+										serviceOrderModel.getAdditional_data().isEmpty()
+												? getHTML_Text("Няма допълнителни данни") :
+												getHTML_Text(serviceOrderModel.getAdditional_data()));
 
-												clientLabel
-														.setName(CURRENT_CLIENT);
-												clientLabel.setToolTipText(
-														fromSerial[10].toString().isEmpty()
-																? getHTML_Text("Нямя допълнителни данни") :
-																getHTML_Text(fromSerial[10].toString()));
+								switchPanel(serviceOrderModel.getType()); // type
 
-												switchPanel(fromSerial[1]); // type
-
-												comboDoings.setSelectedIndex(0);
-											} else {
-												JOptionPane
-														.showMessageDialog(
-																null,
-																"Не е намерен такъв елемент!");
-											}
-										}
-										serialNumber.setText("");
-									}
-
-								});
+							} else {
+								ErrorDialog.showErrorMessage("Не е намерен такъв елемент!");
 							}
-							return true;
+
+							serialNumber.setText("");
 						}
-					};
-					sw.execute();
+					});
+
 				} else {
 					JOptionPane.showMessageDialog(new JLabel(),
 							"Този номер вече е въведен!");
@@ -951,8 +908,10 @@ public class WorkingBook extends MainPanel {
 					substract_HI_YEAR = HI_Label.getName();
 				}
 			}
-			String godnostNaPovarogasitelnoWeshtestwoo =
-					new GetAgentFitWorker(agent/*agent*/).doInBackground();
+		/*
+		TO DO !!!!!! Request to API
+		String godnostNaPovarogasitelnoWeshtestwoo =
+					new GetAgentFitWorker(agent*//*agent*//*).doInBackground();
 			String urgentDays = MyGetDate.getUrgentDays(
 					MyGetDate.getReversedSystemDate()
 					, godnostNaPovarogasitelnoWeshtestwoo);
@@ -964,7 +923,7 @@ public class WorkingBook extends MainPanel {
 			}
             fitAgentLabel.setForeground(daysAsInt <= 365 ? Color.red : Color.black);
 
-			fitAgentLabel.setName(godnostNaPovarogasitelnoWeshtestwoo);
+			fitAgentLabel.setName(godnostNaPovarogasitelnoWeshtestwoo);*/
 			// item is from combo getSelectedItem();
 			switch (item) {
 				case TO:

@@ -11,15 +11,15 @@ public class StartWorkerTabbedPane extends MainPanel {
 	public View view = null;
 	public Brack brack = null;
 	
-	public StartWorkerTabbedPane(String protokolNumber, String brackNumber) {
+	public StartWorkerTabbedPane() {
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
 		worker = new WorkingBook();
 		
-		view = new View(protokolNumber);
+		view = new View();
 		
-		brack = new Brack(brackNumber);
+		brack = new Brack();
 		
 		tabbedPane.addTab("Работна книга",worker);
 		

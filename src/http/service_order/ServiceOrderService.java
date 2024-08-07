@@ -1,10 +1,9 @@
 package http.service_order;
 
 import exceptions.ErrorDialog;
-import http.RequestCallback;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
-import models.ProtokolModels;
+import models.ProtokolModel;
 import models.ServiceOrderBodyList;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,9 +36,9 @@ public class ServiceOrderService extends ServiceAPI {
     }
 
     public void getProtokolInfoByBarcode(String barcode, String serialNumber,RequestCallback2 callback) {
-        getService().getProtokolInfoByBarcode(barcode,serialNumber).enqueue(new Callback<ProtokolModels>() {
+        getService().getProtokolInfoByBarcode(barcode,serialNumber).enqueue(new Callback<ProtokolModel>() {
             @Override
-            public void onResponse(Call<ProtokolModels> call, Response<ProtokolModels> response) {
+            public void onResponse(Call<ProtokolModel> call, Response<ProtokolModel> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -49,7 +48,7 @@ public class ServiceOrderService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<ProtokolModels> call, Throwable throwable) {
+            public void onFailure(Call<ProtokolModel> call, Throwable throwable) {
                     callback.callback(null);
                     ErrorDialog.showErrorMessage(throwable.getMessage());
             }

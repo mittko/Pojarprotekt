@@ -38,9 +38,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getProtokols(HashMap<String, String> optionsMap, RequestCallback callback) {
-        getService().getProtokols(optionsMap).enqueue(new Callback<List<ProtokolModels>>() {
+        getService().getProtokols(optionsMap).enqueue(new Callback<List<ProtokolModel>>() {
             @Override
-            public void onResponse(Call<List<ProtokolModels>> call, Response<List<ProtokolModels>> response) {
+            public void onResponse(Call<List<ProtokolModel>> call, Response<List<ProtokolModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -49,7 +49,7 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<ProtokolModels>> call, Throwable throwable) {
+            public void onFailure(Call<List<ProtokolModel>> call, Throwable throwable) {
                     ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

@@ -1,5 +1,11 @@
 package workingbook;
 
+import http.RequestCallback2;
+import http.protokol.ProtokolService;
+import models.PartsModel;
+import models.ProtokolModel;
+import models.ProtokolModelBodyList;
+import mydate.MyGetDate;
 import workingbook.renderers.DoingRenderer;
 import workingbook.workers.PrintProtokolWorker;
 import workingbook.workers.SaveInProtokolWorker;
@@ -46,17 +52,15 @@ public class View extends MainPanel {
 
 	private int SELECTED_ROW = -1; // current user selected row
 
-	public String DB_PROTOKOL_NUMBER = null;
+//	public String DB_PROTOKOL_NUMBER = null;
 
 	private String PDF_PROTOKOL_NUMBER = null;
 
 	//public static BevelLabel protokolNumberLabel = null;
 
-	public View(String protokolNumber) {
+	public View() {
 
-		this.DB_PROTOKOL_NUMBER = protokolNumber;
 
-		PDF_PROTOKOL_NUMBER = DB_PROTOKOL_NUMBER;
 
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -110,15 +114,78 @@ public class View extends MainPanel {
 							.getWindowAncestor(View.this)));
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
+					ArrayList<ProtokolModel> protokolModelList = new ArrayList<>();
 
-					SaveInProtokolWorker sw = new SaveInProtokolWorker(jd,
-						 getPartsMap());
-					try {
-						PDF_PROTOKOL_NUMBER = sw.doInBackground();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					for(int index = 0;index < dtm_Extinguisher.getRowCount();index++) {
+						String currentClient = dtm_Extinguisher.getValueAt(index, 0).toString();// client
+						String type = dtm_Extinguisher.getValueAt(index, 1).toString(); // type
+						String weight =	dtm_Extinguisher.getValueAt(index, 2).toString()
+								+ " / " +
+								dtm_Extinguisher.getValueAt(index,10); // weight
+						String barcod =	dtm_Extinguisher.getValueAt(index, 3).toString(); // barcod
+						String serialNumber = dtm_Extinguisher.getValueAt(index, 4).toString(); // serial
+						String category = dtm_Extinguisher.getValueAt(index, 5).toString(); // category
+						String brand =	dtm_Extinguisher.getValueAt(index, 6).toString(); // brand
+						String TO =	dtm_Extinguisher.getValueAt(index, 7).toString(); // TO Date
+						String P = 	dtm_Extinguisher.getValueAt(index, 8).toString(); // P Date
+						String HI =	dtm_Extinguisher.getValueAt(index, 9).toString(); // HI Date
+						String parts = 	getParts(index); // parts
+						double value =	0; // value
+						String kontragent = "-";// ПОЖАРПРОТЕКТ 00Д
+						String invoiceByKontragent ="-";// 0000001
+						String additional_data = dtm_Extinguisher.getValueAt(index, 11).toString();// допълнителни данни
+
+
+						ProtokolModel protokolModel = new ProtokolModel();
+						protokolModel.setClient(currentClient);
+						protokolModel.setType(type);
+						protokolModel.setWheight(weight);
+						protokolModel.setBarcod(barcod);
+						protokolModel.setSerial(serialNumber);
+						protokolModel.setCategory(category);
+						protokolModel.setBrand(brand);
+						protokolModel.setT_O(TO);
+						protokolModel.setP(P);
+						protokolModel.setHi(HI);
+						protokolModel.setParts(parts);
+						protokolModel.setValue(String.valueOf(value));
+						protokolModel.setPerson(MainPanel.personName);
+						protokolModel.setDate(MyGetDate.getReversedSystemDate());
+						protokolModel.setUptodate("null");
+						protokolModel.setKontragent(kontragent);
+						protokolModel.setInvoiceByKontragent(invoiceByKontragent);
+						protokolModel.setAdditional_data(additional_data);
+
+						protokolModelList.add(protokolModel);
 					}
+					ArrayList<PartsModel> partsModels = new ArrayList<>();
+                    for(Map.Entry<Object,Integer> map : getPartsMap().entrySet()) {
+						PartsModel partsModel = new PartsModel((String) map.getKey(),map.getValue());
+						partsModels.add(partsModel);
+					}
+
+					ProtokolModelBodyList body = new ProtokolModelBodyList();
+                    body.setList(protokolModelList);
+					body.setParts(partsModels);
+					ProtokolService service = new ProtokolService();
+					service.insertProtokol(body, new RequestCallback2() {
+						@Override
+						public <T> void callback(T t) {
+							jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							if(t != null) {
+								PDF_PROTOKOL_NUMBER = (String) t;
+								JOptionPane.showMessageDialog(null,"Данните са записани успешно");
+							}
+						}
+					});
+//					SaveInProtokolWorker sw = new SaveInProtokolWorker(jd,
+//						 getPartsMap());
+//					try {
+//					//	PDF_PROTOKOL_NUMBER = sw.doInBackground();
+//					} catch (Exception e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 
 			}
@@ -183,9 +250,6 @@ public class View extends MainPanel {
 			}
 		});
 
-//		protokolNumberLabel = new BevelLabel(labelHeight);
-//		protokolNumberLabel.setTitle(" Протокол № ");
-//		protokolNumberLabel.setName(protokolNumber);
 
 		partsList = new JList<>(new DefaultListModel<>());
 
@@ -291,8 +355,6 @@ public class View extends MainPanel {
 
 		northNorth.add(printProtokolButton);
 
-		//northNorth.add(protokolNumberLabel);
-
 		northNorth.add(removeRowButton);
 
 		north.add(northNorth, BorderLayout.NORTH);
@@ -319,7 +381,7 @@ public class View extends MainPanel {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		JustFrame f = new JustFrame(new View(""));
+		JustFrame f = new JustFrame(new View());
 		f.pack();
 	}
 
@@ -344,6 +406,17 @@ public class View extends MainPanel {
 			}
 		}
 		return wMap;
+	}
+	private String getParts(int row) {
+		StringBuilder sb = new StringBuilder();
+		ArrayList<Object> value = WorkingBook.ext_parts.get(getKey(row));
+		for (int i = 0; i < value.size(); i++) {
+			sb.append(value.get(i));
+			if (i + 1 < value.size()) {
+				sb.append(",");
+			}
+		}
+		return sb.toString();
 	}
 
 }

@@ -52,10 +52,8 @@ public class Brack extends MainPanel {
 
 	 //public static BevelLabel brackNumberLabel = null;
 	 
-	public Brack(String br_number) {
+	public Brack() {
 
-	  
-      this.BRACK_NUMBER = br_number;
       
 	 JPanel gp = new JPanel();
 	 
@@ -259,7 +257,7 @@ public class Brack extends MainPanel {
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-       JustFrame f = new JustFrame(new Brack("0000000"));
+       JustFrame f = new JustFrame(new Brack());
        f.pack();
        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

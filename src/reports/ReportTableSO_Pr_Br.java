@@ -1,7 +1,7 @@
 package reports;
 
 import models.BrakReports;
-import models.ProtokolModels;
+import models.ProtokolModel;
 import models.ServiceOrderModel;
 import reports.renderers.JTableX;
 import reports.renderers.ProtokolBrackTableRenderer;
@@ -252,7 +252,7 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 				table.setDefaultRenderer(Object.class, new ProtokolTableRenderer());
 
                 for(T t : data) {
-					ProtokolModels protokolModels = (ProtokolModels) t;
+					ProtokolModel protokolModels = (ProtokolModel) t;
 					Object[] newObj = new Object[titles.length];
 
 					newObj[0] = protokolModels.getClient();

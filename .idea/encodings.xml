@@ -14,7 +14,9 @@
     <file url="file://$PROJECT_DIR$/src/models/Firm.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/InvoiceReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/NewExtinguishersReports.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/ProtokolModels.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/PartsModel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/ProtokolModel.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/ProtokolModelBodyList.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ServiceOrderModel.java" charset="windows-1251" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
