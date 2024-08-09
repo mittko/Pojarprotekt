@@ -164,7 +164,33 @@ public class RemoveTable extends MainPanel {
 		}
 		return update;
 	}
-
+	private int deletePIS() {
+		Connection connect = null;
+		Statement stat = null;
+		int update = 0;
+		String sqlCommand = "delete from ArtikulsDB where artikul like '%80.09-144/28.07.2023ã%'";
+		try {
+			connect = DriverManager.getConnection(GetCurrentIP.DB_PATH);
+			stat = connect.createStatement();
+			update = stat.executeUpdate(sqlCommand);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stat != null) {
+					stat.close();
+				}
+				if (connect != null) {
+					connect.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return update;
+	}
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
 		RemoveTable r = new RemoveTable();
