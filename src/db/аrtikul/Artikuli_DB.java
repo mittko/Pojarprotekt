@@ -453,7 +453,7 @@ public class Artikuli_DB extends MainPanel {
 		Connection connect = null;
 		Statement stat = null;
 		String command = "select artikul, quantity, med , value, client, invoice, date, operator, percentProfit, barcode from "
-				+ table + " where quantity > 0 order by CAST(date as DATE)";
+				+ table + " where quantity > 0 order by artikul";//by CAST(date as DATE)
 		ResultSet rs = null;
 		ResultSetMetaData rsmd = null;
 		ArrayList<Object[]> result = new ArrayList<Object[]>();
