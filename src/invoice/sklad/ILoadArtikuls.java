@@ -1,9 +1,11 @@
 package invoice.sklad;
 
+import models.ArtikulModel;
+
 import java.util.ArrayList;
 
 public interface ILoadArtikuls {
 
-    public ArrayList<Object[]> getArtikuls();
-    void loadArtikuls(ArrayList<Object[]> artikuls);
+    boolean isGrey();
+    void loadArtikuls(ArrayList<ArtikulModel> artikuls);
 }

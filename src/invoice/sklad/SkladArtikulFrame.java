@@ -2,6 +2,7 @@ package invoice.sklad;
 
 import invoice.renderers.AutoSortRenderer;
 import invoice.editors.TableCellEditors;
+import models.ArtikulModel;
 import utils.*;
 
 import javax.swing.*;
@@ -192,35 +193,37 @@ public abstract class SkladArtikulFrame extends MainPanel implements ILoadArtiku
 	public abstract void addArtikuls(JTable skladTable);
 
 	@Override
-	public void loadArtikuls(ArrayList<Object[]> result) {
-		for (Object[] objects : result) {
+	public void loadArtikuls(ArrayList<ArtikulModel> result) {
+		for (ArtikulModel model : result) {
 			// set in the table imediatelly
 //						 String newValue = String.format(Locale.ROOT,
 //								 "%.2f",
 //								 Double.parseDouble(result.get(row)[3].toString().replace(",", ".")));// format to two decimal places after points
 //
 			skladModel.addRow(new Object[]{
-					objects[0], // артикул
-					objects[1], // количество
-					objects[2], // м.ед
-					objects[3], // ед.цена
+					model.getArtikul(), // артикул
+					model.getQuantity(), // количество
+					model.getMed(), // м.ед
+					model.getPrice(), // ед.цена
 					"", // value to add
 					false,
-					objects[4],// фактура
-					objects[5], // контрагент});
-					objects[9] // баркод
+
+					model.getKontragent(), // контрагент});
+					model.getInvoice(),// фактура
+					model.getBracod() // баркод
 			});
 			// store data in list to change table dinamically
 			DATA_LIST.add(new Object[]{
-					objects[0], // артикул
-					objects[1], // количество
-					objects[2], // м.ед
-					objects[3], // ед.цена
+					model.getArtikul(), // артикул
+					model.getQuantity(), // количество
+					model.getMed(), // м.ед
+					model.getPrice(), // ед.цена
 					"", // value to add
 					false,
-					objects[4],// фактура
-					objects[5], // контрагент});
-					objects[9] // баркод
+
+					model.getKontragent(), // контрагент});
+					model.getInvoice(),// фактура
+					model.getBracod() // баркод
 			});
 		}
 	}

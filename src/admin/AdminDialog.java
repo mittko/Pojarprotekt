@@ -172,6 +172,11 @@ public class AdminDialog extends MainPanel implements ActionListener {
 							case ARTIKUL_PRICE2: {
 								ArtikulTable artikulTableGrey = new ArtikulTable() {
 									@Override
+									public boolean isGrey() {
+										return true;
+									}
+
+									@Override
 									public String getTableName() {
 										return GREY_AVAILABLE_ARTIKULS;
 									}

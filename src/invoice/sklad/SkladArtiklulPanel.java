@@ -2,6 +2,7 @@ package invoice.sklad;
 
 import admin.artikul.workers.BiggestPriceForInvoiceWorker;
 import db.artikul.Artikuli_DB;
+import models.ArtikulModel;
 import utils.MyMath;
 
 import javax.swing.*;
@@ -141,13 +142,6 @@ public class SkladArtiklulPanel extends SkladArtikulFrame implements ILoadArtiku
         goodbyeCruelWorld();
     }
 
-    public ArrayList<Object[]> getArtikuls() {
-        return Artikuli_DB.getAvailableArtikuls(getDBTable());
-    }
-
-    public String getDBTable() {
-        return AVAILABLE_ARTIKULS;
-    }
 
     private void goodbyeCruelWorld() {
         JDialog jd = (JDialog) SwingUtilities
@@ -156,4 +150,8 @@ public class SkladArtiklulPanel extends SkladArtikulFrame implements ILoadArtiku
     }
 
 
+    @Override
+    public boolean isGrey() {
+        return false;
+    }
 }

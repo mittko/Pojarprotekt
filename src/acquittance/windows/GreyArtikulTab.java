@@ -1,9 +1,11 @@
 package acquittance.windows;
 
 import acquittance.renderers.AcquittanceCustomTableCellRenderer;
+import http.RequestCallback;
+import http.sklad.GetArtikulService;
 import invoice.sklad.SkladArtiklulPanel;
-import invoice.sklad.workers.LoadAllArtikulsFromInvoiceWorker;
 import invoice.workers.GetDiscountWorker;
+import models.ArtikulModel;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -14,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class GreyArtikulTab extends MainPanel {
@@ -125,17 +128,21 @@ public class GreyArtikulTab extends MainPanel {
 				 */, discountField.getText().isEmpty() ? 0 : Double
 						.parseDouble(discountField.getText()),
 						choiceDiscountButton.isSelected()) {
-
 					@Override
-					public String getDBTable() {
-						return GREY_AVAILABLE_ARTIKULS;
+					public boolean isGrey() {
+						return true;
 					}
-
 				};
 
-				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
-						skladArtikulGreyPanel, new JDialog());
-				loader.execute();
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikuls(skladArtikulGreyPanel.isGrey(), false, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						skladArtikulGreyPanel.loadArtikuls((ArrayList<ArtikulModel>) objects);
+					}
+				});
+
+
 
 				JDialoger jDialog = new JDialoger();
 				jDialog.setContentPane(skladArtikulGreyPanel);

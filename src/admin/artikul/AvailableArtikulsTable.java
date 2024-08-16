@@ -5,7 +5,10 @@ import exceptions.ErrorDialog;
 import admin.artikul.renderers.ArtikulRenderer;
 import admin.artikul.workers.*;
 import db.artikul.Artikuli_DB;
+import http.RequestCallback;
+import http.sklad.GetArtikulService;
 import invoice.sklad.ILoadArtikuls;
+import models.ArtikulModel;
 import run.JDialoger;
 import utils.EditableField;
 import utils.LoadIcon;
@@ -17,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public abstract class AvailableArtikulsTable extends MainPanel implements ILoadArtikuls, IEditArtikuls {
@@ -80,11 +84,19 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 				/*
 				 * if(artikulTableModel.getRowCount() == 0) return;
 				 */
+
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikuls(isGrey(), true, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						loadArtikuls((ArrayList<ArtikulModel>) objects);
+					}
+				});
 				JDialog jd = ((JDialog) SwingUtilities
 						.getWindowAncestor(AvailableArtikulsTable.this));
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				LoadAllArtikulsWorker load = new LoadAllArtikulsWorker(AvailableArtikulsTable.this,jd);
-				load.execute();
+				//LoadAllArtikulsWorker load = new LoadAllArtikulsWorker(AvailableArtikulsTable.this,jd);
+//				load.execute();
 			}
 
 		});
@@ -379,12 +391,12 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				ArtikulTable art = new ArtikulTable();
-				JFrame jf = new JFrame();
-				jf.add(art);
-				jf.pack();
-				jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				jf.setVisible(true);
+//				ArtikulTable art = new ArtikulTable();
+//				JFrame jf = new JFrame();
+//				jf.add(art);
+//				jf.pack();
+//				jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				jf.setVisible(true);
 			}
 
 		});
@@ -404,20 +416,26 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 	}
 
-	@Override
-	public ArrayList<Object[]> getArtikuls() {
-		return Artikuli_DB.getAllAvailableArtikuls(getTableName());
-	}
+
 
 	@Override
-	public void loadArtikuls(ArrayList<Object[]> artikuls) {
+	public void loadArtikuls(ArrayList<ArtikulModel> artikuls) {
 
 		helpSearchFieldList.clear();
-		for (Object[] datum : artikuls) {
-			Object[] obj = new Object[]{/*datum[9],*/datum[0], datum[1],
-					datum[2], datum[3], datum[4],
-					datum[5], datum[6], datum[7],
-					datum[8]};
+		for (ArtikulModel model : artikuls) {
+
+		//	artikul, quantity, med , value, client, invoice, date, operator, percentProfit, barcode
+
+			// " (artikul varchar(100),quantity int,"
+			//         + "med varchar(20),value varchar(20))"; // artikuli->300
+			// да се добавят колони фактура, контрагент, дата, оператор, процент
+			// печалба,
+			// =>, invoice, client, date, operator, percentProfit,
+
+			Object[] obj = new Object[]{/*datum[9],*/model.getArtikul(), model.getQuantity(),
+					model.getMed(), model.getPrice(), model.getInvoice(),
+					model.getKontragent(), model.getDate(), model.getPerson(),
+					model.getPercentProfit()};
 			helpSearchFieldList.add(obj);
 		}
 
@@ -443,16 +461,14 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 		// try to optimize to split painting of parts
 
-		for (Object[] datum : artikuls) { // d <
+		for (ArtikulModel model : artikuls) { // d <
 			// data.size()
 
-			Object[] obj = new Object[]{
-					/*	datum[9],*/
-					datum[0],
-					datum[1], datum[2],
-					datum[3], datum[4],
-					datum[5], datum[6],
-					datum[7], datum[8]};
+			//	artikul, quantity, med , value, client, invoice, date, operator, percentProfit, barcode
+			Object[] obj = new Object[]{/*datum[9],*/model.getArtikul(), model.getQuantity(),
+					model.getMed(), model.getPrice(), model.getInvoice(),
+					model.getKontragent(), model.getDate(), model.getPerson(),
+					model.getPercentProfit()};
 			/*
 			 * ps.println(data.get(d)[0] + "      " +
 			 * data.get(d)[1] + " " + data.get(d)[2] +

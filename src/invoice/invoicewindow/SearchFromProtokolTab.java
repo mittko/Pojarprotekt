@@ -1,14 +1,16 @@
 package invoice.invoicewindow;
 import acquittance.windows.SaveInAcquittanceDBDialog;
+import http.RequestCallback;
+import http.sklad.GetArtikulService;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.renderers.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.sklad.SkladArtiklulPanel;
 import invoice.sklad.SkladArtikulFrame;
-import invoice.sklad.workers.LoadAllArtikulsFromInvoiceWorker;
 import invoice.workers.ProtokolSearchWorker;
 import invoice.workers.SellWithFiskalBonWorker;
 import clients.NewClient;
+import models.ArtikulModel;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -20,6 +22,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 //import utility.CheckButtonArtikuli;
 
@@ -184,10 +187,10 @@ public class SearchFromProtokolTab extends MainPanel {
 							.parseDouble(discountField.getText()),
 							choiceDiscountButton.isSelected()) {
 						@Override
-						public String getDBTable() {
-							return GREY_AVAILABLE_ARTIKULS;
+						public boolean isGrey() {
+							return true;
 						}
-					};
+					} ;
 
 				} else {
 					frame = new SkladArtiklulPanel(
@@ -197,10 +200,18 @@ public class SearchFromProtokolTab extends MainPanel {
 							.getText()), choiceDiscountButton.isSelected());
 				}
 
-				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
-						frame,
-						jd);
-				loader.execute();
+				GetArtikulService service = new GetArtikulService();
+				SkladArtikulFrame finalFrame = frame;
+				service.getArtikuls(frame.isGrey(),false, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						finalFrame.loadArtikuls((ArrayList<ArtikulModel>) objects);
+					}
+				});
+//				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
+//						frame,
+//						jd);
+//				loader.execute();
 
 				JDialoger jDialog = new JDialoger();
 				jDialog.setContentPane(frame);

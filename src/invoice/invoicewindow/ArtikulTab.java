@@ -1,13 +1,15 @@
 package invoice.invoicewindow;
 
 import db.Client.FirmTable;
+import http.RequestCallback;
+import http.sklad.GetArtikulService;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.renderers.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.sklad.SkladArtiklulPanel;
-import invoice.sklad.workers.LoadAllArtikulsFromInvoiceWorker;
 import invoice.workers.GetDiscountWorker;
 import invoice.workers.SellWithFiskalBonWorker;
+import models.ArtikulModel;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -18,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ArtikulTab extends MainPanel {
 
@@ -138,10 +141,15 @@ public class ArtikulTab extends MainPanel {
 						.parseDouble(discountField.getText()),
 						choiceDiscountButton.isSelected());
 
-				LoadAllArtikulsFromInvoiceWorker loader = new LoadAllArtikulsFromInvoiceWorker(
-						skladArtikulPanel,
-						new JDialog());
-				loader.execute();
+
+
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikuls(skladArtikulPanel.isGrey(), false,new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						skladArtikulPanel.loadArtikuls((ArrayList<ArtikulModel>) objects);
+					}
+				});
 
 				JDialoger jDialog = new JDialoger();
 				jDialog.setContentPane(skladArtikulPanel);
