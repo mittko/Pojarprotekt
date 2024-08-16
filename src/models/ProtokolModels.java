@@ -2,9 +2,9 @@ package models;
 
 import java.util.List;
 
-public class ProtokolModelBodyList {
+public class ProtokolModels {
 
-    public ProtokolModelBodyList(){}
+    public ProtokolModels(){}
     List<ProtokolModel> list;
 
     public List<ProtokolModel> getList() {

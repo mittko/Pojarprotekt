@@ -1,16 +1,14 @@
 package http.protokol;
 
 import exceptions.ErrorDialog;
-import http.RequestCallback;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
-import models.ProtokolModelBodyList;
+import models.BrackModels;
+import models.ProtokolModels;
 import models.ServiceOrderModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import javax.swing.*;
 
 public class ProtokolService extends ServiceAPI {
 
@@ -36,7 +34,7 @@ public class ProtokolService extends ServiceAPI {
         });
     }
 
-    public void insertProtokol(ProtokolModelBodyList body, RequestCallback2 callback) {
+    public void insertProtokol(ProtokolModels body, RequestCallback2 callback) {
         getService().insertProtokol(body).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -50,6 +48,24 @@ public class ProtokolService extends ServiceAPI {
             @Override
             public void onFailure(Call<String> call, Throwable throwable) {
                     ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void insertBrack(BrackModels body, RequestCallback2 callback) {
+        getService().insertBrack(body).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

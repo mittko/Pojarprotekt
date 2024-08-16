@@ -4,11 +4,10 @@ import http.RequestCallback2;
 import http.protokol.ProtokolService;
 import models.PartsModel;
 import models.ProtokolModel;
-import models.ProtokolModelBodyList;
+import models.ProtokolModels;
 import mydate.MyGetDate;
 import workingbook.renderers.DoingRenderer;
 import workingbook.workers.PrintProtokolWorker;
-import workingbook.workers.SaveInProtokolWorker;
 import db.Common;
 import run.JustFrame;
 import utils.*;
@@ -164,7 +163,7 @@ public class View extends MainPanel {
 						partsModels.add(partsModel);
 					}
 
-					ProtokolModelBodyList body = new ProtokolModelBodyList();
+					ProtokolModels body = new ProtokolModels();
                     body.setList(protokolModelList);
 					body.setParts(partsModels);
 					ProtokolService service = new ProtokolService();

@@ -9,7 +9,7 @@ import http.client.GetClientService;
 import http.service_order.ServiceOrderService;
 import models.Firm;
 import models.ProtokolModel;
-import models.ServiceOrderBodyList;
+import models.ServiceOrderModels;
 import models.ServiceOrderModel;
 import office.renderers.ExtinguisherRenderer;
 import office.renderers.MyComboRenderer;
@@ -521,7 +521,7 @@ public class ServiceOrder extends MainPanel {
 
 
 					ServiceOrderService service = new ServiceOrderService();
-					ServiceOrderBodyList body = new ServiceOrderBodyList();
+					ServiceOrderModels body = new ServiceOrderModels();
 					ArrayList<ServiceOrderModel> models = new ArrayList<>();
 					for(int row = 0;row < tModel.getRowCount();row++) {
 						ServiceOrderModel serviceOrderModel = new ServiceOrderModel();

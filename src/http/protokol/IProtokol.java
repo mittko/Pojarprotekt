@@ -1,6 +1,7 @@
 package http.protokol;
 
-import models.ProtokolModelBodyList;
+import models.BrackModels;
+import models.ProtokolModels;
 import models.ServiceOrderModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,5 +15,8 @@ public interface IProtokol {
     Call<ServiceOrderModel> getServiceOrderByBarcode(@Query("barcode") String barcode, @Query("serial_number") String serialNumber);
 
     @POST("/insert_protokol")
-    Call<String> insertProtokol(@Body ProtokolModelBodyList body);
+    Call<String> insertProtokol(@Body ProtokolModels body);
+
+    @POST("/insert_brack")
+    Call<String> insertBrack(@Body BrackModels body);
 }

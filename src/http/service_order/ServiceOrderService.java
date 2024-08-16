@@ -4,7 +4,7 @@ import exceptions.ErrorDialog;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
 import models.ProtokolModel;
-import models.ServiceOrderBodyList;
+import models.ServiceOrderModels;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +15,7 @@ public class ServiceOrderService extends ServiceAPI {
         return getRetrofit().create(IServiceOrder.class);
     }
 
-    public void insertServiceOrder(ServiceOrderBodyList body, RequestCallback2 callback) {
+    public void insertServiceOrder(ServiceOrderModels body, RequestCallback2 callback) {
         getService().insertServiceOrder(body).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {

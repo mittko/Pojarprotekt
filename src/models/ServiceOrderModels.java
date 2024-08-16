@@ -2,9 +2,9 @@ package models;
 
 import java.util.List;
 
-public class ServiceOrderBodyList {
+public class ServiceOrderModels {
 
-    public ServiceOrderBodyList() {}
+    public ServiceOrderModels() {}
 
     List<ServiceOrderModel> serviceOrders;
 

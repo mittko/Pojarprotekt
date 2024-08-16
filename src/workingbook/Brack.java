@@ -1,5 +1,10 @@
 package workingbook;
 
+import http.RequestCallback2;
+import http.protokol.ProtokolService;
+import models.BrackModel;
+import models.BrackModels;
+import mydate.MyGetDate;
 import parts.renderers.ScrabRenderer;
 import workingbook.workers.PrintProtokolBrackWorker;
 import workingbook.workers.SaveInBrackWorker;
@@ -148,14 +153,49 @@ public class Brack extends MainPanel {
 				if(yes_no == 0) {
 					JDialog jd = ((JDialog)(SwingUtilities.getWindowAncestor(Brack.this)));
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-						
 
-					SaveInBrackWorker sw = new SaveInBrackWorker(jd);
-					try {
-						BRACK_NUMBER = sw.doInBackground();
-					} catch (Exception e) {
-						throw new RuntimeException(e);
+					ProtokolService service = new ProtokolService();
+
+					ArrayList<BrackModel> models = new ArrayList<>();
+
+					for(int row = 0;row < dtm_Scrab.getRowCount();row++) {
+						BrackModel model = new BrackModel();
+
+						model.setClient(dtm_Scrab.getValueAt(row, 0).toString());// client
+						model.setType(dtm_Scrab.getValueAt(row, 1).toString()); // type
+						model.setWheight(dtm_Scrab.getValueAt(row, 2).toString()); // wheight
+						model.setBarcod(dtm_Scrab.getValueAt(row, 3).toString()); // barcod
+						model.setSerial(dtm_Scrab.getValueAt(row, 4).toString()); // serial
+						model.setCategory(dtm_Scrab.getValueAt(row, 5).toString()); // category
+						model.setBrand(dtm_Scrab.getValueAt(row, 6).toString()); // brand
+						model.setReasons(getReasons(row));// reasons
+						model.setTehnik(MainPanel.personName);// technik
+						model.setDate(MyGetDate.getReversedSystemDate()); // date
+
+						models.add(model);
 					}
+					BrackModels brackModels = new BrackModels();
+					brackModels.setList(models);
+					service.insertBrack(brackModels, new RequestCallback2() {
+						@Override
+						public <T> void callback(T t) {
+							String number = (String)t;
+							jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+							if (number != null) {
+								JOptionPane.showMessageDialog(null,
+										"Данните са записани успешно!");
+								printServiceButton.setEnabled(true);
+							}
+						}
+					});
+
+
+//					SaveInBrackWorker sw = new SaveInBrackWorker(jd);
+//					try {
+//						BRACK_NUMBER = sw.doInBackground();
+//					} catch (Exception e) {
+//						throw new RuntimeException(e);
+//					}
 				}
 			}
 			
@@ -166,11 +206,6 @@ public class Brack extends MainPanel {
 	 helpPanel.add(dbButton);
 	 
 	 helpPanel.add(printServiceButton);
-	 
-//	brackNumberLabel = new BevelLabel(labelHeight);
-//	brackNumberLabel.setTitle("Протокол за Брак \u2116 ");
-//    brackNumberLabel.setName(br_number);
-//	helpPanel.add(brackNumberLabel);
 	
 	northPanel.add(helpPanel,BorderLayout.NORTH);
 
@@ -207,10 +242,7 @@ public class Brack extends MainPanel {
 				} 
 		 }
 	 });	
-	 
-	 
-	
-	 
+
 	 JScrollPane scrabScroll = new JScrollPane(t_Scrab,
 			 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -261,12 +293,27 @@ public class Brack extends MainPanel {
        f.pack();
        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	public String getKey(int row) {
-    	StringBuilder sb = new StringBuilder();
-    	sb.append(dtm_Scrab.getValueAt(row, 3));// barcod
+
+	public String getReasons(int row) {
+		StringBuilder sb = new StringBuilder();
+		ArrayList<Object> value = WorkingBook.reasons_map.get(getKey(row));
+		for (int i = 0; i < value.size(); i++) {
+			sb.append(value.get(i));
+			if (i + 1 < value.size()) {
+				sb.append(", ");
+			}
+		}
 		return sb.toString();
-		
-    }
+	}
+
+	public String getKey(int row) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(Brack.dtm_Scrab.getValueAt(row, 3));// barcod
+		return sb.toString();
+
+	}
+
+
 	
 
 }

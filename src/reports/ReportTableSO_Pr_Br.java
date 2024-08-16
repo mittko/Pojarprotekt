@@ -1,6 +1,6 @@
 package reports;
 
-import models.BrakReports;
+import models.BrackModel;
 import models.ProtokolModel;
 import models.ServiceOrderModel;
 import reports.renderers.JTableX;
@@ -285,19 +285,19 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 
                 for(T t : data) {
 
-					BrakReports brakReports = (BrakReports)t;
+					BrackModel brackModel = (BrackModel)t;
 					Object[] newObj = new Object[titles.length];
-					newObj[0] = brakReports.getClient();
-					newObj[1] = brakReports.getType();
-					newObj[2] = brakReports.getWheight();
-					newObj[3] = brakReports.getBarcod();
-					newObj[4] = brakReports.getSerial();
-					newObj[5] = brakReports.getCategory();
-					newObj[6] = brakReports.getBrand();
-					newObj[7] = brakReports.getReasons();
-					newObj[8] = brakReports.getNumber();
-					newObj[9] = brakReports.getTehnik();
-					newObj[10] = brakReports.getDate();
+					newObj[0] = brackModel.getClient();
+					newObj[1] = brackModel.getType();
+					newObj[2] = brackModel.getWheight();
+					newObj[3] = brackModel.getBarcod();
+					newObj[4] = brackModel.getSerial();
+					newObj[5] = brackModel.getCategory();
+					newObj[6] = brackModel.getBrand();
+					newObj[7] = brackModel.getReasons();
+					newObj[8] = brackModel.getNumber();
+					newObj[9] = brackModel.getTehnik();
+					newObj[10] = brackModel.getDate();
 
 					dftm.addRow(newObj);
 				}

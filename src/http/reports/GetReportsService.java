@@ -56,9 +56,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getBrack(HashMap<String, String> optionsMap, RequestCallback callback) {
-        getService().getBrack(optionsMap).enqueue(new Callback<List<BrakReports>>() {
+        getService().getBrack(optionsMap).enqueue(new Callback<List<BrackModel>>() {
             @Override
-            public void onResponse(Call<List<BrakReports>> call, Response<List<BrakReports>> response) {
+            public void onResponse(Call<List<BrackModel>> call, Response<List<BrackModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -67,7 +67,7 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<BrakReports>> call, Throwable throwable) {
+            public void onFailure(Call<List<BrackModel>> call, Throwable throwable) {
                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

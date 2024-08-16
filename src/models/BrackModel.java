@@ -1,6 +1,6 @@
 package models;
 
-public class BrakReports {
+public class BrackModel {
 
     private String client;
     private String type;

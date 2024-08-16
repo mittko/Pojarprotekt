@@ -6,7 +6,8 @@
     <file url="file://$PROJECT_DIR$/src/enterdialog/PasswordDialog.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/AcquittanceReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/ArtikulsReports.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/BrakReports.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/BrackModel.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/BrackModels.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ClientBody.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/CreditNoteBody.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/CreditNoteBodyList.java" charset="windows-1251" />
@@ -16,7 +17,7 @@
     <file url="file://$PROJECT_DIR$/src/models/NewExtinguishersReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/PartsModel.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ProtokolModel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/ProtokolModelBodyList.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/ProtokolModels.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ServiceOrderModel.java" charset="windows-1251" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
