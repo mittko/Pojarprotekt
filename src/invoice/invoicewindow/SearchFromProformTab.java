@@ -1,10 +1,14 @@
 package invoice.invoicewindow;
 
+import http.RequestCallback2;
+import http.invoice.ProformService;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.renderers.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.workers.ProformSearchWorker;
 import invoice.workers.SellWithFiskalBonWorker;
+import models.InvoiceModel;
+import models.InvoiceModels;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -61,9 +65,23 @@ public class SearchFromProformTab extends MainPanel {
 				} else {
 					insertedNumbers.add(searchProformField.getText());
 				}
-				ProformSearchWorker prfs = new ProformSearchWorker(); // in
-				// proform
-				prfs.execute();
+
+				ProformService service = new ProformService();
+				service.getProformInfo(searchProformField
+						.getText().trim(), new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						if(t != null) {
+							InvoiceModels<T> invoiceModels  = (InvoiceModels) t;
+							ProformSearchWorker prfs = new ProformSearchWorker(
+									(ArrayList<InvoiceModel>) invoiceModels.getParentInvoiceModels(),
+									(ArrayList<InvoiceModel>) invoiceModels.getChildInvoiceModels()); // in
+							// proform
+							prfs.doSearch();
+						}
+					}
+				});
+
 
 			}
 

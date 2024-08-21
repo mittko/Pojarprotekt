@@ -1,6 +1,7 @@
 package invoice.workers;
 
 import db.Client.FirmTable;
+import http.invoice.ProformService;
 import invoice.invoicewindow.SearchFromProformTab;
 
 import java.util.ArrayList;
@@ -12,56 +13,52 @@ import javax.swing.SwingWorker;
 
 import db.Proform.ProformChildDB;
 import db.Proform.ProformParent_DB;
+import models.InvoiceModel;
+import models.InvoiceModels;
 
-public class ProformSearchWorker extends SwingWorker<Object, Object> {
+public class ProformSearchWorker {
 
 	private String proformCurrNumber = null; // this which is invoked for
-												// reports
+	// reports
 	private String proformPayment = null;
 	private String proformDiscount = null;
 	private String proformClient = null;
 	private String proformSaller = null;
 	private String proformDate = null;
 	private String protokolNumber = null;
-	private ArrayList<String> getParentInfo = null;
-	private ArrayList<Object[]> getChildInfo = null;
-	@Override
-	protected Object doInBackground() throws Exception {
+	private ArrayList<InvoiceModel> getParentInfo = null;
+	private ArrayList<InvoiceModel> getChildInfo = null;
+
+	public ProformSearchWorker(ArrayList<InvoiceModel> parentModels, ArrayList<InvoiceModel> childModels) {
+		this.getParentInfo = parentModels;
+		this.getChildInfo = childModels;
+	}
+
+
+	public Object doSearch() {
 		// TODO Auto-generated method stub
 		try {
 
-			getParentInfo = ProformParent_DB
-					.getParentInfo(SearchFromProformTab.searchProformField
-							.getText().trim());
 
-			getChildInfo = ProformChildDB
-					.getProformChildInfo(SearchFromProformTab.searchProformField
-							.getText().trim());
-
-			/*for (Object[] childeInfo : getChildInfo) {
-				for (Object o : childeInfo) {
-					System.out.printf("%s\n", o);
-				}
-			}*/
 			if (getParentInfo != null && getParentInfo.size() > 0) {
-				proformCurrNumber = getParentInfo.get(0);// номер на
-															// проформа
-				proformPayment = getParentInfo.get(1); // заплащане
-				proformDiscount = getParentInfo.get(2); // отстъпка
-				String proformPrice = String.format(Locale.ROOT, "%.2f",
-						Double.parseDouble(getParentInfo.get(3))).replace(",",
-						"."); // крайна цена
-				proformClient = getParentInfo.get(4); //
+				proformCurrNumber = getParentInfo.get(0).getId();// номер на
+				// проформа
+				proformPayment = getParentInfo.get(0).getPayment(); // заплащане
+				proformDiscount = getParentInfo.get(0).getDiscount(); // отстъпка
+//				String proformPrice = String.format(Locale.ROOT, "%.2f",
+//						Double.parseDouble(getParentInfo.get(0).getPrice())).replace(",",
+//						"."); // крайна цена
+				proformClient = getParentInfo.get(0).getClient(); //
 
 				// init client
 
-				proformSaller = getParentInfo.get(5);
+				proformSaller = getParentInfo.get(0).getSaller();
 
 				// init saller
 
-				proformDate = getParentInfo.get(6);
+				proformDate = getParentInfo.get(0).getDate();
 
-				protokolNumber = getParentInfo.get(7);
+				protokolNumber = getParentInfo.get(0).getProtokol();
 
 			}
 		} finally {
@@ -78,13 +75,17 @@ public class ProformSearchWorker extends SwingWorker<Object, Object> {
 						}
 					}
 					if(!SearchFromProformTab.clientLabel.getName().isEmpty()
-					 && !SearchFromProformTab.clientLabel.getName().equals(proformClient)) {
+							&& !SearchFromProformTab.clientLabel.getName().equals(proformClient)) {
 						JOptionPane.showMessageDialog(null,
 								"Въведен е друг клиент !");
 						return;
 					}
 					if (getChildInfo != null && getChildInfo.size() > 0) {
-						for (Object[] objects : getChildInfo) {
+						for (InvoiceModel model : getChildInfo) {
+
+							Object[] objects = {model.getMake(),model.getMed(),model.getQuantity(),model.getPrice(),
+							model.getValue(),model.getDiscount(),model.getKontragent(),model.getInvoiceByKontragent()};
+
 							SearchFromProformTab.proformTableModel
 									.addRow(objects);
 						}

@@ -1,6 +1,6 @@
 package models;
 
-public class InvoiceReports {
+public class InvoiceModel {
 
     private String id;
     private String payment;

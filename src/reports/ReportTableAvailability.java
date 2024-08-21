@@ -1,7 +1,7 @@
 package reports;
 
 import models.DeliveryReports;
-import models.InvoiceReports;
+import models.InvoiceModel;
 import reports.models.ColumnGroup;
 import reports.models.GroupableTableHeader;
 import reports.renderers.AvailabilityTableRenderer;
@@ -120,7 +120,7 @@ public class ReportTableAvailability<T> extends MainPanel {
 
 		}
 		for (T t : invoiceBeforeFirstSelectedDate) {
-			InvoiceReports invoiceData = (InvoiceReports) t;
+			InvoiceModel invoiceData = (InvoiceModel) t;
 			String artikul = invoiceData.getArtikul();// objects[0].toString();
 
 			double invoiceQuantity = Double.parseDouble(invoiceData.getQuantity()//objects[1]
@@ -173,7 +173,7 @@ public class ReportTableAvailability<T> extends MainPanel {
 
 		}
 		for (T t : invoiceBetweenSelectedDates) {
-            InvoiceReports invoiceData = (InvoiceReports)t;
+            InvoiceModel invoiceData = (InvoiceModel)t;
 			String artikul = invoiceData.getArtikul();//invoiceBetweenSelectedDate[0].toString();
 
 			double invoiceQuantity = Double.parseDouble(invoiceData.getQuantity()//invoiceBetweenSelectedDate[1]

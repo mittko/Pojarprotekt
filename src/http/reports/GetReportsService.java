@@ -74,9 +74,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getInvoices(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getInvoices(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
+        getService().getInvoices(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
-            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
+            public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -85,16 +85,16 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
+            public void onFailure(Call<List<InvoiceModel>> call, Throwable throwable) {
                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getProforms(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getProforms(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
+        getService().getProforms(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
-            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
+            public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -103,7 +103,7 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
+            public void onFailure(Call<List<InvoiceModel>> call, Throwable throwable) {
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -218,9 +218,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getInvoiceDataForSale(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getInvoiceDataForSale(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
+        getService().getInvoiceDataForSale(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
-            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
+            public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -229,7 +229,7 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
+            public void onFailure(Call<List<InvoiceModel>> call, Throwable throwable) {
                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -254,9 +254,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getInvoiceDataForAvailability(HashMap<String, String > optionsParam, RequestCallback callback) {
-        getService().getInvoiceDataForAvailability(optionsParam).enqueue(new Callback<List<InvoiceReports>>() {
+        getService().getInvoiceDataForAvailability(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
-            public void onResponse(Call<List<InvoiceReports>> call, Response<List<InvoiceReports>> response) {
+            public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                        if(response.isSuccessful()) {
                            callback.callback(response.body());
                        } else {
@@ -265,7 +265,7 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<InvoiceReports>> call, Throwable throwable) {
+            public void onFailure(Call<List<InvoiceModel>> call, Throwable throwable) {
                           ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

@@ -5,11 +5,10 @@ import http.RequestCallback;
 import http.reports.GetReportsService;
 import models.CreditNoteReports;
 import models.DeliveryReports;
-import models.InvoiceReports;
+import models.InvoiceModel;
 import reports.gui_edt.*;
 import db.NewExtinguisher.NewExtinguishers_DB;
 import db.Report.ReportRequest;
-import db.creditnote.CreditNoteTable;
 import mydate.MyGetDate;
 import run.JustFrame;
 import utils.*;
@@ -840,7 +839,7 @@ public class ReportDialog extends MainPanel {
 	}
 
 	private ArrayList<DeliveryReports> deliveryDataForSales;
-	private ArrayList<InvoiceReports> invoiceDataForSales;
+	private ArrayList<InvoiceModel> invoiceDataForSales;
 	private void openSales(String fromDate, String toDate, JDialog jDialog) {
 		  deliveryDataForSales = null;
 		  invoiceDataForSales = null;
@@ -868,7 +867,7 @@ public class ReportDialog extends MainPanel {
 		  service.getInvoiceDataForSale(optionsParam, new RequestCallback() {
 			  @Override
 			  public <T> void callback(List<T> objects) {
-				  invoiceDataForSales = (ArrayList<InvoiceReports>) objects;
+				  invoiceDataForSales = (ArrayList<InvoiceModel>) objects;
 				  if(deliveryDataForSales != null && invoiceDataForSales != null) {
 					  EDTSales edt = new EDTSales(invoiceDataForSales,
 							  deliveryDataForSales, jDialog, "Справка Продажби "
@@ -882,9 +881,9 @@ public class ReportDialog extends MainPanel {
 
 	List<DeliveryReports> deliveryDataForAvailabilityBeforeSelectedDate;
 	List<DeliveryReports> deliveryDataForAvailabilityBetweenSelectedDates;
-	List<InvoiceReports> invoiceDataForAvailabilityReportsBeforeSelectedDates;
+	List<InvoiceModel> invoiceDataForAvailabilityReportsBeforeSelectedDates;
 
-	List<InvoiceReports> invoiceDataForAvailabilityReportsBetweenSelectedDates;
+	List<InvoiceModel> invoiceDataForAvailabilityReportsBetweenSelectedDates;
 	private void openAvailability(String from, String to, JDialog jDialog) {
 
 		deliveryDataForAvailabilityBeforeSelectedDate = null;
@@ -927,7 +926,7 @@ public class ReportDialog extends MainPanel {
 		service.getInvoiceDataForAvailability(optionsParam, new RequestCallback() {
 			@Override
 			public <T> void callback(List<T> objects) {
-				invoiceDataForAvailabilityReportsBeforeSelectedDates = (List<InvoiceReports>) objects;
+				invoiceDataForAvailabilityReportsBeforeSelectedDates = (List<InvoiceModel>) objects;
 				if(deliveryDataForAvailabilityBeforeSelectedDate != null
 						&& deliveryDataForAvailabilityBetweenSelectedDates != null
 						&& invoiceDataForAvailabilityReportsBeforeSelectedDates != null
@@ -972,7 +971,7 @@ public class ReportDialog extends MainPanel {
 		service.getInvoiceDataForAvailability(optionsParam, new RequestCallback() {
 			@Override
 			public <T> void callback(List<T> objects) {
-				invoiceDataForAvailabilityReportsBetweenSelectedDates = (List<InvoiceReports>) objects;
+				invoiceDataForAvailabilityReportsBetweenSelectedDates = (List<InvoiceModel>) objects;
 				if(deliveryDataForAvailabilityBeforeSelectedDate != null
 						&& deliveryDataForAvailabilityBetweenSelectedDates != null
 						&& invoiceDataForAvailabilityReportsBeforeSelectedDates != null

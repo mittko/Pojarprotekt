@@ -3,7 +3,7 @@ package reports;
 import http.reports.GetReportsService;
 import models.CreditNoteBodyList;
 import models.CreditNoteBody;
-import models.InvoiceReports;
+import models.InvoiceModel;
 import reports.renderers.InvoiceTableRenderer;
 import reports.workers.ExportToExcellWorkerInvocie;
 import reports.workers.PrintReportsForInvoiceDocumentsType;
@@ -239,15 +239,15 @@ public class ReportTableInvoice<T> extends MainPanel {
 
 
 		for (T t : childData) {
-			InvoiceReports invoiceReports = (InvoiceReports)t;
+			InvoiceModel invoiceModel = (InvoiceModel)t;
 			Object[] childDatum = new Object[dftm.getColumnCount()];
-			childDatum[0] = invoiceReports.getId();
-			childDatum[1] = invoiceReports.getPayment();
-			childDatum[2] = invoiceReports.getDiscount();
-			childDatum[3] = invoiceReports.getValue();
-			childDatum[4] = invoiceReports.getClient();
-			childDatum[5] = invoiceReports.getSaller();
-			childDatum[6] = invoiceReports.getDate();
+			childDatum[0] = invoiceModel.getId();
+			childDatum[1] = invoiceModel.getPayment();
+			childDatum[2] = invoiceModel.getDiscount();
+			childDatum[3] = invoiceModel.getValue();
+			childDatum[4] = invoiceModel.getClient();
+			childDatum[5] = invoiceModel.getSaller();
+			childDatum[6] = invoiceModel.getDate();
 //			private String id;
 //			private String payment;
 //			private String discount;
@@ -258,17 +258,17 @@ public class ReportTableInvoice<T> extends MainPanel {
 
 
 			// child table varaiables
-			childDatum[7] = invoiceReports.getProtokol();
-			childDatum[8] = invoiceReports.get_id();
-			childDatum[9] = invoiceReports.getMake();
-			childDatum[10] = invoiceReports.getMed();
-			childDatum[11] = invoiceReports.getQuantity();
-			childDatum[12] = invoiceReports.getPrice();
-			childDatum[13] = invoiceReports.get_value();
+			childDatum[7] = invoiceModel.getProtokol();
+			childDatum[8] = invoiceModel.get_id();
+			childDatum[9] = invoiceModel.getMake();
+			childDatum[10] = invoiceModel.getMed();
+			childDatum[11] = invoiceModel.getQuantity();
+			childDatum[12] = invoiceModel.getPrice();
+			childDatum[13] = invoiceModel.get_value();
 
-			childDatum[14] = invoiceReports.get_client();
-			childDatum[15] = invoiceReports.getKontragent();
-			childDatum[16] = invoiceReports.getInvoiceByKontragent();
+			childDatum[14] = invoiceModel.get_client();
+			childDatum[15] = invoiceModel.getKontragent();
+			childDatum[16] = invoiceModel.getInvoiceByKontragent();
 
 //			private String _id;
 //			private String make;

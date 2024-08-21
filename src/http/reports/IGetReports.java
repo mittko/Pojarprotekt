@@ -20,10 +20,10 @@ public interface IGetReports {
     Call<List<BrackModel>> getBrack(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/invoices")
-    Call<List<InvoiceReports>> getInvoices(@QueryMap HashMap<String, String> optionsParam);
+    Call<List<InvoiceModel>> getInvoices(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/proforms")
-    Call<List<InvoiceReports>> getProforms(@QueryMap HashMap<String, String> optionsParam);
+    Call<List<InvoiceModel>> getProforms(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/acquittance")
     Call<List<AcquittanceReports>> getAcquittance(@QueryMap HashMap<String, String> optionParam);
@@ -44,13 +44,13 @@ public interface IGetReports {
     Call<List<DeliveryReports>> getDeliveryDataForSale(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/invoice_data_for_sales")
-    Call<List<InvoiceReports>> getInvoiceDataForSale(@QueryMap HashMap<String, String> optionsParam);
+    Call<List<InvoiceModel>> getInvoiceDataForSale(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/delivery_data_for_availability")
     Call<List<DeliveryReports>> getDeliveryDataForAvailability(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/invoice_data_for_availability")
-    Call<List<InvoiceReports>> getInvoiceDataForAvailability(@QueryMap HashMap<String, String> optionsParam);
+    Call<List<InvoiceModel>> getInvoiceDataForAvailability(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/credit_notes")
     Call<List<CreditNoteReports>> getCreditNotes(@QueryMap HashMap<String,String> optionsParam);
