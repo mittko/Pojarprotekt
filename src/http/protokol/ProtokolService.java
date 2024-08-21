@@ -1,14 +1,19 @@
 package http.protokol;
 
 import exceptions.ErrorDialog;
+import http.RequestCallback;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
 import models.BrackModels;
+import models.ProtokolModel;
 import models.ProtokolModels;
 import models.ServiceOrderModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utils.MainPanel;
+
+import java.util.List;
 
 public class ProtokolService extends ServiceAPI {
 
@@ -65,6 +70,24 @@ public class ProtokolService extends ServiceAPI {
 
             @Override
             public void onFailure(Call<String> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getProtokolInfo(String number, RequestCallback callback) {
+        getService().getProtokolInfo(number).enqueue(new Callback<List<ProtokolModel>>() {
+            @Override
+            public void onResponse(Call<List<ProtokolModel>> call, Response<List<ProtokolModel>> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProtokolModel>> call, Throwable throwable) {
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

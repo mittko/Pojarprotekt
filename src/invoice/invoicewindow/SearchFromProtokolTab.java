@@ -1,6 +1,9 @@
 package invoice.invoicewindow;
 import acquittance.windows.SaveInAcquittanceDBDialog;
+import db.Discount.DiscountDB;
+import db.PartsPrice.PriceTable;
 import http.RequestCallback;
+import http.protokol.ProtokolService;
 import http.sklad.GetArtikulService;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.renderers.CustomTableCellRenderer;
@@ -11,6 +14,7 @@ import invoice.workers.ProtokolSearchWorker;
 import invoice.workers.SellWithFiskalBonWorker;
 import clients.NewClient;
 import models.ArtikulModel;
+import models.ProtokolModel;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -87,9 +91,23 @@ public class SearchFromProtokolTab extends MainPanel {
 				// }
 				protokolNumber = searchField.getText();
 
-				ProtokolSearchWorker ps = new ProtokolSearchWorker(searchField,
-						invoiceTableModel); // search in protokol
-				ps.execute();
+				ProtokolService service= new ProtokolService();
+				service.getProtokolInfo(protokolNumber, new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+						List<ProtokolModel> models = (List<ProtokolModel>) objects;
+						if(models !=null && models.size() > 0) {
+
+							ProtokolSearchWorker ps = new ProtokolSearchWorker(searchField,
+									invoiceTableModel, (ArrayList<ProtokolModel>) models); // search in protokol
+							ps.doSearch();
+							}
+						}
+
+				});
+
+
+
 			}
 
 		});
@@ -594,4 +612,5 @@ public class SearchFromProtokolTab extends MainPanel {
 			registrationVatCheckBox.setIcon(null);
 		}
 	}
+
 }

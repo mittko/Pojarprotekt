@@ -5,6 +5,7 @@ import db.Discount.DiscountDB;
 import db.PartsPrice.PriceTable;
 import db.Protokol.ProtokolTable;
 import invoice.invoicewindow.SearchFromProtokolTab;
+import models.ProtokolModel;
 import utils.EditableField;
 import utils.MainPanel;
 import utils.MyMath;
@@ -16,8 +17,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 //inner class
-public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
-	private ArrayList<Object[]> result = new ArrayList<Object[]>();
+public class ProtokolSearchWorker {
+	private ArrayList<ProtokolModel> result = new ArrayList<>();
 	public static String discount = null;
 	public static double doubleDiscount = 0;
 	private String protokolNum = null;
@@ -26,30 +27,31 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 	private final TreeMap<String, Info> mapInfo = new TreeMap<String, Info>();
 	private final DefaultTableModel fromInvoiceTableModel;
-	public static ArrayList<Object[]> moreProtokolsList = new ArrayList<Object[]>(); // store
+	public static ArrayList<ProtokolModel> moreProtokolsList = new ArrayList<>(); // store
 
 	public ProtokolSearchWorker(EditableField searchField,
-								DefaultTableModel dftm) {
+								DefaultTableModel dftm, ArrayList<ProtokolModel> result) {
 		this.copySearchField = searchField;
 		this.protokolNum = copySearchField.getText().trim();
 		this.fromInvoiceTableModel = dftm;
+		this.result = result;
 	}
 
-	@Override
-	public Boolean doInBackground() throws Exception {
+
+	public Boolean doSearch() {
 		// TODO Auto-generated method stub
 
 		try {
 
 			if (!SearchFromProtokolTab.protokolNumberSet.contains(protokolNum)) {
-				result.clear();
+			//	result.clear();
 				mapInfo.clear();
 
-				result = ProtokolTable.getProtokolInfo(protokolNum);
 
-				if (result != null && result.size() > 0) {
+
+				if (result.size() > 0) {
 					// init client
-					String client = (String) result.get(0)[3];
+					String client = result.get(0).getClient();
 
 					if (SearchFromProtokolTab.INVOICE_CURRENT_CLIENT.equals("")) {
 
@@ -83,13 +85,6 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 						doCalc2(moreProtokolsList);
 
 					}
-//					else if (!SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
-//							.equals("")
-//							&& !client
-//									.equals(SearchFromProtokolTab.INVOICE_CURRENT_CLIENT)) {
-//						// do nothing
-//
-//					}
 
 				}
 
@@ -115,7 +110,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 							if (!SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
 									.equals("")
 									&& SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
-									.equals(result.get(0)[3])) {
+									.equals(result.get(0).getClient())) {
 
 								SearchFromProtokolTab.discountField
 										.setText(discount);
@@ -124,7 +119,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 										.setDefaultIcon();
 
 								SearchFromProtokolTab.clientLabel
-										.setName((String) result.get(0)[3]);
+										.setName((String) result.get(0).getClient());
 
 								String registrationVat = FirmTable.getHasFirmVatRegistration(
 										SearchFromProtokolTab.INVOICE_CURRENT_CLIENT);
@@ -145,7 +140,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 							} else if (!SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
 									.equals("")
 									&& !SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
-									.equals(result.get(0)[3])) {
+									.equals(result.get(0).getClient())) {
 								// return
 								JOptionPane.showMessageDialog(null,
 										"Въведен е друг клиент !");
@@ -164,9 +159,6 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 	private void vizualizeTable(TreeMap<String, Info> map) {
 
-		// if(searchFromProtokol.invoiceTableModel.getRowCount() > 0) {
-		// searchFromProtokol.invoiceTableModel.setRowCount(0);
-		// }
 
 		if (fromInvoiceTableModel.getRowCount() > 0) {
 			fromInvoiceTableModel.setRowCount(0);
@@ -192,11 +184,11 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 	}
 
-	private void doCalc2(ArrayList<Object[]> res) {
+	private void doCalc2(ArrayList<ProtokolModel> res) {
 		// 0 -> TO 1 -> P 2 -> HI 3 -> client 4 -> type 5 -> wheight 6 -> value
-		for (Object[] re : res) {
+		for (ProtokolModel model : res) {
 
-			String type = re[4].toString();
+			String type = model.getType();
 
 			String gasitelnoVeshtestvo = "";
 			switch (type) {
@@ -219,7 +211,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 					break;
 			}
 
-			String weightStr = re[5].toString();
+			String weightStr = model.getWheight();
 			String[] spl = weightStr.split("/");
 			String weight = "";
 			if (spl.length == 1) {
@@ -228,16 +220,16 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 				weight = spl[1].trim();
 			}
 			//	System.out.println("weight " + weight);
-			String category = re[6].toString();
+			String category = model.getCategory();
 
 
-			String value = String.format("%.2f", re[8]).replace(",",
+			String value = String.format("%.2f", Double.parseDouble(model.getValue())).replace(",",
 					".");
 
 			double doubleValue = Double.parseDouble(value);
 
-			String kontragent = re[9].toString();
-			String invoiceByKontragent = re[10].toString();
+			String kontragent = model.getKontragent();
+			String invoiceByKontragent = model.getInvoiceByKontragent();
 
 			if (type.contains("( Нов )")) {
 				String key = type + " " + weight;
@@ -254,7 +246,7 @@ public class ProtokolSearchWorker extends SwingWorker<Object, Object> {
 
 			}
 			// calculate parts
-			String parts[] = re[7].toString().split(",");
+			String parts[] = model.getParts().split(",");
 			for (int p = 0; p < parts.length; p++) {
 
 				System.out.println("Part " + parts[p] + " Price " + " Weight " + weight);

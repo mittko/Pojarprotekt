@@ -1,6 +1,7 @@
 package http.protokol;
 
 import models.BrackModels;
+import models.ProtokolModel;
 import models.ProtokolModels;
 import models.ServiceOrderModel;
 import retrofit2.Call;
@@ -8,6 +9,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+
+import java.util.List;
 
 public interface IProtokol {
 
@@ -19,4 +22,7 @@ public interface IProtokol {
 
     @POST("/insert_brack")
     Call<String> insertBrack(@Body BrackModels body);
+
+    @GET("/protokol_info")
+    Call<List<ProtokolModel>> getProtokolInfo(@Query("number") String number);
 }
