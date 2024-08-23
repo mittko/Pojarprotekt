@@ -26,11 +26,11 @@ public class ProformSearchWorker {
 	private String proformSaller = null;
 	private String proformDate = null;
 	private String protokolNumber = null;
-	private ArrayList<InvoiceModel> getParentInfo = null;
+	private InvoiceModel getParentInfo = null;
 	private ArrayList<InvoiceModel> getChildInfo = null;
 
-	public ProformSearchWorker(ArrayList<InvoiceModel> parentModels, ArrayList<InvoiceModel> childModels) {
-		this.getParentInfo = parentModels;
+	public ProformSearchWorker(InvoiceModel parentModel, ArrayList<InvoiceModel> childModels) {
+		this.getParentInfo = parentModel;
 		this.getChildInfo = childModels;
 	}
 
@@ -40,25 +40,25 @@ public class ProformSearchWorker {
 		try {
 
 
-			if (getParentInfo != null && getParentInfo.size() > 0) {
-				proformCurrNumber = getParentInfo.get(0).getId();// номер на
+			if (getParentInfo != null) {
+				proformCurrNumber = getParentInfo.getId();// номер на
 				// проформа
-				proformPayment = getParentInfo.get(0).getPayment(); // заплащане
-				proformDiscount = getParentInfo.get(0).getDiscount(); // отстъпка
+				proformPayment = getParentInfo.getPayment(); // заплащане
+				proformDiscount = getParentInfo.getDiscount(); // отстъпка
 //				String proformPrice = String.format(Locale.ROOT, "%.2f",
 //						Double.parseDouble(getParentInfo.get(0).getPrice())).replace(",",
 //						"."); // крайна цена
-				proformClient = getParentInfo.get(0).getClient(); //
+				proformClient = getParentInfo.getClient(); //
 
 				// init client
 
-				proformSaller = getParentInfo.get(0).getSaller();
+				proformSaller = getParentInfo.getSaller();
 
 				// init saller
 
-				proformDate = getParentInfo.get(0).getDate();
+				proformDate = getParentInfo.getDate();
 
-				protokolNumber = getParentInfo.get(0).getProtokol();
+				protokolNumber = getParentInfo.getProtokol();
 
 			}
 		} finally {
@@ -67,12 +67,12 @@ public class ProformSearchWorker {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
-					if (getParentInfo != null) {
-						if (getParentInfo.size() == 0) {
-							JOptionPane.showMessageDialog(null,
+					if (getParentInfo == null) {
+
+						JOptionPane.showMessageDialog(null,
 									"Няма резултат от търсенето!");
 							return;
-						}
+
 					}
 					if(!SearchFromProformTab.clientLabel.getName().isEmpty()
 							&& !SearchFromProformTab.clientLabel.getName().equals(proformClient)) {

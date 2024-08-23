@@ -3,13 +3,18 @@ package invoice.workers;
 import db.Invoice.InvoiceChildDB;
 import db.Invoice.InvoiceNumber;
 import db.Invoice.InvoiceParent_DB;
+import http.RequestCallback2;
+import http.invoice.ProformService;
 import invoice.PrintInvoiceDialog;
+import models.InvoiceModel;
+import models.InvoiceModels;
 import run.JDialoger;
 import utils.BevelLabel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 import static utils.MainPanel.INVOICE_CHILD;
 import static utils.MainPanel.INVOICE_PARENT;
@@ -51,56 +56,60 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 	public Boolean doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
-		final String invoiceNumberAsString = InvoiceNumber.getInvoiceCount(getParentTable());
+		InvoiceModels models = new InvoiceModels();
+		InvoiceModel parentInvoice = new InvoiceModel();
+		parentInvoice.setPayment(payment);
+		parentInvoice.setDiscount(discount);
+		parentInvoice.setValue(sum);
+		parentInvoice.setClient(currentClient);
+		parentInvoice.setSaller(personName);
+		parentInvoice.setDate(date);
+		parentInvoice.setProtokol(PROTOKOL_NUMBER);
+		ArrayList<InvoiceModel> childModels = new ArrayList<>();
+		for(int i = 0; i < dftm.getRowCount();i++) {
+			InvoiceModel childModel = new InvoiceModel();
 
-		try {
-			// save data in invoice parent
+			childModel.setMake(dftm.getValueAt(i,0).toString());
+			childModel.setMed(dftm.getValueAt(i,1).toString());
+			childModel.setQuantity(dftm.getValueAt(i,2).toString());
+			childModel.setPrice(dftm.getValueAt(i, 3).toString());
+			childModel.setValue(dftm.getValueAt(i, 4).toString());
+			childModel.setClient(currentClient);
+			childModel.setKontragent(dftm.getValueAt(i,6).toString());
+			childModel.setInvoiceByKontragent(dftm.getValueAt(i,7).toString());
 
-			parent = InvoiceParent_DB.insertIntoInvoiceParent(getParentTable(),invoiceNumberAsString,// invoice
-																				// number
-					PROTOKOL_NUMBER, payment, // payment
-					discount, // discount
-					sum, // final sum
-					currentClient, // client
-					personName, // saller
-					date); // date
+			childModels.add(childModel);
 
-			// save data in invoice child
-			if (parent > 0) {
-				for (int row = 0; row < dftm.getRowCount(); row++) {
-
-					child = InvoiceChildDB.insertIntoInvoiceChild(getChildTable(),
-							invoiceNumberAsString, dftm.getValueAt(row, 0).toString(), // make
-							dftm.getValueAt(row, 1).toString(), // med
-							dftm.getValueAt(row, 2).toString(), // quantity
-							dftm.getValueAt(row, 3).toString(), // one price
-							dftm.getValueAt(row, 4).toString(), // value
-							currentClient, dftm.getValueAt(row, 6).toString(), // kontragent
-							dftm.getValueAt(row, 7).toString()); // invoiceByKontragent
-
-				}
-			}
-
-
-		} finally {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					if (parent > 0 && child > 0) {
-
-						// if it called from search from protokol panel
-						// clearProtokolDetails();
-
-						showPrintDialog(invoiceNumberAsString);
-					}
-
-				}
-
-			});
 		}
+		models.setParentInvoiceModel(parentInvoice);
+		models.setChildInvoiceModels(childModels);
+
+
+		ProformService service = new ProformService();
+		if(isInvoice()) {
+			service.insertInvoice(models, new RequestCallback2() {
+				@Override
+				public <T> void callback(T t) {
+					String nextInvoiceNumber = (String) t;
+					if (nextInvoiceNumber != null) {
+						showPrintDialog(nextInvoiceNumber);
+					}
+				}
+			});
+		} else {
+          service.insertProform(models, new RequestCallback2() {
+			  @Override
+			  public <T> void callback(T t) {
+				  String nextProformNumber = (String) t;
+				  if(nextProformNumber != null) {
+					  showPrintDialog(nextProformNumber);
+				  }
+			  }
+		  });
+		}
+
+
+
 		return parent > 0 && child > 0;
 	}
 

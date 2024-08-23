@@ -4,15 +4,15 @@ import java.util.List;
 
 public class InvoiceModels<T> {
 
-    List<InvoiceModel> parentInvoiceModels;
+    InvoiceModel parentInvoiceModel;
     List<InvoiceModel> childInvoiceModels;
 
-    public List<InvoiceModel> getParentInvoiceModels() {
-        return parentInvoiceModels;
+    public InvoiceModel getParentInvoiceModel() {
+        return parentInvoiceModel;
     }
 
-    public void setParentInvoiceModels(List<InvoiceModel> parentInvoiceModels) {
-        this.parentInvoiceModels = parentInvoiceModels;
+    public void setParentInvoiceModel(InvoiceModel parentInvoiceModel) {
+        this.parentInvoiceModel = parentInvoiceModel;
     }
 
     public List<InvoiceModel> getChildInvoiceModels() {

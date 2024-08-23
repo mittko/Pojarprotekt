@@ -32,4 +32,40 @@ public class ProformService extends ServiceAPI {
             }
         });
     }
+
+    public void insertInvoice(InvoiceModels models, RequestCallback2 callback) {
+        getService().insertInvoice(models).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void insertProform(InvoiceModels models, RequestCallback2 callback) {
+        getService().insertProform(models).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }

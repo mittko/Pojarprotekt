@@ -1,12 +1,17 @@
 package invoice;
 
 import exceptions.DBException;
+import http.RequestCallback2;
+import http.invoice.ProformService;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.workers.*;
 import invoice.invoicewindow.ArtikulTab;
 import invoice.invoicewindow.SearchFromProformTab;
 import invoice.invoicewindow.SearchFromProtokolTab;
+import models.InvoiceModel;
+import models.InvoiceModels;
 import mydate.MyGetDate;
+import run.JDialoger;
 import utils.BevelLabel;
 import utils.MainPanel;
 import utils.MyMath;
@@ -47,7 +52,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 								 final boolean calledFromProformWindow, boolean isAcquittance,
 								 final DefaultTableModel dftm, final BevelLabel invoiceLabel,
 								 final BevelLabel proformLabel, final BevelLabel acquittanceLabel
-	                             , final boolean isVatRegistered) {
+			, final boolean isVatRegistered) {
 		// parameters to save data
 		this.CLIENT = client;
 
@@ -202,36 +207,12 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						|| invoiceRadioButton.isSelected()) {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-					try {
 
-						SaveInInvoiceDBWorker saveinInvoice = new SaveInInvoiceDBWorker(
+					SaveInInvoiceDBWorker saveinInvoice = new SaveInInvoiceDBWorker(
 								jd, payment, discount, sum, CLIENT, personName,
 								date, protokolNumber,
 								copyOriginTableModel, isVatRegistered);
-
-						try {
-							WRITE_IN_INVOICE_SUCCESS = saveinInvoice
-									.doInBackground();
-							if (WRITE_IN_INVOICE_SUCCESS) {
-								DecreaseArtikulQuantityWorker decreaseArtikul =
-										new DecreaseArtikulQuantityWorker(
-												AVAILABLE_ARTIKULS,
-												copyOriginTableModel);
-								decreaseArtikul.execute();
-							}
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							DBException.showErrorMessage(
-									"Error during update artikuls quantity !",
-									e);
-						}
-					} catch (Exception ex) {
-						// TODO Auto-generated catch block
-						ex.printStackTrace();
-						DBException.showErrorMessage(
-								"Error  during saving invoice !", ex);
-					}
+					saveinInvoice.execute();
 
 					// invoice + fiskal bon
 					if (fiskalRadioButton.isSelected()
@@ -467,4 +448,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 		}
 
 	}
+
+
+
 }

@@ -74,7 +74,7 @@ public class SearchFromProformTab extends MainPanel {
 						if(t != null) {
 							InvoiceModels<T> invoiceModels  = (InvoiceModels) t;
 							ProformSearchWorker prfs = new ProformSearchWorker(
-									(ArrayList<InvoiceModel>) invoiceModels.getParentInvoiceModels(),
+									 invoiceModels.getParentInvoiceModel(),
 									(ArrayList<InvoiceModel>) invoiceModels.getChildInvoiceModels()); // in
 							// proform
 							prfs.doSearch();
