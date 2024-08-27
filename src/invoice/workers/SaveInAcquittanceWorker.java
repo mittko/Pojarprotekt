@@ -4,7 +4,11 @@ import db.AcquittanceDB.AcquittanceChildDB;
 import db.AcquittanceDB.AcquittanceNumber;
 import db.AcquittanceDB.AcuittanceParentDB;
 import db.Invoice.InvoiceNumber;
+import http.RequestCallback2;
+import http.invoice.ProformService;
 import invoice.PrintInvoiceDialog;
+import models.AcquittanceModel;
+import models.AcquittanceModels;
 import run.JDialoger;
 import utils.BevelLabel;
 import utils.MyMath;
@@ -12,11 +16,12 @@ import utils.MyMath;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
 
 import static utils.MainPanel.ACQUITTANCE_CHILD;
 import static utils.MainPanel.ACQUITTANCE_PARENT;
 
-public class SaveInAcquittanceWorker extends SwingWorker {
+public class SaveInAcquittanceWorker {
 
 	private final DefaultTableModel dftm;
 
@@ -45,53 +50,49 @@ public class SaveInAcquittanceWorker extends SwingWorker {
 
 	}
 
-	@Override
-	public Boolean doInBackground() throws Exception {
+
+	public void save() {
 		// TODO Auto-generated method stub
 
-		final String acquittanceNumberAsString = InvoiceNumber.getInvoiceCount(getParentTable());
-
-		try {
-
-			// insert into parent acquittance
-			updateParent = AcuittanceParentDB.insertIntoAcquittanceParrentDB(
-					acquittanceNumberAsString, value + "", client, saller, date);
-
-			// insert into child acquittance
-			if (updateParent > 0) {
-				for (int row = 0; row < dftm.getRowCount(); row++) {
-					updateChild = AcquittanceChildDB
-							.insertIntoAcquittanceChildDB(acquittanceNumberAsString, // acquittance
-																				// number
-									dftm.getValueAt(row, 0).toString(), // artikul
-									dftm.getValueAt(row, 1).toString(), // med
-									dftm.getValueAt(row, 2).toString(), // quantity
-									dftm.getValueAt(row, 3).toString(), // price
-									dftm.getValueAt(row, 4).toString(), // value
-									client); // current client
-				}
-			}
+					AcquittanceModel parentModel = new AcquittanceModel();
+					parentModel.setValue(value+"");
+					parentModel.setClient(client);
+					parentModel.setSaller(saller);
+					parentModel.setDate(date);
 
 
+					ArrayList<AcquittanceModel> childModels = new ArrayList<>();
+							for (int row = 0; row < dftm.getRowCount(); row++) {
+								AcquittanceModel childModel = new AcquittanceModel();
+								childModel.setArtikul(dftm.getValueAt(row,0).toString());
+								childModel.setMed(dftm.getValueAt(row,1).toString());
+								childModel.setQuantity(dftm.getValueAt(row,2).toString());
+								childModel.setPrice(dftm.getValueAt(row,3).toString());
+								childModel.setValue(dftm.getValueAt(row,4).toString());
+								childModel.setClient(client);
 
-		} finally {
-			SwingUtilities.invokeLater(new Runnable() {
+								childModels.add(childModel);
 
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
-					if (updateParent > 0 && updateChild > 0) {
-						// invoke print dialog
-						showPrintDialog(acquittanceNumberAsString);
+							}
 
-					}
-				}
+						AcquittanceModels body = new AcquittanceModels();
+						body.setParentModel(parentModel);
+						body.setChildModels(childModels);
 
-			});
-		}
-		return updateParent > 0 && updateChild > 0;
+						ProformService service = new ProformService();
+						service.insertAcquittance(body, new RequestCallback2() {
+							@Override
+							public <T> void callback(T t) {
+								jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+								String nextNumber = (String) t;
+								if(nextNumber != null) {
+									showPrintDialog(nextNumber);
+								}
+							}
+						});
+
 	}
 
 	private void showPrintDialog(String acquittanceNumberAsString) {

@@ -110,9 +110,9 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getAcquittance(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getAcquittance(optionsParam).enqueue(new Callback<List<AcquittanceReports>>() {
+        getService().getAcquittance(optionsParam).enqueue(new Callback<List<AcquittanceModel>>() {
             @Override
-            public void onResponse(Call<List<AcquittanceReports>> call, Response<List<AcquittanceReports>> response) {
+            public void onResponse(Call<List<AcquittanceModel>> call, Response<List<AcquittanceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
@@ -121,7 +121,7 @@ public class GetReportsService extends ServiceAPI {
             }
 
             @Override
-            public void onFailure(Call<List<AcquittanceReports>> call, Throwable throwable) {
+            public void onFailure(Call<List<AcquittanceModel>> call, Throwable throwable) {
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

@@ -1,6 +1,6 @@
 package models;
 
-public class AcquittanceReports {
+public class AcquittanceModel {
 
     private String id;
     private String value;

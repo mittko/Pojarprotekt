@@ -1,17 +1,12 @@
 package invoice;
 
 import exceptions.DBException;
-import http.RequestCallback2;
-import http.invoice.ProformService;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.workers.*;
 import invoice.invoicewindow.ArtikulTab;
 import invoice.invoicewindow.SearchFromProformTab;
 import invoice.invoicewindow.SearchFromProtokolTab;
-import models.InvoiceModel;
-import models.InvoiceModels;
 import mydate.MyGetDate;
-import run.JDialoger;
 import utils.BevelLabel;
 import utils.MainPanel;
 import utils.MyMath;
@@ -208,11 +203,11 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 
-					SaveInInvoiceDBWorker saveinInvoice = new SaveInInvoiceDBWorker(
+					SaveInInvoiceDb saveinInvoice = new SaveInInvoiceDb(
 								jd, payment, discount, sum, CLIENT, personName,
 								date, protokolNumber,
 								copyOriginTableModel, isVatRegistered);
-					saveinInvoice.execute();
+					saveinInvoice.save();
 
 					// invoice + fiskal bon
 					if (fiskalRadioButton.isSelected()
@@ -229,7 +224,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 
 					try {
 
-						SaveInInvoiceDBWorker saveinProform = new SaveInInvoiceDBWorker(
+						SaveInInvoiceDb saveinProform = new SaveInInvoiceDb(
 								jd, payment, discount, sum, CLIENT, personName,
 								date, protokolNumber,
 								copyOriginTableModel,isVatRegistered) {
@@ -251,7 +246,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						};
 						try {
 							WRITE_IN_PROFORM_SUCCESS = saveinProform
-									.doInBackground();
+									.save();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -268,53 +263,43 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						|| acquittanceRadioButton.isSelected()) {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-					try {
+
 
 						SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
 								copyOriginTableModel,
 								MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 								// по старо му sum/1.2 without ДДС
 								personName, CLIENT, date, jd);
-						WRITE_IN_ACQUITTANCE_SUCCESS = saveInAcquittance.doInBackground();
-						try {
+						saveInAcquittance.save();
+
 							// acquittance + fiskal bon
-							if (WRITE_IN_ACQUITTANCE_SUCCESS && fiskalRadioButton.isSelected()) {
-								// save in reports sells(invoices)
+//							if (WRITE_IN_ACQUITTANCE_SUCCESS && fiskalRadioButton.isSelected()) {
+//								// save in reports sells(invoices)
+//
+//								SaveFiskalBonInInvoiceDBWorker saveFiskalInInvoice =
+//										new SaveFiskalBonInInvoiceDBWorker(
+//												jd, payment, discount, sum, CLIENT, personName,
+//												date, protokolNumber,
+//												copyOriginTableModel);
+//								boolean WRITE_IN_FISKAL_SUCCESS = saveFiskalInInvoice
+//										.doInBackground();
+//
+//								if(WRITE_IN_FISKAL_SUCCESS) {
+//									DecreaseArtikulQuantityWorker decreaseArtikul =
+//											new DecreaseArtikulQuantityWorker(
+//													AVAILABLE_ARTIKULS,
+//													copyOriginTableModel);
+//									decreaseArtikul.execute();
+//
+//									CreateBonFPrint fiskal = new CreateBonFPrint();
+//									ArrayList<String> commandList = fiskal.makeReciept(sum);
+//									SellWithFiskalBonWorker sellWorker = new SellWithFiskalBonWorker(
+//											commandList, fiskal, jd);
+//									sellWorker.execute();
+//								}
+//							}
 
-								SaveFiskalBonInInvoiceDBWorker saveFiskalInInvoice =
-										new SaveFiskalBonInInvoiceDBWorker(
-												jd, payment, discount, sum, CLIENT, personName,
-												date, protokolNumber,
-												copyOriginTableModel);
-								boolean WRITE_IN_FISKAL_SUCCESS = saveFiskalInInvoice
-										.doInBackground();
 
-								if(WRITE_IN_FISKAL_SUCCESS) {
-									DecreaseArtikulQuantityWorker decreaseArtikul =
-											new DecreaseArtikulQuantityWorker(
-													AVAILABLE_ARTIKULS,
-													copyOriginTableModel);
-									decreaseArtikul.execute();
-
-									CreateBonFPrint fiskal = new CreateBonFPrint();
-									ArrayList<String> commandList = fiskal.makeReciept(sum);
-									SellWithFiskalBonWorker sellWorker = new SellWithFiskalBonWorker(
-											commandList, fiskal, jd);
-									sellWorker.execute();
-								}
-							}
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							DBException.showErrorMessage(
-									"Error during saving acquittance !", e);
-						}
-					} catch (Exception ex) {
-						// TODO Auto-generated catch block
-						ex.printStackTrace();
-						DBException.showErrorMessage(
-								"Error during saving acquittance !", ex);
-					}
 				} else if(fiskalRadioButton.isSelected()) {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 					String fiskalOfficialNumber = MyGetDate

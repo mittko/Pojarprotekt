@@ -4,6 +4,7 @@ import exceptions.ErrorDialog;
 import http.RequestCallback;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
+import models.AcquittanceModels;
 import models.InvoiceModels;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +54,24 @@ public class ProformService extends ServiceAPI {
 
     public void insertProform(InvoiceModels models, RequestCallback2 callback) {
         getService().insertProform(models).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void insertAcquittance(AcquittanceModels body, RequestCallback2 callback) {
+        getService().insertAcquittance(body).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {

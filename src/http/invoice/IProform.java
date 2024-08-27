@@ -1,6 +1,7 @@
 package http.invoice;
 
 import http.base.ServiceAPI;
+import models.AcquittanceModels;
 import models.InvoiceModels;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -19,4 +20,7 @@ public interface IProform {
 
     @POST("/insert_proform")
     Call<String> insertProform(@Body InvoiceModels body);
+
+    @POST("/insert_acquittance")
+    Call<String> insertAcquittance(@Body AcquittanceModels body);
 }

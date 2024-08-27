@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import models.AcquittanceReports;
+import models.AcquittanceModel;
 import utils.LoadIcon;
 import utils.MainPanel;
 import utils.TooltipButton;
@@ -117,7 +117,7 @@ public class ReportTableAcquittance<T> extends MainPanel {
 			}
 		};
 		for (T t : childData) {
-			AcquittanceReports acquittanceReports = (AcquittanceReports) t;
+			AcquittanceModel acquittanceModel = (AcquittanceModel) t;
 //			private String id;
 //			private String value;
 //			private String client;
@@ -132,18 +132,18 @@ public class ReportTableAcquittance<T> extends MainPanel {
 //			private String _client;
 
 			Object[] childDatum = new Object[dftm.getColumnCount()];
-			childDatum[0] = acquittanceReports.getId();
-			childDatum[1] = acquittanceReports.getValue();
-			childDatum[2] = acquittanceReports.getClient();
-			childDatum[3] = acquittanceReports.getSaller();
-			childDatum[4] = acquittanceReports.getDate();
-			childDatum[5] = acquittanceReports.get_id();
-			childDatum[6] = acquittanceReports.getArtikul();
-			childDatum[7] = acquittanceReports.getMed();
-			childDatum[8] = acquittanceReports.getQuantity();
-			childDatum[9] = acquittanceReports.getPrice();
-			childDatum[10] = acquittanceReports.get_value();
-			childDatum[11] = acquittanceReports.get_client();
+			childDatum[0] = acquittanceModel.getId();
+			childDatum[1] = acquittanceModel.getValue();
+			childDatum[2] = acquittanceModel.getClient();
+			childDatum[3] = acquittanceModel.getSaller();
+			childDatum[4] = acquittanceModel.getDate();
+			childDatum[5] = acquittanceModel.get_id();
+			childDatum[6] = acquittanceModel.getArtikul();
+			childDatum[7] = acquittanceModel.getMed();
+			childDatum[8] = acquittanceModel.getQuantity();
+			childDatum[9] = acquittanceModel.getPrice();
+			childDatum[10] = acquittanceModel.get_value();
+			childDatum[11] = acquittanceModel.get_client();
 
 			dftm.addRow(childDatum);
 		}

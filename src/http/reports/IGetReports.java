@@ -26,7 +26,7 @@ public interface IGetReports {
     Call<List<InvoiceModel>> getProforms(@QueryMap HashMap<String, String> optionsParam);
 
     @GET("/acquittance")
-    Call<List<AcquittanceReports>> getAcquittance(@QueryMap HashMap<String, String> optionParam);
+    Call<List<AcquittanceModel>> getAcquittance(@QueryMap HashMap<String, String> optionParam);
 
     @GET("/artikuls")
     Call<List<ArtikulsReports>> getArtikuls();

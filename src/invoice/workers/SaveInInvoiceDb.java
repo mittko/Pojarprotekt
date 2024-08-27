@@ -1,25 +1,20 @@
 package invoice.workers;
 
-import db.Invoice.InvoiceChildDB;
-import db.Invoice.InvoiceNumber;
-import db.Invoice.InvoiceParent_DB;
 import http.RequestCallback2;
 import http.invoice.ProformService;
 import invoice.PrintInvoiceDialog;
 import models.InvoiceModel;
 import models.InvoiceModels;
 import run.JDialoger;
-import utils.BevelLabel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.util.ArrayList;
 
 import static utils.MainPanel.INVOICE_CHILD;
 import static utils.MainPanel.INVOICE_PARENT;
 
-public class SaveInInvoiceDBWorker extends SwingWorker {
+public class SaveInInvoiceDb {
 
 	private int parent = 0;
 	private int child = 0;
@@ -35,10 +30,10 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 
 
 	private boolean isVatRegistered;
-	public SaveInInvoiceDBWorker(JDialog jd, String payment, String discount,
-								 String sum, String currentClient, String personName, String date,
-								 String protokolNumber,
-								 DefaultTableModel dftm, boolean isVatRegistered) {
+	public SaveInInvoiceDb(JDialog jd, String payment, String discount,
+						   String sum, String currentClient, String personName, String date,
+						   String protokolNumber,
+						   DefaultTableModel dftm, boolean isVatRegistered) {
 
 		this.jd = jd;
 		this.payment = payment;
@@ -52,8 +47,8 @@ public class SaveInInvoiceDBWorker extends SwingWorker {
 		this.isVatRegistered = isVatRegistered;
 	}
 
-	@Override
-	public Boolean doInBackground() throws Exception {
+
+	public Boolean save()  {
 		// TODO Auto-generated method stub
 
 		InvoiceModels models = new InvoiceModels();

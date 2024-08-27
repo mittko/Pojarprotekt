@@ -89,13 +89,13 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 			 if( acquittanceRadioButton.isSelected()) {
 						jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-						try {
+
 							SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
 									copyOriginTableModel,
 									MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 									// without ДДС sum/1.2 по старо му
 									personName, CLIENT, date,  jd);
-					     	WRITE_IN_ACQUITTANCE_SUCCESS = saveInAcquittance.doInBackground();
+					     	saveInAcquittance.save();
 							try {
 								if (WRITE_IN_ACQUITTANCE_SUCCESS ) {
 										DecreaseArtikulQuantityWorker decreaseArtikul =
@@ -111,12 +111,7 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 								DBException.showErrorMessage(
 										"Error during saving acquittance !", e);
 							}
-						} catch (Exception ex) {
-							// TODO Auto-generated catch block
-							ex.printStackTrace();
-							DBException.showErrorMessage(
-									"Error during saving acquittance !", ex);
-						}
+
 					}
 
 				SearchFromProtokolTab.clear();
