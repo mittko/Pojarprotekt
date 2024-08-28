@@ -5,10 +5,7 @@ import models.AcquittanceModels;
 import models.InvoiceModels;
 import retrofit2.Call;
 import retrofit2.Retrofit;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 public interface IProform {
 
@@ -21,6 +18,6 @@ public interface IProform {
     @POST("/insert_proform")
     Call<String> insertProform(@Body InvoiceModels body);
 
-    @POST("/insert_acquittance")
-    Call<String> insertAcquittance(@Body AcquittanceModels body);
+    @POST("/insert_acquittance/{artikulTable}")
+    Call<String> insertAcquittance(@Body AcquittanceModels body, @Path("artikulTable") String artikulTable);
 }

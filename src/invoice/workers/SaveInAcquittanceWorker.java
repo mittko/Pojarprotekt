@@ -11,6 +11,7 @@ import models.AcquittanceModel;
 import models.AcquittanceModels;
 import run.JDialoger;
 import utils.BevelLabel;
+import utils.MainPanel;
 import utils.MyMath;
 
 import javax.swing.*;
@@ -18,8 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
 
-import static utils.MainPanel.ACQUITTANCE_CHILD;
-import static utils.MainPanel.ACQUITTANCE_PARENT;
+import static utils.MainPanel.*;
 
 public class SaveInAcquittanceWorker {
 
@@ -30,8 +30,7 @@ public class SaveInAcquittanceWorker {
 	private final String client;
 	private final String date;
 	private final JDialog jd;
-	private int updateParent;
-	private int updateChild;
+
 
 
 	public SaveInAcquittanceWorker(DefaultTableModel dftm,
@@ -70,6 +69,8 @@ public class SaveInAcquittanceWorker {
 								childModel.setPrice(dftm.getValueAt(row,3).toString());
 								childModel.setValue(dftm.getValueAt(row,4).toString());
 								childModel.setClient(client);
+								childModel.setKontragent(dftm.getValueAt(row,6).toString());
+								childModel.setInvoiceByKontragent(dftm.getValueAt(row,7).toString());
 
 								childModels.add(childModel);
 
@@ -81,7 +82,11 @@ public class SaveInAcquittanceWorker {
 						body.setChildModels(childModels);
 
 						ProformService service = new ProformService();
-						service.insertAcquittance(body, new RequestCallback2() {
+
+						String table = getArtilulTable();
+
+						service.insertAcquittance(body, getArtilulTable(),
+								new RequestCallback2() {
 							@Override
 							public <T> void callback(T t) {
 								jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -117,10 +122,7 @@ public class SaveInAcquittanceWorker {
 		jDialoger.Show();
 	}
 
-	private String getParentTable() {
-		return ACQUITTANCE_PARENT;
-	}
-	private String getChildTable() {
-		return ACQUITTANCE_CHILD;
+	public String getArtilulTable() {
+		return AVAILABLE_ARTIKULS;
 	}
 }

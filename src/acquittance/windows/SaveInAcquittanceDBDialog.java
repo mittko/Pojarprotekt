@@ -94,23 +94,13 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 									copyOriginTableModel,
 									MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 									// without ДДС sum/1.2 по старо му
-									personName, CLIENT, date,  jd);
-					     	saveInAcquittance.save();
-							try {
-								if (WRITE_IN_ACQUITTANCE_SUCCESS ) {
-										DecreaseArtikulQuantityWorker decreaseArtikul =
-												new DecreaseArtikulQuantityWorker(
-														GREY_AVAILABLE_ARTIKULS,
-												copyOriginTableModel);
-										decreaseArtikul.execute();
-
+									personName, CLIENT, date,  jd) {
+								@Override
+								public String getArtilulTable() {
+									return GREY_AVAILABLE_ARTIKULS;
 								}
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-								DBException.showErrorMessage(
-										"Error during saving acquittance !", e);
-							}
+							};
+					     	saveInAcquittance.save();
 
 					}
 

@@ -70,8 +70,8 @@ public class ProformService extends ServiceAPI {
         });
     }
 
-    public void insertAcquittance(AcquittanceModels body, RequestCallback2 callback) {
-        getService().insertAcquittance(body).enqueue(new Callback<String>() {
+    public void insertAcquittance(AcquittanceModels body, String artikulTable, RequestCallback2 callback) {
+        getService().insertAcquittance(body, artikulTable).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
