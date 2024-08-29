@@ -3,6 +3,7 @@ package invoice.workers;
 import http.RequestCallback2;
 import http.invoice.ProformService;
 import invoice.PrintInvoiceDialog;
+import invoice.fiskal.CreateBonFPrint;
 import models.InvoiceModel;
 import models.InvoiceModels;
 import run.JDialoger;
@@ -29,11 +30,11 @@ public class SaveInInvoiceDb {
 	private final DefaultTableModel dftm;
 
 
-	private boolean isVatRegistered;
+	private boolean isFiskalButtonSelected;
 	public SaveInInvoiceDb(JDialog jd, String payment, String discount,
 						   String sum, String currentClient, String personName, String date,
 						   String protokolNumber,
-						   DefaultTableModel dftm, boolean isVatRegistered) {
+						   DefaultTableModel dftm, boolean isFiskalButtonSelected) {
 
 		this.jd = jd;
 		this.payment = payment;
@@ -44,11 +45,11 @@ public class SaveInInvoiceDb {
 		this.date = date;
 		this.PROTOKOL_NUMBER = protokolNumber;
 		this.dftm = dftm;
-		this.isVatRegistered = isVatRegistered;
+		this.isFiskalButtonSelected = isFiskalButtonSelected;
 	}
 
 
-	public Boolean save()  {
+	public void save()  {
 		// TODO Auto-generated method stub
 
 		InvoiceModels models = new InvoiceModels();
@@ -97,15 +98,21 @@ public class SaveInInvoiceDb {
 			  public <T> void callback(T t) {
 				  String nextProformNumber = (String) t;
 				  if(nextProformNumber != null) {
+
+					  if(isFiskalButtonSelected) {
+						  CreateBonFPrint fiskal = new CreateBonFPrint();
+						  ArrayList<String> commandList = fiskal.makeReciept(sum);
+						  SellWithFiskalBonWorker sellWorker = new SellWithFiskalBonWorker(
+								  commandList, fiskal, jd);
+						  sellWorker.execute();
+					  }
+
 					  showPrintDialog(nextProformNumber);
 				  }
 			  }
 		  });
 		}
 
-
-
-		return parent > 0 && child > 0;
 	}
 
 	private void showPrintDialog(String invoiceNumber) {

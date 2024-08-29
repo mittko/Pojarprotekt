@@ -206,18 +206,9 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 					SaveInInvoiceDb saveinInvoice = new SaveInInvoiceDb(
 								jd, payment, discount, sum, CLIENT, personName,
 								date, protokolNumber,
-								copyOriginTableModel, isVatRegistered);
+								copyOriginTableModel, fiskalRadioButton.isSelected());
 					saveinInvoice.save();
 
-					// invoice + fiskal bon
-					if (fiskalRadioButton.isSelected()
-							&& WRITE_IN_INVOICE_SUCCESS) {
-						CreateBonFPrint fiskal = new CreateBonFPrint();
-						ArrayList<String> commandList = fiskal.makeReciept(sum);
-						SellWithFiskalBonWorker sellWorker = new SellWithFiskalBonWorker(
-								commandList, fiskal, jd);
-						sellWorker.execute();
-					}
 				} else if(proformRadioButton.isSelected()) {
 
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -227,7 +218,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 						SaveInInvoiceDb saveinProform = new SaveInInvoiceDb(
 								jd, payment, discount, sum, CLIENT, personName,
 								date, protokolNumber,
-								copyOriginTableModel,isVatRegistered) {
+								copyOriginTableModel,false) {
 
 							@Override
 							public String getParentTable() {
@@ -244,15 +235,9 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 								return false;
 							}
 						};
-						try {
-							WRITE_IN_PROFORM_SUCCESS = saveinProform
-									.save();
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-							DBException.showErrorMessage(
-									"Error during saving proform !", e);
-						}
+
+							saveinProform.save();
+
 					} catch (Exception ex2) {
 						// TODO Auto-generated catch block
 						ex2.printStackTrace();
@@ -302,36 +287,14 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 
 				} else if(fiskalRadioButton.isSelected()) {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-					String fiskalOfficialNumber = MyGetDate
-							.generateFiskalBonNumber();
-					SaveFiskalBonInInvoiceDBWorker saveFiskalInInvoice = new
-							SaveFiskalBonInInvoiceDBWorker(
+
+
+					SaveInInvoiceDb saveinInvoice = new SaveInInvoiceDb(
 							jd, payment, discount, sum, CLIENT, personName,
 							date, protokolNumber,
-							copyOriginTableModel);
-					try {
-						WRITE_IN_FISKAL_SUCCESS = saveFiskalInInvoice
-								.doInBackground();
-						if(WRITE_IN_FISKAL_SUCCESS && fiskalRadioButton.isSelected()) {
-							DecreaseArtikulQuantityWorker decreaseArtikul =
-									new DecreaseArtikulQuantityWorker(
-											AVAILABLE_ARTIKULS,
-											copyOriginTableModel);
-							decreaseArtikul.execute();
+							copyOriginTableModel, fiskalRadioButton.isSelected());
+					saveinInvoice.save();
 
-							CreateBonFPrint fiskal = new CreateBonFPrint();
-							ArrayList<String> commandList = fiskal
-									.makeReciept(sum);
-							SellWithFiskalBonWorker sellWorker = new SellWithFiskalBonWorker(
-									commandList, fiskal, jd);
-							sellWorker.execute();
-						}
-					} catch (Exception ex) {
-						// TODO Auto-generated catch block
-						ex.printStackTrace();
-						DBException.showErrorMessage(
-								"Error during saving invoice !", ex);
-					}
 				}
 				SearchFromProtokolTab.clear();
 				SearchFromProformTab.clear();
