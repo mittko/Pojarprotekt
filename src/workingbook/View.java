@@ -177,14 +177,7 @@ public class View extends MainPanel {
 							}
 						}
 					});
-//					SaveInProtokolWorker sw = new SaveInProtokolWorker(jd,
-//						 getPartsMap());
-//					try {
-//					//	PDF_PROTOKOL_NUMBER = sw.doInBackground();
-//					} catch (Exception e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
+
 				}
 
 			}

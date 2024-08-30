@@ -91,11 +91,8 @@ public class MainMenu extends MainPanel {
 						// TODO Auto-generated method stub
 						String serviceNumber = GenerateSO.nextSO(); // new
 																	// SO_Table().getSO_Number();
-						String protokolNumber = ProtokolNumber
-								.getProtokolNumber();
-
 						SwingUtilities.invokeLater(new Run_NewExt(
-								serviceNumber, protokolNumber));
+								serviceNumber));
 						return null;
 					}
 
@@ -394,18 +391,16 @@ public class MainMenu extends MainPanel {
 	class Run_NewExt implements Runnable {
 
 		private String serviceNumber = null;
-		private String protokolNumber = null;
 
-		public Run_NewExt(String serviceNumber, String protokolNumber) {
+		public Run_NewExt(String serviceNumber) {
 			this.serviceNumber = serviceNumber;
-			this.protokolNumber = protokolNumber;
 		}
 
 		@Override
 		public void run() {
 			if (!serviceNumber.equals("no")) {
 				NewExtinguisherWindow new_ext = new NewExtinguisherWindow(
-						serviceNumber, protokolNumber);
+						serviceNumber);
 				final JDialoger jDialog = new JDialoger();
 				jDialog.setContentPane(new_ext);
 				jDialog.setResizable(false);

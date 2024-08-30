@@ -1,6 +1,13 @@
 package newextinguisher;
 
 import clients.NewClient;
+import generators.NumGenerator;
+import http.RequestCallback2;
+import http.new_extinguishers.NewExtinguisherService;
+import http.protokol.ProtokolService;
+import models.ExtinguisherModel;
+import models.ProtokolModel;
+import models.ProtokolModels;
 import newextinguisher.renderers.NewExtingusherRenderer;
 import newextinguisher.workers.PrintProtokolWorker;
 import newextinguisher.workers.SaveInProtokolFromNewExtinguisherWorker;
@@ -21,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 public class NewExtinguisherWindow extends MainPanel {
@@ -46,8 +54,7 @@ public class NewExtinguisherWindow extends MainPanel {
 	public static final GenerateSO genSO = new GenerateSO();
 	public static final BarcodGenerator bGen = new BarcodGenerator();
 
-	public NewExtinguisherWindow(final String serviceNumber,
-			String protokolNumber) {
+	public NewExtinguisherWindow(final String serviceNumber) {
 
 		this.SERVICE_NUMBER = serviceNumber;
 
@@ -156,23 +163,79 @@ public class NewExtinguisherWindow extends MainPanel {
 						.getWindowAncestor(NewExtinguisherWindow.this)));
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				SaveInProtokolFromNewExtinguisherWorker sw = new SaveInProtokolFromNewExtinguisherWorker(jd,
-						clientCombo.getSelectedItem().toString(), dftm);
+				ArrayList<ProtokolModel> protokolModelList = new ArrayList<>();
 
-				try {
-					String[] NUMBERS = sw.doInBackground();
-					// update service and protokol numbers
-					SERVICE_NUMBER = NUMBERS[0];
-					protokolNumberForInvoice = NUMBERS[1];
+				for(int index = 0;index < dftm.getRowCount();index++) {
 
-					barcod_digits = new int[2];
-					for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
-						allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
-					}
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					String type = dftm.getValueAt(index, 0).toString() + " ( Нов )"; // type
+					String weight =	dftm.getValueAt(index,1).toString(); // weight
+					String barcod =	dftm.getValueAt(index, 2).toString(); // barcod
+					String serialNumber = dftm.getValueAt(index, 3).toString(); // serial
+					String category = dftm.getValueAt(index, 4).toString(); // category
+					String brand =	dftm.getValueAt(index, 5).toString(); // brand
+
+					String parts = 	""; // parts
+					String value =	dftm.getValueAt(index,6).toString(); // value
+					String kontragent = "-";// ПОЖАРПРОТЕКТ 00Д
+					String invoiceByKontragent ="-";// 0000001
+					String additional_data = dftm.getValueAt(index, 7).toString();// допълнителни данни
+
+
+					ProtokolModel protokolModel = new ProtokolModel();
+					protokolModel.setClient(clientCombo.getSelectedItem().toString());
+					protokolModel.setType(type);
+					protokolModel.setWheight(weight);
+					protokolModel.setBarcod(barcod);
+					protokolModel.setSerial(serialNumber);
+					protokolModel.setCategory(category);
+					protokolModel.setBrand(brand);
+					protokolModel.setT_O(MyGetDate.getDateAfterToday(365));
+					protokolModel.setP("не");
+					protokolModel.setHi("не");
+					protokolModel.setParts(parts);
+					protokolModel.setValue(String.valueOf(value));
+					protokolModel.setPerson("Георги Ильов");
+					protokolModel.setDate(MyGetDate.getReversedSystemDate());
+					protokolModel.setUptodate("null");
+					protokolModel.setKontragent(kontragent);
+					protokolModel.setInvoiceByKontragent(invoiceByKontragent);
+					protokolModel.setAdditional_data(additional_data);
+
+					protokolModelList.add(protokolModel);
 				}
+
+				ProtokolModels body = new ProtokolModels();
+				body.setList(protokolModelList);
+				body.setParts(new ArrayList<>());
+
+				ProtokolService service = new ProtokolService();
+				service.insertProtokol(body, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						String nextProtokol = (String) t;
+						if(nextProtokol != null) {
+							// update service number
+							SERVICE_NUMBER = GenerateSO.nextSO(); // soTable.getSO_Number();
+							SERVICE_NUMBER = NumGenerator.updateNum(SERVICE_NUMBER);
+							GenerateSO.updateServiceOrder(SERVICE_NUMBER); // soTable.updateSO_InDB(newServiceNumber);//updateServiceNum
+
+							barcod_digits = new int[2];
+							for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
+								allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
+							}
+
+							protokolNumberForInvoice = nextProtokol;
+
+							NewExtinguisherWindow.dftm.setRowCount(0);
+
+							JOptionPane.showMessageDialog(null,
+									"Данните са записани успешно!");
+						}
+					}
+				});
+
 
 			}
 
@@ -296,23 +359,23 @@ public class NewExtinguisherWindow extends MainPanel {
 						.getWindowAncestor(NewExtinguisherWindow.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				SeeAllNewExtinguisherWorker seeAll = new SeeAllNewExtinguisherWorker(
-						jd);
-				ArrayList<Object[]> data = null;
-				try {
-					data = seeAll.doInBackground();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				NewExtinguisherService service = new NewExtinguisherService();
+				service.getExtinguishers(new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						List<ExtinguisherModel> modelList = (List<ExtinguisherModel>) t;
+						if(modelList != null) {
+							skladNewExtinguisher = new Shop_SkladExtinuisher((ArrayList<ExtinguisherModel>) modelList);
+							JDialoger jDialog = new JDialoger();
+							jDialog.setContentPane(skladNewExtinguisher);
+							jDialog.setTitle("Нови пожарогасители");
+							jDialog.setResizable(false);
+							jDialog.Show();
+						}
+					}
+				});
 
-				// open frame
-				skladNewExtinguisher = new Shop_SkladExtinuisher(data);
-				JDialoger jDialog = new JDialoger();
-				jDialog.setContentPane(skladNewExtinguisher);
-				jDialog.setTitle("Нови пожарогасители");
-				jDialog.setResizable(false);
-				jDialog.Show();
 
 			}
 
@@ -443,7 +506,7 @@ public class NewExtinguisherWindow extends MainPanel {
 		protokolNumLabel = new BevelLabel(labelHeight);
 
 		protokolNumLabel.setTitle(" Протокол \u2116 ");
-		protokolNumLabel.setName(protokolNumber);
+		protokolNumLabel.setName("protokol nomer");
 
 		southPanel.add(sallerLabel);
 		southPanel.add(dateLabel);

@@ -3,6 +3,9 @@ package admin.sklad;
 import admin.sklad.renderers.NewExtRenderer2;
 import admin.sklad.workers.DeleteExtinguisherWorker;
 import admin.sklad.workers.SeeAllNewExtinguisherWorker;
+import http.RequestCallback2;
+import http.new_extinguishers.NewExtinguisherService;
+import models.ExtinguisherModel;
 import run.JDialoger;
 import utils.LoadIcon;
 import utils.MainPanel;
@@ -270,27 +273,31 @@ public class MainFrame_SkladNewExtinguisher extends MainPanel {
 				JDialog jd = (JDialog) SwingUtilities
 						.getWindowAncestor(MainFrame_SkladNewExtinguisher.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				SeeAllNewExtinguisherWorker seeAll = new SeeAllNewExtinguisherWorker(
-						jd);
-				ArrayList<Object[]> data = null;
-				try {
-					data = seeAll.doInBackground();
 
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (data != null) {
+				NewExtinguisherService service = new NewExtinguisherService();
+				service.getExtinguishers(new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
 
-					if (skladExtinguisherModel.getRowCount() > 0) {
-						skladExtinguisherModel.setRowCount(0);
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						ArrayList<ExtinguisherModel> models = (ArrayList<ExtinguisherModel>) t;
+						if(models != null) {
+							if (skladExtinguisherModel.getRowCount() > 0) {
+								skladExtinguisherModel.setRowCount(0);
+							}
+
+							for (ExtinguisherModel model : models) {
+								Object[] obj = {model.getType(), model.getWheight(), model.getCategory(),
+								model.getBrand(), model.getQuantity(), model.getPrice(), model.getInvoiceByKontragent(),
+								model.getKontragent(), model.getDateString(), model.getSaller(), model.getPercentProfit()};
+								skladExtinguisherModel.addRow(obj);
+
+							}
+						}
 					}
-
-					for (int i = 0; i < data.size(); i++) {
-						skladExtinguisherModel.addRow(data.get(i));
-
-					}
-				}
+				});
+//
 
 			}
 

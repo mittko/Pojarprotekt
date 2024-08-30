@@ -6,6 +6,7 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import models.ExtinguisherModel;
 import net.GetCurrentIP;
 import utils.MainPanel;
 
@@ -459,14 +460,14 @@ public class NewExtinguishers_DB extends MainPanel {
 		return extinguishersNames;
 	}
 
-	public static ArrayList<ExtinguishersInfo> getAvailableExtinguishersByInvoiceAndKontragent(
+	public static ArrayList<ExtinguisherModel> getAvailableExtinguishersByInvoiceAndKontragent(
 			String kontragent, String invoice, String type, String wheight,
 			String category/*, String brand*/) {
 
 		System.out
 		.printf("kontragent = %s invoice = %s type = %s wheight = %s category = %s\n",// brand = %s
 		kontragent, invoice, type, wheight, category/*, brand*/);
-		ArrayList<ExtinguishersInfo> extinguishersInfo = new ArrayList<>();
+		ArrayList<ExtinguisherModel> extinguisherModel = new ArrayList<>();
 		Connection connect = null;
 		Statement stat = null;
 		String command = "select type, wheight, category, brand,"
@@ -502,7 +503,7 @@ public class NewExtinguishers_DB extends MainPanel {
 				String invoiceT = rs.getString(6);
 				String kontragentT = rs.getString(7);
 				String dateT = rs.getString(8);
-				ExtinguishersInfo ext = new ExtinguishersInfo(typeT, wheightT,
+				ExtinguisherModel ext = new ExtinguisherModel(typeT, wheightT,
 						categoryT, brandT, quantityT, invoiceT, kontragentT,
 						dateT);
 
@@ -510,7 +511,7 @@ public class NewExtinguishers_DB extends MainPanel {
 				// wheightT,
 				// categoryT, brandT, quantityT, invoiceT, kontragentT,
 				// dateT);
-				extinguishersInfo.add(ext);
+				extinguisherModel.add(ext);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -536,8 +537,8 @@ public class NewExtinguishers_DB extends MainPanel {
 				e.printStackTrace();
 			}
 		}
-		Collections.sort(extinguishersInfo);
-		return extinguishersInfo;
+		Collections.sort(extinguisherModel);
+		return extinguisherModel;
 	}
 
 	public static int decreaseExtinguisher_Quantity(String type,

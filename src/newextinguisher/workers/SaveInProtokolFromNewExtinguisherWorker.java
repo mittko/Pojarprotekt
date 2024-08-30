@@ -1,8 +1,14 @@
 package newextinguisher.workers;
 
 import generators.ProtokolGenerator;
+import http.RequestCallback2;
+import http.new_extinguishers.NewExtinguisherService;
+import http.protokol.ProtokolService;
+import models.PartsModel;
+import models.ProtokolModel;
+import models.ProtokolModels;
 import newextinguisher.NewExtinguisherWindow;
-import db.NewExtinguisher.ExtinguishersInfo;
+import models.ExtinguisherModel;
 import db.NewExtinguisher.NewExtinguishers_DB;
 import db.Protokol.ProtokolNumber;
 import db.Protokol.ProtokolTable;
@@ -10,28 +16,26 @@ import db.ServiceOrder.ServiceNumber;
 import generators.GenerateSO;
 import generators.NumGenerator;
 import mydate.MyGetDate;
+import utils.MainPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class SaveInProtokolFromNewExtinguisherWorker extends SwingWorker {
 
 	private JDialog jd;
 	private String CURRENT_CLIENT = null;
 	private String SERVICE_NUMBER = null;
-	private String protokol_Number = null;
-	private int result = 0;
 
 	private final ServiceNumber soTable = new ServiceNumber();
 	private final ProtokolGenerator pg = new ProtokolGenerator();
 	private int[] next_number = null;
 	private String newServiceNumber = null;
 	private int updateServiceNum = 0;
-	private int updateProtokolNum = 0;
-	private String[] NUMBERS = new String[2]; // Protokol -> 1 index and Service
-												// numbers -> 0 index
+
 	private DefaultTableModel newExtinguisherTableModel;
 
 	public SaveInProtokolFromNewExtinguisherWorker(JDialog jDialog, String currentClient,
@@ -45,74 +49,81 @@ public class SaveInProtokolFromNewExtinguisherWorker extends SwingWorker {
 	public String[] doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
-		try {
 
-			// update service number
-			SERVICE_NUMBER = GenerateSO.nextSO(); // soTable.getSO_Number();
 
-			// update protokol number
-			protokol_Number = ProtokolNumber.getProtokolNumber();
+			ArrayList<ProtokolModel> protokolModelList = new ArrayList<>();
 
-			int[] insertResult = ProtokolTable.batchInsertNewExtinguishers(
-					newExtinguisherTableModel, CURRENT_CLIENT,
-					MyGetDate.getDateAfterToday(365), // TO
-					"не", // P
-					"не", // HI
-					"", // parts
-					protokol_Number, // protokolNumber
-					"Георги Ильов",//MainPanel.personName, // person
-					MyGetDate.getReversedSystemDate());// date
-			for (int j : insertResult) {
-				if (j == 1) {
-					result = 1;
-					break;
-				}
+			for(int index = 0;index < newExtinguisherTableModel.getRowCount();index++) {
+
+				String type = newExtinguisherTableModel.getValueAt(index, 0).toString() + " ( Нов )"; // type
+				String weight =	newExtinguisherTableModel.getValueAt(index,1).toString(); // weight
+				String barcod =	newExtinguisherTableModel.getValueAt(index, 2).toString(); // barcod
+				String serialNumber = newExtinguisherTableModel.getValueAt(index, 3).toString(); // serial
+				String category = newExtinguisherTableModel.getValueAt(index, 4).toString(); // category
+				String brand =	newExtinguisherTableModel.getValueAt(index, 5).toString(); // brand
+
+				String parts = 	""; // parts
+				String value =	newExtinguisherTableModel.getValueAt(index,6).toString(); // value
+				String kontragent = "-";// ПОЖАРПРОТЕКТ 00Д
+				String invoiceByKontragent ="-";// 0000001
+				String additional_data = newExtinguisherTableModel.getValueAt(index, 7).toString();// допълнителни данни
+
+
+				ProtokolModel protokolModel = new ProtokolModel();
+				protokolModel.setClient(CURRENT_CLIENT);
+				protokolModel.setType(type);
+				protokolModel.setWheight(weight);
+				protokolModel.setBarcod(barcod);
+				protokolModel.setSerial(serialNumber);
+				protokolModel.setCategory(category);
+				protokolModel.setBrand(brand);
+				protokolModel.setT_O(MyGetDate.getDateAfterToday(365));
+				protokolModel.setP("не");
+				protokolModel.setHi("не");
+				protokolModel.setParts(parts);
+				protokolModel.setValue(String.valueOf(value));
+				protokolModel.setPerson("Георги Ильов");
+				protokolModel.setDate(MyGetDate.getReversedSystemDate());
+				protokolModel.setUptodate("null");
+				protokolModel.setKontragent(kontragent);
+				protokolModel.setInvoiceByKontragent(invoiceByKontragent);
+				protokolModel.setAdditional_data(additional_data);
+
+				protokolModelList.add(protokolModel);
 			}
-			if (result == 1) {
 
-				newServiceNumber = NumGenerator.updateNum(SERVICE_NUMBER);
-				updateServiceNum = GenerateSO
-						.updateServiceOrder(newServiceNumber); // soTable.updateSO_InDB(newServiceNumber);//updateServiceNum
+			ProtokolModels body = new ProtokolModels();
+			body.setList(protokolModelList);
+			body.setParts(new ArrayList<>());
 
-				next_number = pg.updateProtokol(protokol_Number);
-				updateProtokolNum = ProtokolNumber.updateProtokolNumberInDB(pg
-						.digitsToString(next_number));
+			    ProtokolService service = new ProtokolService();
+				service.insertProtokol(body, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
-				NUMBERS[0] = newServiceNumber; // -> next service number
-				NUMBERS[1] = protokol_Number; // -> current protokol number for
-												// invoice
+						String nextProtokol = (String) t;
+						if(nextProtokol != null) {
+							// update service number
+							SERVICE_NUMBER = GenerateSO.nextSO(); // soTable.getSO_Number();
+							newServiceNumber = NumGenerator.updateNum(SERVICE_NUMBER);
+							GenerateSO.updateServiceOrder(newServiceNumber); // soTable.updateSO_InDB(newServiceNumber);//updateServiceNum
 
-				updateNewExtinguisherQuantity2();
 
-			}
+							NewExtinguisherWindow.dftm.setRowCount(0);
 
-		} finally {
-
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					if (result > 0 && updateServiceNum > 0
-							&& updateProtokolNum > 0) {
-
-						JOptionPane.showMessageDialog(null,
-								"Данните са записани успешно!");
-
-						NewExtinguisherWindow.protokolNumLabel.setName(pg
-								.digitsToString(next_number));
-
-						NewExtinguisherWindow.dftm.setRowCount(0);
-						// NewExtinguisherWindow.updateQuantityOfExtinguisherModel.setRowCount(0);
-
+							JOptionPane.showMessageDialog(null,
+									"Данните са записани успешно!");
+						}
 					}
+				});
 
-				}
 
-			});
-		}
-		return updateServiceNum > 0 ? NUMBERS : null;
+			//	updateNewExtinguisherQuantity2();
+
+			
+
+		return null;
 	}
 
 	// Тук си ги намалява в База Данни - Нови Пожарогасители както трябва оше
@@ -137,12 +148,12 @@ public class SaveInProtokolFromNewExtinguisherWorker extends SwingWorker {
 						.getValueAt(row, 7).toString();
 				String invoice = newExtinguisherTableModel.getValueAt(row, 8)
 						.toString();
-				ArrayList<ExtinguishersInfo> availableExtinguishers = NewExtinguishers_DB
+				ArrayList<ExtinguisherModel> availableExtinguishers = NewExtinguishers_DB
 						.getAvailableExtinguishersByInvoiceAndKontragent(
 								kontragent, invoice, typeExtinguisher, wheight,
 								category/*, brand*/);
 			//	 System.out.println("size = " + availableExtinguishers.size());
-				for (ExtinguishersInfo ext : availableExtinguishers) {
+				for (ExtinguisherModel ext : availableExtinguishers) {
 
 					// System.out.printf("%s %s %s %s %s %s %s %d\n", ext
 					// .getDate().toString(),
@@ -167,30 +178,6 @@ public class SaveInProtokolFromNewExtinguisherWorker extends SwingWorker {
 			}
 		}
 	}
-	// private void updateNewExtinguisherQuantity() {
-	// HashMap<String, Integer> mapQuantity = new HashMap<String, Integer>();
-	// int rows = NewExtinguisher2.updateQuantityOfExtinguisherModel
-	// .getRowCount();
-	// int columns = NewExtinguisher2.updateQuantityOfExtinguisherModel
-	// .getColumnCount();
-	// for (int row = 0; row < rows; row++) {
-	// StringBuilder keyBuilder = new StringBuilder();
-	// for (int column = 0; column < columns; column++) {
-	// keyBuilder
-	// .append(NewExtinguisher2.updateQuantityOfExtinguisherModel
-	// .getValueAt(row, column));
-	// if (column < columns - 1) {
-	// keyBuilder.append("-");
-	// }
-	// }
-	// Integer value = mapQuantity.get(keyBuilder.toString());
-	// if (value == null) {
-	// value = 0;
-	// }
-	// mapQuantity.put(keyBuilder.toString(), value + 1);
-	// }
-	// NewExtinguishers_DB.updateNewExtinguisherQuantityWithBatch(mapQuantity);
-	//
-	// }
+
 
 }

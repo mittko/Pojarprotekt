@@ -1,5 +1,6 @@
 package admin.sklad;
 
+import models.ExtinguisherModel;
 import newextinguisher.NewExtinguisherWindow;
 import admin.sklad.editors.TextCellEditors;
 import admin.sklad.renderers.NewExtRenderer;
@@ -22,7 +23,7 @@ public class Shop_SkladExtinuisher extends MainPanel {
 	public static JTable table = null;
 	private EditableField searchField = null;
     private final JComboBox<String> jComboBox;
-	public Shop_SkladExtinuisher(final ArrayList<Object[]> data) {
+	public Shop_SkladExtinuisher(final ArrayList<ExtinguisherModel> data) {
 
 		JPanel basePanel = new JPanel();
 		basePanel.setLayout(new BorderLayout());
@@ -123,17 +124,19 @@ public class Shop_SkladExtinuisher extends MainPanel {
 
 		// init skladExtinguisherModel
 
-		for (Object[] datum : data) {
-			skladExtinguisherModel.addRow(new Object[]{datum[0], // артикул
-					datum[1], // количество
-					datum[2], // м.ед
-					datum[3], // ед.цена
-					datum[4], // м.ед
-					datum[5], // ед.цена
+		for (ExtinguisherModel model : data) {
+			skladExtinguisherModel.addRow(
+					new Object[]{
+							model.getType(), //datum[0], // артикул
+					model.getWheight(),// datum[1], // количество
+					model.getCategory(),//datum[2], // м.ед
+					model.getBrand(),//datum[3], // ед.цена
+					model.getQuantity(),//datum[4], // м.ед
+					model.getPrice(),//datum[5], // ед.цена
 					"", // value to add
 					false,
-					datum[7],// контрагент
-					datum[6] // фактура по доставка});
+					model.getKontragent(),//datum[7],// контрагент
+					model.getInvoiceByKontragent()//datum[6] // фактура по доставка});
 			});
 
 		}
@@ -198,24 +201,22 @@ public class Shop_SkladExtinuisher extends MainPanel {
 			@Override
 			public void keyReleased(KeyEvent ke) {
 				skladExtinguisherModel.setRowCount(0);
-				for (Object[] datum : data) {
+				for (ExtinguisherModel model : data) {
 					String item = searchField.getText().toLowerCase();
-					String target = datum[0].toString().toLowerCase();
+					String target = model.getType().toLowerCase();// datum[0].toString().toLowerCase();
 					if ((item.length() > 0 && target.startsWith(item))
 							|| item.length() > 0 && target.contains(item))
 						skladExtinguisherModel.addRow(new Object[]{
-								datum[0], // артикул
-								datum[1], // количество
-								datum[2], // м.ед
-								datum[3], // ед.цена
-								datum[4], // м.ед
-								datum[5], // ед.цена
+								model.getType(), //datum[0], // артикул
+								model.getWheight(),// datum[1], // количество
+								model.getCategory(),//datum[2], // м.ед
+								model.getBrand(),//datum[3], // ед.цена
+								model.getQuantity(),//datum[4], // м.ед
+								model.getPrice(),//datum[5], // ед.цена
 								"", // value to add
 								false,
-//								datum[6],// фактура Тук съм допуснал глупава грешка по невнимание
-//								datum[7] // контрагент});
-								datum[7],// контрагент
-								datum[6] // фактура по доставка});
+								model.getKontragent(),//datum[7],// контрагент
+								model.getInvoiceByKontragent()//datum[6] // фактура по доставка});
 						});
 				}
 			}
@@ -274,13 +275,13 @@ public class Shop_SkladExtinuisher extends MainPanel {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				JFrame jf = new JFrame();
-				Shop_SkladExtinuisher nep = new Shop_SkladExtinuisher(
-						new ArrayList<Object[]>());
-				jf.add(nep);
-				jf.pack();
-				jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-				jf.setVisible(true);
+//				JFrame jf = new JFrame();
+//				Shop_SkladExtinuisher nep = new Shop_SkladExtinuisher(
+//						new ArrayList<Object[]>());
+//				jf.add(nep);
+//				jf.pack();
+//				jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//				jf.setVisible(true);
 			}
 
 		});
