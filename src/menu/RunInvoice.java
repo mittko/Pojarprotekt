@@ -13,13 +13,10 @@ import java.awt.event.WindowEvent;
 
 public class RunInvoice implements Runnable {
 
-    private String invoiceNumber = null;
-
-    private final String protokolNumber;
+    private String protokolNumber;
     private JFrame jf = null;
 
-    public RunInvoice(String invoiceNumber, String proformNumber,String protokolNumber, JFrame jf) {
-        this.invoiceNumber = invoiceNumber;
+    public RunInvoice(String protokolNumber, JFrame jf) {
         this.protokolNumber = protokolNumber;
         this.jf = jf;
     }
@@ -30,7 +27,7 @@ public class RunInvoice implements Runnable {
         if(jf != null) {
             jf.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
-        if (invoiceNumber != null) {
+
 
             final InvoiceFrame invoice = new InvoiceFrame(protokolNumber);
             final JDialoger jDialog = new JDialoger();
@@ -65,7 +62,7 @@ public class RunInvoice implements Runnable {
                 }
             });
             jDialog.Show();
-        }
+
 
     }
 

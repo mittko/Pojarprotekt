@@ -167,7 +167,7 @@ public class NewExtinguisherWindow extends MainPanel {
 
 				for(int index = 0;index < dftm.getRowCount();index++) {
 
-					String type = dftm.getValueAt(index, 0).toString() + " ( Íîâ )"; // type
+					String type = dftm.getValueAt(index, 0).toString(); // type
 					String weight =	dftm.getValueAt(index,1).toString(); // weight
 					String barcod =	dftm.getValueAt(index, 2).toString(); // barcod
 					String serialNumber = dftm.getValueAt(index, 3).toString(); // serial
@@ -176,9 +176,9 @@ public class NewExtinguisherWindow extends MainPanel {
 
 					String parts = 	""; // parts
 					String value =	dftm.getValueAt(index,6).toString(); // value
-					String kontragent = "-";// ÏÎÆÀÐÏÐÎÒÅÊÒ 00Ä
-					String invoiceByKontragent ="-";// 0000001
-					String additional_data = dftm.getValueAt(index, 7).toString();// äîïúëíèòåëíè äàííè
+					String kontragent = dftm.getValueAt(index,7).toString();//"-";// ÏÎÆÀÐÏÐÎÒÅÊÒ 00Ä
+					String invoiceByKontragent = dftm.getValueAt(index,8).toString();//"-";// 0000001
+					String additional_data = dftm.getValueAt(index, 9).toString();// äîïúëíèòåëíè äàííè
 
 
 					ProtokolModel protokolModel = new ProtokolModel();
@@ -208,8 +208,8 @@ public class NewExtinguisherWindow extends MainPanel {
 				body.setList(protokolModelList);
 				body.setParts(new ArrayList<>());
 
-				ProtokolService service = new ProtokolService();
-				service.insertProtokol(body, new RequestCallback2() {
+				NewExtinguisherService service = new NewExtinguisherService();
+				service.insertNewExtinguisher(body, new RequestCallback2() {
 					@Override
 					public <T> void callback(T t) {
 						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -404,20 +404,14 @@ public class NewExtinguisherWindow extends MainPanel {
 			public void actionPerformed(ActionEvent e) {
 				SwingWorker sw = new SwingWorker() {
 
-					private String invoiceNumber = null;
-					private String proformNumber = null;
 
 					@Override
 					protected Object doInBackground() throws Exception {
 						// TODO Auto-generated method stub
-						try {
 
-							invoiceNumber = InvoiceNumber.getInvoiceNumber();
-							proformNumber = InvoiceNumber.getProformNumber();
-						} finally {
-							SwingUtilities.invokeLater(new RunInvoice(
-									invoiceNumber, proformNumber, protokolNumberForInvoice,null));
-						}
+						SwingUtilities.invokeLater(new RunInvoice(
+								 protokolNumberForInvoice,null));
+
 						return null;
 					}
 

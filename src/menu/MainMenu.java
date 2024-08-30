@@ -170,19 +170,15 @@ public class MainMenu extends MainPanel {
 				SwingWorker sw = new SwingWorker() {
 					private JFrame jf = (JFrame) SwingUtilities
 							.getWindowAncestor(MainMenu.this);
-					private String invoiceNumber = null;
-					private String proformNumber = null;
 
 					@Override
 					protected Object doInBackground() throws Exception {
 						// TODO Auto-generated method stub
 						try {
 							jf.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-							invoiceNumber = InvoiceNumber.getInvoiceNumber();
-							proformNumber = InvoiceNumber.getProformNumber();
 						} finally {
 							SwingUtilities.invokeLater(new RunInvoice(
-									invoiceNumber, proformNumber, null, jf));
+								 null, jf));
 						}
 						return null;
 					}

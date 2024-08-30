@@ -55,7 +55,7 @@ public class SaveInProtokolFromNewExtinguisherWorker extends SwingWorker {
 
 			for(int index = 0;index < newExtinguisherTableModel.getRowCount();index++) {
 
-				String type = newExtinguisherTableModel.getValueAt(index, 0).toString() + " ( Нов )"; // type
+				String type = newExtinguisherTableModel.getValueAt(index, 0).toString(); // type
 				String weight =	newExtinguisherTableModel.getValueAt(index,1).toString(); // weight
 				String barcod =	newExtinguisherTableModel.getValueAt(index, 2).toString(); // barcod
 				String serialNumber = newExtinguisherTableModel.getValueAt(index, 3).toString(); // serial
