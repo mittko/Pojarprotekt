@@ -1032,6 +1032,7 @@ public class Artikuli_DB extends MainPanel {
 		return max;
 	}
 
+
 	public static int insertIntoArtikulTable(final String dbTable, final String artikul, final int quantity, final String med, final String value, final String invoiceNumber, final String client,
 											 final String date, final String seller, final String percentProfit, final String barcode) {
 		Connection connect = null;

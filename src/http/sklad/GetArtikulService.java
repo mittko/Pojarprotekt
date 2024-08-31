@@ -2,6 +2,7 @@ package http.sklad;
 
 import exceptions.ErrorDialog;
 import http.RequestCallback;
+import http.RequestCallback2;
 import http.base.ServiceAPI;
 import models.ArtikulModel;
 import retrofit2.Call;
@@ -30,6 +31,42 @@ public class GetArtikulService extends ServiceAPI {
             @Override
             public void onFailure(Call<List<ArtikulModel>> call, Throwable throwable) {
                    ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void inserArtikul(ArtikulModel body, RequestCallback2 callback) {
+        getService().insertArtikul(body).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                 ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void deleteArtikul(String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
+        getService().deleteArtikul(artikul,kontragent,invoiceByKontragent).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

@@ -6,7 +6,9 @@ import admin.artikul.renderers.ArtikulRenderer;
 import admin.artikul.workers.*;
 import db.artikul.Artikuli_DB;
 import http.RequestCallback;
+import http.RequestCallback2;
 import http.sklad.GetArtikulService;
+import http.sklad.IGetArtikuls;
 import invoice.sklad.ILoadArtikuls;
 import models.ArtikulModel;
 import run.JDialoger;
@@ -85,18 +87,20 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 				 * if(artikulTableModel.getRowCount() == 0) return;
 				 */
 
+				JDialog jd = ((JDialog) SwingUtilities
+						.getWindowAncestor(AvailableArtikulsTable.this));
+				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
 				GetArtikulService service = new GetArtikulService();
 				service.getArtikuls(isGrey(), true, new RequestCallback() {
 					@Override
 					public <T> void callback(List<T> objects) {
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 						loadArtikuls((ArrayList<ArtikulModel>) objects);
 					}
 				});
-				JDialog jd = ((JDialog) SwingUtilities
-						.getWindowAncestor(AvailableArtikulsTable.this));
-				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				//LoadAllArtikulsWorker load = new LoadAllArtikulsWorker(AvailableArtikulsTable.this,jd);
-//				load.execute();
+
 			}
 
 		});
@@ -303,7 +307,6 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 		gbc21.insets = new Insets(0, 0, 0, 0);
 
 
-
 		GridBagConstraints gbc31 = new GridBagConstraints();
 		gbc31.fill = GridBagConstraints.HORIZONTAL;
 		gbc31.gridx = 3;
@@ -371,8 +374,8 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 		JScrollPane scroll = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // this line set
-															// horizontal scroll
-															// bar
+		// horizontal scroll
+		// bar
 
 		scroll.setPreferredSize(new Dimension((int)(this.WIDTH * 0.95), (int)(this.HEIGHT * 0.85)));
 
@@ -417,14 +420,13 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 	}
 
 
-
 	@Override
 	public void loadArtikuls(ArrayList<ArtikulModel> artikuls) {
 
 		helpSearchFieldList.clear();
 		for (ArtikulModel model : artikuls) {
 
-		//	artikul, quantity, med , value, client, invoice, date, operator, percentProfit, barcode
+			//	artikul, quantity, med , value, client, invoice, date, operator, percentProfit, barcode
 
 			// " (artikul varchar(100),quantity int,"
 			//         + "med varchar(20),value varchar(20))"; // artikuli->300
@@ -505,29 +507,52 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 	@Override
 	public void deleteArtikul(String artikul, String kontragent, String invoice) {
-		DeleteArtikulWorker dw = new DeleteArtikulWorker(
-				getTableName(),
-				(JDialog) SwingUtilities
-						.getWindowAncestor(AvailableArtikulsTable.this), artikul, kontragent, invoice);
-		dw.execute();
+		JDialog jDialog = (JDialog) SwingUtilities
+				.getWindowAncestor(AvailableArtikulsTable.this);
+
+
+		jDialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		GetArtikulService service = new GetArtikulService();
+		service.deleteArtikul(artikul, kontragent, invoice, new RequestCallback2() {
+			@Override
+			public <T> void callback(T t) {
+
+				jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+				JOptionPane.showMessageDialog(null,
+						"Артикулът е изтрит успешно!");
+
+			}
+		});
 	}
 
 	@Override
 	public void addArtikul(String client, String artikul, String sklad, String med, String deliveryValue,
 						   String price, String invoice, String date, String operator, String percentProfit, String barcode) {
 		final JDialog jd = (JDialog)SwingUtilities.getWindowAncestor(AvailableArtikulsTable.this);
-		jd.setCursor(new Cursor(3));
-		final InsertArtikulWorker add = new InsertArtikulWorker(
-				getTableName(),
-				client, artikul,
-				sklad, med,
-				deliveryValue,
-				price,
-				invoice,
-				date, operator,
-				percentProfit,
-				barcode, jd);
-		add.execute();
+		jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
+        ArtikulModel model = new ArtikulModel();
+		model.setArtikul(artikul);
+		model.setQuantity(Integer.parseInt(sklad));
+		model.setMed(med);
+		model.setPrice(Float.parseFloat(price.replace(",",".")));
+		model.setInvoice(invoice);
+		model.setKontragent(client);
+		model.setDate(date);
+		model.setPerson(operator);
+		model.setPercentProfit(percentProfit);
+		model.setBracod(barcode);
+		GetArtikulService service = new GetArtikulService();
+		service.inserArtikul(model, new RequestCallback2() {
+			@Override
+			public <T> void callback(T t) {
+
+				jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				JOptionPane.showMessageDialog(null,
+						"Данните са записани успешно !");
+			}
+		});
 	}
 
 	@Override

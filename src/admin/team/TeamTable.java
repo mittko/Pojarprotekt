@@ -3,6 +3,9 @@ package admin.team;
 import admin.team.renderers.TeamRenderer;
 import admin.team.workers.RemoveMemberWorker;
 import admin.team.workers.SeeMembersWorker;
+import http.RequestCallback;
+import http.user.GetUserService;
+import models.User;
 import run.JDialoger;
 import utils.MainPanel;
 import utils.TooltipButton;
@@ -15,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TeamTable extends MainPanel {
 
@@ -53,31 +57,35 @@ public class TeamTable extends MainPanel {
 				JDialog jd = (JDialog) SwingUtilities
 						.getWindowAncestor(TeamTable.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				SeeMembersWorker see = new SeeMembersWorker(jd);
-				try {
-					ArrayList<Object[]> result = see.doInBackground();
-					if (result.size() > 0) {
-						for (Object[] objects : result) {
-							Object[] obj = new Object[objects.length];
-							for (int j = 0; j < objects.length; j++) {
-								if (j < 2) {
-									obj[j] = objects[j];
-								} else {
-									if (objects[j].equals("yes")) {
-										obj[j] = Boolean.TRUE;
-									} else {
-										obj[j] = Boolean.FALSE;
-									}
-								}
+
+				GetUserService service = new GetUserService();
+				service.getUsers(new RequestCallback() {
+					@Override
+					public <T> void callback(List<T> objects) {
+
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						if(objects != null) {
+							List<User> users = (List<User>) objects;
+							for (User user : users) {
+
+								Object[] obj = {user.getUsser(), user.getPassword(),user.getService_Order().equals("yes")
+										? Boolean.TRUE : Boolean.FALSE,
+								        user.getWorking_Book().equals("yes")
+										? Boolean.TRUE : Boolean.FALSE, user.getInvoice().equals("yes")
+										? Boolean.TRUE : Boolean.FALSE, user.getReports().equals("yes")
+										? Boolean.TRUE : Boolean.FALSE,
+								        user.getNew_Ext().equals("yes")
+										? Boolean.TRUE : Boolean.FALSE, user.getHidden_Menu().equals("yes")
+										? Boolean.TRUE : Boolean.FALSE, user.getAcquittance().equals("yes")
+										? Boolean.TRUE : Boolean.FALSE};
+
+								dftm.addRow(obj);
 							}
-							// System.out.println();
-							dftm.addRow(obj);
 						}
 					}
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				});
+
 			}
 
 		});
