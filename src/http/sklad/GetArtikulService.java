@@ -70,4 +70,58 @@ public class GetArtikulService extends ServiceAPI {
             }
         });
     }
+
+    public void renameArtikul(String oldName, String newName, RequestCallback2 callback) {
+        getService().renameArtikul(oldName,newName).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void editArtikulQuantity(String artikul, String kontragent, String invoiceByKontragent, String newQuantity, RequestCallback2 callback) {
+        getService().editArtikulQuantity(artikul,kontragent, invoiceByKontragent, newQuantity).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void editArtikulPrice(String newValue, String percentProfit, String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
+        getService().editArtikulPrice(newValue, percentProfit, artikul, kontragent, invoiceByKontragent).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }

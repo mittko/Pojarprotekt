@@ -485,24 +485,51 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 	@Override
 	public void changeArtikulPrice(String artikul, String biggestPriceValue, String percentProfit, String kontragent, String invoice) {
+
+
 		JDialog jd = (JDialog) SwingUtilities
 				.getWindowAncestor(AvailableArtikulsTable.this);
 		jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-		UpdatePriceArtikulWorker add = new UpdatePriceArtikulWorker(
-				getTableName(),
-				artikul, biggestPriceValue,
-				percentProfit, kontragent,
-				invoice, jd);
-		add.execute();
+
+		GetArtikulService service = new GetArtikulService();
+		service.editArtikulPrice(biggestPriceValue, percentProfit, artikul, kontragent, invoice, new RequestCallback2() {
+			@Override
+			public <T> void callback(T t) {
+
+				jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+				JOptionPane.showMessageDialog(null,
+						"Данните са записани успешно!");
+
+			}
+		});
+//		UpdatePriceArtikulWorker add = new UpdatePriceArtikulWorker(
+//				getTableName(),
+//				artikul, biggestPriceValue,
+//				percentProfit, kontragent,
+//				invoice, jd);
+//		add.execute();
 	}
 
 	@Override
 	public void changeArtikulQuantity(String artikul, String newQuantity, String kontragent, String invoice) {
-		ChangeArtikulQuantityWorker quantityArtikulWorker = new ChangeArtikulQuantityWorker(
-				getTableName(),
-				artikul, newQuantity, kontragent, invoice);
-		quantityArtikulWorker.execute();
+
+		JDialog jDialog = (JDialog) SwingUtilities
+				.getWindowAncestor(AvailableArtikulsTable.this);
+
+		GetArtikulService service = new GetArtikulService();
+		service.editArtikulQuantity(artikul, kontragent, invoice, newQuantity, new RequestCallback2() {
+			@Override
+			public <T> void callback(T t) {
+
+				jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+				JOptionPane.showMessageDialog(null,
+						"Промените са записани успешно!");
+			}
+		});
+
 	}
 
 	@Override
@@ -549,6 +576,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 			public <T> void callback(T t) {
 
 				jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 				JOptionPane.showMessageDialog(null,
 						"Данните са записани успешно !");
 			}
@@ -557,18 +585,20 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 	@Override
 	public void renameArtikul(String oldArtikulName, String newArtikulName) {
-		RenameArtikulNameWorker renameArtikulNameWorker =
-				new RenameArtikulNameWorker(getTableName(),oldArtikulName,newArtikulName);
-		try {
-			boolean renameSuccess =  renameArtikulNameWorker.doInBackground();
-			if(renameSuccess) {
+
+		JDialog jDialog = (JDialog) SwingUtilities
+				.getWindowAncestor(AvailableArtikulsTable.this);
+
+		GetArtikulService service = new GetArtikulService();
+		service.renameArtikul(oldArtikulName, newArtikulName, new RequestCallback2() {
+			@Override
+			public <T> void callback(T t) {
+
+				jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 				JOptionPane.showMessageDialog(null,"Артикулът е преименуван успешно !");
-			} else {
-				ErrorDialog.showErrorMessage("Неуспешна операция !");
 			}
-		} catch (Exception exception) {
-			DBException.showErrorMessage("Error",exception);
-		}
+		});
 	}
 
 	public abstract String getTableName();
