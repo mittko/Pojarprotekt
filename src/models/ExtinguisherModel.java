@@ -1,6 +1,8 @@
 package models;
 
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,12 +39,14 @@ public class ExtinguisherModel<T> implements Comparable<ExtinguisherModel<T>> {
 	private String dateString;
 	private String kontragent;
 
-
-
-	final private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 	private Date date;
 	private String saller;
 	private String percentProfit;
+
+
+	// set transient to ignore this field from json serialization
+	final transient private SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
 
 	public String getType() {
 		return type;

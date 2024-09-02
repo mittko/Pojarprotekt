@@ -2,6 +2,8 @@ package admin.sklad;
 
 import admin.sklad.workers.GetDeliveryPriceOfNewExtinguisherWorker;
 import admin.sklad.workers.UpdatePriceNewExtinguisherWorker;
+import http.RequestCallback2;
+import http.new_extinguishers.NewExtinguisherService;
 import utils.EditableField;
 import utils.MainPanel;
 import utils.MyMath;
@@ -205,10 +207,22 @@ class ChangePriceOfNewExtinguisherDialog extends MainPanel {
 				String brand = brandField.getText();
 				String kontragent = kontragentsField.getText();
 				String invoiceByKontragent = invoiceField.getText();
-				UpdatePriceNewExtinguisherWorker updatePrice = new UpdatePriceNewExtinguisherWorker(
-						price, percentProfit, type, wheight, category, brand,
-						kontragent, invoiceByKontragent, jd);
-				updatePrice.execute();
+
+				NewExtinguisherService service = new NewExtinguisherService();
+				service.editExtinguisherPrice(price, percentProfit, kontragent, invoiceByKontragent,
+						type, wheight, category, brand, new RequestCallback2() {
+							@Override
+							public <T> void callback(T t) {
+
+								jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+								Integer result = (Integer) t;
+								if(result > 0) {
+									JOptionPane.showMessageDialog(null,
+											"Данните са записани успешно!");
+								}
+							}
+						});
 			}
 
 		});

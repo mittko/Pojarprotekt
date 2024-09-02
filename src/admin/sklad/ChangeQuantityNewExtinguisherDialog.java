@@ -1,6 +1,8 @@
 package admin.sklad;
 
 import admin.sklad.workers.UpdateNewQuantityOfExtinguisgerInDB;
+import http.RequestCallback2;
+import http.new_extinguishers.NewExtinguisherService;
 import utils.EditableField;
 import utils.MainPanel;
 
@@ -220,11 +222,22 @@ public class ChangeQuantityNewExtinguisherDialog extends MainPanel {
 							"Грешен формат на количество");
 					return;
 				}
-				UpdateNewQuantityOfExtinguisgerInDB updateQuantityWorker = new UpdateNewQuantityOfExtinguisgerInDB(
-						kontragent, invoiceByKontragent, type, wheight,
-						category, brand, Integer.parseInt(newQuantity), jd);
-				updateQuantityWorker.execute();
 
+				NewExtinguisherService service = new NewExtinguisherService();
+				service.editExtinguisherQuantity(newQuantity, kontragent, invoiceByKontragent, type, wheight,
+						category, brand, new RequestCallback2() {
+							@Override
+							public <T> void callback(T t) {
+
+								jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+								Integer result = (Integer) t;
+								if(result > 0) {
+									JOptionPane.showMessageDialog(null,
+											"Данните са записани успешно!");
+								}
+							}
+						});
 			}
 
 			// }

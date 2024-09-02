@@ -144,26 +144,6 @@ public class MainFrame_SkladNewExtinguisher extends MainPanel {
 				jDialoger.setResizable(false);
 				jDialoger.Show();
 
-				/*
-				 * int yes_no = JOptionPane.showOptionDialog(null,
-				 * "Желаете ли да съхраните въведените данни?", "",
-				 * JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
-				 * null, new String[] { "Да", "Не" }, // this is the array
-				 * "default"); if (yes_no != 0) { return; } final JDialog jd =
-				 * (JDialog) SwingUtilities
-				 * .getWindowAncestor(MainFrame_SkladNewExtinguisher.this);
-				 * jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				 * 
-				 * UpdateNewQuantityOfExtinguisgerInDB updateQuantityWorker =
-				 * new UpdateNewQuantityOfExtinguisgerInDB(
-				 * skladExtinguisherModel.getValueAt(SELECTED_INDEX, 0)
-				 * .toString(), skladExtinguisherModel.getValueAt(
-				 * SELECTED_INDEX, 1).toString(),
-				 * skladExtinguisherModel.getValueAt(SELECTED_INDEX, 2)
-				 * .toString(), skladExtinguisherModel.getValueAt(
-				 * SELECTED_INDEX, 3).toString(), newQuantity, jd);
-				 * updateQuantityWorker.execute();
-				 */
 			}
 
 		});
@@ -253,9 +233,21 @@ public class MainFrame_SkladNewExtinguisher extends MainPanel {
 				String brand = table.getValueAt(index, 3).toString();
 				String invoice = table.getValueAt(index, 6).toString();
 				String kontragent = table.getValueAt(index, 7).toString();
-				DeleteExtinguisherWorker del = new DeleteExtinguisherWorker(
-						type, wheight, category, brand, invoice, kontragent);
-				del.execute();
+
+				NewExtinguisherService service = new NewExtinguisherService();
+				service.deleteExtinguisher(type, wheight, category, brand, invoice, kontragent, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+
+
+						Integer result = (Integer) t;
+						if(result > 0) {
+							JOptionPane.showMessageDialog(null,
+									"Пожарогасителят е изтрит успешно!\n");
+						}
+					}
+				});
+
 			}
 
 		});
@@ -297,7 +289,7 @@ public class MainFrame_SkladNewExtinguisher extends MainPanel {
 						}
 					}
 				});
-//
+
 
 			}
 
@@ -329,8 +321,6 @@ public class MainFrame_SkladNewExtinguisher extends MainPanel {
 		setColumnsWidth(table);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // this line set
 
-		// JTable rowTable = new CommonResources.RowNumberTable(table); // ****
-
 		scrollPane = new JScrollPane(table,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -338,10 +328,6 @@ public class MainFrame_SkladNewExtinguisher extends MainPanel {
 		scrollPane.setPreferredSize(new Dimension((this.WIDTH - 50),
 				this.HEIGHT - 70));
 
-		// scrollPane.setRowHeaderView(rowTable); // ****
-
-		// scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER,// ****
-		// rowTable.getTableHeader());// ****
 
 		centerPanel.add(scrollPane);
 

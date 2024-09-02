@@ -218,7 +218,7 @@ public class AdminDialog extends MainPanel implements ActionListener {
 		});
 		JPanel basePanel = new JPanel();
 		basePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		basePanel.setLayout(new GridLayout(10, 1));
+		basePanel.setLayout(new GridLayout(6/*10*/, 1));
 		basePanel.setLocation((int) (this.getPreferredSize().getWidth() / 2),
 				(int) (this.getPreferredSize().getHeight() / 2));
 		JPanel helpPanel1 = new JPanel();
@@ -228,11 +228,11 @@ public class AdminDialog extends MainPanel implements ActionListener {
 
 
 		basePanel.add(helpPanel1);
-		basePanel.add(extinguishingAgentButton);
+	//	basePanel.add(extinguishingAgentButton);
 		basePanel.add(parts_PriceRadioButton);
-		basePanel.add(parts_QuantityRadioButton);
-		basePanel.add(editClientRadioButton);
-		basePanel.add(work_PriceRadioButton);
+	//	basePanel.add(parts_QuantityRadioButton);
+	//	basePanel.add(editClientRadioButton);
+	//	basePanel.add(work_PriceRadioButton);
 		basePanel.add(artikulRadioButton);
 		basePanel.add(new_ExtRadioButton);
 		basePanel.add(usersRadioButton);

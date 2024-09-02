@@ -9,6 +9,7 @@ import models.ProtokolModels;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import utils.MainPanel;
 
 import java.util.List;
 
@@ -49,6 +50,83 @@ public class NewExtinguisherService extends ServiceAPI {
             @Override
             public void onFailure(Call<String> call, Throwable throwable) {
                 ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void createExtinguisher(ExtinguisherModel body, RequestCallback2 callback) {
+        getService().createExtinguisher(body).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void editExtinguisherQuantity(String quantity, String kontragent,
+                                           String invoiceByKontragent, String type, String weight,
+                                           String category, String brand, RequestCallback2 callback) {
+        getService().editExtinguisherQuantity(quantity, kontragent, invoiceByKontragent,type,weight,category,brand).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                 ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void editExtinguisherPrice(String price, String percentProfit, String kontragent,
+                                      String invoiceByKontragent,  String type,
+                                      String weight, String category, String brand, RequestCallback2 callback) {
+        getService().editExtinguisherPrice(price, percentProfit, type,weight,category,brand,kontragent,invoiceByKontragent).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void deleteExtinguisher(String type, String weight,
+                                   String category, String brand, String invoiceByKontragent, String kontragent, RequestCallback2 callback) {
+        getService().deleteExtinguisher(type,weight,category,brand,invoiceByKontragent,kontragent).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                     ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

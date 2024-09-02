@@ -1,6 +1,9 @@
 package admin.sklad;
 
 import document.TextFieldLimit;
+import http.RequestCallback2;
+import http.new_extinguishers.NewExtinguisherService;
+import models.ExtinguisherModel;
 import office.models.*;
 import admin.sklad.workers.GetCurrentExtPriceWorker;
 import admin.sklad.workers.ImportNewExtinguisherInDBWorker;
@@ -40,8 +43,6 @@ class AddNewExtinguisherDialog extends MainPanel {
 	private JTextField finalValueField = null;
 	private JTextField percentProfitField = null;
 	private final JTextField operatorField;
-
-	private final DefaultComboBoxModel emptyModel = new DefaultComboBoxModel();
 
 	String kontragent;
 	String prevValue;
@@ -249,12 +250,35 @@ class AddNewExtinguisherDialog extends MainPanel {
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 
-				ImportNewExtinguisherInDBWorker iw2 = new ImportNewExtinguisherInDBWorker(
-						typeCombo, wheightCombo, categoryCombo, brandCombo,
-						quantityField, finalValueField, deliveryValueField,
-						bestValueField, invoiceField, kontragentsComboBox,
-						dateField, operatorField, percentProfitField, jd);
-				iw2.execute();
+				ExtinguisherModel model = new ExtinguisherModel();
+				model.setType(typeCombo.getSelectedItem().toString());
+				model.setWheight(wheightCombo.getSelectedItem().toString());
+				model.setCategory(categoryCombo.getSelectedItem().toString());
+				model.setBrand(brandCombo.getSelectedItem().toString());
+				model.setQuantity(quantityField.getText());
+				model.setPrice(finalValueField.getText());
+				model.setInvoiceByKontragent(invoiceField.getText());
+				model.setDateString(dateField.getText());
+				model.setKontragent(kontragentsComboBox.getSelectedItem().toString());
+                model.setSaller(operatorField.getText());
+				model.setPercentProfit(percentProfitField.getText());
+
+				NewExtinguisherService service = new NewExtinguisherService();
+
+				service.createExtinguisher(model, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						Integer result = (Integer) t;
+						if(result > 0) {
+							JOptionPane.showMessageDialog(null,
+									"Данните са записани успешно!");
+						}
+					}
+				});
+
 
 			}
 
