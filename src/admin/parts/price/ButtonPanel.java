@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+import http.RequestCallback2;
+import http.sklad.GetArtikulService;
 import run.JustFrame;
 import utils.EditableField;
 import utils.LoadIcon;
@@ -103,9 +105,18 @@ public class ButtonPanel extends MainPanel {
 				JDialog jd = (JDialog) SwingUtilities
 						.getWindowAncestor(ButtonPanel.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				seeQuantityAndPriceOfPartWorker vw = new seeQuantityAndPriceOfPartWorker(
-						part, type, category, wheight, jd);
-				vw.execute();
+
+				GetArtikulService service = new GetArtikulService();
+				service.getPartPrice(part, type, category, wheight, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						Double result = (Double) t;
+						TablePanel.jTable.setValueAt(result,TablePanel.index, 4);
+
+					}
+				});
 
 			}
 
@@ -163,9 +174,21 @@ public class ButtonPanel extends MainPanel {
 				JDialog jd = (JDialog) SwingUtilities
 						.getWindowAncestor(ButtonPanel.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				ChangePriceOfPartWorker spw = new ChangePriceOfPartWorker(part,
-						type, category, wheight, newPrice, jd);
-				spw.execute();
+
+				GetArtikulService service = new GetArtikulService();
+				service.updatePartPrice(String.valueOf(newPrice), part, type, wheight, category, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						Integer result = (Integer) t;
+						if(result > 0) {
+							JOptionPane.showMessageDialog(null, "Промяната бе извършена успешно!");
+						}
+					}
+				});
+
 
 			}
 

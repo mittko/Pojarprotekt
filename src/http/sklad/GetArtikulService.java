@@ -124,4 +124,40 @@ public class GetArtikulService extends ServiceAPI {
             }
         });
     }
+
+    public void updatePartPrice(String price, String part, String type, String weight, String category, RequestCallback2 callback) {
+        getService().updatePartPrice(price,part,type,weight,category).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getPartPrice(String part, String type, String category, String weight, RequestCallback2 callback) {
+        getService().getPartPrice(part,type,category,weight).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }

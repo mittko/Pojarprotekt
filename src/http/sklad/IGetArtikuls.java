@@ -29,4 +29,12 @@ public interface IGetArtikuls {
     @PUT("/edit_artikul_price/{newValue}/{percentProfit}/{artikul}/{kontragent}/{invoiceByKontragent}")
     Call<Integer> editArtikulPrice(@Path("newValue") String newValue, @Path("percentProfit") String percentProfit, @Path("artikul") String artikul,
                                    @Path("kontragent") String kontragent, @Path("invoiceByKontragent") String invoiceByKontragent);
+
+    @PUT("/update_parts_price/{price}/{part}/{type}/{weight}/{category}")
+    Call<Integer> updatePartPrice(@Path("price") String price, @Path("part") String part,
+                                  @Path("type") String type, @Path("weight") String weight, @Path("category") String category);
+
+    @GET("/get_part_price")
+    Call<Double> getPartPrice(@Query("part") String part, @Query("type") String type,
+                              @Query("category") String category, @Query("weight") String weight);
 }
