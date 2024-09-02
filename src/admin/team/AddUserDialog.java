@@ -1,6 +1,9 @@
 package admin.team;
 
 import admin.team.workers.AddUserWorker;
+import http.RequestCallback2;
+import http.user.GetUserService;
+import models.User;
 import utils.CustomCheckBox;
 import utils.MainPanel;
 import utils.TooltipButton;
@@ -162,20 +165,47 @@ public class AddUserDialog extends MainPanel {
 						.getWindowAncestor(AddUserDialog.this);
 				jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				AddUserWorker add = new AddUserWorker(
-						userField.getText(),
-						passwordField.getText(),
-						serviceOrderCheckBox.getPressed() ? "yes"
-								: "no",
-						workingBookCheckBox.getPressed() ? "yes" : "no",
-						invoiceCheckBox.getPressed() ? "yes" : "no",
-						reportsCheckBox.getPressed() ? "yes" : "no",
-						newExtCheckBox.getPressed() ? "yes" : "no",
-						hiddenMenuCheckBox.getPressed() ? "yes" : "no",
-						acquittanceCheckBox.getPressed() ? "yes" : "no",
-						jd);
 
-				add.execute();
+				User user = new User();
+				user.setUsser(userField.getText());
+				user.setPassword(passwordField.getText());
+				user.setService_Order(serviceOrderCheckBox.getPressed() ? "yes"
+						: "no");
+				user.setWorking_Book(workingBookCheckBox.getPressed() ? "yes" : "no");
+				user.setInvoice(invoiceCheckBox.getPressed() ? "yes" : "no");
+				user.setReports(reportsCheckBox.getPressed() ? "yes" : "no");
+				user.setNew_Ext(newExtCheckBox.getPressed() ? "yes" : "no");
+				user.setHidden_Menu(hiddenMenuCheckBox.getPressed() ? "yes" : "no");
+				user.setAcquittance(acquittanceCheckBox.getPressed() ? "yes" : "no");
+
+				GetUserService service = new GetUserService();
+				service.createUser(user, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						Integer result = (Integer) t;
+						if(result > 0) {
+							JOptionPane.showMessageDialog(null, "Данните са записани успешно!");
+						}
+					}
+				});
+
+//				AddUserWorker add = new AddUserWorker(
+//						userField.getText(),
+//						passwordField.getText(),
+//						serviceOrderCheckBox.getPressed() ? "yes"
+//								: "no",
+//						workingBookCheckBox.getPressed() ? "yes" : "no",
+//						invoiceCheckBox.getPressed() ? "yes" : "no",
+//						reportsCheckBox.getPressed() ? "yes" : "no",
+//						newExtCheckBox.getPressed() ? "yes" : "no",
+//						hiddenMenuCheckBox.getPressed() ? "yes" : "no",
+//						acquittanceCheckBox.getPressed() ? "yes" : "no",
+//						jd);
+//
+//				add.execute();
 			}
 
 		});

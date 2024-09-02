@@ -51,4 +51,40 @@ public class GetUserService extends ServiceAPI {
             }
         });
     }
+
+    public void createUser(User user, RequestCallback2 callback) {
+        getService().createUser(user).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                 ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void deleteUser(String user, RequestCallback2 callback) {
+        getService().deleteUser(user).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable throwable) {
+                ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }

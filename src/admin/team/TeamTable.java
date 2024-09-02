@@ -4,6 +4,7 @@ import admin.team.renderers.TeamRenderer;
 import admin.team.workers.RemoveMemberWorker;
 import admin.team.workers.SeeMembersWorker;
 import http.RequestCallback;
+import http.RequestCallback2;
 import http.user.GetUserService;
 import models.User;
 import run.JDialoger;
@@ -129,9 +130,23 @@ public class TeamTable extends MainPanel {
 					JDialog jd = (JDialog) SwingUtilities
 							.getWindowAncestor(TeamTable.this);
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-					RemoveMemberWorker remove = new RemoveMemberWorker(table
-							.getValueAt(SELECTED_ROW, 0).toString(), jd);
-					remove.execute();
+
+					GetUserService service = new GetUserService();
+					service.deleteUser(table.getValueAt(SELECTED_ROW, 0).toString(), new RequestCallback2() {
+						@Override
+						public <T> void callback(T t) {
+
+							jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+							Integer result = (Integer) t;
+							if(result > 0) {
+								JOptionPane.showMessageDialog(null, "Потребителят е изтрит!");
+							}
+						}
+					});
+//					RemoveMemberWorker remove = new RemoveMemberWorker(table
+//							.getValueAt(SELECTED_ROW, 0).toString(), jd);
+//					remove.execute();
 				}
 			}
 
