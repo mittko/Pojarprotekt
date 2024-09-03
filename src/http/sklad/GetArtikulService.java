@@ -160,4 +160,40 @@ public class GetArtikulService extends ServiceAPI {
             }
         });
     }
+
+    public void getArtikulDeliverValue(String table, String artikul, RequestCallback2 callback) {
+        getService().getArtikulValue(table, artikul).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable throwable) {
+                  ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getExtinguisherValue(String type, String weight, String category, String brand, RequestCallback2 callback) {
+        getService().getExtinguisherValue(type,weight,category,brand).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable throwable) {
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }

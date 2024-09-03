@@ -7,6 +7,8 @@
 package admin.artikul;
 
 import admin.artikul.workers.GetCurrArtikulValueInSkladWorker;
+import http.RequestCallback2;
+import http.sklad.GetArtikulService;
 import utils.*;
 
 import java.awt.*;
@@ -74,11 +76,16 @@ public abstract class AddArtikulDialog extends MainPanel
 			@Override
 			public void actionPerformed(ActionEvent e) {
                 String item = artikulsComboBox.getSelectedItem().toString();
-                double value = new GetCurrArtikulValueInSkladWorker(
-						artikulsDB,
-						item
-				).doInBackground();
-				currValueField.setText(String.format("%.2f",value).replace(",","."));
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikulDeliverValue(artikulsDB, item, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Double result = (Double) t;
+						if(result > 0) {
+							currValueField.setText(String.format("%.2f",result).replace(",","."));
+						}
+					}
+				});
 			}
 		});
 		final JButton deliveryValueButton = new JButton("Доставна цена");
@@ -86,11 +93,18 @@ public abstract class AddArtikulDialog extends MainPanel
 			@Override
 			public void actionPerformed(ActionEvent e) {
                String item = artikulsComboBox.getSelectedItem().toString();
-			   double value = new GetCurrArtikulValueInSkladWorker(
-					   DELIVERY_ARTIKULS,
-					   item
-			   ).doInBackground();
-			   deliveryValueField.setText(String.format("%.2f",value).replace(",","."));
+
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikulDeliverValue(MainPanel.DELIVERY_ARTIKULS, item, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Double result = (Double) t;
+						if(result > 0) {
+							deliveryValueField.setText(String.format("%.2f",result).replace(",","."));
+						}
+					}
+				});
+
 			}
 		});
 		final JLabel dateLabel = new JLabel("    Дата");

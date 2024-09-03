@@ -3,6 +3,7 @@ package admin.sklad;
 import document.TextFieldLimit;
 import http.RequestCallback2;
 import http.new_extinguishers.NewExtinguisherService;
+import http.sklad.GetArtikulService;
 import models.ExtinguisherModel;
 import office.models.*;
 import admin.sklad.workers.GetCurrentExtPriceWorker;
@@ -139,12 +140,21 @@ class AddNewExtinguisherDialog extends MainPanel {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				String maxArtikulValue = new GetCurrentExtPriceWorker(typeCombo
+				GetArtikulService service = new GetArtikulService();
+				service.getExtinguisherValue(typeCombo
 						.getSelectedItem().toString(), wheightCombo
 						.getSelectedItem().toString(), categoryCombo
 						.getSelectedItem().toString(), brandCombo
-						.getSelectedItem().toString()).doInBackground();
-				bestValueField.setText(maxArtikulValue + "");
+						.getSelectedItem().toString(), new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Double result = (Double) t;
+						if(result > 0) {
+							bestValueField.setText(result + "");
+						}
+					}
+				});
+
 			}
 		});
 		bestValueField = new JTextField(5);
@@ -159,8 +169,23 @@ class AddNewExtinguisherDialog extends MainPanel {
 			}
 		});
 
-		JLabel deliveryValueLabel = new JLabel("Доставна цена");
-
+		JButton deliveryValueLabel = new JButton("Доставна цена");
+		deliveryValueLabel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String item = typeCombo.getSelectedItem().toString() + " ( Нов ) " + wheightCombo.getSelectedItem().toString();
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikulDeliverValue(MainPanel.DELIVERY_ARTIKULS, item, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Double result = (Double) t;
+						if(result > 0) {
+							deliveryValueField.setText(String.format("%.2f",result).replace(",","."));
+						}
+					}
+				});
+			}
+		});
 		deliveryValueField = new JTextField(5);
 		deliveryValueField.setForeground(Color.red);
 		deliveryValueField.addKeyListener(new KeyAdapter() {
