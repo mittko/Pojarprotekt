@@ -6,7 +6,6 @@
 
 package admin.artikul;
 
-import admin.artikul.workers.GetCurrArtikulValueInSkladWorker;
 import http.RequestCallback2;
 import http.sklad.GetArtikulService;
 import utils.*;
@@ -77,7 +76,7 @@ public abstract class AddArtikulDialog extends MainPanel
 			public void actionPerformed(ActionEvent e) {
                 String item = artikulsComboBox.getSelectedItem().toString();
 				GetArtikulService service = new GetArtikulService();
-				service.getArtikulDeliverValue(artikulsDB, item, new RequestCallback2() {
+				service.getArtikulValue(artikulsDB, item, new RequestCallback2() {
 					@Override
 					public <T> void callback(T t) {
 						Double result = (Double) t;
@@ -95,7 +94,7 @@ public abstract class AddArtikulDialog extends MainPanel
                String item = artikulsComboBox.getSelectedItem().toString();
 
 				GetArtikulService service = new GetArtikulService();
-				service.getArtikulDeliverValue(MainPanel.DELIVERY_ARTIKULS, item, new RequestCallback2() {
+				service.getArtikulValue(MainPanel.DELIVERY_ARTIKULS, item, new RequestCallback2() {
 					@Override
 					public <T> void callback(T t) {
 						Double result = (Double) t;

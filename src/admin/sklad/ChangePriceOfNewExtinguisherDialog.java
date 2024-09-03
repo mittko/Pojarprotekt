@@ -1,9 +1,8 @@
 package admin.sklad;
 
-import admin.sklad.workers.GetDeliveryPriceOfNewExtinguisherWorker;
-import admin.sklad.workers.UpdatePriceNewExtinguisherWorker;
 import http.RequestCallback2;
 import http.new_extinguishers.NewExtinguisherService;
+import http.sklad.GetArtikulService;
 import utils.EditableField;
 import utils.MainPanel;
 import utils.MyMath;
@@ -106,10 +105,18 @@ class ChangePriceOfNewExtinguisherDialog extends MainPanel {
 						+ wheightField.getText();
 				String kontragent = kontragentsField.getText();
 				String invoiceByKontragent = invoiceField.getText();
-				GetDeliveryPriceOfNewExtinguisherWorker getDeliveryPrice = new GetDeliveryPriceOfNewExtinguisherWorker(
-						artikul, kontragent, invoiceByKontragent);
-				String deliveryPrice = getDeliveryPrice.doInBackground();
-				deliveryValueField.setText(deliveryPrice);
+
+
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikulValue(MainPanel.DELIVERY_ARTIKULS, artikul, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Double result = (Double) t;
+						if(result > 0) {
+							deliveryValueField.setText(String.format("%.2f",result).replace(",","."));
+						}
+					}
+				});
 			}
 
 		});

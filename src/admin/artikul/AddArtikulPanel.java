@@ -31,12 +31,12 @@ public class AddArtikulPanel extends AddArtikulDialog
 	}
 
 	public static void main(final String[] args) {
-		AddArtikulPanel addArtikulDialog = new AddArtikulPanel(null,"","", "","", "",  "") ;
-		JDialoger jd = new JDialoger();
-		jd.setContentPane(addArtikulDialog);
-		jd.setResizable(false);
-		jd.setTitle("Добави артикул");
-		jd.Show();
+//		AddArtikulPanel addArtikulDialog = new AddArtikulPanel(null,"","", "","", "",  "") ;
+//		JDialoger jd = new JDialoger();
+//		jd.setContentPane(addArtikulDialog);
+//		jd.setResizable(false);
+//		jd.setTitle("Добави артикул");
+//		jd.Show();
 	}
 
 

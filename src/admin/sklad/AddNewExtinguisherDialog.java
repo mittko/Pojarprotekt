@@ -6,8 +6,6 @@ import http.new_extinguishers.NewExtinguisherService;
 import http.sklad.GetArtikulService;
 import models.ExtinguisherModel;
 import office.models.*;
-import admin.sklad.workers.GetCurrentExtPriceWorker;
-import admin.sklad.workers.ImportNewExtinguisherInDBWorker;
 import mydate.MyGetDate;
 import utils.BrandListComboBox;
 import utils.ClientsListComboBox2;
@@ -175,7 +173,7 @@ class AddNewExtinguisherDialog extends MainPanel {
 			public void actionPerformed(ActionEvent e) {
 				String item = typeCombo.getSelectedItem().toString() + " ( Нов ) " + wheightCombo.getSelectedItem().toString();
 				GetArtikulService service = new GetArtikulService();
-				service.getArtikulDeliverValue(MainPanel.DELIVERY_ARTIKULS, item, new RequestCallback2() {
+				service.getArtikulValue(MainPanel.DELIVERY_ARTIKULS, item, new RequestCallback2() {
 					@Override
 					public <T> void callback(T t) {
 						Double result = (Double) t;

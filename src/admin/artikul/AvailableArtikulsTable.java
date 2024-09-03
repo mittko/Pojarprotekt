@@ -493,7 +493,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 
 		GetArtikulService service = new GetArtikulService();
-		service.editArtikulPrice(biggestPriceValue, percentProfit, artikul, kontragent, invoice, new RequestCallback2() {
+		service.editArtikulPrice(getTableName(), biggestPriceValue, percentProfit, artikul, kontragent, invoice, new RequestCallback2() {
 			@Override
 			public <T> void callback(T t) {
 
@@ -504,12 +504,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 			}
 		});
-//		UpdatePriceArtikulWorker add = new UpdatePriceArtikulWorker(
-//				getTableName(),
-//				artikul, biggestPriceValue,
-//				percentProfit, kontragent,
-//				invoice, jd);
-//		add.execute();
+
 	}
 
 	@Override
@@ -519,7 +514,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 				.getWindowAncestor(AvailableArtikulsTable.this);
 
 		GetArtikulService service = new GetArtikulService();
-		service.editArtikulQuantity(artikul, kontragent, invoice, newQuantity, new RequestCallback2() {
+		service.editArtikulQuantity(getTableName(), artikul, kontragent, invoice, newQuantity, new RequestCallback2() {
 			@Override
 			public <T> void callback(T t) {
 
@@ -540,7 +535,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 
 		jDialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		GetArtikulService service = new GetArtikulService();
-		service.deleteArtikul(artikul, kontragent, invoice, new RequestCallback2() {
+		service.deleteArtikul(getTableName(), artikul, kontragent, invoice, new RequestCallback2() {
 			@Override
 			public <T> void callback(T t) {
 
@@ -571,7 +566,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 		model.setPercentProfit(percentProfit);
 		model.setBracod(barcode);
 		GetArtikulService service = new GetArtikulService();
-		service.inserArtikul(model, new RequestCallback2() {
+		service.inserArtikul(getTableName(), model, new RequestCallback2() {
 			@Override
 			public <T> void callback(T t) {
 
@@ -590,7 +585,7 @@ public abstract class AvailableArtikulsTable extends MainPanel implements ILoadA
 				.getWindowAncestor(AvailableArtikulsTable.this);
 
 		GetArtikulService service = new GetArtikulService();
-		service.renameArtikul(oldArtikulName, newArtikulName, new RequestCallback2() {
+		service.renameArtikul(getTableName(), oldArtikulName, newArtikulName, new RequestCallback2() {
 			@Override
 			public <T> void callback(T t) {
 

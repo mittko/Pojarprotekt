@@ -35,8 +35,8 @@ public class GetArtikulService extends ServiceAPI {
         });
     }
 
-    public void inserArtikul(ArtikulModel body, RequestCallback2 callback) {
-        getService().insertArtikul(body).enqueue(new Callback<Integer>() {
+    public void inserArtikul(String table, ArtikulModel body, RequestCallback2 callback) {
+        getService().insertArtikul(table, body).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -53,8 +53,8 @@ public class GetArtikulService extends ServiceAPI {
         });
     }
 
-    public void deleteArtikul(String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
-        getService().deleteArtikul(artikul,kontragent,invoiceByKontragent).enqueue(new Callback<Integer>() {
+    public void deleteArtikul(String table, String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
+        getService().deleteArtikul(table, artikul,kontragent,invoiceByKontragent).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -71,8 +71,8 @@ public class GetArtikulService extends ServiceAPI {
         });
     }
 
-    public void renameArtikul(String oldName, String newName, RequestCallback2 callback) {
-        getService().renameArtikul(oldName,newName).enqueue(new Callback<Integer>() {
+    public void renameArtikul(String table, String oldName, String newName, RequestCallback2 callback) {
+        getService().renameArtikul(table, oldName,newName).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -89,8 +89,8 @@ public class GetArtikulService extends ServiceAPI {
         });
     }
 
-    public void editArtikulQuantity(String artikul, String kontragent, String invoiceByKontragent, String newQuantity, RequestCallback2 callback) {
-        getService().editArtikulQuantity(artikul,kontragent, invoiceByKontragent, newQuantity).enqueue(new Callback<Integer>() {
+    public void editArtikulQuantity(String table, String artikul, String kontragent, String invoiceByKontragent, String newQuantity, RequestCallback2 callback) {
+        getService().editArtikulQuantity(table, artikul,kontragent, invoiceByKontragent, newQuantity).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -107,8 +107,8 @@ public class GetArtikulService extends ServiceAPI {
         });
     }
 
-    public void editArtikulPrice(String newValue, String percentProfit, String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
-        getService().editArtikulPrice(newValue, percentProfit, artikul, kontragent, invoiceByKontragent).enqueue(new Callback<Integer>() {
+    public void editArtikulPrice(String table,String newValue, String percentProfit, String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
+        getService().editArtikulPrice(table, newValue, percentProfit, artikul, kontragent, invoiceByKontragent).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -161,7 +161,7 @@ public class GetArtikulService extends ServiceAPI {
         });
     }
 
-    public void getArtikulDeliverValue(String table, String artikul, RequestCallback2 callback) {
+    public void getArtikulValue(String table, String artikul, RequestCallback2 callback) {
         getService().getArtikulValue(table, artikul).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {

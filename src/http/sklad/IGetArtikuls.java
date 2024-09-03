@@ -11,23 +11,24 @@ public interface IGetArtikuls {
     @GET("/artikuls_data")
     Call<List<ArtikulModel>> getArtikuls(@Query("grey") boolean grey, @Query("order_by_date") boolean order_by_date);
 
-    @POST("/insert_artikul")
-    Call<Integer> insertArtikul(@Body ArtikulModel body);
+    @POST("/insert_artikul/{table}")
+    Call<Integer> insertArtikul(@Path("table") String table, @Body ArtikulModel body);
 
-    @DELETE("/delete_artikul/{artikul}/{kontragent}/{invoiceByKontragent}")
-    Call<Integer> deleteArtikul(@Path("artikul") String artikul, @Path("kontragent") String kontragent, @Path("invoiceByKontragent") String invoiceByKontragent);
+    @DELETE("/delete_artikul/{table}/{artikul}/{kontragent}/{invoiceByKontragent}")
+    Call<Integer> deleteArtikul(@Path("table") String table, @Path("artikul") String artikul, @Path("kontragent") String kontragent, @Path("invoiceByKontragent") String invoiceByKontragent);
 
-    @PUT("/rename_artikul/{oldName}/{newName}")
-    Call<Integer> renameArtikul(@Path("oldName") String oldName, @Path("newName") String newName);
+    @PUT("/rename_artikul/{table}/{oldName}/{newName}")
+    Call<Integer> renameArtikul(@Path("table") String table,@Path("oldName") String oldName, @Path("newName") String newName);
 
 
-    @PUT("/edit_artikul_quantity/{artikul}/{kontragent}/{invoiceByKontragent}/{newQuantity}")
-    Call<Integer> editArtikulQuantity(@Path("artikul") String artikul, @Path("kontragent") String kontragent,
+    @PUT("/edit_artikul_quantity/{table}/{artikul}/{kontragent}/{invoiceByKontragent}/{newQuantity}")
+    Call<Integer> editArtikulQuantity(@Path("table") String table,@Path("artikul") String artikul,
+                                      @Path("kontragent") String kontragent,
                                       @Path("invoiceByKontragent") String invoiceByKontragent,
                                       @Path("newQuantity") String newQuantity);
 
-    @PUT("/edit_artikul_price/{newValue}/{percentProfit}/{artikul}/{kontragent}/{invoiceByKontragent}")
-    Call<Integer> editArtikulPrice(@Path("newValue") String newValue, @Path("percentProfit") String percentProfit, @Path("artikul") String artikul,
+    @PUT("/edit_artikul_price/{table}/{newValue}/{percentProfit}/{artikul}/{kontragent}/{invoiceByKontragent}")
+    Call<Integer> editArtikulPrice(@Path("table") String table, @Path("newValue") String newValue, @Path("percentProfit") String percentProfit, @Path("artikul") String artikul,
                                    @Path("kontragent") String kontragent, @Path("invoiceByKontragent") String invoiceByKontragent);
 
     @PUT("/update_parts_price/{price}/{part}/{type}/{weight}/{category}")

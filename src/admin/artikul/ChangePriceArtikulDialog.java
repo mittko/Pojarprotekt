@@ -1,6 +1,7 @@
 package admin.artikul;
 
-import admin.artikul.workers.GetDeliveryValueForArtikul;
+import http.RequestCallback2;
+import http.sklad.GetArtikulService;
 import mydate.MyGetDate;
 import utils.EditableField;
 import utils.MainPanel;
@@ -62,16 +63,17 @@ public class ChangePriceArtikulDialog extends MainPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String artikul = artikulsField.getText();
-				/*
-				 * String kontragent = clientField.getText(); String
-				 * invoiceByKontragent = invoiceField.getText();
-				 */
-				GetDeliveryValueForArtikul getDeliveryValue = new GetDeliveryValueForArtikul(
-						artikul/* , kontragent, invoiceByKontragent */);
-				String deliveryValue = getDeliveryValue.doInBackground();
-				deliveryValue = deliveryValue.replace(",", ".");
-				deliveryValueField.setText(deliveryValue);
+
+				GetArtikulService service = new GetArtikulService();
+				service.getArtikulValue(MainPanel.DELIVERY_ARTIKULS, artikulsField.getText(), new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Double result = (Double) t;
+						if(result > 0) {
+							deliveryValueField.setText(String.format("%.2f",result).replace(",","."));
+						}
+					}
+				});
 			}
 
 		});
