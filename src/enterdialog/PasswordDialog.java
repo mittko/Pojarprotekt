@@ -7,7 +7,9 @@ import http.RequestCallback2;
 import http.client.GetClientService;
 import http.user.GetUserService;
 import log.IOErrorsWriter;
+import models.AuthRequest;
 import models.Firm;
+import models.LoginRes;
 import models.User;
 import net.GetCurrentIP;
 import run.DeleteFiles;
@@ -133,20 +135,20 @@ public class PasswordDialog extends MainPanel {
 		try {
 			fileReader =  new FileReader("./values.txt");
 			buff = new BufferedReader(fileReader);
-		//	while( (line = buff.readLine()) != null){
-			    line = buff.readLine();
-				String[] spl = line.split("=");
-				GetCurrentIP.DB_PATH = spl[1];
-				line = buff.readLine();
-			    String[] spl1 = line.split("=");
-				GetCurrentIP.LPS_DB_PATH = spl1[1];
+			//	while( (line = buff.readLine()) != null){
+			line = buff.readLine();
+			String[] spl = line.split("=");
+			GetCurrentIP.DB_PATH = spl[1];
+			line = buff.readLine();
+			String[] spl1 = line.split("=");
+			GetCurrentIP.LPS_DB_PATH = spl1[1];
 
 			System.out.println("POJARPROTEKT "+GetCurrentIP.DB_PATH);
 			System.out.println("LPS "+GetCurrentIP.LPS_DB_PATH);
 			//	String[] spl1 = line.split("=");
 			//	MainPanel.LABEL_PRINTER1 = spl1[1];
 
-		//	}
+			//	}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			IOErrorsWriter.writeIO(e.toString());
@@ -168,87 +170,160 @@ public class PasswordDialog extends MainPanel {
 			}
 		}
 	}
+
 	private void validateEnter() {
-				final JFrame frame = (JFrame) SwingUtilities
-						.getWindowAncestor(PasswordDialog.this);
+		final JFrame frame = (JFrame) SwingUtilities
+				.getWindowAncestor(PasswordDialog.this);
 
-		        frame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		frame.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				GetUserService userService = new GetUserService();
-				userService.getUser(field.getText(), new RequestCallback2() {
-					@Override
-					public <T> void callback(T t) {
+		GetUserService userService = new GetUserService();
 
-						frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		AuthRequest loginRequest = new AuthRequest();
+		String userName = field.getText();
+		String password = new String(enterPassword.getPassword());
+		loginRequest.setUsername(userName);
+		loginRequest.setPassword(password);
+		userService.init(loginRequest, new RequestCallback2() {
+			@Override
+			public <T> void callback(T t) {
+				frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
-						User user = (User) t;
+				LoginRes loginRes = (LoginRes) t;
+				if(loginRes != null) {
 
-						if (!field.getText().equals(user.getUsser())) {
-							ErrorDialog.showErrorMessage("Грешно потребителско име!");
-							return;
-						} else {
-							String password = new String(
-									enterPassword.getPassword());
-							if (!password.equals(user.getPassword())) {
-								ErrorDialog.showErrorMessage("Грешно въведена парола!");
-								return;
+					frame.dispose();
+
+					ACCESS_TOKEN = String.format("Bearer %s",loginRes.getToken());
+
+
+					User user1 = loginRes.getUser();
+
+					// variable init
+					personName = user1.getUsser();
+
+					ACCESS_MENU[0] = user1.getService_Order().equals("yes");
+					ACCESS_MENU[1] = user1.getWorking_Book().equals("yes");
+					ACCESS_MENU[2] = user1.getInvoice().equals("yes");
+					ACCESS_MENU[3] = user1.getReports().equals("yes");
+					ACCESS_MENU[4] = user1.getNew_Ext().equals("yes");
+					ACCESS_MENU[5] = user1.getHidden_Menu().equals("yes");
+					ACCESS_MENU[6] = user1.getAcquittance().equals("yes");
+
+					tr = new GeneralTechnicalReview();
+					enterFrame = new JustFrame();
+					enterFrame.setResizable(false);
+					enterFrame.setFrameLocationOnTheCenter();
+					enterFrame.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosing(WindowEvent we) {
+							int yes_no = JOptionPane.showOptionDialog(
+									null, "Изход", "ПОЖАРПРОТЕКТ",
+									JOptionPane.YES_NO_OPTION,
+									JOptionPane.QUESTION_MESSAGE, null,
+									new String[] { "Да", "Не" }, // this
+									// is
+									// the
+									// array
+									"default");
+
+							if (yes_no == 0) {
+
+								DeleteFiles df = new DeleteFiles();
+								df.removeTmpFile();
+
+								enterFrame
+										.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+							} else {
+								enterFrame
+										.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 							}
 						}
+					});
+					enterFrame.add(tr);
+					enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
+					enterFrame.pack();
+					tr.loadData();
 
-						frame.dispose();
+					loadSallerData();
+				}
 
-
-						// variable init
-						personName = user.getUsser();
-
-						ACCESS_MENU[0] = user.getService_Order().equals("yes");
-						ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
-						ACCESS_MENU[2] = user.getInvoice().equals("yes");
-						ACCESS_MENU[3] = user.getReports().equals("yes");
-						ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
-						ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
-						ACCESS_MENU[6] = user.getAcquittance().equals("yes");
-
-						tr = new GeneralTechnicalReview();
-						enterFrame = new JustFrame();
-						enterFrame.setResizable(false);
-						enterFrame.setFrameLocationOnTheCenter();
-						enterFrame.addWindowListener(new WindowAdapter() {
-							@Override
-							public void windowClosing(WindowEvent we) {
-								int yes_no = JOptionPane.showOptionDialog(
-										null, "Изход", "ПОЖАРПРОТЕКТ",
-										JOptionPane.YES_NO_OPTION,
-										JOptionPane.QUESTION_MESSAGE, null,
-										new String[] { "Да", "Не" }, // this
-										// is
-										// the
-										// array
-										"default");
-
-								if (yes_no == 0) {
-
-									DeleteFiles df = new DeleteFiles();
-									df.removeTmpFile();
-
-									enterFrame
-											.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-								} else {
-									enterFrame
-											.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-								}
-							}
-						});
-						enterFrame.add(tr);
-						enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
-						enterFrame.pack();
-						tr.loadData();
-
-						loadSallerData();
-					}
-				});
-
+			}
+		});
+//				userService.getUser(field.getText(), new RequestCallback2() {
+//					@Override
+//					public <T> void callback(T t) {
+//
+//						frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+//
+//						User user = (User) t;
+//
+//						if (!field.getText().equals(user.getUsser())) {
+//							ErrorDialog.showErrorMessage("Грешно потребителско име!");
+//							return;
+//						} else {
+//							String password = new String(
+//									enterPassword.getPassword());
+//							if (!password.equals(user.getPassword())) {
+//								ErrorDialog.showErrorMessage("Грешно въведена парола!");
+//								return;
+//							}
+//						}
+//
+//						frame.dispose();
+//
+//
+//						// variable init
+//						personName = user.getUsser();
+//
+//						ACCESS_MENU[0] = user.getService_Order().equals("yes");
+//						ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
+//						ACCESS_MENU[2] = user.getInvoice().equals("yes");
+//						ACCESS_MENU[3] = user.getReports().equals("yes");
+//						ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
+//						ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
+//						ACCESS_MENU[6] = user.getAcquittance().equals("yes");
+//
+//						tr = new GeneralTechnicalReview();
+//						enterFrame = new JustFrame();
+//						enterFrame.setResizable(false);
+//						enterFrame.setFrameLocationOnTheCenter();
+//						enterFrame.addWindowListener(new WindowAdapter() {
+//							@Override
+//							public void windowClosing(WindowEvent we) {
+//								int yes_no = JOptionPane.showOptionDialog(
+//										null, "Изход", "ПОЖАРПРОТЕКТ",
+//										JOptionPane.YES_NO_OPTION,
+//										JOptionPane.QUESTION_MESSAGE, null,
+//										new String[] { "Да", "Не" }, // this
+//										// is
+//										// the
+//										// array
+//										"default");
+//
+//								if (yes_no == 0) {
+//
+//									DeleteFiles df = new DeleteFiles();
+//									df.removeTmpFile();
+//
+//									enterFrame
+//											.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//								} else {
+//									enterFrame
+//											.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+//								}
+//							}
+//						});
+//						enterFrame.add(tr);
+//						enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
+//						enterFrame.pack();
+//						tr.loadData();
+//
+//						loadSallerData();
+//					}
+//				});
 
 
 	}

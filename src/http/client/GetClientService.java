@@ -10,6 +10,8 @@ import retrofit2.Response;
 
 import javax.swing.*;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class GetClientService extends ServiceAPI {
 
     public IGetClient getService() {
@@ -17,7 +19,7 @@ public class GetClientService extends ServiceAPI {
     }
 
     public void getFirm(String client, RequestCallback2 requestCallback2) {
-        getService().getFirm(client).enqueue(new Callback<Firm>() {
+        getService().getFirm(client,ACCESS_TOKEN).enqueue(new Callback<Firm>() {
             @Override
             public void onResponse(Call<Firm> call, Response<Firm> response) {
                 if(response.isSuccessful()) {

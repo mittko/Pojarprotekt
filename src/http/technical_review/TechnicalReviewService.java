@@ -12,6 +12,8 @@ import retrofit2.Response;
 import java.util.Collections;
 import java.util.List;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class TechnicalReviewService extends ServiceAPI {
 
     public TechnicalReviewService(){}
@@ -20,7 +22,7 @@ public class TechnicalReviewService extends ServiceAPI {
     }
 
     public void getTechnicalReview(String from, String to, RequestCallback callback) {
-        getService().getTechnicalReview(from,to).enqueue(new Callback<List<TechnicalReview>>() {
+        getService().getTechnicalReview(from,to,ACCESS_TOKEN).enqueue(new Callback<List<TechnicalReview>>() {
             @Override
             public void onResponse(Call<List<TechnicalReview>> call, Response<List<TechnicalReview>> response) {
 

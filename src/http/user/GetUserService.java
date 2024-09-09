@@ -4,6 +4,8 @@ import exceptions.ErrorDialog;
 import http.RequestCallback;
 import http.RequestCallback2;
 import http.base.ServiceAPI;
+import models.AuthRequest;
+import models.LoginRes;
 import models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -12,6 +14,7 @@ import retrofit2.Response;
 import java.util.List;
 
 public class GetUserService extends ServiceAPI {
+
 
     public IGetUser getService() {
         return getRetrofit().create(IGetUser.class);
@@ -30,6 +33,24 @@ public class GetUserService extends ServiceAPI {
             @Override
             public void onFailure(Call<User> call, Throwable throwable) {
                   ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void init(AuthRequest body, RequestCallback2 callback2) {
+        getService().login(body).enqueue(new Callback<LoginRes>() {
+            @Override
+            public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
+                if(response.isSuccessful()) {
+                    callback2.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginRes> call, Throwable throwable) {
+                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

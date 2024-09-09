@@ -7,6 +7,7 @@
     <file url="file://$PROJECT_DIR$/src/models/AcquittanceModel.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/AcquittanceModels.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ArtikulsReports.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/AuthRequest.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/BrackModel.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/BrackModels.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ClientBody.java" charset="UTF-8" />
@@ -16,6 +17,7 @@
     <file url="file://$PROJECT_DIR$/src/models/Firm.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/InvoiceModel.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/InvoiceModels.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/LoginRes.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/NewExtinguishersReports.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/PartsModel.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/ProtokolModel.java" charset="windows-1251" />

@@ -9,7 +9,7 @@ import retrofit2.http.*;
 public interface IGetClient {
 
     @GET("/client_data")
-    Call<Firm> getFirm(@Query("client") String client);
+    Call<Firm> getFirm(@Query("client") String client, @Header("Authorization") String accessToken);
 
     @POST("/insert_client")
     Call<Integer> insertClient(@Body Firm body);
