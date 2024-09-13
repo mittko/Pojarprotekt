@@ -9,7 +9,9 @@ import java.util.List;
 public interface IGetArtikuls {
 
     @GET("/artikuls_data")
-    Call<List<ArtikulModel>> getArtikuls(@Query("grey") boolean grey, @Query("order_by_date") boolean order_by_date);
+    Call<List<ArtikulModel>> getArtikuls(@Query("grey") boolean grey,
+                                         @Query("order_by_date") boolean order_by_date,
+                                         @Header("Authorization") String accessToken);
 
     @POST("/insert_artikul/{table}")
     Call<Integer> insertArtikul(@Path("table") String table, @Body ArtikulModel body);

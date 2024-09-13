@@ -73,7 +73,7 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 							.toString();
 					PrintSOWorker printSO = new PrintSOWorker(serviceNumber,
 							currentClient, jd, soMapForSO);
-					printSO.execute();
+					printSO.print();
 					break;
 				case "—Ô‡‚ÍË " + ReportDialog.Protokol_Title + " œŒ∆¿–œ–Œ“≈ “":
 					Integer[] selectedIndexesForProtokol = getSelectedIndexes(
@@ -89,7 +89,7 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 							dftm, soMapForProtokol, protokolNumber,
 							selectedIndexesForProtokol[0],
 							selectedIndexesForProtokol.length, protokolDate, jd);
-					printProtokol.execute();
+					printProtokol.print();
 					break;
 				case "—Ô‡‚ÍË " + ReportDialog.Brack_Title + " œŒ∆¿–œ–Œ“≈ “":
 					Integer[] selectedIndexesForBrack = getSelectedIndexes(
@@ -104,7 +104,7 @@ public class ReportTableSO_Pr_Br<T> extends MainPanel {
 							allReasons(selectedIndexesForBrack), dftm,
 							selectedIndexesForBrack[0],
 							selectedIndexesForBrack.length, brackDate);
-					printBrack.execute();
+					printBrack.print();
 					break;
 				default:
 					break;

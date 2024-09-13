@@ -13,6 +13,8 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class GetReportsService extends ServiceAPI {
 
     private IGetReports getService() {
@@ -20,54 +22,60 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getServiceOrders(HashMap<String, String> optionsMap, RequestCallback callback) {
-        getService().getServiceOrders(optionsMap).enqueue(new Callback<List<ServiceOrderModel>>() {
+        getService().getServiceOrders(optionsMap,ACCESS_TOKEN).enqueue(new Callback<List<ServiceOrderModel>>() {
             @Override
             public void onResponse(Call<List<ServiceOrderModel>> call, Response<List<ServiceOrderModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<ServiceOrderModel>> call, Throwable throwable) {
+                 callback.callback(null);
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getProtokols(HashMap<String, String> optionsMap, RequestCallback callback) {
-        getService().getProtokols(optionsMap).enqueue(new Callback<List<ProtokolModel>>() {
+        getService().getProtokols(optionsMap,ACCESS_TOKEN).enqueue(new Callback<List<ProtokolModel>>() {
             @Override
             public void onResponse(Call<List<ProtokolModel>> call, Response<List<ProtokolModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<ProtokolModel>> call, Throwable throwable) {
+                    callback.callback(null);
                     ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getBrack(HashMap<String, String> optionsMap, RequestCallback callback) {
-        getService().getBrack(optionsMap).enqueue(new Callback<List<BrackModel>>() {
+        getService().getBrack(optionsMap,ACCESS_TOKEN).enqueue(new Callback<List<BrackModel>>() {
             @Override
             public void onResponse(Call<List<BrackModel>> call, Response<List<BrackModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<BrackModel>> call, Throwable throwable) {
+                callback.callback(null);
                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -128,7 +136,7 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getArtikulsNames(RequestCallback callback) {
-        getService().getArtikuls().enqueue(new Callback<List<ArtikulsReports>>() {
+        getService().getArtikuls(ACCESS_TOKEN).enqueue(new Callback<List<ArtikulsReports>>() {
             @Override
             public void onResponse(Call<List<ArtikulsReports>> call, Response<List<ArtikulsReports>> response) {
                 if(response.isSuccessful()) {
@@ -146,7 +154,7 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getNewExtinguishers(RequestCallback callback) {
-        getService().getNewExtinguishers().enqueue(new Callback<List<NewExtinguishersReports>>() {
+        getService().getNewExtinguishers(ACCESS_TOKEN).enqueue(new Callback<List<NewExtinguishersReports>>() {
             @Override
             public void onResponse(Call<List<NewExtinguishersReports>> call, Response<List<NewExtinguishersReports>> response) {
                 if(response.isSuccessful()) {
@@ -164,7 +172,7 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getClients(RequestCallback callback) {
-        getService().getClients().enqueue(new Callback<List<IncorrectPerson>>() {
+        getService().getClients(ACCESS_TOKEN).enqueue(new Callback<List<IncorrectPerson>>() {
             @Override
             public void onResponse(Call<List<IncorrectPerson>> call, Response<List<IncorrectPerson>> response) {
                 if(response.isSuccessful()) {

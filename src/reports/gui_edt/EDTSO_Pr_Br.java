@@ -9,14 +9,12 @@ import java.util.ArrayList;
 
 public class EDTSO_Pr_Br<T> implements Runnable {
 	private final ArrayList<T> data;
-	private final JDialog jd;
 	private final String title;
 	private final String destination;
 
-	public EDTSO_Pr_Br(ArrayList<T> data, JDialog jd, String No,
+	public EDTSO_Pr_Br(ArrayList<T> data, String No,
 			String title, String destination) {
 		this.data = data;
-		this.jd = jd;
 		this.title = title;
 		this.destination = destination;
 	}
@@ -25,7 +23,6 @@ public class EDTSO_Pr_Br<T> implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		if (data == null) {
 			return;
 		}

@@ -11,6 +11,8 @@ import retrofit2.Response;
 
 import java.util.List;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class GetArtikulService extends ServiceAPI {
 
     public IGetArtikuls getService() {
@@ -18,7 +20,7 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void getArtikuls(boolean grey, boolean orderByDate, RequestCallback callback) {
-        getService().getArtikuls(grey, orderByDate).enqueue(new Callback<List<ArtikulModel>>() {
+        getService().getArtikuls(grey, orderByDate, ACCESS_TOKEN).enqueue(new Callback<List<ArtikulModel>>() {
             @Override
             public void onResponse(Call<List<ArtikulModel>> call, Response<List<ArtikulModel>> response) {
                 if(response.isSuccessful()) {

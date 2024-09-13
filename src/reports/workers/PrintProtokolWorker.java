@@ -5,13 +5,12 @@ import java.util.TreeMap;
 
 import javax.print.PrintService;
 import javax.swing.JDialog;
-import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 import utils.ChoisePrinterDialog;
 import workingbook.workers.ProtokolPrinter;
 
-public class PrintProtokolWorker extends SwingWorker{
+public class PrintProtokolWorker {
 
 	private DefaultTableModel dftm = null;
 	private final TreeMap<Object,Integer> partsMap;
@@ -32,8 +31,8 @@ public class PrintProtokolWorker extends SwingWorker{
 		this.jd = jd;
 		
 	}
-	@Override
-	protected Object doInBackground() throws Exception {
+
+	public Object print()  {
 		// TODO Auto-generated method stub
 		try {
 			PrintService ps = ChoisePrinterDialog.showPrinters();
@@ -42,6 +41,8 @@ public class PrintProtokolWorker extends SwingWorker{
 						startIndex,endIndex, protokolDate);
 				protokolPrinter.printProtokol2815(dftm, partsMap,ps);
 				}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		} finally {
 			jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		}

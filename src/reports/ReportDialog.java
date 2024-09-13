@@ -455,21 +455,21 @@ public class ReportDialog extends MainPanel {
 							case PROFORM_PARENT:
 
 
-									// get info for parent
-									switch (destination) {
-										case INVOICE_PARENT:
-											invoiceTitle = "Фактура";
+								// get info for parent
+								switch (destination) {
+									case INVOICE_PARENT:
+										invoiceTitle = "Фактура";
 
-											openInvoices(invoiceTitle,jDialog);
-											break;
-										case PROFORM_PARENT:
-											invoiceTitle = "Проформа";
+										openInvoices(invoiceTitle,jDialog);
+										break;
+									case PROFORM_PARENT:
+										invoiceTitle = "Проформа";
 
-											openInvoices(invoiceTitle,jDialog);
-											break;
-										default:
-											break;
-									}
+										openInvoices(invoiceTitle,jDialog);
+										break;
+									default:
+										break;
+								}
 
 
 								break;
@@ -683,10 +683,13 @@ public class ReportDialog extends MainPanel {
 					@Override
 					public <T> void callback(List<T> objects) {
 
-						SwingUtilities.invokeLater(new EDTSO_Pr_Br(
-								(ArrayList) objects, jDialog, No, "Справки " + title,
-								destination));
-						No = ""; // clear current number
+						jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						if(objects != null) {
+							SwingUtilities.invokeLater(new EDTSO_Pr_Br(
+									(ArrayList) objects, No, "Справки " + title,
+									destination));
+							No = ""; // clear current number
+						}
 					}
 				});
 				break;
@@ -697,10 +700,14 @@ public class ReportDialog extends MainPanel {
 				getReportsService.getProtokols(optionsParam, new RequestCallback() {
 					@Override
 					public <T> void callback(List<T> objects) {
-						SwingUtilities.invokeLater(new EDTSO_Pr_Br(
-								(ArrayList) objects, jDialog, No, "Справки " + title,
-								destination));
-						No = ""; // clear current number
+						jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						if(objects != null) {
+							SwingUtilities.invokeLater(new EDTSO_Pr_Br(
+									(ArrayList) objects, No, "Справки " + title,
+									destination));
+							No = ""; // clear current number
+						}
 					}
 				});
 				break;
@@ -710,10 +717,15 @@ public class ReportDialog extends MainPanel {
 				getReportsService.getBrack(optionsParam, new RequestCallback() {
 					@Override
 					public <T> void callback(List<T> objects) {
-						SwingUtilities.invokeLater(new EDTSO_Pr_Br(
-								(ArrayList) objects, jDialog, No, "Справки " + title,
-								destination));
-						No = ""; // clear current number
+
+						jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+						if(objects != null) {
+							SwingUtilities.invokeLater(new EDTSO_Pr_Br(
+									(ArrayList) objects, No, "Справки " + title,
+									destination));
+							No = ""; // clear current number
+						}
 					}
 				});
 				break;
@@ -752,7 +764,6 @@ public class ReportDialog extends MainPanel {
 		});
 		return null;
 	}
-
 
 
 	private void openInvoices(String invoiceTitle, JDialog jDialog) {
@@ -801,7 +812,6 @@ public class ReportDialog extends MainPanel {
 	}
 
 
-
 	private void openDelivery(JDialog jDialog) {
 
 		HashMap<String, String> optionsParam = new HashMap<>();
@@ -840,43 +850,44 @@ public class ReportDialog extends MainPanel {
 
 	private ArrayList<DeliveryReports> deliveryDataForSales;
 	private ArrayList<InvoiceModel> invoiceDataForSales;
-	private void openSales(String fromDate, String toDate, JDialog jDialog) {
-		  deliveryDataForSales = null;
-		  invoiceDataForSales = null;
-          GetReportsService service = new GetReportsService();
-		  HashMap<String, String> optionsParam = new HashMap<>();
-		  optionsParam.put("fromDate",fromDate);
-		  optionsParam.put("toDate",toDate);
 
-		  if(artikulsComboBox.getSelectedItem() != null && !artikulsComboBox.getSelectedItem().toString().isEmpty()) {
-			  optionsParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
-		  }
-		  service.getDeliveryDataForSale(optionsParam, new RequestCallback() {
-			  @Override
-			  public <T> void callback(List<T> objects) {
-				  deliveryDataForSales = (ArrayList<DeliveryReports>) objects;
-				  if(deliveryDataForSales != null && invoiceDataForSales != null) {
-					  EDTSales edt = new EDTSales(invoiceDataForSales,
-							  deliveryDataForSales, jDialog, "Справка Продажби "
-							  + fromDate + " - "
-							  + toDate);
-					  SwingUtilities.invokeLater(edt);
-				  }
-			  }
-		  });
-		  service.getInvoiceDataForSale(optionsParam, new RequestCallback() {
-			  @Override
-			  public <T> void callback(List<T> objects) {
-				  invoiceDataForSales = (ArrayList<InvoiceModel>) objects;
-				  if(deliveryDataForSales != null && invoiceDataForSales != null) {
-					  EDTSales edt = new EDTSales(invoiceDataForSales,
-							  deliveryDataForSales, jDialog, "Справка Продажби "
-							  + fromDate + " - "
-							  + toDate);
-					  SwingUtilities.invokeLater(edt);
-				  }
-			  }
-		  });
+	private void openSales(String fromDate, String toDate, JDialog jDialog) {
+		deliveryDataForSales = null;
+		invoiceDataForSales = null;
+          GetReportsService service = new GetReportsService();
+		HashMap<String, String> optionsParam = new HashMap<>();
+		optionsParam.put("fromDate",fromDate);
+		optionsParam.put("toDate",toDate);
+
+		if(artikulsComboBox.getSelectedItem() != null && !artikulsComboBox.getSelectedItem().toString().isEmpty()) {
+			optionsParam.put("artikul",artikulsComboBox.getSelectedItem().toString());
+		}
+		service.getDeliveryDataForSale(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				deliveryDataForSales = (ArrayList<DeliveryReports>) objects;
+				if(deliveryDataForSales != null && invoiceDataForSales != null) {
+					EDTSales edt = new EDTSales(invoiceDataForSales,
+							deliveryDataForSales, jDialog, "Справка Продажби "
+							+ fromDate + " - "
+							+ toDate);
+					SwingUtilities.invokeLater(edt);
+				}
+			}
+		});
+		service.getInvoiceDataForSale(optionsParam, new RequestCallback() {
+			@Override
+			public <T> void callback(List<T> objects) {
+				invoiceDataForSales = (ArrayList<InvoiceModel>) objects;
+				if(deliveryDataForSales != null && invoiceDataForSales != null) {
+					EDTSales edt = new EDTSales(invoiceDataForSales,
+							deliveryDataForSales, jDialog, "Справка Продажби "
+							+ fromDate + " - "
+							+ toDate);
+					SwingUtilities.invokeLater(edt);
+				}
+			}
+		});
 	}
 
 	List<DeliveryReports> deliveryDataForAvailabilityBeforeSelectedDate;
@@ -884,6 +895,7 @@ public class ReportDialog extends MainPanel {
 	List<InvoiceModel> invoiceDataForAvailabilityReportsBeforeSelectedDates;
 
 	List<InvoiceModel> invoiceDataForAvailabilityReportsBetweenSelectedDates;
+
 	private void openAvailability(String from, String to, JDialog jDialog) {
 
 		deliveryDataForAvailabilityBeforeSelectedDate = null;
@@ -910,8 +922,8 @@ public class ReportDialog extends MainPanel {
 				deliveryDataForAvailabilityBeforeSelectedDate = (List<DeliveryReports>) objects;
 				if(deliveryDataForAvailabilityBeforeSelectedDate != null
 						&& deliveryDataForAvailabilityBetweenSelectedDates != null
-				        && invoiceDataForAvailabilityReportsBeforeSelectedDates != null
-				        && invoiceDataForAvailabilityReportsBetweenSelectedDates != null) {
+						&& invoiceDataForAvailabilityReportsBeforeSelectedDates != null
+						&& invoiceDataForAvailabilityReportsBetweenSelectedDates != null) {
 					EDTAvailability edt = new EDTAvailability(
 							(ArrayList) deliveryDataForAvailabilityBeforeSelectedDate,
 							(ArrayList) invoiceDataForAvailabilityReportsBeforeSelectedDates,
@@ -1025,6 +1037,7 @@ public class ReportDialog extends MainPanel {
 		doingCombo.setEnabled(doing);
 
 	}
+
 	private String buildSearchCommandForArtikuls() {
 		StringBuilder mainCommand1 = new StringBuilder();
 
