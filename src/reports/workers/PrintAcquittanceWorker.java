@@ -1,5 +1,8 @@
 package reports.workers;
 
+import http.RequestCallback2;
+import http.client.GetClientService;
+import models.Firm;
 import pdf.aqcuittance.AcquittancePDFromReports;
 import pdf.OpenPDFDocument;
 import db.Client.ClientTable;
@@ -47,26 +50,40 @@ public class PrintAcquittanceWorker extends SwingWorker {
 		//	if (ps != null) {
 
 				// get client info
-			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
+			GetClientService service = new GetClientService();
+			service.getFirm(currentClient, new RequestCallback2() {
+				@Override
+				public <T> void callback(T t) {
 
-				String[] timeStamps = { MyGetDate.getTimeStamp() + "a",
-						MyGetDate.getTimeStamp() + "b" };
-				int[] copies = { 1 };// {2};
-				for (int i = 0; i < 1; i++) {
-					AcquittancePDFromReports pdf = new AcquittancePDFromReports();
-					pdf.createAcquittancePDF2(clientInfo, dftm, timeStamps[i],
-							startIndex, endIndex);
+					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
-					 OpenPDFDocument.pdfRunner(MainPanel.ACQUITTANCE_PDF_PATH
-					 + "\\Стокова Разписка-" + timeStamps[i] + "-"
-					 + acquittanceNumber + ".pdf ");
+					Firm firm = (Firm) t;
+					if(firm != null) {
+						String[] timeStamps = { MyGetDate.getTimeStamp() + "a",
+								MyGetDate.getTimeStamp() + "b" };
+						int[] copies = { 1 };// {2};
+						for (int i = 0; i < 1; i++) {
+							AcquittancePDFromReports pdf = new AcquittancePDFromReports();
+							pdf.createAcquittancePDF2(firm, dftm, timeStamps[i],
+									startIndex, endIndex);
+
+							OpenPDFDocument.pdfRunner(MainPanel.ACQUITTANCE_PDF_PATH
+									+ "\\Стокова Разписка-" + timeStamps[i] + "-"
+									+ acquittanceNumber + ".pdf ");
 
 				/*	PrintWithoutOpenPdf
 							.printWithoutDialog(MainPanel.ACQUITTANCE_PDF_PATH,
 									"\\Стокова Разписка" + "-" + timeStamps[i]
 											+ "-" + acquittanceNumber + ".pdf",
 									ps, copies[i]);*/
+						}
+					} else {
+
+					}
 				}
+			});
+
+
 		//	}
 		} finally {
 			SwingUtilities.invokeLater(new Runnable() {

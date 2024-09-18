@@ -2,6 +2,7 @@ package pdf.aqcuittance;
 
 import exceptions.PDFException;
 import log.PdfErr;
+import models.Firm;
 import pdf.OpenPDFDocument;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
@@ -29,31 +30,29 @@ public class AcquittancePDFromReports extends PdfCreator {
 	private String IBAN = "";
 	private float nextAcquittanceTableY;
 
-	public void createAcquittancePDF2(ArrayList<String> clientInfo2,
+	public void createAcquittancePDF2(Firm firm,
 									  DefaultTableModel dftm, String timeStamp, int startIndex,
 									  int endIndex) {
 
-		if (clientInfo2.size() > 0) {
-			name = clientInfo2.get(0); // name or firm
-			String TEL = "";
-			if (clientInfo2.size() != 4) {
-				city = clientInfo2.get(1); // 1 -> city
-				address = clientInfo2.get(2);// 2 -> address
-				EIK = extractOnlyDigit(clientInfo2.get(3));// 3 -> EIK
-				MOL = clientInfo2.get(4);// name (MOL)
-				// 5 -> tel of firm
-				// 6 -> email
-				// 7 -> person
-				// 8 -> tel of person
-				TEL = clientInfo2.get(7);// tel
-				BANK = clientInfo2.get(8); // bank
-				BIC = clientInfo2.get(9); // Bic
-				IBAN = clientInfo2.get(10); // iban
-				// 12 -> discount
-			} else {
-				TEL = clientInfo2.get(1); // 1 -> city
-			}
-		}
+
+		name = firm.getFirm(); // name or firm
+		String TEL = "";
+
+		city = firm.getCity() != null ? firm.getCity() : ""; // 1 -> city
+		address = firm.getAddress() != null ? firm.getAddress() : "";// 2 -> address
+		EIK = firm.getEik() != null ? extractOnlyDigit(firm.getEik()) : "";// 3 -> EIK
+		MOL = firm.getMol() != null ? firm.getMol() : "";// name (MOL)
+		// 5 -> tel of firm
+		// 6 -> email
+		// 7 -> person
+		// 8 -> tel of person
+		TEL = firm.getTelPerson() != null ? firm.getTelPerson() : "";// tel
+		BANK = firm.getBank() != null ? firm.getBank() : ""; // bank
+		BIC = firm.getBic() != null ? firm.getBic() : ""; // Bic
+		IBAN = firm.getIban() != null ? firm.getIban() : ""; // iban
+		// 12 -> discount
+
+
 		// set document
 		super.init(MainPanel.ACQUITTANCE_PDF_PATH + "\\Стокова Разписка-"
 				, timeStamp, dftm.getValueAt(startIndex, 0).toString());
@@ -240,74 +239,74 @@ public class AcquittancePDFromReports extends PdfCreator {
 
 		//for(int i = 0;i < 10;i++) { // test cycle
 
-			for (int row = 0; row < endIndex; row++) {
+		for (int row = 0; row < endIndex; row++) {
 
-				RANGE++;
+			RANGE++;
 
-				PdfPCell rowCell = new PdfPCell(new Phrase(RANGE + "", arial10));
-				rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				mainTable.addCell(rowCell);
+			PdfPCell rowCell = new PdfPCell(new Phrase(RANGE + "", arial10));
+			rowCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			mainTable.addCell(rowCell);
 
-				// System.out.println(sumOfRows + " " + document.bottom());
+			// System.out.println(sumOfRows + " " + document.bottom());
 
-				String doing = dftm.getValueAt(row + startIndex, 6).toString();
-				if (doing.contains("( Нов )")) {
-					doing = doing.replace("( Нов )", "");
-				}
-				if (doing.contains("литра")) {
-					doing = doing.replace("литра", "л");
-				}
-				PdfPCell doingCell = new PdfPCell(new Phrase(doing, arial10));
-				doingCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			String doing = dftm.getValueAt(row + startIndex, 6).toString();
+			if (doing.contains("( Нов )")) {
+				doing = doing.replace("( Нов )", "");
+			}
+			if (doing.contains("литра")) {
+				doing = doing.replace("литра", "л");
+			}
+			PdfPCell doingCell = new PdfPCell(new Phrase(doing, arial10));
+			doingCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 
-				mainTable.addCell(doingCell);
+			mainTable.addCell(doingCell);
 
-				PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
-						row + startIndex, 7).toString(), arial10));
-				measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			PdfPCell measureCell = new PdfPCell(new Phrase(dftm.getValueAt(
+					row + startIndex, 7).toString(), arial10));
+			measureCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-				mainTable.addCell(measureCell);
+			mainTable.addCell(measureCell);
 
-				String quantity = (dftm.getValueAt(row + startIndex, 8).toString());
+			String quantity = (dftm.getValueAt(row + startIndex, 8).toString());
 
-				PdfPCell quantCell = new PdfPCell(
-						new Phrase(quantity + "", arial10));
-				quantCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			PdfPCell quantCell = new PdfPCell(
+					new Phrase(quantity + "", arial10));
+			quantCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-				mainTable.addCell(quantCell);
+			mainTable.addCell(quantCell);
 
-				PdfPCell pricCell = new PdfPCell(new Phrase(dftm.getValueAt(
-						row + startIndex, 9).toString(), arial10));
-				pricCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			PdfPCell pricCell = new PdfPCell(new Phrase(dftm.getValueAt(
+					row + startIndex, 9).toString(), arial10));
+			pricCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-				mainTable.addCell(pricCell);
+			mainTable.addCell(pricCell);
 
-				String sumOfPrices = dftm.getValueAt(row + startIndex, 10)
-						.toString();
+			String sumOfPrices = dftm.getValueAt(row + startIndex, 10)
+					.toString();
 
-				finalSum += Float.parseFloat(sumOfPrices);
+			finalSum += Float.parseFloat(sumOfPrices);
 
-				PdfPCell valCell = new PdfPCell(new Phrase(sumOfPrices, arial10));
-				valCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			PdfPCell valCell = new PdfPCell(new Phrase(sumOfPrices, arial10));
+			valCell.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-				mainTable.addCell(valCell);
+			mainTable.addCell(valCell);
 
-				sumOfRows += mainTable.getRowHeight(row+1); // row
-				//
-				if (mainTableNextY - (sumOfRows) <= document.bottom()) {
-					sumOfRows = 0;
-					mainTable.writeSelectedRows(0, -1, from, RANGE + 1, mainTableX,
-							mainTableNextY, pdfWriter.getDirectContent());
-					mainTableNextY = document.top();
-					from = RANGE + 1;
-					document.newPage();
-					go = true;
-					System.out.println("NEW LINE");
-				}
-
+			sumOfRows += mainTable.getRowHeight(row+1); // row
+			//
+			if (mainTableNextY - (sumOfRows) <= document.bottom()) {
+				sumOfRows = 0;
+				mainTable.writeSelectedRows(0, -1, from, RANGE + 1, mainTableX,
+						mainTableNextY, pdfWriter.getDirectContent());
+				mainTableNextY = document.top();
+				from = RANGE + 1;
+				document.newPage();
+				go = true;
+				System.out.println("NEW LINE");
 			}
 
-	//	} // end of test cycle
+		}
+
+		//	} // end of test cycle
 		try {
 			mainTable.setWidths(new int[] { 20, 300, 80, 80, 80, 80 });
 		} catch (DocumentException e) {

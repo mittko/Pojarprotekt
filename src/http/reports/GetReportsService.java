@@ -82,54 +82,60 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getInvoices(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getInvoices(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
+        getService().getInvoices(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
             public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<InvoiceModel>> call, Throwable throwable) {
+                callback.callback(null);
                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getProforms(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getProforms(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
+        getService().getProforms(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
             public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<InvoiceModel>> call, Throwable throwable) {
+                 callback.callback(null);
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getAcquittance(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getAcquittance(optionsParam).enqueue(new Callback<List<AcquittanceModel>>() {
+        getService().getAcquittance(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<AcquittanceModel>>() {
             @Override
             public void onResponse(Call<List<AcquittanceModel>> call, Response<List<AcquittanceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<AcquittanceModel>> call, Throwable throwable) {
+                   callback.callback(null);
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -190,25 +196,27 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getDeliveries(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getDeliveries(optionsParam).enqueue(new Callback<List<DeliveryReports>>() {
+        getService().getDeliveries(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<DeliveryReports>>() {
             @Override
             public void onResponse(Call<List<DeliveryReports>> call, Response<List<DeliveryReports>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<DeliveryReports>> call, Throwable throwable) {
+                  callback.callback(null);
                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getDeliveryDataForSale(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getDeliveryDataForSale(optionsParam).enqueue(new Callback<List<DeliveryReports>>() {
+        getService().getDeliveryDataForSale(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<DeliveryReports>>() {
             @Override
             public void onResponse(Call<List<DeliveryReports>> call, Response<List<DeliveryReports>> response) {
                  if(response.isSuccessful()) {
@@ -226,25 +234,27 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getInvoiceDataForSale(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getInvoiceDataForSale(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
+        getService().getInvoiceDataForSale(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
             public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<InvoiceModel>> call, Throwable throwable) {
+                  callback.callback(null);
                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void getDeliveryDataForAvailability(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getDeliveryDataForAvailability(optionsParam).enqueue(new Callback<List<DeliveryReports>>() {
+        getService().getDeliveryDataForAvailability(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<DeliveryReports>>() {
             @Override
             public void onResponse(Call<List<DeliveryReports>> call, Response<List<DeliveryReports>> response) {
                 if(response.isSuccessful()) {
@@ -262,7 +272,7 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getInvoiceDataForAvailability(HashMap<String, String > optionsParam, RequestCallback callback) {
-        getService().getInvoiceDataForAvailability(optionsParam).enqueue(new Callback<List<InvoiceModel>>() {
+        getService().getInvoiceDataForAvailability(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<InvoiceModel>>() {
             @Override
             public void onResponse(Call<List<InvoiceModel>> call, Response<List<InvoiceModel>> response) {
                        if(response.isSuccessful()) {
@@ -280,25 +290,27 @@ public class GetReportsService extends ServiceAPI {
     }
 
     public void getCreditNotes(HashMap<String, String> optionsParam, RequestCallback callback) {
-        getService().getCreditNotes(optionsParam).enqueue(new Callback<List<CreditNoteReports>>() {
+        getService().getCreditNotes(optionsParam,ACCESS_TOKEN).enqueue(new Callback<List<CreditNoteReports>>() {
             @Override
             public void onResponse(Call<List<CreditNoteReports>> call, Response<List<CreditNoteReports>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<CreditNoteReports>> call, Throwable throwable) {
+                 callback.callback(null);
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void createCreditNote(CreditNoteBodyList creditNoteBodyList) {
-        getService().createCreditNote(creditNoteBodyList).enqueue(new Callback<String>() {
+        getService().createCreditNote(creditNoteBodyList,ACCESS_TOKEN).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {

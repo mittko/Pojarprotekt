@@ -789,10 +789,13 @@ public class ReportDialog extends MainPanel {
 			service.getInvoices(optionsParam, new RequestCallback() {
 				@Override
 				public <T> void callback(List<T> objects) {
-					SwingUtilities
-							.invokeLater(new EDTInvoice((ArrayList) objects, jDialog,
-									No, "Справки " + invoiceTitle));
-					No = "";
+					jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					if(objects != null) {
+						SwingUtilities
+								.invokeLater(new EDTInvoice((ArrayList) objects,
+										No, "Справки " + invoiceTitle));
+						No = "";
+					}
 
 				}
 			});
@@ -801,10 +804,13 @@ public class ReportDialog extends MainPanel {
 			service.getProforms(optionsParam, new RequestCallback() {
 				@Override
 				public <T> void callback(List<T> objects) {
-					SwingUtilities
-							.invokeLater(new EDTInvoice((ArrayList) objects, jDialog,
-									No, "Справки " + invoiceTitle));
-					No = "";
+					jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					if(objects != null) {
+						SwingUtilities
+								.invokeLater(new EDTInvoice((ArrayList) objects,
+										No, "Справки " + invoiceTitle));
+						No = "";
+					}
 				}
 			});
 		}
@@ -839,11 +845,14 @@ public class ReportDialog extends MainPanel {
 		service.getDeliveries(optionsParam, new RequestCallback() {
 			@Override
 			public <T> void callback(List<T> objects) {
-				EDTDelivery edt = new EDTDelivery((ArrayList) objects,
-						jDialog, "Справка Доставки "
-						+ fromDate.getText() + " - "
-						+ toDate.getText());
-				SwingUtilities.invokeLater(edt);
+
+				if(objects != null) {
+					EDTDelivery edt = new EDTDelivery((ArrayList) objects,
+							jDialog, "Справка Доставки "
+							+ fromDate.getText() + " - "
+							+ toDate.getText());
+					SwingUtilities.invokeLater(edt);
+				}
 			}
 		});
 	}
@@ -1011,8 +1020,10 @@ public class ReportDialog extends MainPanel {
 		service.getCreditNotes(optionsParam, new RequestCallback() {
 			@Override
 			public <T> void callback(List<T> objects) {
+				jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 				List<CreditNoteReports> creditNotes = (List<CreditNoteReports>) objects;
-				EDTCreditNote edtCreditNote = new EDTCreditNote((ArrayList) creditNotes,jDialog,"Кредитно Известие");
+				EDTCreditNote edtCreditNote = new EDTCreditNote((ArrayList) creditNotes,"Кредитно Известие");
 				SwingUtilities.invokeLater(edtCreditNote);
 			}
 		});

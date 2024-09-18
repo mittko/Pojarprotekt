@@ -10,19 +10,17 @@ import java.util.ArrayList;
 
 public class EDTCreditNote<T> extends MainPanel implements Runnable {
 	private ArrayList<T> data = null;
-	private final JDialog jd;
 	private final String title;
 
-	public EDTCreditNote(ArrayList<T> data, JDialog jd, String title) {
+	public EDTCreditNote(ArrayList<T> data, String title) {
 		this.data = data;
-		this.jd = jd;
 		this.title = title;
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 		if (data == null) {
 			return;
 		}

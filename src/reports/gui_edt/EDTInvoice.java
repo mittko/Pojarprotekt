@@ -11,21 +11,20 @@ import java.util.ArrayList;
 public class EDTInvoice<T> extends MainPanel implements Runnable {
 
 	private ArrayList<T> childData = null;
-	private JDialog jd = null;
+
 	private final String titles;
 
-	public EDTInvoice(ArrayList<T> data, JDialog jd, String No,
+	public EDTInvoice(ArrayList<T> data,  String No,
 			String titles) {
 		this.childData = data;
 		// this.parentInvoiceMap = parentMap;
-		this.jd = jd;
 		this.titles = titles;
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 		if (childData == null) {
 			return;
 		}

@@ -1,6 +1,9 @@
 package reports.workers;
 
+import http.RequestCallback2;
+import http.client.GetClientService;
 import javaprinters.print.PrintWithoutOpenPdf;
+import models.Firm;
 import pdf.invoice.InvoicePDFFromReports;
 import pdf.OpenPDFDocument;
 import db.Client.ClientTable;
@@ -66,59 +69,59 @@ public class PrintReportsForInvoiceDocumentsType extends SwingWorker {
 	protected Object doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
-		try {
 
-			// get client info
-			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
-			// System.out.printf("current client -> %s ",currentClient);
-			String[] ДУБЛИКАТ = {MainPanel.personName.equals("Администратор") ? " ОРИГИНАЛ" : " ДУБЛИКАТ", "", "" };
-			String timeStamps[] = { MyGetDate.getTimeStamp() + "a",
-					MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
-			int[] copies = { 1, 1 };
-			for (int i = 0; i < 2; i++) {
-				InvoicePDFFromReports pdf = new InvoicePDFFromReports();
-
-				// this solution merge artikuls with same names but
-				// may lead to errors if artikuls with same names have
-				// different prices !!!
-//				DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
-//				isCreated = pdf.createInvoicePDF(clientInfo, Number,
-//						timeStamps[i], datePdf, payment,mergedTableModel, PATH + "\\"
-//								+ TITLE + "-", TITLE, ДУБЛИКАТ[i], 0,
-//						mergedTableModel.getRowCount()/*endIndex*/, saller);
-
-				// this solution has no errors but don't merge same artikuls !!!
-				isCreated = pdf.createInvoicePDF(clientInfo, Number,
-						timeStamps[i], datePdf, payment,dftm, PATH + "\\"
-								+ TITLE + "-", TITLE, ДУБЛИКАТ[i], startIndex,
-						endIndex, saller);
-				// update invoice number
-				if (isCreated) {
-
-					 OpenPDFDocument.pdfRunner(PATH + "\\" + TITLE + "-"
-					 + timeStamps[i] + "-" + Number + ".pdf");
-
-//					PrintWithoutOpenPdf.printWithoutDialog(PATH, "\\" + TITLE
-//							+ "-" + timeStamps[i] + "-" + Number + ".pdf", ps,
-//							copies[i]);
-
-				}
-			}
-
-		} finally {
-			SwingUtilities.invokeLater(new Runnable() {
-
+			GetClientService service = new GetClientService();
+			service.getFirm(currentClient, new RequestCallback2() {
 				@Override
-				public void run() {
-					// TODO Auto-generated method stub
+				public <T> void callback(T t) {
 					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					if (!isCreated) {
-						JOptionPane.showMessageDialog(null,
-								"Грешка при създаването на документа!");
+
+					Firm firm = (Firm) t;
+					if(firm != null) {
+						// System.out.printf("current client -> %s ",currentClient);
+						String[] ДУБЛИКАТ = {MainPanel.personName.equals("Администратор") ? " ОРИГИНАЛ" : " ДУБЛИКАТ", "", "" };
+						String timeStamps[] = { MyGetDate.getTimeStamp() + "a",
+								MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
+						int[] copies = { 1, 1 };
+						for (int i = 0; i < 2; i++) {
+							InvoicePDFFromReports pdf = new InvoicePDFFromReports();
+
+							// this solution merge artikuls with same names but
+							// may lead to errors if artikuls with same names have
+							// different prices !!!
+     //				DefaultTableModel mergedTableModel = mergeArtikuls(dftm, startIndex, endIndex);
+     //				isCreated = pdf.createInvoicePDF(clientInfo, Number,
+     //						timeStamps[i], datePdf, payment,mergedTableModel, PATH + "\\"
+     //								+ TITLE + "-", TITLE, ДУБЛИКАТ[i], 0,
+     //						mergedTableModel.getRowCount()/*endIndex*/, saller);
+
+							// this solution has no errors but don't merge same artikuls !!!
+							isCreated = pdf.createInvoicePDF(firm, Number,
+									timeStamps[i], datePdf, payment,dftm, PATH + "\\"
+											+ TITLE + "-", TITLE, ДУБЛИКАТ[i], startIndex,
+									endIndex, saller);
+							// update invoice number
+
+							if (isCreated) {
+
+								OpenPDFDocument.pdfRunner(PATH + "\\" + TITLE + "-"
+										+ timeStamps[i] + "-" + Number + ".pdf");
+
+       //					PrintWithoutOpenPdf.printWithoutDialog(PATH, "\\" + TITLE
+       //							+ "-" + timeStamps[i] + "-" + Number + ".pdf", ps,
+       //							copies[i]);
+
+							} else {
+
+								JOptionPane.showMessageDialog(null,
+											"Грешка при създаването на документа!");
+
+							}
+						}
 					}
 				}
 			});
-		}
+
 		return null;
 
 	}
