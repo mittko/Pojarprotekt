@@ -23,9 +23,9 @@ public class ExportToExcelWorker extends SwingWorker {
 	protected Object doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 		try {
-		this.jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
 		ExportDiaryIntoExcell export = new ExportDiaryIntoExcell();
-		export.createDiary(from, to);
+		export.createDiary(from, to, jd);
 		} finally {
 			this.jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.jd.dispose();

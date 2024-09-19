@@ -1,9 +1,8 @@
 package exportoexcell.diary;
 
 import exceptions.InOutException;
-import exportoexcell.diary.workers.GetClientInfoWorker;
-import exportoexcell.diary.workers.GetDiaryInfoWorker;
-import exportoexcell.diary.workers.GetInvoiceNumberFromProtokolWorker;
+import http.RequestCallback2;
+import http.reports.GetReportsService;
 import jxl.Workbook;
 import jxl.format.Alignment;
 import jxl.format.Colour;
@@ -13,16 +12,22 @@ import jxl.read.biff.BiffException;
 import jxl.write.Label;
 import jxl.write.*;
 import jxl.write.WritableFont.FontName;
+
+import models.ClientInfo;
+import models.DiaryModel;
+import models.ProtokolModel;
 import mydate.MyGetDate;
 import utils.MainPanel;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 
 public class ExportDiaryIntoExcell {
 
@@ -69,24 +74,6 @@ public class ExportDiaryIntoExcell {
 	String HI;
 	HashMap<String, ClientInfo> clientMap = new HashMap<String, ClientInfo>();
 
-	private class ClientInfo {
-		private final String city;
-		private final String tel;
-
-		public ClientInfo(String city, String tel) {
-			this.city = city;
-			this.tel = tel;
-		}
-
-		public String getCity() {
-			return city;
-		}
-
-		public String getTel() {
-			return tel;
-		}
-
-	}
 
 	byte[] imageInBytes1;// Гошката
 	byte[] imageInBytes2; // Ице
@@ -122,7 +109,10 @@ public class ExportDiaryIntoExcell {
 		imageInBytes4 = getImageInBytes(workingDir + "/Images/спас.jpg");
 	}
 
-	public void createDiary(String from, String to) throws Exception {
+	public void createDiary(String from, String to, JDialog jDialog)  {
+
+		jDialog.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+
 		init();
 
 		WritableWorkbook workBook;
@@ -148,361 +138,360 @@ public class ExportDiaryIntoExcell {
 			sheet.mergeCells(0, 0, 16, 0); // (col,row,cellspan,row);
 
 			// get data from Protokol
-			ArrayList<Object[]> extractedData = null;
-			GetDiaryInfoWorker getInfo = new GetDiaryInfoWorker(from, to);
 
-			try {
-				extractedData = getInfo.doInBackground();
-
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// sorting by date
-			Collections.sort(extractedData, new Comparator<Object[]>() {
+			GetReportsService service = new GetReportsService();
+			service.getDiary(from,to, new RequestCallback2() {
 				@Override
-				public int compare(Object[] arr, Object[] arr1) {
-					// compare by date
-					String a = arr[14].toString();
-					String b = arr1[14].toString();
-					for (int i = 6; i <= 9; i++) {
-						if (a.charAt(i) < b.charAt(i)) {
-							return -1;
-						} else if (a.charAt(i) > b.charAt(i)) {
-							return 1;
+				public <T> void callback(T t) {
+
+
+					DiaryModel<T> diary = (DiaryModel<T>) t;
+
+					List<ProtokolModel> objects = diary.getProtokolModels();
+
+					if (objects != null) {
+
+						try {
+
+							Collections.sort(objects, new Comparator<ProtokolModel>() {
+								@Override
+								public int compare(ProtokolModel o1, ProtokolModel o2) {
+
+									String a = o1.getDate();
+									String b = o2.getDate();
+									for (int i = 6; i <= 9; i++) {
+										if (a.charAt(i) < b.charAt(i)) {
+											return -1;
+										} else if (a.charAt(i) > b.charAt(i)) {
+											return 1;
+										}
+									}
+									for (int i = 3; i <= 4; i++) {
+										if (a.charAt(i) < b.charAt(i)) {
+											return -1;
+										} else if (a.charAt(i) > b.charAt(i)) {
+											return 1;
+										}
+									}
+									for (int i = 0; i <= 1; i++) {
+										if (a.charAt(i) < b.charAt(i)) {
+											return -1;
+										} else if (a.charAt(i) > b.charAt(i)) {
+											return 1;
+										}
+									}
+									return 0;
+								}
+							});
+
+							// get invoice numbers
+							HashMap<String, String> invoiceNumbersMap = diary.getInvoiceNumbers();
+
+							sheet.getSettings().setScaleFactor(95);
+							sheet.getSettings().setPrintGridLines(true);
+							sheet.getSettings().setLeftMargin(0.25);// <- use inches this is
+							// santimeters -> (0.64);
+							sheet.getSettings().setRightMargin(0.25);// (0.64);
+							sheet.getSettings().setTopMargin(0.35);// (0.91);
+							sheet.getSettings().setBottomMargin(0.35);// (0.91);
+							sheet.getSettings().setPageBreakPreviewMode(true);// !!!!!!
+
+							// sheet.getSettings().setFitToPages(true);
+							// sheet.getSettings().setShowGridLines(true);
+							// sheet.getSettings().setPaperSize(PaperSize.A4);
+
+							setHeaders(sheet, 1, 2);
+							int currentHeight = (sheet.getRowView(0).getSize()
+									+ sheet.getRowView(1).getSize() + sheet.getRowView(2)
+									.getSize());
+							double pageHeight = 56 * sheet.getSettings().getDefaultRowHeight();// 55
+
+							// sheet.getSettings().setZoomFactor(100);
+
+							clientMap = diary.getClientModelHashMap();
+
+							int tableRow = 3;
+							int dataRow = 0;
+							int countEqualsName = 1;
+							int lastIndex = tableRow;
+							while (dataRow < objects.size()) {
+								ProtokolModel prevModel = null;
+								if (dataRow > 0) {
+									prevModel =  objects.get(dataRow - 1);
+								}
+								ProtokolModel model =  objects.get(dataRow);
+								if (model.getNumber() == null) {
+									dataRow++;
+									continue;
+								}
+								if (currentHeight >= pageHeight) {
+									// sheet.addRowPageBreak(tableRow);
+									setHeaders(sheet, tableRow, tableRow + 1);
+									currentHeight = (sheet.getRowView(tableRow).getSize() + sheet
+											.getRowView(tableRow + 1).getSize());
+									tableRow += 2;
+
+								}
+
+								// String clientName = extractedData.get(dataRow)[0].toString();
+								String protokolNumber = model.getNumber();// extractedData.get(dataRow)[12].toString();
+								if (dataRow == 0 || !protokolNumber.equals(prevModel.getNumber())) {
+
+									String clientString = model.getClient();// (String) extractedData.get(dataRow)[0];
+									// set left alignment
+
+									Label protokolNumberLabel = new Label(1, tableRow,
+											protokolNumber, font9);
+
+									sheet.addCell(protokolNumberLabel);
+
+
+									String invoiceNum = invoiceNumbersMap.get(protokolNumber);
+									if(invoiceNum == null) { // no made invoice for this protokol
+										invoiceNum = "    -     ";
+									}
+									Label invoiceNumberLabel = new Label(2, tableRow,invoiceNum
+											, font9);
+
+									try {
+										sheet.addCell(invoiceNumberLabel);
+									} catch (WriteException e) {
+										throw new RuntimeException(e);
+									}
+
+									Label client = new Label(3, tableRow, clientString, font8);
+
+									sheet.addCell(client);
+
+									ClientInfo clientInfo = clientMap.get(clientString);
+
+									if(clientInfo == null) { // occasionally this client is deleted
+										clientInfo = new ClientInfo();
+										clientInfo.setCity("    -     ");
+										clientInfo.setTel("    -      ");
+									};
+
+									Label address = new Label(4, tableRow,clientInfo.getCity(), font8);
+									sheet.addCell(address);
+
+									Label telefon = new Label(5, tableRow, clientInfo.getTel(), font9);
+
+									sheet.addCell(telefon);
+
+									// // obsht broi za daden client
+									Label broiPojarogasiteli = new Label(6, lastIndex,
+											countEqualsName + "", fontH8);
+									sheet.addCell(broiPojarogasiteli);
+
+									lastIndex = tableRow;
+
+									countEqualsName = 1;
+								} else {
+									countEqualsName++;
+								}
+
+								// int add = 0;
+
+								// sheet.setRowView(row+c+add, 230);
+
+								// set category
+								Label category = new Label(8, tableRow,
+										model.getCategory(), fontH8);
+								sheet.addCell(category);
+
+								// set numbers in first column
+								sheet.addCell(new Label(0, tableRow, (tableRow - 2) + "",
+										fontH8));
+
+								// set number in second column
+								Label No = new Label(9, tableRow, (tableRow - 2) + "", fontH8);
+								sheet.addCell(No);
+
+								// set date on doing
+								Label date = new Label(10, tableRow,
+										model.getDate(), font8);
+								sheet.addCell(date);
+
+								// set type and wheight
+								String wheight = model.getWheight();
+								if (wheight.contains("литра")) {
+									wheight = wheight.replace("литра", "л");
+								}
+								// get type of doing
+								String stringType = model.getType();
+								// remove unused characters
+								String originType = stringType;
+								if (originType.contains("Пожарогасител")) {
+									originType = originType.replace("Пожарогасител", "");
+								} else if (originType.contains("пожарогасител")) {
+									originType = originType.replace("пожарогасител", "");
+								}
+								if (originType.contains("( Нов )")) {
+									originType = originType.replace("( Нов )", "");
+								}
+								Label type = new Label(11, tableRow, originType.trim() + " "
+										+ wheight, font8);
+
+								sheet.addCell(type);
+
+								// chasti
+								String stringChasti = null;
+
+								if (stringType.endsWith("( Нов )")) {
+									// ako e nov miama chasti
+									stringChasti = "нов";
+								} else {
+									// ako ne e nov ima chasti
+									stringChasti = getParts(model.getParts());
+
+									stringChasti = stringChasti.replace("Техническо обслужване на Пожарогасител", "ТО")
+											.replace("Презареждане на Пожарогасител", "П")
+											.replace("Хидростатично Изпитване на Пожарогасител", "ХИ");
+
+								}
+
+								Label chasti = new Label(7, tableRow, stringChasti, fontH8);// ???
+								// fontH8
+								// gi
+								// sabira
+								// vsichkite
+								sheet.addCell(chasti);
+
+								// set model
+								Label brand = new Label(12, tableRow,
+										model.getBrand(), font8);
+								sheet.addCell(brand);
+								// set serial
+								Label serial = new Label(13, tableRow,
+										model.getSerial(), fontH9);
+								sheet.addCell(serial);
+								// obslujvane
+								TO = model.getT_O();
+								P = model.getP();
+								HI = model.getHi();
+								String doing = (!TO.equals("не") ? "ТО;" : "")
+										+ (!P.equals("не") ? "П;" : "")
+										+ (!HI.equals("не") ? "ХИ" : "");
+								Label obslujvane = new Label(14, tableRow, doing, font8);
+								sheet.addCell(obslujvane);
+								// set barcod
+								Label barcod = new Label(15, tableRow,
+										model.getBarcod(), font9);
+								sheet.addCell(barcod);
+								// targovsko naimenovanie
+								// convert string type to get targovsko naimenovanie na poj v-vo
+								if (stringType.endsWith("( Нов )")) {
+									// do nothing
+								} else if (stringType.toUpperCase().contains("ABC")
+										|| stringType.toUpperCase().contains("АВС")) {
+									stringType = MainPanel.type_Prah_ABC;
+								} else if (stringType.toUpperCase().contains("BC")
+										|| stringType.toUpperCase().contains("ВС")) {
+									stringType = MainPanel.type_Prah_BC;
+								} else if (stringType.toLowerCase().contains("воден")) {
+									stringType = MainPanel.type_Water;
+								} else if (stringType.toLowerCase().contains("водопенен")) {
+									stringType = MainPanel.type_Water_Fame;
+								} else if (stringType.toUpperCase().contains("CO2")
+										|| stringType.toUpperCase().contains("СО2")) {
+									stringType = MainPanel.type_CO2;
+								}
+								// постави номер на разрешителното
+								String nomerRazreshitelno;
+								if (stringType.equals(MainPanel.type_Prah_BC)
+										&& (!TO.equals("не") && !P.equals("не"))) {
+									nomerRazreshitelno = "Кобра ABC";
+								} else if (stringType.equals(MainPanel.type_Prah_ABC)
+										&& (!TO.equals("не") && !P.equals("не"))) {
+									nomerRazreshitelno = "Кобра ABC";
+								} else if (stringType.equals(MainPanel.type_Water_Fame)
+										&& (!TO.equals("не") && !P.equals("не"))) {
+									nomerRazreshitelno = "STHAMEX";
+								} else if (stringType.endsWith("( Нов )")) {
+									nomerRazreshitelno = "нов";
+								} else {
+									nomerRazreshitelno = "";
+								}
+								//
+								Label targovsko = new Label(16, tableRow, nomerRazreshitelno,
+										font8);
+								sheet.addCell(targovsko);
+								// next date
+								String nextObslujvane = "";
+								if (doing.equals("ХИ")) {//
+									// ako e samo HI -> 5 godini
+									nextObslujvane = HI;// GetDate.getDateAfterToday(5 * 365);
+								} else {
+									nextObslujvane = TO;// GetDate.getDateAfterToday(1 * 365);
+								}
+								Label nextDate = new Label(17, tableRow, nextObslujvane, font8);
+								sheet.addCell(nextDate);
+
+								String technikName = model.getPerson();
+								// System.out.println(technikName);
+								switch (technikName) {
+									case "Георги Ковачки":
+										sheet.addImage(getImage(tableRow, 18, imageInBytes1));
+										break;
+									case "Христо Георгин":
+										sheet.addImage(getImage(tableRow, 18, imageInBytes2));
+										break;
+									case "Георги Ильов":
+										sheet.addImage(getImage(tableRow, 18, imageInBytes3));
+										break;
+									case "Спас Ильов":
+										sheet.addImage(getImage(tableRow, 18, imageInBytes4));
+										break;
+									default: // ->Георги Ильов
+										sheet.addImage(getImage(tableRow, 18, imageInBytes3));
+										break;
+								}
+
+								currentHeight += sheet.getRowView(tableRow).getSize();
+								tableRow++;
+								dataRow++;
+
+							}
+
+							// add for the last element obsht broi za daden client
+							Label broiPojarogasiteli = new Label(6, lastIndex, countEqualsName
+									+ "", fontH8);
+
+							sheet.addCell(broiPojarogasiteli);
+
+							workBook.write();
+							workBook.close();
+
+						} catch (Exception e) {
+
 						}
+
+						jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						jDialog.dispose();
+					} else {
+						jDialog.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						jDialog.dispose();
 					}
-					for (int i = 3; i <= 4; i++) {
-						if (a.charAt(i) < b.charAt(i)) {
-							return -1;
-						} else if (a.charAt(i) > b.charAt(i)) {
-							return 1;
+
+					if (Desktop.isDesktopSupported()) {
+						try {
+							Desktop.getDesktop().open(diaryFile);
+						} catch (IOException e) {
+							throw new RuntimeException(e);
 						}
+					} else {
+						System.err.println("Desktop is not supported !!!");
 					}
-					for (int i = 0; i <= 1; i++) {
-						if (a.charAt(i) < b.charAt(i)) {
-							return -1;
-						} else if (a.charAt(i) > b.charAt(i)) {
-							return 1;
-						}
-					}
-					return 0;
+
 				}
 			});
-			;
 
-			// get invoice numbers
-			TreeSet<String> protokolNumbers = new TreeSet<String>();
-			// populate set with protokol numbers
-			for (Object[] datum : extractedData) {
-
-				if(datum[12] != null) {
-					String protocolNumber = datum[12].toString();
-					protokolNumbers.add(protocolNumber);
-				}
-			}
-
-			GetInvoiceNumberFromProtokolWorker getInvoiceNumber = new GetInvoiceNumberFromProtokolWorker(
-					protokolNumbers);
-			HashMap<String, String> invoiceNumbersMapsss = getInvoiceNumber
-					.doInBackground();
-
-			sheet.getSettings().setScaleFactor(95);
-			sheet.getSettings().setPrintGridLines(true);
-			sheet.getSettings().setLeftMargin(0.25);// <- use inches this is
-			// santimeters -> (0.64);
-			sheet.getSettings().setRightMargin(0.25);// (0.64);
-			sheet.getSettings().setTopMargin(0.35);// (0.91);
-			sheet.getSettings().setBottomMargin(0.35);// (0.91);
-			sheet.getSettings().setPageBreakPreviewMode(true);// !!!!!!
-
-			// sheet.getSettings().setFitToPages(true);
-			// sheet.getSettings().setShowGridLines(true);
-			// sheet.getSettings().setPaperSize(PaperSize.A4);
-
-			setHeaders(sheet, 1, 2);
-			int currentHeight = (sheet.getRowView(0).getSize()
-					+ sheet.getRowView(1).getSize() + sheet.getRowView(2)
-					.getSize());
-			double pageHeight = 56 * sheet.getSettings().getDefaultRowHeight();// 55
-
-			// sheet.getSettings().setZoomFactor(100);
-
-			for (Object[] extractedDatum : extractedData) {
-				String key = extractedDatum[0].toString();
-				String city = "";
-				String tel = "";
-				// get city and telefon of client
-				if (!clientMap.containsKey(key)) {
-					ArrayList<String> info = null;
-					try {
-						info = new GetClientInfoWorker(key).doInBackground();
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					if (info.size() == 2) {
-						city = info.get(0);
-						tel = info.get(1);
-					} else if (info.size() == 1) {
-						city = "Дупница";
-						tel = info.get(0);
-					} else {
-						city = "";
-						tel = "";
-					}
-					clientMap.put(key, new ClientInfo(city, tel));
-				}
-
-			}
-			int tableRow = 3;
-			int dataRow = 0;
-			int countEqualsName = 1;
-			int lastIndex = tableRow;
-			while (dataRow < extractedData.size()) {
-
-				if(extractedData.get(dataRow)[12] == null) {
-					dataRow++;
-					continue;
-				}
-				if (currentHeight >= pageHeight) {
-					// sheet.addRowPageBreak(tableRow);
-					setHeaders(sheet, tableRow, tableRow + 1);
-					currentHeight = (sheet.getRowView(tableRow).getSize() + sheet
-							.getRowView(tableRow + 1).getSize());
-					tableRow += 2;
-
-				}
-
-				// String clientName = extractedData.get(dataRow)[0].toString();
-				String protokolNumber = extractedData.get(dataRow)[12]
-						.toString();
-				if (dataRow == 0
-						|| (dataRow > 0 && !protokolNumber.equals(extractedData
-						.get(dataRow - 1)[12].toString()))) {
-
-					String clientString = (String) extractedData.get(dataRow)[0];
-					// set left alignment
-
-					// String protokolNumber =
-					// extractedData.get(dataRow)[12].toString();
-					Label protokolNumberLabel = new Label(1, tableRow,
-							protokolNumber, font9);
-
-					sheet.addCell(protokolNumberLabel);
-
-					Label invoiceNumberLabel = new Label(2, tableRow,
-							invoiceNumbersMapsss.get(protokolNumber), font9);
-
-					sheet.addCell(invoiceNumberLabel);
-
-					Label client = new Label(3, tableRow, clientString, font8);
-
-					sheet.addCell(client);
-
-					Label address = new Label(4, tableRow, clientMap.get(
-							clientString).getCity(), font8);
-					sheet.addCell(address);
-
-					Label telefon = new Label(5, tableRow, clientMap.get(
-							clientString).getTel(), font9);
-
-					sheet.addCell(telefon);
-
-					// // obsht broi za daden client
-					Label broiPojarogasiteli = new Label(6, lastIndex,
-							countEqualsName + "", fontH8);
-					sheet.addCell(broiPojarogasiteli);
-
-					lastIndex = tableRow;
-
-					countEqualsName = 1;
-				} else {
-					countEqualsName++;
-				}
-
-				// int add = 0;
-
-				// sheet.setRowView(row+c+add, 230);
-
-				// set category
-				Label category = new Label(8, tableRow,
-						(String) extractedData.get(dataRow)[5], fontH8);
-				sheet.addCell(category);
-
-				// set numbers in first column
-				sheet.addCell(new Label(0, tableRow, (tableRow - 2) + "",
-						fontH8));
-
-				// set number in second column
-				Label No = new Label(9, tableRow, (tableRow - 2) + "", fontH8);
-				sheet.addCell(No);
-
-				// set date on doing
-				Label date = new Label(10, tableRow,
-						(String) extractedData.get(dataRow)[14], font8);
-				sheet.addCell(date);
-
-				// set type and wheight
-				String wheight = (String) extractedData.get(dataRow)[2];
-				if (wheight.contains("литра")) {
-					wheight = wheight.replace("литра", "л");
-				}
-				// get type of doing
-				String stringType = (String) extractedData.get(dataRow)[1];
-				// remove unused characters
-				String originType = stringType;
-				if (originType.contains("Пожарогасител")) {
-					originType = originType.replace("Пожарогасител", "");
-				} else if (originType.contains("пожарогасител")) {
-					originType = originType.replace("пожарогасител", "");
-				}
-				if (originType.contains("( Нов )")) {
-					originType = originType.replace("( Нов )", "");
-				}
-				Label type = new Label(11, tableRow, originType.trim() + " "
-						+ wheight, font8);
-
-				sheet.addCell(type);
-
-				// chasti
-				String stringChasti = null;
-
-				if (stringType.endsWith("( Нов )")) {
-					// ako e nov miama chasti
-					stringChasti = "нов";
-				} else {
-					// ako ne e nov ima chasti
-					stringChasti = getParts((String) extractedData.get(dataRow)[10]);
-
-					stringChasti = stringChasti.replace("Техническо обслужване на Пожарогасител","ТО")
-							.replace("Презареждане на Пожарогасител","П")
-							.replace("Хидростатично Изпитване на Пожарогасител","ХИ");
-
-				}
-
-				Label chasti = new Label(7, tableRow, stringChasti, fontH8);// ???
-				// fontH8
-				// gi
-				// sabira
-				// vsichkite
-				sheet.addCell(chasti);
-
-				// set model
-				Label brand = new Label(12, tableRow,
-						(String) extractedData.get(dataRow)[6], font8);
-				sheet.addCell(brand);
-				// set serial
-				Label serial = new Label(13, tableRow,
-						(String) extractedData.get(dataRow)[4], fontH9);
-				sheet.addCell(serial);
-				// obslujvane
-				TO = ((String) extractedData.get(dataRow)[7]);
-				P = ((String) extractedData.get(dataRow)[8]);
-				HI = ((String) extractedData.get(dataRow)[9]);
-				String doing = (!TO.equals("не") ? "ТО;" : "")
-						+ (!P.equals("не") ? "П;" : "")
-						+ (!HI.equals("не") ? "ХИ" : "");
-				Label obslujvane = new Label(14, tableRow, doing, font8);
-				sheet.addCell(obslujvane);
-				// set barcod
-				Label barcod = new Label(15, tableRow,
-						(String) extractedData.get(dataRow)[3], font9);
-				sheet.addCell(barcod);
-				// targovsko naimenovanie
-				// convert string type to get targovsko naimenovanie na poj v-vo
-				if (stringType.endsWith("( Нов )")) {
-					// do nothing
-				} else if (stringType.toUpperCase().contains("ABC")
-						|| stringType.toUpperCase().contains("АВС")) {
-					stringType = MainPanel.type_Prah_ABC;
-				} else if (stringType.toUpperCase().contains("BC")
-						|| stringType.toUpperCase().contains("ВС")) {
-					stringType = MainPanel.type_Prah_BC;
-				} else if (stringType.toLowerCase().contains("воден")) {
-					stringType = MainPanel.type_Water;
-				} else if (stringType.toLowerCase().contains("водопенен")) {
-					stringType = MainPanel.type_Water_Fame;
-				} else if (stringType.toUpperCase().contains("CO2")
-						|| stringType.toUpperCase().contains("СО2")) {
-					stringType = MainPanel.type_CO2;
-				}
-				// постави номер на разрешителното
-				String nomerRazreshitelno;
-				if (stringType.equals(MainPanel.type_Prah_BC)
-						&& (!TO.equals("не") && !P.equals("не"))) {
-					nomerRazreshitelno = "Кобра ABC";
-				} else if (stringType.equals(MainPanel.type_Prah_ABC)
-						&& (!TO.equals("не") && !P.equals("не"))) {
-					nomerRazreshitelno = "Кобра ABC";
-				} else if (stringType.equals(MainPanel.type_Water_Fame)
-						&& (!TO.equals("не") && !P.equals("не"))) {
-					nomerRazreshitelno = "STHAMEX";
-				} else if (stringType.endsWith("( Нов )")) {
-					nomerRazreshitelno = "нов";
-				} else {
-					nomerRazreshitelno = "";
-				}
-				//
-				Label targovsko = new Label(16, tableRow, nomerRazreshitelno,
-						font8);
-				sheet.addCell(targovsko);
-				// next date
-				String nextObslujvane = "";
-				if (doing.equals("ХИ")) {//
-					// ako e samo HI -> 5 godini
-					nextObslujvane = HI;// GetDate.getDateAfterToday(5 * 365);
-				} else {
-					nextObslujvane = TO;// GetDate.getDateAfterToday(1 * 365);
-				}
-				Label nextDate = new Label(17, tableRow, nextObslujvane, font8);
-				sheet.addCell(nextDate);
-
-				String technikName = extractedData.get(dataRow)[13].toString();
-				// System.out.println(technikName);
-				switch (technikName) {
-					case "Георги Ковачки":
-						sheet.addImage(getImage(tableRow, 18, imageInBytes1));
-						break;
-					case "Христо Георгин":
-						sheet.addImage(getImage(tableRow, 18, imageInBytes2));
-						break;
-					case "Георги Ильов":
-						sheet.addImage(getImage(tableRow, 18, imageInBytes3));
-						break;
-					case "Спас Ильов":
-						sheet.addImage(getImage(tableRow, 18, imageInBytes4));
-						break;
-					default: // ->Георги Ильов
-						sheet.addImage(getImage(tableRow, 18, imageInBytes3));
-						break;
-				}
-
-				currentHeight += sheet.getRowView(tableRow).getSize();
-				tableRow++;
-				dataRow++;
-
-			}
-
-			// add for the last element obsht broi za daden client
-			Label broiPojarogasiteli = new Label(6, lastIndex, countEqualsName
-					+ "", fontH8);
-
-			sheet.addCell(broiPojarogasiteli);
-
-			workBook.write();
-			workBook.close();
 
 		} catch (IOException | WriteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		if (Desktop.isDesktopSupported()) {
-			java.awt.Desktop.getDesktop().open(diaryFile);
-		} else {
-			System.err.println("Desktop is not supported !!!");
-		}
 
 	}
 
@@ -530,7 +519,7 @@ public class ExportDiaryIntoExcell {
 		// TODO Auto-generated method stub
 		ExportDiaryIntoExcell ex = new ExportDiaryIntoExcell();
 		// ex.init();
-		ex.createDiary("25.02.2018", "01.03.2018");// "25.02.2018","01.03.2018"
+		ex.createDiary("25.02.2018", "01.03.2018",null);// "25.02.2018","01.03.2018"
 		// ex.read();
 		// ex.extractDataFromDatabase(GetDate.getReversedSystemDate()) ;
 	}
@@ -613,17 +602,17 @@ public class ExportDiaryIntoExcell {
 	private String getParts(String parts) {
 		String[] p = parts.split(",");
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < p.length; i++) {
-			if (p[i].equals(MainPanel.Plomba) || p[i].equals(MainPanel.Sphlend)
-					|| p[i].equals(MainPanel.PrahBC)
-					|| p[i].equals(MainPanel.PrahABC)
-					|| p[i].equals(MainPanel.GasitelnoVeshtestvoVoda)
-					|| p[i].equals(MainPanel.GasitelnoVeshtestvoVodaPyana)
-					|| p[i].equals(MainPanel.GasitelnoVeshtestvoCO2)) {
+		for (String s : p) {
+			if (s.equals(MainPanel.Plomba) || s.equals(MainPanel.Sphlend)
+					|| s.equals(MainPanel.PrahBC)
+					|| s.equals(MainPanel.PrahABC)
+					|| s.equals(MainPanel.GasitelnoVeshtestvoVoda)
+					|| s.equals(MainPanel.GasitelnoVeshtestvoVodaPyana)
+					|| s.equals(MainPanel.GasitelnoVeshtestvoCO2)) {
 
 				continue;
 			}
-			sb.append(p[i] + ";");
+			sb.append(s).append(";");
 
 		}
 		return sb.toString();

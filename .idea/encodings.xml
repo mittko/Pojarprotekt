@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/admin/AdminDialog.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/calendar/GeneralTechnicalReview.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/db/Calendar/GeneralTechnicalReviewDB.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/enterdialog/PasswordDialog.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/AcquittanceModel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/AcquittanceModels.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/AcquittanceModels.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/ArtikulsReports.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/AuthRequest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/AuthRequest.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/BrackModel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/BrackModels.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/models/ClientBody.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/BrackModels.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/ClientInfo.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/CreditNoteBody.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/CreditNoteBodyList.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/DeliveryReports.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/DiaryModel.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/models/Firm.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/InvoiceModel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/InvoiceModels.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/models/LoginRes.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/InvoiceModels.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/models/LoginRes.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/NewExtinguishersReports.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/PartsModel.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/PartsModel.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/ProtokolModel.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/src/models/ProtokolModels.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/models/ProtokolModels.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/models/ServiceOrderModel.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/pdf/invoice/InvoicePDFFromReports.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/pdf/serviceorder/ServiceOrderPDF.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/reports/workers/PrintReportsForInvoiceDocumentsType.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/utils/ArtikulsListComboBox.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/utils/EditableField.java" charset="windows-1251" />
     <file url="PROJECT" charset="windows-1251" />
   </component>
 </project>

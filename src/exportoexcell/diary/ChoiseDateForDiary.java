@@ -67,10 +67,14 @@ public class ChoiseDateForDiary extends MainPanel {
 					JOptionPane.showMessageDialog(null, "Грешен формат на дата",null,JOptionPane.ERROR_MESSAGE);
 				    return;
 				}
-				ExportToExcelWorker exportToExcelWorker = 
-						new ExportToExcelWorker(fromDateField.getText(), 
-								toDateField.getText(), jd);
-				exportToExcelWorker.execute();
+
+				ExportDiaryIntoExcell export = new ExportDiaryIntoExcell();
+				export.createDiary(fromDateField.getText(), toDateField.getText(), jd);
+
+//				ExportToExcelWorker exportToExcelWorker =
+//						new ExportToExcelWorker(fromDateField.getText(),
+//								toDateField.getText(), jd);
+//				exportToExcelWorker.execute();
 				
 			}
 			

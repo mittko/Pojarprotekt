@@ -3,6 +3,7 @@ package http.reports;
 import clients.editclient.IncorrectPerson;
 import exceptions.ErrorDialog;
 import http.RequestCallback;
+import http.RequestCallback2;
 import http.base.ServiceAPI;
 import models.*;
 import retrofit2.Call;
@@ -57,6 +58,29 @@ public class GetReportsService extends ServiceAPI {
             public void onFailure(Call<List<ProtokolModel>> call, Throwable throwable) {
                     callback.callback(null);
                     ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
+    public void getDiary(String fromDate, String toDate, RequestCallback2 callback) {
+        HashMap<String,String> optionsParam = new HashMap<>();
+        optionsParam.put("fromDate",fromDate);
+        optionsParam.put("toDate",toDate);
+        getService().getDiary(optionsParam,ACCESS_TOKEN).enqueue(new Callback<DiaryModel>() {
+            @Override
+            public void onResponse(Call<DiaryModel> call, Response<DiaryModel> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    callback.callback(null);
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DiaryModel> call, Throwable throwable) {
+                   callback.callback(null);
+                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }

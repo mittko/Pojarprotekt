@@ -18,6 +18,9 @@ public interface IGetReports {
     Call<List<ProtokolModel>> getProtokols(@QueryMap HashMap<String,String> optionsParam,
                                            @Header("Authorization") String accessToken);
 
+    @GET("/diary")
+    Call<DiaryModel> getDiary(@QueryMap HashMap<String, String> optionsParam,@Header("Authorization") String accessToken);
+
     @GET("/brack")
     Call<List<BrackModel>> getBrack(@QueryMap HashMap<String, String> optionsParam,
                                     @Header("Authorization") String accessToken);
