@@ -8,13 +8,14 @@ import retrofit2.http.*;
 public interface IServiceOrder {
 
     @POST("/insert_service_order")
-    Call<Integer> insertServiceOrder(@Body ServiceOrderModels body);
+    Call<Integer> insertServiceOrder(@Body ServiceOrderModels body, @Header("Authorization") String accessToken);
 
     @GET("/protokol_info_barcode")
-    Call<ProtokolModel> getProtokolInfoByBarcode(@Query("barcode") String barcode, @Query("serial_number") String serialNumber);
+    Call<ProtokolModel> getProtokolInfoByBarcode(@Query("barcode") String barcode, @Query("serial_number")String serialNumber
+            ,@Header("Authorization") String accessToken);
 
 
     @GET("/next_serial_number")
-    Call<String> getNextSerialNumber();
+    Call<String> getNextSerialNumber(@Header("Authorization") String accessToken);
 
 }

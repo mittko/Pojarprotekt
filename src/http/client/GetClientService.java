@@ -37,7 +37,7 @@ public class GetClientService extends ServiceAPI {
     }
 
     public void insertClient(Firm body, RequestCallback2 callback) {
-        getService().insertClient(body).enqueue(new Callback<Integer>() {
+        getService().insertClient(body,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -57,7 +57,7 @@ public class GetClientService extends ServiceAPI {
     }
 
     public void insertFirm(Firm firm, RequestCallback2 callback) {
-        getService().insertFirm(firm).enqueue(new Callback<Integer>() {
+        getService().insertFirm(firm,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -77,7 +77,7 @@ public class GetClientService extends ServiceAPI {
     }
 
     public void deleteClient(String name , RequestCallback2 callback) {
-        getService().deleteClient(name).enqueue(new Callback<Integer>() {
+        getService().deleteClient(name,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -97,7 +97,7 @@ public class GetClientService extends ServiceAPI {
     }
 
     public void editFirm(Firm firm, String oldName, RequestCallback2 callback) {
-        getService().editFirm(firm,oldName).enqueue(new Callback<Integer>() {
+        getService().editFirm(firm,oldName,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -117,7 +117,7 @@ public class GetClientService extends ServiceAPI {
     }
 
     public void editClient(Firm firm, String oldName, RequestCallback2 callback) {
-        getService().editClient(firm,oldName).enqueue(new Callback<Integer>() {
+        getService().editClient(firm,oldName,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {

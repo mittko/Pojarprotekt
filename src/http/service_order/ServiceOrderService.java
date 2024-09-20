@@ -9,6 +9,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class ServiceOrderService extends ServiceAPI {
 
     public IServiceOrder getService() {
@@ -16,7 +18,7 @@ public class ServiceOrderService extends ServiceAPI {
     }
 
     public void insertServiceOrder(ServiceOrderModels body, RequestCallback2 callback) {
-        getService().insertServiceOrder(body).enqueue(new Callback<Integer>() {
+        getService().insertServiceOrder(body,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -36,7 +38,7 @@ public class ServiceOrderService extends ServiceAPI {
     }
 
     public void getProtokolInfoByBarcode(String barcode, String serialNumber,RequestCallback2 callback) {
-        getService().getProtokolInfoByBarcode(barcode,serialNumber).enqueue(new Callback<ProtokolModel>() {
+        getService().getProtokolInfoByBarcode(barcode,serialNumber,ACCESS_TOKEN).enqueue(new Callback<ProtokolModel>() {
             @Override
             public void onResponse(Call<ProtokolModel> call, Response<ProtokolModel> response) {
                 if(response.isSuccessful()) {
@@ -56,7 +58,7 @@ public class ServiceOrderService extends ServiceAPI {
     }
 
     public void getNextSerialNumber(RequestCallback2 callback) {
-        getService().getNextSerialNumber().enqueue(new Callback<String>() {
+        getService().getNextSerialNumber(ACCESS_TOKEN).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                     if(response.isSuccessful()) {

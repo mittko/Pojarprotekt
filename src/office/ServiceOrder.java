@@ -250,7 +250,7 @@ public class ServiceOrder extends MainPanel {
 
 									String weight = protokolModel.getWheight();
 
-									if(!isWeightValid(weight)) {
+									if(weight != null && !isWeightValid(weight)) {
 										ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
 												weight));
 										return;
@@ -275,10 +275,9 @@ public class ServiceOrder extends MainPanel {
 									clientCombo.setSelectedItem(CURRENT_CLIENT);
 									clientCombo.setEnabled(false);
 								} else {
-									JOptionPane
-											.showMessageDialog(
-													null,
-													"Не е намерен такъв елемент!");
+//									JOptionPane.showMessageDialog(
+//											null,
+//													"Не е намерен такъв елемент!");
 								}
 
 							readBarcod.setText("");
@@ -368,10 +367,10 @@ public class ServiceOrder extends MainPanel {
 								clientCombo.setSelectedItem(CURRENT_CLIENT);
 								clientCombo.setEnabled(false);
 							} else {
-								JOptionPane
-										.showMessageDialog(
-												null,
-												"Не е намерен такъв елемент!");
+//								JOptionPane
+//										.showMessageDialog(
+//												null,
+//												"Не е намерен такъв елемент!");
 							}
 
 							serialNumber.setText("");
@@ -886,42 +885,7 @@ public class ServiceOrder extends MainPanel {
 						}
 					}
 				});
-//				SwingWorker<Boolean, Void> sw = new SwingWorker<Boolean, Void>() {
-//
-//					@SuppressWarnings("finally")
-//					@Override
-//					protected Boolean doInBackground() throws Exception {
-//						// TODO Auto-generated method stub
-//
-//						final JDialog jd = ((JDialog) (SwingUtilities
-//								.getWindowAncestor(ServiceOrder.this)));
-//						jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-//
-//						try {
-//
-//							serial = bt.updateSerial(); // get and update serial
-//							// from db
-//						} finally {
-//
-//							SwingUtilities.invokeLater(new Runnable() {
-//								@Override
-//								public void run() {
-//									jd.setCursor(new Cursor(
-//											Cursor.DEFAULT_CURSOR));
-//									if (serial != null) {
-//										tModel.setValueAt(serial, CURRENT_ROW,
-//												3);
-//									}
-//
-//								}
-//
-//							});
-//						}
-//						return true;
-//					}
-//				};
-//
-//				sw.execute();
+
 
 			}
 
