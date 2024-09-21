@@ -154,13 +154,13 @@ public class EditClientPanel extends MainPanel {
 							EditFirm.BIC.setText(firm.getBic());
 							EditFirm.IBAN.setText(firm.getIban());
 							EditFirm.discountField.setText(String.valueOf(firm.getDiscount()));
-							EditFirm.incorrectClientCheckBox.setSelected(true);
-							EditFirm.registrationVatCheckBox.setSelected(true);
+							EditFirm.incorrectClientCheckBox.setSelected(firm.getIncorrect_person().equals("да"));
+							EditFirm.registrationVatCheckBox.setSelected(firm.getVat_registration().equals("да"));
 						} else {
 							EditPerson.name.setText(firm.getFirm());
 							EditPerson.tel.setText(firm.getTelPerson());
 							EditPerson.discountField.setText(String.valueOf(firm.getDiscount()));
-							EditPerson.incorrectClientCheckBox.setSelected(true);
+							EditFirm.incorrectClientCheckBox.setSelected(firm.getIncorrect_person().equals("да"));
 						}
 
 						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

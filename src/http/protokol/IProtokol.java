@@ -22,5 +22,5 @@ public interface IProtokol {
     Call<String> insertBrack(@Body BrackModels body);
 
     @GET("/protokol_info")
-    Call<List<ProtokolModel>> getProtokolInfo(@Query("number") String number);
+    Call<List<ProtokolModel>> getProtokolInfo(@Query("number") String number,@Header("Authorization") String accessToken);
 }

@@ -2,6 +2,8 @@ package invoice.invoicewindow;
 
 import db.Client.FirmTable;
 import http.RequestCallback;
+import http.RequestCallback2;
+import http.client.GetClientService;
 import http.sklad.GetArtikulService;
 import invoice.fiskal.CreateBonFPrint;
 import invoice.renderers.CustomTableCellRenderer;
@@ -10,6 +12,7 @@ import invoice.sklad.SkladArtiklulPanel;
 import invoice.workers.GetDiscountWorker;
 import invoice.workers.SellWithFiskalBonWorker;
 import models.ArtikulModel;
+import models.Firm;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -75,26 +78,41 @@ public class ArtikulTab extends MainPanel {
 							return;
 						}
 						if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-							try {
-								String discount = new GetDiscountWorker(
-										clientCombo.getSelectedItem()
-												.toString()).doInBackground();
-								discountField.setText(discount);
-								choiceDiscountButton.setDefaultIcon();
+//							try {
 
-								String registrationVat = FirmTable.getHasFirmVatRegistration(
-										clientCombo.getSelectedItem().toString());
-								registrationVatCheckBox.setSelected(
-										registrationVat.equals("да"));
-								if ((registrationVatCheckBox.isSelected())) {
-									setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
-								} else {
-									registrationVatCheckBox.setIcon(null);
-								}
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+								GetClientService service = new GetClientService();
+								service.getFirm(clientCombo.getSelectedItem().toString(), new RequestCallback2() {
+									@Override
+									public <T> void callback(T t) {
+										Firm firm = (Firm) t;
+										if(firm != null) {
+											String discount =
+                                            firm.getDiscount();
+//													new GetDiscountWorker(
+//															clientCombo.getSelectedItem()
+//																	.toString()).doInBackground();
+
+											discountField.setText(discount);
+											choiceDiscountButton.setDefaultIcon();
+
+											String registrationVat = firm.getVat_registration();
+//													FirmTable.getHasFirmVatRegistration(
+//													clientCombo.getSelectedItem().toString());
+											registrationVatCheckBox.setSelected(
+													registrationVat.equals("да"));
+											if ((registrationVatCheckBox.isSelected())) {
+												setDynamicSizedIcon(registrationVatCheckBox, selectedIcon);
+											} else {
+												registrationVatCheckBox.setIcon(null);
+											}
+										}
+									}
+								});
+
+//							} catch (Exception e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
 						}
 
 					}

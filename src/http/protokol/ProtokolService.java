@@ -78,7 +78,7 @@ public class ProtokolService extends ServiceAPI {
     }
 
     public void getProtokolInfo(String number, RequestCallback callback) {
-        getService().getProtokolInfo(number).enqueue(new Callback<List<ProtokolModel>>() {
+        getService().getProtokolInfo(number,ACCESS_TOKEN).enqueue(new Callback<List<ProtokolModel>>() {
             @Override
             public void onResponse(Call<List<ProtokolModel>> call, Response<List<ProtokolModel>> response) {
                 if(response.isSuccessful()) {
