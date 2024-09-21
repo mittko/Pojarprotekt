@@ -174,6 +174,8 @@ public class View extends MainPanel {
 							if(t != null) {
 								PDF_PROTOKOL_NUMBER = (String) t;
 								JOptionPane.showMessageDialog(null,"Данните са записани успешно");
+
+								printProtokolButton.setEnabled(true);
 							}
 						}
 					});

@@ -15,6 +15,8 @@ import utils.MainPanel;
 
 import java.util.List;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class ProtokolService extends ServiceAPI {
 
     public IProtokol getService() {
@@ -22,7 +24,7 @@ public class ProtokolService extends ServiceAPI {
     }
 
     public void getServiceOrderByBarcode(String barcode, String serialNumber,RequestCallback2 callback) {
-        getService().getServiceOrderByBarcode(barcode,serialNumber).enqueue(new Callback<ServiceOrderModel>() {
+        getService().getServiceOrderByBarcode(barcode,serialNumber, ACCESS_TOKEN).enqueue(new Callback<ServiceOrderModel>() {
             @Override
             public void onResponse(Call<ServiceOrderModel> call, Response<ServiceOrderModel> response) {
                 if(response.isSuccessful()) {
@@ -40,7 +42,7 @@ public class ProtokolService extends ServiceAPI {
     }
 
     public void insertProtokol(ProtokolModels body, RequestCallback2 callback) {
-        getService().insertProtokol(body).enqueue(new Callback<String>() {
+        getService().insertProtokol(body,ACCESS_TOKEN).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                  if(response.isSuccessful()) {

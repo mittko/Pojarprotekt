@@ -1,5 +1,6 @@
 package workingbook.workers;
 
+import http.RequestCallback2;
 import workingbook.View;
 import mydate.MyGetDate;
 import utils.ChoisePrinterDialog;
@@ -32,43 +33,35 @@ public class PrintProtokolWorker extends SwingWorker {
 		// TODO Auto-generated method stub
 		
 	
-		try {
+
 			
             ps = ChoisePrinterDialog.showPrinters();
             if(ps != null) {
             ProtokolPrinter protokolPrinter = 
             		new ProtokolPrinter(PROTOKOL_NUMBER,0,dftm.getRowCount(), 
             				MyGetDate.getReversedSystemDate());
-            pdf = protokolPrinter.printProtokol2815(dftm, partsMap,ps);
-            }
-			
-		} finally {
-			SwingUtilities.invokeLater(new Runnable() {
-
+            pdf = protokolPrinter.printProtokol2815(dftm, partsMap, ps, new RequestCallback2() {
 				@Override
-				public void run() {
-					// TODO Auto-generated method stub
+				public <T> void callback(T t) {
 					jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					if(ps != null) {
-						
+					Boolean success = (Boolean) t;
+					if(success) {
 						if(pdf) {
 							dftm.setRowCount(0);
 							if(View.partsList.getModel().getSize() > 0) {
-						    DefaultListModel<Object> listModel = (DefaultListModel<Object>)
-									View.partsList.getModel();
-					        listModel.removeAllElements();
+								DefaultListModel<Object> listModel = (DefaultListModel<Object>)
+										View.partsList.getModel();
+								listModel.removeAllElements();
 							}
-					        View.printProtokolButton.setEnabled(false);
+							View.printProtokolButton.setEnabled(false);
 						} else {
 							JOptionPane.showMessageDialog(null, "Грешка при създаването на документа");
 						}
-						
+					}
 				}
-					
-				}
-				
 			});
-		}
+            }
+
 		return null;
 	}
 	   

@@ -7,6 +7,7 @@ import javax.print.PrintService;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 
+import http.RequestCallback2;
 import utils.ChoisePrinterDialog;
 import workingbook.workers.ProtokolPrinter;
 
@@ -39,7 +40,7 @@ public class PrintProtokolWorker {
 				if(ps != null) {
 				ProtokolPrinter protokolPrinter = new ProtokolPrinter(protokolNumber,
 						startIndex,endIndex, protokolDate);
-				protokolPrinter.printProtokol2815(dftm, partsMap,ps);
+				protokolPrinter.printProtokol2815(dftm, partsMap, ps, null);
 				}
 		} catch (Exception e) {
 			throw new RuntimeException(e);

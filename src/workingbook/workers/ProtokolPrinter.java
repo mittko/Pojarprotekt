@@ -31,7 +31,7 @@ public class ProtokolPrinter {
 	}
 
 	public boolean printProtokol2815(DefaultTableModel dtm,
-									 TreeMap<Object, Integer> partsMap, PrintService ps)
+									 TreeMap<Object, Integer> partsMap, PrintService ps, RequestCallback2 callback)
 			throws Exception {
 		// TODO Auto-generated method stub
 
@@ -77,7 +77,11 @@ public class ProtokolPrinter {
 											+ (timeStamp + helpers[printing]) + "-"
 											+ PROTOKOL_NUMBER + ".pdf", ps,
 									copies[printing]);
+
+
 						}
+
+						callback.callback(pdf);
 					}
 				}
 			}
