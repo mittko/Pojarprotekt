@@ -10,10 +10,10 @@ import java.util.List;
 public interface INewExtinguishers {
 
     @GET("/extinguisher_shop")
-    Call<List<ExtinguisherModel>> getNewExtinguishers();
+    Call<List<ExtinguisherModel>> getNewExtinguishers(@Header("Authorization") String accessToken);
 
     @POST("/insert_new_extinguisher")
-    Call<String> insertNewExtinguisher(@Body  ProtokolModels body);
+    Call<String> insertNewExtinguisher(@Body  ProtokolModels body,@Header("Authorization") String accessToken);
 
     @POST("create_new_extingusihser")
     Call<Integer> createExtinguisher(@Body ExtinguisherModel body);

@@ -364,6 +364,7 @@ public class NewExtinguisherWindow extends MainPanel {
 					@Override
 					public <T> void callback(T t) {
 						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 						List<ExtinguisherModel> modelList = (List<ExtinguisherModel>) t;
 						if(modelList != null) {
 							skladNewExtinguisher = new Shop_SkladExtinuisher((ArrayList<ExtinguisherModel>) modelList);

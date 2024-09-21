@@ -13,43 +13,49 @@ import utils.MainPanel;
 
 import java.util.List;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class NewExtinguisherService extends ServiceAPI {
 
     public INewExtinguishers getService() {
         return getRetrofit().create(INewExtinguishers.class);
     }
     public void getExtinguishers(RequestCallback2 callback) {
-        getService().getNewExtinguishers().enqueue(new Callback<List<ExtinguisherModel>>() {
+        getService().getNewExtinguishers(ACCESS_TOKEN).enqueue(new Callback<List<ExtinguisherModel>>() {
             @Override
             public void onResponse(Call<List<ExtinguisherModel>> call, Response<List<ExtinguisherModel>> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<ExtinguisherModel>> call, Throwable throwable) {
+                callback.callback(null);
                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void insertNewExtinguisher(ProtokolModels body, RequestCallback2 callback) {
-        getService().insertNewExtinguisher(body).enqueue(new Callback<String>() {
+        getService().insertNewExtinguisher(body,ACCESS_TOKEN).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable throwable) {
-                ErrorDialog.showErrorMessage(throwable.getMessage());
+                    callback.callback(null);
+                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
