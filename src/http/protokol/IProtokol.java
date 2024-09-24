@@ -1,9 +1,6 @@
 package http.protokol;
 
-import models.BrackModels;
-import models.ProtokolModel;
-import models.ProtokolModels;
-import models.ServiceOrderModel;
+import models.*;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -22,5 +19,5 @@ public interface IProtokol {
     Call<String> insertBrack(@Body BrackModels body);
 
     @GET("/protokol_info")
-    Call<List<ProtokolModel>> getProtokolInfo(@Query("number") String number,@Header("Authorization") String accessToken);
+    Call<ProtokolInfo> getProtokolInfo(@Query("number") String number, @Header("Authorization") String accessToken);
 }

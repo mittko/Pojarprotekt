@@ -3,6 +3,8 @@ import acquittance.windows.SaveInAcquittanceDBDialog;
 import db.Discount.DiscountDB;
 import db.PartsPrice.PriceTable;
 import http.RequestCallback;
+import http.RequestCallback2;
+import http.client.GetClientService;
 import http.protokol.ProtokolService;
 import http.sklad.GetArtikulService;
 import invoice.fiskal.CreateBonFPrint;
@@ -14,6 +16,7 @@ import invoice.workers.ProtokolSearchWorker;
 import invoice.workers.SellWithFiskalBonWorker;
 import clients.NewClient;
 import models.ArtikulModel;
+import models.ProtokolInfo;
 import models.ProtokolModel;
 import mydate.MyGetDate;
 import run.JDialoger;
@@ -92,20 +95,17 @@ public class SearchFromProtokolTab extends MainPanel {
 				protokolNumber = searchField.getText();
 
 				ProtokolService service= new ProtokolService();
-				service.getProtokolInfo(protokolNumber, new RequestCallback() {
+				service.getProtokolInfo(protokolNumber, new RequestCallback2() {
 					@Override
-					public <T> void callback(List<T> objects) {
-						List<ProtokolModel> models = (List<ProtokolModel>) objects;
-						if(models !=null && models.size() > 0) {
-
+					public <T> void callback(T t) {
+						ProtokolInfo protokolInfo = (ProtokolInfo) t;
+						if(protokolInfo != null) {
 							ProtokolSearchWorker ps = new ProtokolSearchWorker(searchField,
-									invoiceTableModel, (ArrayList<ProtokolModel>) models); // search in protokol
+									invoiceTableModel, protokolInfo); // search in protokol
 							ps.doSearch();
-							}
 						}
-
+					}
 				});
-
 
 
 			}

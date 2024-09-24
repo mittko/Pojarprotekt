@@ -39,7 +39,8 @@ public interface IGetArtikuls {
 
     @GET("/get_part_price")
     Call<Double> getPartPrice(@Query("part") String part, @Query("type") String type,
-                              @Query("category") String category, @Query("weight") String weight);
+                              @Query("category") String category, @Query("weight") String weight,
+                              @Header("Authorization") String accessToken);
 
     @GET("/artikul_value/{table}")
     Call<Double> getArtikulValue(@Path("table") String table, @Query("artikul") String artikul);

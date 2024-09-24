@@ -4,7 +4,10 @@ import db.Client.FirmTable;
 import db.Discount.DiscountDB;
 import db.PartsPrice.PriceTable;
 import db.Protokol.ProtokolTable;
+import http.RequestCallback2;
+import http.sklad.GetArtikulService;
 import invoice.invoicewindow.SearchFromProtokolTab;
+import models.ProtokolInfo;
 import models.ProtokolModel;
 import utils.EditableField;
 import utils.MainPanel;
@@ -18,35 +21,49 @@ import java.util.TreeMap;
 
 //inner class
 public class ProtokolSearchWorker {
-	private ArrayList<ProtokolModel> result = new ArrayList<>();
+
+	private final ProtokolInfo protokolInfo;
+	private final ArrayList<ProtokolModel> result;
+
 	public static String discount = null;
 	public static double doubleDiscount = 0;
 	private String protokolNum = null;
 	private final float DDS = 1.0f;
 	private final EditableField copySearchField;
-
 	private final TreeMap<String, Info> mapInfo = new TreeMap<String, Info>();
 	private final DefaultTableModel fromInvoiceTableModel;
 	public static ArrayList<ProtokolModel> moreProtokolsList = new ArrayList<>(); // store
 
 	public ProtokolSearchWorker(EditableField searchField,
-								DefaultTableModel dftm, ArrayList<ProtokolModel> result) {
+								DefaultTableModel dftm, ProtokolInfo protokolInfo) {
 		this.copySearchField = searchField;
 		this.protokolNum = copySearchField.getText().trim();
 		this.fromInvoiceTableModel = dftm;
-		this.result = result;
+		this.protokolInfo = protokolInfo;
+		this.result = (ArrayList<ProtokolModel>) protokolInfo.getProtokolModels();
 	}
 
 
 	public Boolean doSearch() {
 		// TODO Auto-generated method stub
+		if (SearchFromProtokolTab.protokolNumberSet
+				.contains(protokolNum)) {
+			JOptionPane.showMessageDialog(null,
+					"Този протокол вече е въведен !");
+			return false;
+		}
+		if (!SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
+				.equals("")
+				&& !SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
+				.equals(result.get(0).getClient())) {
+			// return
+			JOptionPane.showMessageDialog(null,
+					"Въведен е друг клиент !");
+			return false;
+		}
 
-		try {
-
-			if (!SearchFromProtokolTab.protokolNumberSet.contains(protokolNum)) {
 			//	result.clear();
 				mapInfo.clear();
-
 
 
 				if (result.size() > 0) {
@@ -59,8 +76,8 @@ public class ProtokolSearchWorker {
 
 						SearchFromProtokolTab.INVOICE_CURRENT_CLIENT = client;
 
-						discount = DiscountDB
-								.getDiscount(SearchFromProtokolTab.INVOICE_CURRENT_CLIENT);
+						discount = protokolInfo.getFirm().getDiscount();
+
 						// warning !!!!! special case
 						// if client is deleted but has protokol in db
 						// discount will be empty string
@@ -87,72 +104,6 @@ public class ProtokolSearchWorker {
 					}
 
 				}
-
-			}
-
-		} finally {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					if (SearchFromProtokolTab.protokolNumberSet
-							.contains(protokolNum)) {
-						JOptionPane.showMessageDialog(null,
-								"Този протокол вече е въведен !");
-						return;
-					}
-					if (result != null) {
-						if (result.size() == 0) {
-							JOptionPane.showMessageDialog(null,
-									"Няма резултат от търсенето!");
-						} else {
-							if (!SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
-									.equals("")
-									&& SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
-									.equals(result.get(0).getClient())) {
-
-								SearchFromProtokolTab.discountField
-										.setText(discount);
-
-								SearchFromProtokolTab.choiceDiscountButton
-										.setDefaultIcon();
-
-								SearchFromProtokolTab.clientLabel
-										.setName((String) result.get(0).getClient());
-
-								String registrationVat = FirmTable.getHasFirmVatRegistration(
-										SearchFromProtokolTab.INVOICE_CURRENT_CLIENT);
-								boolean selected = registrationVat.equals("да");
-								SearchFromProtokolTab.registrationVatCheckBox.setSelected(selected);
-								SearchFromProtokolTab.switchRegistrationVat();
-
-
-								vizualizeTable(mapInfo);
-
-								if (copySearchField != null) {
-									copySearchField.setText("");
-								}
-
-								SearchFromProtokolTab.protokolNumberSet
-										.add(protokolNum);
-
-							} else if (!SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
-									.equals("")
-									&& !SearchFromProtokolTab.INVOICE_CURRENT_CLIENT
-									.equals(result.get(0).getClient())) {
-								// return
-								JOptionPane.showMessageDialog(null,
-										"Въведен е друг клиент !");
-							}
-
-						}
-
-					}
-				}
-
-			});
-		}
 
 		return null;
 	}
@@ -186,6 +137,7 @@ public class ProtokolSearchWorker {
 
 	private void doCalc2(ArrayList<ProtokolModel> res) {
 		// 0 -> TO 1 -> P 2 -> HI 3 -> client 4 -> type 5 -> wheight 6 -> value
+		int models = 0;
 		for (ProtokolModel model : res) {
 
 			String type = model.getType();
@@ -259,35 +211,67 @@ public class ProtokolSearchWorker {
 						weight = weight.replace("л","литра");
 					}
 				}
-				double pric = PriceTable.getPartPriceFromDB(parts[p], type,
-						category, weight);
 
-				System.out.println("Part " + parts[p] + " Price " + pric + " Weight " + weight);
-				String key = parts[p] + " (" + type + " " + weight + ")";
-                if(parts[p].contains("Техническо обслужване на Пожарогасител") ||
+				GetArtikulService service = new GetArtikulService();
+
+				String finalWeight = weight;
+
+				double price = service.getPartPriceSynchronous(parts[p],type,category,weight);
+
+				System.out.println("Part " + parts[p] + " Price " + price + " Weight " + finalWeight);
+
+				String key = parts[p] + " (" + type + " " + finalWeight + ")";
+				if(parts[p].contains("Техническо обслужване на Пожарогасител") ||
 						parts[p].contains("Презареждане на Пожарогасител")
 						|| parts[p].contains("Хидростатично Изпитване на Пожарогасител")) {
 					parts[p]  = parts[p] + " " + type
-							+ " " + weight;
-					System.out.println(String.format("PART %s\n",parts[p]));
+							+ " " + finalWeight;
+
+					System.out.printf("PART %s\n%n",parts[p]);
 				}
 				if (!mapInfo.containsKey(key)) {
 
-					if (pric == 0) {
-						continue;
+					if (price != 0) {
+						Info info = new Info(parts[p], "брой", 1, MyMath.round(
+								price, 2), doubleDiscount,
+								kontragent, invoiceByKontragent);
+						mapInfo.put(key, info);
 					}
-
-					Info info = new Info(parts[p], "брой", 1, MyMath.round(
-							pric, 2), doubleDiscount,
-							kontragent, invoiceByKontragent);
-					mapInfo.put(key, info);
 				} else {
 					Info info2 = mapInfo.get(key);
 					info2.myarka = "броя";
 					info2.quantity++;
 				}
+
 			}
+
 		}
+
+
+			SearchFromProtokolTab.discountField
+					.setText(discount);
+
+			SearchFromProtokolTab.choiceDiscountButton
+					.setDefaultIcon();
+
+			SearchFromProtokolTab.clientLabel
+					.setName( result.get(0).getClient());
+
+			String registrationVat = protokolInfo.getFirm().getVat_registration();
+
+			boolean selected = registrationVat.equals("да");
+			SearchFromProtokolTab.registrationVatCheckBox.setSelected(selected);
+			SearchFromProtokolTab.switchRegistrationVat();
+
+			vizualizeTable(mapInfo);
+
+			if (copySearchField != null) {
+				copySearchField.setText("");
+			}
+
+			SearchFromProtokolTab.protokolNumberSet
+					.add(protokolNum);
+
 	}
 
 

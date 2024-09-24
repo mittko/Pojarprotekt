@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.List;
 
 import static utils.MainPanel.ACCESS_TOKEN;
@@ -146,21 +147,32 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void getPartPrice(String part, String type, String category, String weight, RequestCallback2 callback) {
-        getService().getPartPrice(part,type,category,weight).enqueue(new Callback<Double>() {
+        getService().getPartPrice(part,type,category,weight,ACCESS_TOKEN).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(0d);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Double> call, Throwable throwable) {
+                   callback.callback(0d);
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
+    }
+    public Double getPartPriceSynchronous(String part, String type, String category, String weight) {
+        Response<Double> response = null;
+        try {
+            response = getService().getPartPrice(part,type,category,weight,ACCESS_TOKEN).execute();
+        } catch (IOException e) {
+            return 0d;
+        }
+        return response.body();
     }
 
     public void getArtikulValue(String table, String artikul, RequestCallback2 callback) {
