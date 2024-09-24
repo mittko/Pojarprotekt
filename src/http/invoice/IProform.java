@@ -10,7 +10,7 @@ import retrofit2.http.*;
 public interface IProform {
 
     @GET("/invoice_info")
-    Call<InvoiceModels> getProformInfo(@Query("id") String id);
+    Call<InvoiceModels> getProformInfo(@Query("id") String id,@Header("Authorization") String accessToken);
 
     @POST("/insert_invoice")
     Call<String> insertInvoice(@Body InvoiceModels body);

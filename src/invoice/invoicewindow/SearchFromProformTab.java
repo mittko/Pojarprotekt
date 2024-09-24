@@ -73,9 +73,7 @@ public class SearchFromProformTab extends MainPanel {
 					public <T> void callback(T t) {
 						if(t != null) {
 							InvoiceModels<T> invoiceModels  = (InvoiceModels) t;
-							ProformSearchWorker prfs = new ProformSearchWorker(
-									 invoiceModels.getParentInvoiceModel(),
-									(ArrayList<InvoiceModel>) invoiceModels.getChildInvoiceModels()); // in
+							ProformSearchWorker prfs = new ProformSearchWorker(invoiceModels); // in
 							// proform
 							prfs.doSearch();
 						}
@@ -263,7 +261,7 @@ public class SearchFromProformTab extends MainPanel {
 		proformNumLabel.setName("");
 
 		sallerLabel = new BevelLabel(labelHeight2);
-		sallerLabel.setTitle(Enums.Operator.name() + ": ");
+		sallerLabel.setTitle("Оператор: ");
 		sallerLabel.setName("");
 
 		BevelLabel sumLabel = new BevelLabel(labelHeight2);

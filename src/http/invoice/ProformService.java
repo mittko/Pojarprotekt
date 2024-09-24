@@ -10,6 +10,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class ProformService extends ServiceAPI {
 
     public IProform getService() {
@@ -17,7 +19,7 @@ public class ProformService extends ServiceAPI {
     }
 
     public void getProformInfo(String id, RequestCallback2 callback) {
-        getService().getProformInfo(id).enqueue(new Callback<InvoiceModels>() {
+        getService().getProformInfo(id,ACCESS_TOKEN).enqueue(new Callback<InvoiceModels>() {
             @Override
             public void onResponse(Call<InvoiceModels> call, Response<InvoiceModels> response) {
                 if(response.isSuccessful()) {
