@@ -78,7 +78,7 @@ public class ArtikulTab extends MainPanel {
 							return;
 						}
 						if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-//							try {
+
 
 								GetClientService service = new GetClientService();
 								service.getFirm(clientCombo.getSelectedItem().toString(), new RequestCallback2() {
@@ -88,16 +88,12 @@ public class ArtikulTab extends MainPanel {
 										if(firm != null) {
 											String discount =
                                             firm.getDiscount();
-//													new GetDiscountWorker(
-//															clientCombo.getSelectedItem()
-//																	.toString()).doInBackground();
 
 											discountField.setText(discount);
 											choiceDiscountButton.setDefaultIcon();
 
 											String registrationVat = firm.getVat_registration();
-//													FirmTable.getHasFirmVatRegistration(
-//													clientCombo.getSelectedItem().toString());
+
 											registrationVatCheckBox.setSelected(
 													registrationVat.equals("да"));
 											if ((registrationVatCheckBox.isSelected())) {
@@ -109,10 +105,7 @@ public class ArtikulTab extends MainPanel {
 									}
 								});
 
-//							} catch (Exception e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
+
 						}
 
 					}

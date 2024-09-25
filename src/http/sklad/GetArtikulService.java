@@ -176,7 +176,7 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void getArtikulValue(String table, String artikul, RequestCallback2 callback) {
-        getService().getArtikulValue(table, artikul).enqueue(new Callback<Double>() {
+        getService().getArtikulValue(table, artikul,ACCESS_TOKEN).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
                 if(response.isSuccessful()) {
@@ -191,6 +191,16 @@ public class GetArtikulService extends ServiceAPI {
                   ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
+    }
+
+    public Double getArtikulValueSyncronous(String table, String artikul) {
+        Response<Double> maxPrice;
+        try {
+            maxPrice = getService().getArtikulValue(table,artikul,ACCESS_TOKEN).execute();
+        } catch (IOException e) {
+            return Double.NaN;
+        }
+        return maxPrice.body();
     }
 
     public void getExtinguisherValue(String type, String weight, String category, String brand, RequestCallback2 callback) {

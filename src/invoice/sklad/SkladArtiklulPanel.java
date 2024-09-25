@@ -2,6 +2,8 @@ package invoice.sklad;
 
 import admin.artikul.workers.BiggestPriceForInvoiceWorker;
 import db.artikul.Artikuli_DB;
+import http.client.GetClientService;
+import http.sklad.GetArtikulService;
 import models.ArtikulModel;
 import utils.MyMath;
 
@@ -47,8 +49,13 @@ public class SkladArtiklulPanel extends SkladArtikulFrame implements ILoadArtiku
                 // }
                 String quantity = skladTable.getValueAt(row, 4).toString();
 
-                double val = new BiggestPriceForInvoiceWorker(artikul)
-                        .doInBackground();
+                GetArtikulService service = new GetArtikulService();
+
+                double val = service.getArtikulValueSyncronous(!isGrey() ?
+                      AVAILABLE_ARTIKULS : GREY_AVAILABLE_ARTIKULS,artikul);
+
+//                        new BiggestPriceForInvoiceWorker(artikul)
+//                        .doInBackground();
                 if (val == 0) {
                     // ако се получи грешка при взимане на цената от база данни
                     // се взема текущата от показаната в таблицата

@@ -2,10 +2,13 @@ package acquittance.windows;
 
 import acquittance.renderers.AcquittanceCustomTableCellRenderer;
 import http.RequestCallback;
+import http.RequestCallback2;
+import http.client.GetClientService;
 import http.sklad.GetArtikulService;
 import invoice.sklad.SkladArtiklulPanel;
 import invoice.workers.GetDiscountWorker;
 import models.ArtikulModel;
+import models.Firm;
 import mydate.MyGetDate;
 import run.JDialoger;
 import utils.*;
@@ -61,6 +64,7 @@ public class GreyArtikulTab extends MainPanel {
 			}
 
 		});
+
 		clientCombo.getEditor().getEditorComponent()
 				.addKeyListener(new KeyAdapter() {
 					@Override
@@ -69,17 +73,18 @@ public class GreyArtikulTab extends MainPanel {
 							return;
 						}
 						if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-							try {
-								String discount = new GetDiscountWorker(
-										clientCombo.getSelectedItem()
-												.toString()).doInBackground();
 
-								discountField.setText(discount);
-								choiceDiscountButton.setDefaultIcon();
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							GetClientService service = new GetClientService();
+							service.getFirm(clientCombo.getSelectedItem().toString(), new RequestCallback2() {
+								@Override
+								public <T> void callback(T t) {
+									Firm firm = (Firm) t;
+									if(firm != null) {
+										discountField.setText(firm.getDiscount());
+										choiceDiscountButton.setDefaultIcon();
+									}
+								}
+							});
 						}
 
 					}
@@ -141,7 +146,6 @@ public class GreyArtikulTab extends MainPanel {
 						skladArtikulGreyPanel.loadArtikuls((ArrayList<ArtikulModel>) objects);
 					}
 				});
-
 
 
 				JDialoger jDialog = new JDialoger();

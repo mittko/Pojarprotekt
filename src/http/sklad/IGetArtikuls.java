@@ -43,7 +43,8 @@ public interface IGetArtikuls {
                               @Header("Authorization") String accessToken);
 
     @GET("/artikul_value/{table}")
-    Call<Double> getArtikulValue(@Path("table") String table, @Query("artikul") String artikul);
+    Call<Double> getArtikulValue(@Path("table") String table, @Query("artikul") String artikul,
+                                 @Header("Authorization") String accessToken);
 
     @GET("/extinguisher_value/{type}/{weight}/{category}/{brand}")
     Call<Double> getExtinguisherValue(@Path("type") String type, @Path("weight") String weight,
