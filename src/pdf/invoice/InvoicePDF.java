@@ -2,6 +2,7 @@ package pdf.invoice;
 
 import exceptions.PDFException;
 import log.PdfErr;
+import models.Firm;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -39,25 +40,25 @@ public class InvoicePDF extends PdfCreator {
 	final float priceWidth = 8;
 	final float finalSumWidth = 12;
 
-	public boolean createInvoicePDF(ArrayList<String> clientInfo, String num,
-			String timeStamp, String invoiceDate, String payment,
-			DefaultTableModel dftm, String target, String TITLE, String TITLE2,
-			int startIndex, int endIndex, String saller) {
+	public boolean createInvoicePDF(Firm firm, String num,
+									String timeStamp, String invoiceDate, String payment,
+									DefaultTableModel dftm, String target, String TITLE, String TITLE2,
+									int startIndex, int endIndex, String saller) {
 
 
 		/*
 		 * for(int i = 0;i < clientInfo.size();i++) {
 		 * System.out.printf("clientInfo.get(%d) = %s\n",i,clientInfo.get(i)); }
 		 */
-		if (clientInfo != null && clientInfo.size() != 0) {
-			name = clientInfo.get(0); // name or firm
-			String TEL = "";
-			if (clientInfo.size() != 4) {
-				city = clientInfo.get(1); // 1 -> city
-				address = clientInfo.get(2);// 2 -> address
-				String registraciaDDS = extractOnlyDigit(clientInfo.get(3));// 3
 
-				String isVatRegistered = clientInfo.get(clientInfo.size()-1);															// ->
+			name = firm.getFirm(); // name or firm
+			String TEL = "";
+
+				city = firm.getCity(); // 1 -> city
+				address = firm.getAddress();// 2 -> address
+				String registraciaDDS = extractOnlyDigit(firm.getEik());// 3
+
+				String isVatRegistered = firm.getVat_registration();															// ->
 				if(isVatRegistered.equals("‰‡")) {
 					DDS = "BG" + registraciaDDS;
 				} else {
@@ -65,19 +66,16 @@ public class InvoicePDF extends PdfCreator {
 				}
 				EIK =  registraciaDDS;
 
-				MOL = clientInfo.get(4);// name (MOL)
+				MOL = firm.getMol();// name (MOL)
 				// 5 -> tel of firm
 				// 6 -> email
-				TEL = clientInfo.get(7);// 7 -> person
+				TEL = firm.getTelPerson();// 7 -> person
 				// 8 -> tel of person
-				BANK = clientInfo.get(8); // bank
-				BIC = clientInfo.get(9); // Bic
-				IBAN = clientInfo.get(10); // iban
+				BANK = firm.getBank(); // bank
+				BIC = firm.getBic(); // Bic
+				IBAN = firm.getIban(); // iban
 				// 11 -> discount
-			} else {
-				TEL = clientInfo.get(1); // 1 -> city
-			}
-		}
+
 		// Rectangle rect = new Rectangle(210,297);
 		super.init(target , timeStamp , num);
 
@@ -408,7 +406,7 @@ public class InvoicePDF extends PdfCreator {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		InvoicePDF inv = new InvoicePDF();
-		inv.createInvoicePDF(new ArrayList(), "0000000",
+		inv.createInvoicePDF(null, "0000000",
 				MyGetDate.getTimeStamp(), MyGetDate.getReversedSystemDate(),
 				"·‡ÌÍÓ‚ Ô˙Ú", new DefaultTableModel(), inv.targett, "‘¿ “”–¿",
 				"Œ–»√»Õ¿À", 0, 0, MainPanel.personName);

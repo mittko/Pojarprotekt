@@ -23,10 +23,7 @@ public class ReasonsBrack extends MainPanel {
 		dtm = new DefaultTableModel(titles, 0) {
 			@Override
 			public boolean isCellEditable(int row, int col) {
-				if(row == 4) {
-					return true;
-				}
-				return false;
+				return row == 4;
 			}
 		};
 		

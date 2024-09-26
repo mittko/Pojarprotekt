@@ -2,6 +2,7 @@ package pdf.brack;
 
 import exceptions.PDFException;
 import log.PdfErr;
+import models.Firm;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -18,11 +19,13 @@ public class BrackPDF extends PdfCreator{
 	private float endY = PageSize.A4.getHeight() - 25;;
 	private float sumOfRows = 0.0f;
 
+	private Firm firm;
+
 	public BrackPDF() {
 		super();
 	}
 
-	public boolean createBrak(DefaultTableModel dm,String[] clData,HashMap<String,ArrayList<Object>> pricini,
+	public boolean createBrak(Firm firm, DefaultTableModel dm,HashMap<String,ArrayList<Object>> pricini,
 							  String timeStamp,String brackNumber,
 							  int startIndex,int endIndex, String brackDate) {
 
@@ -165,11 +168,18 @@ public class BrackPDF extends PdfCreator{
 
 			// key is a barcod
 			ArrayList<Object> pricina = pricini.get(dm.getValueAt(row + startIndex, 3) + "");
+			StringBuilder allReasons = new StringBuilder();
+			for(int i = 0;i < pricina.size();i++) {
+				allReasons.append(pricina.get(i));
+				if(i < pricina.size() - 1) {
+					allReasons.append(", ");
+				}
+			}
 			PdfPCell pricinaCell;
-			if (pricina == null || pricina.size() == 0) {
+			if (pricina.size() == 0) {
 				pricinaCell = new PdfPCell(new Phrase("", arial10));
 			} else {
-				pricinaCell = new PdfPCell(new Phrase(pricina.get(0).toString(), arial10));
+				pricinaCell = new PdfPCell(new Phrase(allReasons.toString()/*pricina.get(0).toString()*/, arial10));
 			}
 			pricinaCell.setHorizontalAlignment(Element.ALIGN_LEFT);
 			table.addCell(pricinaCell);
@@ -228,7 +238,7 @@ public class BrackPDF extends PdfCreator{
 			footY = document.top();
 			document.newPage();
 		}
-		setFootText(footY - 50, clData);
+		setFootText(footY - 50, firm);
 
 		document.close();
 
@@ -241,12 +251,12 @@ public class BrackPDF extends PdfCreator{
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BrackPDF br = new BrackPDF();
-		br.createBrak(new DefaultTableModel(),new String[11],
+		br.createBrak(null, new DefaultTableModel(),
 				new HashMap<String,ArrayList<Object>>(), MyGetDate.getTimeStamp(),"0000000",
 				0,0,  MyGetDate.getReversedSystemDate());
 	}
 
-	private void setFootText(float y,String[] clData) {
+	private void setFootText(float y,Firm firm) {
 		float[] footX = new float[]{20,20, 20, 20,100,  350,20,  11,  29,170,170,170,300,300,420,300,400,20,20};
 		float[] footY = new float[]{  5,20, 40, 75,  90, 90,105,120,135,105,135,150,105,120,105,135,150,165,180};
 
@@ -255,10 +265,12 @@ public class BrackPDF extends PdfCreator{
 			footY[s] -= 20;
 		}
 		String[] text = new String[]{
-				"Собственик на пожарогасителя/ите " + getDetail(clData[0]) + "  МОЛ: " + getDetail(clData[4]),
-				" тел: " + getDetail(clData[1]) + " "+   (!getDetail(clData[2]).equals("")
-						? ("     град " + getDetail(clData[2])) : "") + (!getDetail(clData[3]).equals("")
-						? ("      адрес " + getDetail(clData[3])) : ""),
+				"Собственик на пожарогасителя/ите " + (firm.getFirm() != null ? firm.getFirm() : "") + "  МОЛ: " +
+						(firm.getMol() != null ? firm.getMol() : ""),
+				" тел: " + (firm.getTelPerson() != null ? firm.getTelPerson() : "") + " " +
+						(firm.getCity() != null && !firm.getCity().equals("")
+						? ("     град " + firm.getCity()) : "") + (firm.getAddress() != null && !firm.getAddress().equals("")
+						? ("      адрес " + firm.getAddress()) : ""),
 				"Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, ",
 				"и за собственика на пожарогасителя/ите.",
 				"      Предал:",
@@ -273,7 +285,7 @@ public class BrackPDF extends PdfCreator{
 				"( собственик/предста-",
 				"вител на собственика)",
 				"(подпис)",
-				"Приел: " + getDetail(clData[4]) + " ,МОЛ",
+				"Приел: " + (firm.getMol() != null ? firm.getMol() : "") + " ,МОЛ",
 				"(име, фамилия, длъжност)",
 				"Забележка: Протоколът се съхранява до времето за извършване на следващото техническо обслужване,",
 				"презареждане или хидростатично изпитване.",

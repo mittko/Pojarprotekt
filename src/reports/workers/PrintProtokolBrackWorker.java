@@ -52,18 +52,10 @@ public class PrintProtokolBrackWorker {
 				String[] helpers = {"a","b"};
 				int[] copies = {1};
 
-				String[] clientsData = new String[5];
-
-				clientsData[0] = firm.getFirm() != null ? firm.getFirm() : ""; // firm
-				clientsData[1] = firm.getTelPerson() != null ? firm.getTelPerson() : ""; // tel
-				clientsData[2] = firm.getCity() != null ? firm.getCity() : "";// city
-				clientsData[3] = firm.getAddress() != null ? firm.getAddress() : ""; // address
-				clientsData[4] = firm.getMol() != null ? firm.getMol() : "";// ÌÎË
-
 				for(int printing = 0;printing < 1;printing++) {
 					BrackPDF b = new BrackPDF();
 
-					b.createBrak(dftm, clientsData, allReasons,
+					b.createBrak(firm, dftm, allReasons,
 							timeStamp +helpers[printing],BRACK_NUMBER,startIndex,endIndex, brackDate); // then create new
 
 					OpenPDFDocument.pdfRunner(MainPanel.BRACK_PDF_PATH+"\\Áðàê-"+(timeStamp +helpers[printing])+"-"+BRACK_NUMBER+".pdf");

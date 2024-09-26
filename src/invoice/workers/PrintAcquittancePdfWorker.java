@@ -1,6 +1,7 @@
 package invoice.workers;
 
 import javaprinters.print.PrintWithoutOpenPdf;
+import models.Firm;
 import pdf.aqcuittance.AcquittancePDFromInvoice;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
@@ -19,9 +20,12 @@ public class PrintAcquittancePdfWorker extends SwingWorker {
 	private final DefaultTableModel dftm;
 	private final PrintService ps;
 
-	public PrintAcquittancePdfWorker(DefaultTableModel dftm,
+	Firm firm;
+
+	public PrintAcquittancePdfWorker(Firm firm, DefaultTableModel dftm,
 			String currentClient, String acquittanceNumber, String datePdf,
 			double danOsnova, PrintService ps, JDialog jd) {
+		this.firm = firm;
 		this.dftm = dftm;
 		this.currentClient = currentClient;
 		this.acquittanceNumber = acquittanceNumber;
@@ -40,14 +44,14 @@ public class PrintAcquittancePdfWorker extends SwingWorker {
 		try {
 
 			// get client info
-			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
+
 			String[] timeStamp3 = { MyGetDate.getTimeStamp() + "f",
 					MyGetDate.getTimeStamp() + "g" };
 			int[] copies = { 1 };// {2};
 			for (int i = 0; i < 1; i++) {
 
 				AcquittancePDFromInvoice pdf = new AcquittancePDFromInvoice();
-				pdf.createAcquittancePDF2(clientInfo, dftm, timeStamp3[i],
+				pdf.createAcquittancePDF2(firm, dftm, timeStamp3[i],
 						acquittanceNumber, datePdf, 0, dftm.getRowCount(), 4); // index
 																				// of
 																				// final

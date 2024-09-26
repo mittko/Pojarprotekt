@@ -2,6 +2,7 @@ package pdf.aqcuittance;
 
 import exceptions.PDFException;
 import log.PdfErr;
+import models.Firm;
 import pdf.OpenPDFDocument;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
@@ -31,33 +32,29 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 	private final int fontSize = 12;
 	private String date;
 
-	public void createAcquittancePDF2(ArrayList<String> clientInfo2,
-			DefaultTableModel dftm, String timeStamp, String acquittanceNumber,
-			String date, int startIndex, int endIndex, int finalSumIndex) {
+	public void createAcquittancePDF2(Firm firm,
+									  DefaultTableModel dftm, String timeStamp, String acquittanceNumber,
+									  String date, int startIndex, int endIndex, int finalSumIndex) {
 
 		this.date = date;
 
-		if (clientInfo2.size() > 0) {
-			name = clientInfo2.get(0); // name or firm
+			name = firm.getFirm(); // name or firm
 			String TEL = "";
-			if (clientInfo2.size() != 4) {
-				city = clientInfo2.get(1); // 1 -> city
-				address = clientInfo2.get(2);// 2 -> address
-				EIK = extractOnlyDigit(clientInfo2.get(3));// 3 -> EIK
-				MOL = clientInfo2.get(4);// name (MOL)
+
+				city = firm.getCity(); // 1 -> city
+				address = firm.getAddress();// 2 -> address
+				EIK = extractOnlyDigit(firm.getEik());// 3 -> EIK
+				MOL = firm.getMol();// name (MOL)
 				// 5 -> tel of firm
 				// 6 -> email
 				// 7 -> person
 				// 8 -> tel of person
-				TEL = clientInfo2.get(7);// tel
-				BANK = clientInfo2.get(8); // bank
-				BIC = clientInfo2.get(9); // Bic
-				IBAN = clientInfo2.get(10); // iban
+				TEL = firm.getTelPerson();// tel
+				BANK = firm.getBank(); // bank
+				BIC = firm.getBic(); // Bic
+				IBAN = firm.getIban(); // iban
 				// 12 -> discount
-			} else {
-				TEL = clientInfo2.get(1); // 1 -> city
-			}
-		}
+
 		// set document
 		super.init(MainPanel.ACQUITTANCE_PDF_PATH + "\\Стокова Разписка-"
 				,timeStamp , acquittanceNumber );
@@ -357,7 +354,7 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 	public static void main(String[] args) {
 		AcquittancePDFromInvoice pdf = new AcquittancePDFromInvoice();
 		String timeStamp2 = MyGetDate.getTimeStamp();
-		pdf.createAcquittancePDF2(new ArrayList<String>(),
+		pdf.createAcquittancePDF2(null,
 				new DefaultTableModel(), timeStamp2, "1",
 				MyGetDate.getReversedSystemDate(), 0, 0, 0);
 		OpenPDFDocument.pdfRunner(MainPanel.ACQUITTANCE_PDF_PATH

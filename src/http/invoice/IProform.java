@@ -13,11 +13,12 @@ public interface IProform {
     Call<InvoiceModels> getProformInfo(@Query("id") String id,@Header("Authorization") String accessToken);
 
     @POST("/insert_invoice")
-    Call<String> insertInvoice(@Body InvoiceModels body);
+    Call<String> insertInvoice(@Body InvoiceModels body,@Header("Authorization") String accessToken);
 
     @POST("/insert_proform")
-    Call<String> insertProform(@Body InvoiceModels body);
+    Call<String> insertProform(@Body InvoiceModels body,@Header("Authorization") String accessToken);
 
     @POST("/insert_acquittance/{artikulTable}")
-    Call<String> insertAcquittance(@Body AcquittanceModels body, @Path("artikulTable") String artikulTable);
+    Call<String> insertAcquittance(@Body AcquittanceModels body, @Path("artikulTable") String artikulTable,
+                                   @Header("Authorization") String accessToken);
 }

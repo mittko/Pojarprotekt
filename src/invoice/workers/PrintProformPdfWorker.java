@@ -1,6 +1,7 @@
 package invoice.workers;
 
 import javaprinters.print.PrintWithoutOpenPdf;
+import models.Firm;
 import pdf.invoice.InvoicePDF;
 import db.Client.ClientTable;
 import mydate.MyGetDate;
@@ -22,9 +23,12 @@ public class PrintProformPdfWorker extends SwingWorker {
 	private final DefaultTableModel dftm;
 	private final PrintService ps;
 
-	public PrintProformPdfWorker(DefaultTableModel dftm, String currentClient,
+	private Firm firm;
+
+	public PrintProformPdfWorker(Firm firm, DefaultTableModel dftm, String currentClient,
 			String proformNumber, String datePdf, double danOsnova,
 			String payment,PrintService ps, JDialog jd) {
+		this.firm = firm;
 		this.dftm = dftm;
 		this.currentClient = currentClient;
 		this.proformNumber = proformNumber;
@@ -44,7 +48,6 @@ public class PrintProformPdfWorker extends SwingWorker {
 
 		try {
 			// get client info
-			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
 			// System.out.printf("current client -> %s ",currentClient);
 			String[] ORIGINAL2 = { "Œ–»√»Õ¿À", "" };
 			String timeStamps2[] = { MyGetDate.getTimeStamp() + "d",
@@ -52,7 +55,7 @@ public class PrintProformPdfWorker extends SwingWorker {
 			int[] copies = { 1, 1 };
 			for (int i = 0; i < 2; i++) {
 				InvoicePDF pdf = new InvoicePDF();
-				isCreated = pdf.createInvoicePDF(clientInfo, proformNumber,
+				isCreated = pdf.createInvoicePDF(firm, proformNumber,
 						timeStamps2[i], datePdf, payment, dftm,
 						MainPanel.PROFORM_PDF_PATH + "\\œÓÙÓÏ‡-", "œ–Œ‘Œ–Ã¿",
 						ORIGINAL2[i], 0, dftm.getRowCount(),

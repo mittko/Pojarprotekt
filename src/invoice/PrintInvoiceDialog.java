@@ -1,8 +1,11 @@
 package invoice;
 
+import http.RequestCallback2;
+import http.client.GetClientService;
 import invoice.workers.PrintAcquittancePdfWorker;
 import invoice.workers.PrintInvoicePdfWorker;
 import invoice.workers.PrintProformPdfWorker;
+import models.Firm;
 import utils.ChoisePrinterDialog;
 import utils.MainPanel;
 
@@ -119,24 +122,44 @@ public class PrintInvoiceDialog extends JPanel {
 							return;
 						}
 
-						PrintInvoicePdfWorker printInvoicePdf = new PrintInvoicePdfWorker(
-								dftm, currentClient, invoiceNumber, datePdf,
-								danOsnova, payment, ps, jd);
-						printInvoicePdf.execute();
+						GetClientService service = new GetClientService();
+						service.getFirm(currentClient, new RequestCallback2() {
+							@Override
+							public <T> void callback(T t) {
+								Firm firm = (Firm) t;
+								if(firm != null) {
+									PrintInvoicePdfWorker printInvoicePdf = new PrintInvoicePdfWorker(
+											firm, dftm, currentClient, invoiceNumber, datePdf,
+											danOsnova, payment, ps, jd);
+									printInvoicePdf.execute();
 
-						// bye
+
+								}
+							}
+						});
+
+                        // bye
 						jd.dispose();
-
 						break;
 					}
 					case PROFORM_PDF: {
 						PrintService ps = ChoisePrinterDialog.showPrinters();
 						if (ps != null) {
 
-							PrintProformPdfWorker printProformPdf = new PrintProformPdfWorker(
-									dftm, currentClient, proformNumber, datePdf,
-									danOsnova, payment, ps, jd);
-							printProformPdf.execute();
+							GetClientService service = new GetClientService();
+							service.getFirm(currentClient, new RequestCallback2() {
+								@Override
+								public <T> void callback(T t) {
+									Firm firm = (Firm) t;
+									if(firm != null) {
+										PrintProformPdfWorker printProformPdf = new PrintProformPdfWorker(
+                                                firm, dftm, currentClient, proformNumber, datePdf,
+												danOsnova, payment, ps, jd);
+										printProformPdf.execute();
+									}
+								}
+							});
+
 
 							// bye
 							jd.dispose();
@@ -148,10 +171,19 @@ public class PrintInvoiceDialog extends JPanel {
 						PrintService ps = ChoisePrinterDialog.showPrinters();
 						if (ps != null) {
 
-							PrintAcquittancePdfWorker printAcquittance = new PrintAcquittancePdfWorker(
-									dftm, currentClient, acquittanceNumber,
-									datePdf, danOsnova, ps, jd);
-							printAcquittance.execute();
+							GetClientService service = new GetClientService();
+							service.getFirm(currentClient, new RequestCallback2() {
+								@Override
+								public <T> void callback(T t) {
+									Firm firm = (Firm) t;
+									if(firm != null) {
+										PrintAcquittancePdfWorker printAcquittance = new PrintAcquittancePdfWorker(
+												firm, dftm, currentClient, acquittanceNumber,
+												datePdf, danOsnova, ps, jd);
+										printAcquittance.execute();
+									}
+								}
+							});
 
 							// bye
 							jd.dispose();

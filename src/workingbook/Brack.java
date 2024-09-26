@@ -185,17 +185,12 @@ public class Brack extends MainPanel {
 								JOptionPane.showMessageDialog(null,
 										"Данните са записани успешно!");
 								printServiceButton.setEnabled(true);
+								BRACK_NUMBER = number;
 							}
 						}
 					});
 
 
-//					SaveInBrackWorker sw = new SaveInBrackWorker(jd);
-//					try {
-//						BRACK_NUMBER = sw.doInBackground();
-//					} catch (Exception e) {
-//						throw new RuntimeException(e);
-//					}
 				}
 			}
 			

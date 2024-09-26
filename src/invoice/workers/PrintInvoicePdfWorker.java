@@ -1,6 +1,7 @@
 package invoice.workers;
 
 import javaprinters.print.PrintWithoutOpenPdf;
+import models.Firm;
 import pdf.OpenPDFDocument;
 import pdf.invoice.InvoicePDF;
 import db.Client.ClientTable;
@@ -25,10 +26,13 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 	private final DefaultTableModel dftm;
 	private final PrintService ps;
 
+	private Firm firm;
 
-	public PrintInvoicePdfWorker(DefaultTableModel dftm, String currentClient,
+
+	public PrintInvoicePdfWorker(Firm firm, DefaultTableModel dftm, String currentClient,
 			String invoiceNumber, String datePdf, double danOsnova,
 			String payment, PrintService ps, JDialog jd) {
+		this.firm = firm;
 		this.dftm = dftm;
 		this.currentClient = currentClient;
 		this.invoiceNumber = invoiceNumber;
@@ -48,7 +52,6 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 
 		try {
 			// get client info
-			ArrayList<String> clientInfo = ClientTable.getClientDetails(currentClient);
 
 			// timeStamp = GetDate.getTimeStamp();
 
@@ -61,7 +64,7 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 			for (int i = 0; i < 2; i++) {
 				InvoicePDF pdf = new InvoicePDF();
 				DefaultTableModel mergedTableModel = mergeArtikuls(dftm);
-				isCreated = pdf.createInvoicePDF(clientInfo, invoiceNumber,
+				isCreated = pdf.createInvoicePDF(firm, invoiceNumber,
 						timeStamps[i], datePdf, payment, mergedTableModel,
 						MainPanel.INVOICE_PDF_PATH + "\\Ôàêòóðà-", "ÔÀÊÒÓÐÀ",
 						ORIGINAL[i], 0, mergedTableModel.getRowCount(),

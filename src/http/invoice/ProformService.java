@@ -37,7 +37,7 @@ public class ProformService extends ServiceAPI {
     }
 
     public void insertInvoice(InvoiceModels models, RequestCallback2 callback) {
-        getService().insertInvoice(models).enqueue(new Callback<String>() {
+        getService().insertInvoice(models,ACCESS_TOKEN).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
@@ -55,7 +55,7 @@ public class ProformService extends ServiceAPI {
     }
 
     public void insertProform(InvoiceModels models, RequestCallback2 callback) {
-        getService().insertProform(models).enqueue(new Callback<String>() {
+        getService().insertProform(models,ACCESS_TOKEN).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
@@ -73,7 +73,7 @@ public class ProformService extends ServiceAPI {
     }
 
     public void insertAcquittance(AcquittanceModels body, String artikulTable, RequestCallback2 callback) {
-        getService().insertAcquittance(body, artikulTable).enqueue(new Callback<String>() {
+        getService().insertAcquittance(body, artikulTable,ACCESS_TOKEN).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
