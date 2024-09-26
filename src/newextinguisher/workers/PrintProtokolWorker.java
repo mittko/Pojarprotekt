@@ -1,6 +1,9 @@
 package newextinguisher.workers;
 
+import http.RequestCallback2;
+import http.client.GetClientService;
 import javaprinters.print.PrintWithoutOpenPdf;
+import models.Firm;
 import pdf.protokol.NewExtinguisherProtokolPDF;
 import db.Client.ClientTable;
 import db.Protokol.ProtokolNumber;
@@ -38,65 +41,51 @@ public class PrintProtokolWorker extends SwingWorker {
 		// TODO Auto-generated method stub
 		try {
 
-			ArrayList<String> clientDetails = null;
 			ps = ChoisePrinterDialog.showPrinters();
 			if (ps != null) {
 
-				clientDetails = ClientTable.getClientDetails(CURRENT_CLIENT);
 
-				String[] clientsData = new String[5];
-
-				if (clientDetails == null) {
-					return null;
-				} else if (clientDetails.size() == 0) {// client can be deleted
-														// !!!
-
-				} else if (clientDetails.size() == 4) {
-					clientsData[0] = clientDetails.get(0);// client
-					clientsData[1] = clientDetails.get(1);// tel
-					clientsData[2] = "";
-					clientsData[3] = "";
-					clientsData[4] = "                                                            ";// םÿלא
-																									// ÌÎË
-				} else {
-					clientsData[0] = clientDetails.get(0); // firm
-					clientsData[1] = clientDetails.get(7); // tel of firm
-					clientsData[2] = clientDetails.get(1); // city
-					clientsData[3] = clientDetails.get(2);// address
-					clientsData[4] = clientDetails.get(4);// ÌÎË
-				}
-
-				protokolNumber = ProtokolNumber.getProtokolNumber();
+				protokolNumber = "-1";//ProtokolNumber.getProtokolNumber();
 				if (protokolNumber == null) {
 					return null;
 				}
 
-				timeStamp = MyGetDate.getTimeStamp();
-				String[] helpers = { "a", "b" };
-				int[] copies = { 2 };
-				for (int printing = 0; printing < 1; printing++) {
-					NewExtinguisherProtokolPDF p = new NewExtinguisherProtokolPDF();
-					// create pdf
+				GetClientService service = new GetClientService();
+				service.getFirm(CURRENT_CLIENT, new RequestCallback2() {
+					@Override
+					public <T> void callback(T t) {
+						Firm firm = (Firm) t;
+						if(firm != null) {
+							timeStamp = MyGetDate.getTimeStamp();
+							String[] helpers = { "a", "b" };
+							int[] copies = { 2 };
+							for (int printing = 0; printing < 1; printing++) {
+								NewExtinguisherProtokolPDF p = new NewExtinguisherProtokolPDF();
+								// create pdf
 
-					boolean pdf = p.processPdf(dftm, partsMap, clientsData,
-							protokolNumber, timeStamp + helpers[printing], 0,
-							dftm.getRowCount(),MyGetDate.getReversedSystemDate());
+								boolean pdf = p.processPdf(dftm, partsMap, firm,
+										protokolNumber, timeStamp + helpers[printing], 0,
+										dftm.getRowCount(),MyGetDate.getReversedSystemDate());
 
-					if (pdf) {
+								if (pdf) {
 
-						// run pdf
-						/*
-						 * runPDF.pdfRunner(MainPanel.PROTOKOL_PDF_PATH+
-						 * "\\Protokol2815-"+(timeStamp+helpers[printing]) + "-"
-						 * + protokolNumber +".pdf");
-						 */
-						PrintWithoutOpenPdf.printWithoutDialog(
-								MainPanel.PROTOKOL_PDF_PATH, "\\Protokol2815-"
-										+ (timeStamp + helpers[printing]) + "-"
-										+ protokolNumber + ".pdf", ps,
-								copies[printing]);
+									// run pdf
+									/*
+									 * runPDF.pdfRunner(MainPanel.PROTOKOL_PDF_PATH+
+									 * "\\Protokol2815-"+(timeStamp+helpers[printing]) + "-"
+									 * + protokolNumber +".pdf");
+									 */
+									PrintWithoutOpenPdf.printWithoutDialog(
+											MainPanel.PROTOKOL_PDF_PATH, "\\Protokol2815-"
+													+ (timeStamp + helpers[printing]) + "-"
+													+ protokolNumber + ".pdf", ps,
+											copies[printing]);
+								}
+							}
+						}
 					}
-				}
+				});
+
 			}
 
 		} finally {

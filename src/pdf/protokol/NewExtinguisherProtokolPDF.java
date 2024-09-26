@@ -2,6 +2,7 @@ package pdf.protokol;
 
 import exceptions.PDFException;
 import log.PdfErr;
+import models.Firm;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -24,7 +25,7 @@ public class NewExtinguisherProtokolPDF extends ProtokolPDFBase {
 
 	@Override
 	public boolean setDynamicTable(float x, DefaultTableModel dm,
-									TreeMap<Object, Integer> PARTS, String[] clData,
+									TreeMap<Object, Integer> PARTS, Firm firm,
 									int startIndex, int endIndex) {
 
 		PdfPTable dynamicTable = new PdfPTable(11);
@@ -269,7 +270,7 @@ public class NewExtinguisherProtokolPDF extends ProtokolPDFBase {
 			nextY += dynamicTable.getRowHeight(i);
 		}
 		float footY =  dynamicNextTablePos - (nextY + 20);
-		setFootText(numer, x, footY, clData,PARTS);
+		setFootText(numer, x, footY, firm,PARTS);
 		return true;
 	}
 

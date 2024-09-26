@@ -45,16 +45,7 @@ public class ProtokolPrinter {
 			public <T> void callback(T t) {
 				Firm firm = (Firm)t;
 				if(firm != null) {
-					String[] clientsData = new String[5];
 
-					clientsData[0] = firm.getFirm() != null ? firm.getFirm() : ""; // firm
-					clientsData[1] = firm.getTelPerson() != null ? firm.getTelPerson() : ""; // tel
-					clientsData[2] = firm.getCity() != null ? firm.getCity() : "";// city
-					clientsData[3] = firm.getAddress() != null ? firm.getAddress() : ""; // address
-					clientsData[4] = firm.getMol() != null ? firm.getMol() : "";// лнк
-
-
-					// Protokol2815 p = new Protokol2815();
 					String timeStamp = MyGetDate.getTimeStamp();
 					String[] helpers = { "a", "b" };
 					int[] copies = { 2 };
@@ -62,23 +53,21 @@ public class ProtokolPrinter {
 
 					for (int printing = 0; printing < 1; printing++) {
 						ProtokolPDF protokolPDF3 = new ProtokolPDF();
-						boolean pdf = protokolPDF3.processPdf(dtm, partsMap, clientsData,
+						boolean pdf = protokolPDF3.processPdf(dtm, partsMap, firm,
 								PROTOKOL_NUMBER, timeStamp + helpers[printing], startIndex,
 								endIndex, protokolDate);
 
 						if (pdf) {
 							// run pdf
-//				 OpenPDFDocument.pdfRunner(MainPanel.PROTOKOL_PDF_PATH
-//				 + "\\Protokol2815-" + (timeStamp + helpers[printing])
-//				 + "-" + PROTOKOL_NUMBER + ".pdf");
+								//				 OpenPDFDocument.pdfRunner(MainPanel.PROTOKOL_PDF_PATH
+								//				 + "\\Protokol2815-" + (timeStamp + helpers[printing])
+								//				 + "-" + PROTOKOL_NUMBER + ".pdf");
 
 							PrintWithoutOpenPdf.printWithoutDialog(
 									MainPanel.PROTOKOL_PDF_PATH, "\\Protokol2815-"
 											+ (timeStamp + helpers[printing]) + "-"
 											+ PROTOKOL_NUMBER + ".pdf", ps,
 									copies[printing]);
-
-
 						}
 
 						callback.callback(pdf);

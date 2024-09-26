@@ -2,6 +2,7 @@ package pdf.protokol;
 
 import exceptions.PDFException;
 import log.PdfErr;
+import models.Firm;
 import pdf.PdfCreator;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -35,13 +36,13 @@ public class ProtokolPDFBase extends PdfCreator {
 		// TODO Auto-generated method stub
 		ProtokolPDFBase pdf = new ProtokolPDFBase();
 		pdf.processPdf(new DefaultTableModel(), new TreeMap<Object, Integer>(),
-				new String[11], "0000000", MyGetDate.getTimeStamp(), 0, 0,
+				null, "0000000", MyGetDate.getTimeStamp(), 0, 0,
 				MyGetDate.getReversedSystemDate());
 		pdf.init("", "");
 	}
 
 	public boolean processPdf(DefaultTableModel dm,
-							  TreeMap<Object, Integer> PARTS, String[] clData,
+							  TreeMap<Object, Integer> PARTS, Firm firm,
 							  String protokolNumber, String timeStamp, int startIndex,
 							  int endIndex, String protokolDate) {
 
@@ -53,7 +54,7 @@ public class ProtokolPDFBase extends PdfCreator {
 
 		setHeaderText(protokolNumber);
 
-		if (!setDynamicTable(X - 10, dm, PARTS, clData,
+		if (!setDynamicTable(X - 10, dm, PARTS, firm,
 				startIndex, endIndex)) {
 			return false;
 		}
@@ -108,12 +109,12 @@ public class ProtokolPDFBase extends PdfCreator {
 		Y = Y - 10;
 	}
 	public boolean setDynamicTable(float x, DefaultTableModel dm,
-									TreeMap<Object, Integer> PARTS, String[] clData,
+									TreeMap<Object, Integer> PARTS, Firm firm,
 									int startIndex, int endIndex) {
 		return true;
 	}
 
-	public float setFootText(int total, float x, float y, String[] clData, TreeMap<Object,Integer> parts) {
+	public float setFootText(int total, float x, float y, Firm firm, TreeMap<Object,Integer> parts) {
 		if (y - 20 <= document.bottom()) {
 			document.newPage();
 			y = document.top();
@@ -143,20 +144,20 @@ public class ProtokolPDFBase extends PdfCreator {
 				};
 
 
-		String client = clData[0];
-		String mol = clData[4];
+		String client = firm.getFirm() != null ? firm.getFirm() : "";
+		String mol = firm.getMol() != null ? firm.getMol() : "";
 		if(client != null && client.equalsIgnoreCase("ПОРШЕ ИНТЕР АУТО БГ ЕООД-ЗАПАД".toLowerCase())) {
 			mol = "";
 		}
 		String[][] bottomText =
 				{
-						{"Собственик на пожарогасителя/ите " + clData[0] + "  МОЛ: " + mol},
+						{"Собственик на пожарогасителя/ите " + client + "  МОЛ: " + mol},
 						{"адрес: гр./с. "
-								+ (!clData[2].equals("") ? (" " + clData[2]) : "") + " "
-								+ (!clData[3].equals("") ? (" " + clData[3]) : "") +
+								+ (firm.getCity() != null && !firm.getCity().equals("") ? (" " + firm.getCity()) : "") + " "
+								+ (firm.getAddress() != null && !firm.getAddress().equals("") ? (" " + firm.getAddress()) : "") +
 								" Област: "
 								+ " тел: "
-								+ clData[1]},
+								+ (firm.getTelPerson() != null ? firm.getTelPerson() : "")},
 						{"(наименование, адрес, и телефон на организацията/лицето, собственик на пожарогасителя/ите)"},
 						{"Този протокол се състави в два еднообразни екземпляра - по един за организацията, извършила обслужването, "},
 						{"и за собственика на пожарогасителя/ите."},

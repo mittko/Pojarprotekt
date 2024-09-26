@@ -8,6 +8,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import exceptions.PDFException;
 import log.PdfErr;
+import models.Firm;
 import mydate.MyGetDate;
 import utils.MainPanel;
 
@@ -20,7 +21,7 @@ public class ProtokolPDF extends ProtokolPDFBase {
 
     @Override
     public boolean setDynamicTable(float x, DefaultTableModel dm,
-                                   TreeMap<Object, Integer> PARTS, String[] clData,
+                                   TreeMap<Object, Integer> PARTS, Firm firm,
                                    int startIndex, int endIndex) {
 
         PdfPTable dynamicTable = new PdfPTable(11);
@@ -469,14 +470,14 @@ public class ProtokolPDF extends ProtokolPDFBase {
         }
         float footY = Y - nextY;
 
-        setFootText(numer, x, footY - 15, clData, PARTS);
+        setFootText(numer, x, footY - 15, firm, PARTS);
         return true;
     }
 
     @Override
-    public float setFootText(int total, float x, float y, String[] clData, TreeMap<Object,Integer> parts) {
+    public float setFootText(int total, float x, float y, Firm firm, TreeMap<Object,Integer> parts) {
 
-        y = super.setFootText(total,x,y,clData,parts);
+        y = super.setFootText(total,x,y,firm,parts);
 
         y -= 15;
         if(y <= document.bottom()) {

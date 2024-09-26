@@ -290,3 +290,7 @@ java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error c
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server localhost on port 1527 with message Connection refused: connect.  Wed Sep 25 11:24:18 EEST 2024
 
 java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server localhost on port 1527 with message Connection refused: connect.  Wed Sep 25 11:39:05 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server localhost on port 1527 with message Connection refused: connect.  Thu Sep 26 10:14:06 EEST 2024
+
+java.sql.SQLNonTransientConnectionException: java.net.ConnectException : Error connecting to server localhost on port 1527 with message Connection refused: connect.  Thu Sep 26 10:29:09 EEST 2024
