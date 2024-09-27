@@ -25,7 +25,7 @@ public class ServiceAPI {
 
             OkHttpClient okHttpClient = builder.build();
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://localhost:8080")
+                    .baseUrl("http://localhost:1526")
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

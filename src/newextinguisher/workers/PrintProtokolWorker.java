@@ -29,9 +29,11 @@ public class PrintProtokolWorker extends SwingWorker {
 	private PrintService ps;
 
 	public PrintProtokolWorker(DefaultTableModel dftm, String client,
+			String protokolNumber,
 			TreeMap<Object, Integer> partsMap, JDialog jd) {
 		this.dftm = dftm;
 		this.CURRENT_CLIENT = client;
+		this.protokolNumber = protokolNumber;
 		this.partsMap = partsMap;
 		this.jd = jd;
 	}
@@ -44,8 +46,6 @@ public class PrintProtokolWorker extends SwingWorker {
 			ps = ChoisePrinterDialog.showPrinters();
 			if (ps != null) {
 
-
-				protokolNumber = "-1";//ProtokolNumber.getProtokolNumber();
 				if (protokolNumber == null) {
 					return null;
 				}

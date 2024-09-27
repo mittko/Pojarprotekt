@@ -20,4 +20,7 @@ public interface IProtokol {
 
     @GET("/protokol_info")
     Call<ProtokolInfo> getProtokolInfo(@Query("number") String number, @Header("Authorization") String accessToken);
+
+    @GET("/get_protokol_number")
+    Call<String> getProtokolNumber(@Header("Authorization") String accessToken);
 }

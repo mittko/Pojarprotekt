@@ -39,24 +39,24 @@ public class NewExtinguisherWindow extends MainPanel {
 	private TooltipButton skladButton = null;
 
 	public static DefaultTableModel dftm = null;
+
 	public MyTable table = null;
-
 	public static BevelLabel protokolNumLabel = null;
-
 	public Shop_SkladExtinuisher skladNewExtinguisher = null;
 	private int CURRENT_ROW = -1;
-
 	private String SERVICE_NUMBER = null;
-	public String protokolNumberForInvoice = "0000000000";// slujebna stoinost v
-															// nachaloto
+
+	private String PROTOKOL_NUMBER = null;// slujebna stoinost v
+	// nachaloto
 	public static int[] barcod_digits = null;
 	public static int[] allDigits = null;
 	public static final GenerateSO genSO = new GenerateSO();
 	public static final BarcodGenerator bGen = new BarcodGenerator();
 
-	public NewExtinguisherWindow(final String serviceNumber) {
+	public NewExtinguisherWindow(final String serviceNumber, String protokolNumber) {
 
 		this.SERVICE_NUMBER = serviceNumber;
+		this.PROTOKOL_NUMBER = protokolNumber;
 
 		allDigits = new int[13];
 
@@ -226,7 +226,8 @@ public class NewExtinguisherWindow extends MainPanel {
 								allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
 							}
 
-							protokolNumberForInvoice = nextProtokol;
+							PROTOKOL_NUMBER = nextProtokol;
+							protokolNumLabel.setName(PROTOKOL_NUMBER);
 
 							NewExtinguisherWindow.dftm.setRowCount(0);
 
@@ -307,7 +308,7 @@ public class NewExtinguisherWindow extends MainPanel {
 					jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 					PrintProtokolWorker printProtokol = new PrintProtokolWorker(
-							dftm, clientCombo.getSelectedItem().toString(),
+							dftm, clientCombo.getSelectedItem().toString(),PROTOKOL_NUMBER,
 							new TreeMap<Object, Integer>(), jd);
 					printProtokol.execute();
 				} else {
@@ -411,7 +412,7 @@ public class NewExtinguisherWindow extends MainPanel {
 						// TODO Auto-generated method stub
 
 						SwingUtilities.invokeLater(new RunInvoice(
-								 protokolNumberForInvoice,null));
+								 PROTOKOL_NUMBER,null));
 
 						return null;
 					}
@@ -501,7 +502,7 @@ public class NewExtinguisherWindow extends MainPanel {
 		protokolNumLabel = new BevelLabel(labelHeight);
 
 		protokolNumLabel.setTitle(" Протокол \u2116 ");
-		protokolNumLabel.setName("protokol nomer");
+		protokolNumLabel.setName(PROTOKOL_NUMBER);
 
 		southPanel.add(sallerLabel);
 		southPanel.add(dateLabel);

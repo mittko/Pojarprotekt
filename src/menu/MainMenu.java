@@ -2,6 +2,8 @@ package menu;
 
 import clients.NewClient;
 import clients.editclient.EditClientPanel;
+import http.RequestCallback2;
+import http.protokol.ProtokolService;
 import newextinguisher.NewExtinguisherWindow;
 import reports.ReportDialog;
 import workingbook.Brack;
@@ -84,20 +86,20 @@ public class MainMenu extends MainPanel {
 				JFrame ancestor = (JFrame) SwingUtilities
 						.getWindowAncestor(MainMenu.this);
 				ancestor.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				SwingWorker sw = new SwingWorker() {
 
+				ProtokolService service = new ProtokolService();
+				service.getProtokolNumber(new RequestCallback2() {
 					@Override
-					protected Object doInBackground() throws Exception {
-						// TODO Auto-generated method stub
-						String serviceNumber = GenerateSO.nextSO(); // new
-																	// SO_Table().getSO_Number();
-						SwingUtilities.invokeLater(new Run_NewExt(
-								serviceNumber));
-						return null;
+					public <T> void callback(T t) {
+						String protokolNumber = (String) t;
+						if(protokolNumber != null) {
+							String serviceNumber = GenerateSO.nextSO(); // new
+							// SO_Table().getSO_Number();
+							SwingUtilities.invokeLater(new Run_NewExt(
+									serviceNumber,protokolNumber));
+						}
 					}
-
-				};
-				sw.execute();
+				});
 			}
 
 		});
@@ -387,16 +389,18 @@ public class MainMenu extends MainPanel {
 	class Run_NewExt implements Runnable {
 
 		private String serviceNumber = null;
+		private String protokolNumber;
 
-		public Run_NewExt(String serviceNumber) {
+		public Run_NewExt(String serviceNumber, String protokolNumber) {
 			this.serviceNumber = serviceNumber;
+			this.protokolNumber = protokolNumber;
 		}
 
 		@Override
 		public void run() {
 			if (!serviceNumber.equals("no")) {
 				NewExtinguisherWindow new_ext = new NewExtinguisherWindow(
-						serviceNumber);
+						serviceNumber,protokolNumber);
 				final JDialoger jDialog = new JDialoger();
 				jDialog.setContentPane(new_ext);
 				jDialog.setResizable(false);

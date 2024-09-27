@@ -94,4 +94,22 @@ public class ProtokolService extends ServiceAPI {
         });
 
     }
+
+    public void getProtokolNumber(RequestCallback2 callback) {
+        getService().getProtokolNumber(ACCESS_TOKEN).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                    ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
 }
