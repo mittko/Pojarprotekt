@@ -61,7 +61,7 @@ public class NewExtinguisherService extends ServiceAPI {
     }
 
     public void createExtinguisher(ExtinguisherModel body, RequestCallback2 callback) {
-        getService().createExtinguisher(body).enqueue(new Callback<Integer>() {
+        getService().createExtinguisher(body,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -81,18 +81,20 @@ public class NewExtinguisherService extends ServiceAPI {
     public void editExtinguisherQuantity(String quantity, String kontragent,
                                            String invoiceByKontragent, String type, String weight,
                                            String category, String brand, RequestCallback2 callback) {
-        getService().editExtinguisherQuantity(quantity, kontragent, invoiceByKontragent,type,weight,category,brand).enqueue(new Callback<Integer>() {
+        getService().editExtinguisherQuantity(quantity, kontragent, invoiceByKontragent,type,weight,category,brand,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(0);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable throwable) {
+                 callback.callback(0);
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -101,18 +103,20 @@ public class NewExtinguisherService extends ServiceAPI {
     public void editExtinguisherPrice(String price, String percentProfit, String kontragent,
                                       String invoiceByKontragent,  String type,
                                       String weight, String category, String brand, RequestCallback2 callback) {
-        getService().editExtinguisherPrice(price, percentProfit, type,weight,category,brand,kontragent,invoiceByKontragent).enqueue(new Callback<Integer>() {
+        getService().editExtinguisherPrice(price, percentProfit, type,weight,category,brand,kontragent,invoiceByKontragent,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(0);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable throwable) {
+                   callback.callback(0);
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -120,7 +124,7 @@ public class NewExtinguisherService extends ServiceAPI {
 
     public void deleteExtinguisher(String type, String weight,
                                    String category, String brand, String invoiceByKontragent, String kontragent, RequestCallback2 callback) {
-        getService().deleteExtinguisher(type,weight,category,brand,invoiceByKontragent,kontragent).enqueue(new Callback<Integer>() {
+        getService().deleteExtinguisher(type,weight,category,brand,invoiceByKontragent,kontragent,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {

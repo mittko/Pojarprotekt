@@ -16,24 +16,26 @@ public interface INewExtinguishers {
     Call<String> insertNewExtinguisher(@Body  ProtokolModels body,@Header("Authorization") String accessToken);
 
     @POST("create_new_extingusihser")
-    Call<Integer> createExtinguisher(@Body ExtinguisherModel body);
+    Call<Integer> createExtinguisher(@Body ExtinguisherModel body,@Header("Authorization") String accessToken);
 
 
     @PUT("/update_extinguisher_quantity/{quantity}/{kontragent}/{invoiceByKontragent}/{type}/{weight}/{category}/{brand}")
     Call<Integer> editExtinguisherQuantity(@Path("quantity") String quantity, @Path("kontragent") String kontragent,
                                            @Path("invoiceByKontragent") String invoiceByKontragent, @Path("type") String type,
                                            @Path("weight") String weight, @Path("category") String category,
-                                           @Path("brand") String brand);
+                                           @Path("brand") String brand,@Header("Authorization") String accessToken);
 
     @PUT("/update_extinguisher_price/{price}/{percentProfit}/{type}/{weight}/{category}/{brand}/{client}/{invoice}")
     Call<Integer> editExtinguisherPrice(@Path("price") String price, @Path("percentProfit") String percentProfit,
                                         @Path("type") String type, @Path("weight") String weight,
                                         @Path("category") String category, @Path("brand") String brand,
-                                        @Path("client") String client, @Path("invoice") String invoice);
+                                        @Path("client") String client, @Path("invoice") String invoice,
+                                        @Header("Authorization") String accessToken);
 
     @DELETE("/delete_extinguisher/{type}/{weight}/{category}/{brand}/{invoiceByKontragent}/{kontragent}")
     Call<Integer> deleteExtinguisher(@Path("type") String type, @Path("weight") String weight,
                                      @Path("category") String category, @Path("brand") String brand,
-                                     @Path("invoiceByKontragent") String invoiceByKontragent, @Path("kontragent") String kontragent);
+                                     @Path("invoiceByKontragent") String invoiceByKontragent,
+                                     @Path("kontragent") String kontragent,@Header("Authorization") String accessToken);
 
 }

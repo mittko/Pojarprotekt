@@ -18,11 +18,11 @@ public interface IGetUser {
     Call<User> getUser(@Query("user") String user);
 
     @GET("/users")
-    Call<List<User>> getUsers();
+    Call<List<User>> getUsers(@Header("Authorization") String accessToken);
 
     @POST("/create_user")
-    Call<Integer> createUser(@Body User user);
+    Call<Integer> createUser(@Body User user,@Header("Authorization") String accessToken);
 
     @DELETE("/delete_user/{user}")
-    Call<Integer> deleteUser(@Path("user") String user);
+    Call<Integer> deleteUser(@Path("user") String user,@Header("Authorization") String accessToken);
 }

@@ -39,7 +39,7 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void inserArtikul(String table, ArtikulModel body, RequestCallback2 callback) {
-        getService().insertArtikul(table, body).enqueue(new Callback<Integer>() {
+        getService().insertArtikul(table, body,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -57,25 +57,27 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void deleteArtikul(String table, String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
-        getService().deleteArtikul(table, artikul,kontragent,invoiceByKontragent).enqueue(new Callback<Integer>() {
+        getService().deleteArtikul(table, artikul,kontragent,invoiceByKontragent,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(0);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable throwable) {
+                callback.callback(0);
                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void renameArtikul(String table, String oldName, String newName, RequestCallback2 callback) {
-        getService().renameArtikul(table, oldName,newName).enqueue(new Callback<Integer>() {
+        getService().renameArtikul(table, oldName,newName,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -93,7 +95,7 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void editArtikulQuantity(String table, String artikul, String kontragent, String invoiceByKontragent, String newQuantity, RequestCallback2 callback) {
-        getService().editArtikulQuantity(table, artikul,kontragent, invoiceByKontragent, newQuantity).enqueue(new Callback<Integer>() {
+        getService().editArtikulQuantity(table, artikul,kontragent, invoiceByKontragent, newQuantity,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -111,7 +113,7 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void editArtikulPrice(String table,String newValue, String percentProfit, String artikul, String kontragent, String invoiceByKontragent, RequestCallback2 callback) {
-        getService().editArtikulPrice(table, newValue, percentProfit, artikul, kontragent, invoiceByKontragent).enqueue(new Callback<Integer>() {
+        getService().editArtikulPrice(table, newValue, percentProfit, artikul, kontragent, invoiceByKontragent,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
@@ -129,18 +131,20 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void updatePartPrice(String price, String part, String type, String weight, String category, RequestCallback2 callback) {
-        getService().updatePartPrice(price,part,type,weight,category).enqueue(new Callback<Integer>() {
+        getService().updatePartPrice(price,part,type,weight,category,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(0);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable throwable) {
+                   callback.callback(0);
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
@@ -204,7 +208,7 @@ public class GetArtikulService extends ServiceAPI {
     }
 
     public void getExtinguisherValue(String type, String weight, String category, String brand, RequestCallback2 callback) {
-        getService().getExtinguisherValue(type,weight,category,brand).enqueue(new Callback<Double>() {
+        getService().getExtinguisherValue(type,weight,category,brand,ACCESS_TOKEN).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
                 if(response.isSuccessful()) {

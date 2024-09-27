@@ -13,6 +13,8 @@ import retrofit2.Response;
 
 import java.util.List;
 
+import static utils.MainPanel.ACCESS_TOKEN;
+
 public class GetUserService extends ServiceAPI {
 
 
@@ -56,7 +58,7 @@ public class GetUserService extends ServiceAPI {
     }
 
     public void getUsers(RequestCallback callback) {
-        getService().getUsers().enqueue(new Callback<List<User>>() {
+        getService().getUsers(ACCESS_TOKEN).enqueue(new Callback<List<User>>() {
             @Override
             public void onResponse(Call<List<User>> call, Response<List<User>> response) {
                 if(response.isSuccessful()) {
@@ -74,36 +76,40 @@ public class GetUserService extends ServiceAPI {
     }
 
     public void createUser(User user, RequestCallback2 callback) {
-        getService().createUser(user).enqueue(new Callback<Integer>() {
+        getService().createUser(user,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(0);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable throwable) {
+                 callback.callback(0);
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
     }
 
     public void deleteUser(String user, RequestCallback2 callback) {
-        getService().deleteUser(user).enqueue(new Callback<Integer>() {
+        getService().deleteUser(user,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(0);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable throwable) {
+                callback.callback(0);
                 ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });
