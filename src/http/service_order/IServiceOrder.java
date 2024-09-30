@@ -18,4 +18,7 @@ public interface IServiceOrder {
     @GET("/next_serial_number")
     Call<String> getNextSerialNumber(@Header("Authorization") String accessToken);
 
+    @GET("/next_service_order_number")
+    Call<String> getNextSoNumber(@Header("Authorization") String accessToken);
+
 }

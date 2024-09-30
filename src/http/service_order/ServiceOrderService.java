@@ -76,4 +76,25 @@ public class ServiceOrderService extends ServiceAPI {
             }
         });
     }
+
+    public void getNextSoNumber(RequestCallback2 callback) {
+        getService().getNextSoNumber(ACCESS_TOKEN).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    callback.callback(response.body());
+                } else {
+                    callback.callback(null);
+                    ErrorDialog.showHttpError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable throwable) {
+                callback.callback(null);
+                ErrorDialog.showErrorMessage(throwable.getMessage());
+            }
+        });
+    }
+
 }

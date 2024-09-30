@@ -4,6 +4,7 @@ import clients.NewClient;
 import clients.editclient.EditClientPanel;
 import http.RequestCallback2;
 import http.protokol.ProtokolService;
+import http.service_order.ServiceOrderService;
 import newextinguisher.NewExtinguisherWindow;
 import reports.ReportDialog;
 import workingbook.Brack;
@@ -61,19 +62,31 @@ public class MainMenu extends MainPanel {
 				JFrame ancestor = (JFrame) SwingUtilities
 						.getWindowAncestor(MainMenu.this);
 				ancestor.setCursor(new Cursor(Cursor.WAIT_CURSOR));
-				SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
 
+				ServiceOrderService service = new ServiceOrderService();
+				service.getNextSoNumber(new RequestCallback2() {
 					@Override
-					protected Void doInBackground() throws Exception {
-						// TODO Auto-generated method stub
-						String number = "no";
-						number = GenerateSO.nextSO();
-						SwingUtilities.invokeLater(new RunSO(number));
-						return null;
+					public <T> void callback(T t) {
+						ancestor.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						String nextSo = (String) t;
+						if(nextSo != null) {
+							SwingUtilities.invokeLater(new RunSO(nextSo));
+						}
 					}
-
-				};
-				sw.execute();
+				});
+//				SwingWorker<Void, Void> sw = new SwingWorker<Void, Void>() {
+//
+//					@Override
+//					protected Void doInBackground() throws Exception {
+//						// TODO Auto-generated method stub
+//						String number = "no";
+//						number = GenerateSO.nextSO();
+//						SwingUtilities.invokeLater(new RunSO(number));
+//						return null;
+//					}
+//
+//				};
+//				sw.execute();
 			}
 		});
 		JButton newExtinguisher_Button = new JButton("ÕŒ¬» œŒ∆¿–Œ√¿—»“≈À»");
@@ -87,17 +100,13 @@ public class MainMenu extends MainPanel {
 						.getWindowAncestor(MainMenu.this);
 				ancestor.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-				ProtokolService service = new ProtokolService();
-				service.getProtokolNumber(new RequestCallback2() {
+				ServiceOrderService service = new ServiceOrderService();
+				service.getNextSoNumber(new RequestCallback2() {
 					@Override
 					public <T> void callback(T t) {
-						String protokolNumber = (String) t;
-						if(protokolNumber != null) {
-							String serviceNumber = GenerateSO.nextSO(); // new
-							// SO_Table().getSO_Number();
-							SwingUtilities.invokeLater(new Run_NewExt(
-									serviceNumber,protokolNumber));
-						}
+						String serviceNumber = (String) t;
+						SwingUtilities.invokeLater(new Run_NewExt(
+								serviceNumber));
 					}
 				});
 			}
@@ -389,18 +398,17 @@ public class MainMenu extends MainPanel {
 	class Run_NewExt implements Runnable {
 
 		private String serviceNumber = null;
-		private String protokolNumber;
 
-		public Run_NewExt(String serviceNumber, String protokolNumber) {
+
+		public Run_NewExt(String serviceNumber) {
 			this.serviceNumber = serviceNumber;
-			this.protokolNumber = protokolNumber;
 		}
 
 		@Override
 		public void run() {
 			if (!serviceNumber.equals("no")) {
 				NewExtinguisherWindow new_ext = new NewExtinguisherWindow(
-						serviceNumber,protokolNumber);
+						serviceNumber);
 				final JDialoger jDialog = new JDialoger();
 				jDialog.setContentPane(new_ext);
 				jDialog.setResizable(false);

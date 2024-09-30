@@ -39,19 +39,21 @@ public class GetUserService extends ServiceAPI {
         });
     }
 
-    public void init(AuthRequest body, RequestCallback2 callback2) {
+    public void init(AuthRequest body, RequestCallback2 callback) {
         getService().login(body).enqueue(new Callback<LoginRes>() {
             @Override
             public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
                 if(response.isSuccessful()) {
-                    callback2.callback(response.body());
+                    callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<LoginRes> call, Throwable throwable) {
+                 callback.callback(null);
                  ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

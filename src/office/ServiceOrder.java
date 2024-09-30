@@ -557,22 +557,29 @@ public class ServiceOrder extends MainPanel {
 
 							if (insert > 0) {
 
-
-
-								String updateNumber = NumGenerator.updateNum(SERVICE_NUMBER);
-								GenerateSO.updateServiceOrder(updateNumber);
-								SERVICE_NUMBER = GenerateSO.nextSO();
-
-								barcodDigits = new int[2];
-								for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
-									allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
-								}
-
 								JOptionPane.showMessageDialog(null,
 										"Данните са записани успешно!");
 								updateExtinguisher.clear();
-								serviceNumberLabel.setName(SERVICE_NUMBER);
-								tModel.setRowCount(0);
+
+								String updateNumber = NumGenerator.updateNum(SERVICE_NUMBER);
+								GenerateSO.updateServiceOrder(updateNumber);
+
+								ServiceOrderService service1 = new ServiceOrderService();
+								service1.getNextSoNumber(new RequestCallback2() {
+									@Override
+									public <T> void callback(T t) {
+										SERVICE_NUMBER = (String) t;
+										barcodDigits = new int[2];
+										for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
+											allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
+										}
+
+										serviceNumberLabel.setName(SERVICE_NUMBER);
+										tModel.setRowCount(0);
+									}
+								});// GenerateSO.nextSO();
+
+
 							}
 						}
 					});

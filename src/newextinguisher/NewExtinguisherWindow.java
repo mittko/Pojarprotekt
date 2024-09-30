@@ -1,10 +1,12 @@
 package newextinguisher;
 
 import clients.NewClient;
+import exceptions.ErrorDialog;
 import generators.NumGenerator;
 import http.RequestCallback2;
 import http.new_extinguishers.NewExtinguisherService;
 import http.protokol.ProtokolService;
+import http.service_order.ServiceOrderService;
 import models.ExtinguisherModel;
 import models.ProtokolModel;
 import models.ProtokolModels;
@@ -53,10 +55,10 @@ public class NewExtinguisherWindow extends MainPanel {
 	public static final GenerateSO genSO = new GenerateSO();
 	public static final BarcodGenerator bGen = new BarcodGenerator();
 
-	public NewExtinguisherWindow(final String serviceNumber, String protokolNumber) {
+	public NewExtinguisherWindow(final String serviceNumber) {
 
 		this.SERVICE_NUMBER = serviceNumber;
-		this.PROTOKOL_NUMBER = protokolNumber;
+		this.PROTOKOL_NUMBER = "";
 
 		allDigits = new int[13];
 
@@ -217,14 +219,6 @@ public class NewExtinguisherWindow extends MainPanel {
 						String nextProtokol = (String) t;
 						if(nextProtokol != null) {
 							// update service number
-							SERVICE_NUMBER = GenerateSO.nextSO(); // soTable.getSO_Number();
-							SERVICE_NUMBER = NumGenerator.updateNum(SERVICE_NUMBER);
-							GenerateSO.updateServiceOrder(SERVICE_NUMBER); // soTable.updateSO_InDB(newServiceNumber);//updateServiceNum
-
-							barcod_digits = new int[2];
-							for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
-								allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
-							}
 
 							PROTOKOL_NUMBER = nextProtokol;
 							protokolNumLabel.setName(PROTOKOL_NUMBER);
@@ -233,6 +227,22 @@ public class NewExtinguisherWindow extends MainPanel {
 
 							JOptionPane.showMessageDialog(null,
 									"Данните са записани успешно!");
+
+							ServiceOrderService service1 = new ServiceOrderService();
+							service1.getNextSoNumber(new RequestCallback2() {
+								@Override
+								public <T> void callback(T t) {
+									SERVICE_NUMBER = (String) t;
+									barcod_digits = new int[2];
+									for (int i = 0; i < SERVICE_NUMBER.length(); i++) {
+										allDigits[i] = SERVICE_NUMBER.charAt(i) - 48;
+									}
+								}
+							});
+							SERVICE_NUMBER = GenerateSO.nextSO();
+							SERVICE_NUMBER = NumGenerator.updateNum(SERVICE_NUMBER);
+							GenerateSO.updateServiceOrder(SERVICE_NUMBER);
+
 						}
 					}
 				});
@@ -410,9 +420,13 @@ public class NewExtinguisherWindow extends MainPanel {
 					@Override
 					protected Object doInBackground() throws Exception {
 						// TODO Auto-generated method stub
-
-						SwingUtilities.invokeLater(new RunInvoice(
-								 PROTOKOL_NUMBER,null));
+                        try {
+							int protNumberAsInt = Integer.parseInt(PROTOKOL_NUMBER);
+							SwingUtilities.invokeLater(new RunInvoice(
+									String.format("%07d", protNumberAsInt - 1), null));
+						} catch (Exception e) {
+							ErrorDialog.showErrorMessage(e.getMessage());
+						}
 
 						return null;
 					}
