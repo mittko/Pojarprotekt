@@ -31,10 +31,7 @@ public class PrintProtokolWorker extends SwingWorker {
 
 	public String doInBackground() throws Exception {
 		// TODO Auto-generated method stub
-		
-	
 
-			
             ps = ChoisePrinterDialog.showPrinters();
             if(ps != null) {
             ProtokolPrinter protokolPrinter = 

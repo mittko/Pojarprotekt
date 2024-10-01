@@ -39,11 +39,7 @@ public class Brack extends MainPanel {
 			return false;
 		}
 	};
-	
-	
 	 private StringBuilder key = new StringBuilder();  // current exinguisher
-	
-	 private final int SELECTED_ROW = 0;   // current user selected row
 	
      public JTable t_Scrab = null;
 
@@ -53,9 +49,6 @@ public class Brack extends MainPanel {
 	 
 	 private String BRACK_NUMBER;
 
-	private final BrackNumber bn = new BrackNumber();
-
-	 //public static BevelLabel brackNumberLabel = null;
 	 
 	public Brack() {
 
@@ -91,9 +84,7 @@ public class Brack extends MainPanel {
 	 scrabLabel.setName("");
 	 
 	 scrabLabel.setOpaque(false);
-	 
 
-	 
 	 printServiceButton = new TooltipButton();
 	 
 	 printServiceButton.setEnabled(false);
@@ -124,7 +115,6 @@ public class Brack extends MainPanel {
 
 		});
 
-
 		TooltipButton dbButton = new TooltipButton();
 		
 		dbButton.setToolTipText(getHTML_Text("«¿œ»ÿ» ¬ ¡¿«¿ ƒ¿ÕÕ»"));
@@ -133,7 +123,6 @@ public class Brack extends MainPanel {
 				(int)(helpPanel.getPreferredSize().getHeight() * 0.75)));
 		 dbButton.setAutoSizedIcon(dbButton, new LoadIcon().setIcons(dbImage));
 
-		
 		dbButton.addActionListener(new ActionListener() {
 
 			@Override

@@ -233,6 +233,14 @@ public class ServiceOrder extends MainPanel {
 										return;
 									}
 
+									String weight = protokolModel.getWheight();
+
+									if(weight != null && !isWeightValid(weight)) {
+										ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
+												weight));
+										return;
+									}
+
 									GetClientService service1 = new GetClientService();
 									service1.getFirm(protokolModel.getClient(), new RequestCallback2() {
 										@Override
@@ -242,21 +250,10 @@ public class ServiceOrder extends MainPanel {
 											ErrorDialog.showErrorMessage(
 												String.format("Не е намерен такъв клиент %s",
 														protokolModel.getClient()));
-										// най-вероятно клиента е преименуван
+										       // най-вероятно клиента е преименуван
 											}
 										}
 									});
-
-
-									String weight = protokolModel.getWheight();
-
-									if(weight != null && !isWeightValid(weight)) {
-										ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
-												weight));
-										return;
-									}
-
-
 									insertDataFromScanner(protokolModel);
 
 									updateExtinguisher
@@ -274,12 +271,7 @@ public class ServiceOrder extends MainPanel {
 
 									clientCombo.setSelectedItem(CURRENT_CLIENT);
 									clientCombo.setEnabled(false);
-								} else {
-//									JOptionPane.showMessageDialog(
-//											null,
-//													"Не е намерен такъв елемент!");
 								}
-
 							readBarcod.setText("");
 						}
 					});
@@ -326,7 +318,13 @@ public class ServiceOrder extends MainPanel {
 									serialNumber.setText("");
 									return;
 								}
+								String weight = protokolModel.getWheight();
 
+								if(!isWeightValid(weight)) {
+									ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
+											weight));
+									return;
+								}
 								GetClientService service1 = new GetClientService();
 								service1.getFirm(protokolModel.getClient(), new RequestCallback2() {
 									@Override
@@ -341,13 +339,7 @@ public class ServiceOrder extends MainPanel {
 									}
 								});
 
-								String weight = protokolModel.getWheight();
 
-								if(!isWeightValid(weight)) {
-									ErrorDialog.showErrorMessage(String.format("Грешен формат на количество %s",
-											weight));
-									return;
-								}
 
 
 								insertDataFromScanner(protokolModel);
@@ -366,11 +358,6 @@ public class ServiceOrder extends MainPanel {
 
 								clientCombo.setSelectedItem(CURRENT_CLIENT);
 								clientCombo.setEnabled(false);
-							} else {
-//								JOptionPane
-//										.showMessageDialog(
-//												null,
-//												"Не е намерен такъв елемент!");
 							}
 
 							serialNumber.setText("");
@@ -1072,7 +1059,7 @@ public class ServiceOrder extends MainPanel {
 		float labelHeight = (int) (south.getPreferredSize().getHeight() * 0.7);
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
 
-		sallerLabel.setTitle(Enums.Operator.name() + ": ");//("  Продавач: ");
+		sallerLabel.setTitle("Оператор : ");//("  Продавач: ");
 		sallerLabel.setName(personName);
 
 		clientLabel = new BevelLabel(labelHeight);

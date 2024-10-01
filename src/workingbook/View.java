@@ -44,23 +44,13 @@ public class View extends MainPanel {
 	public MyTable t_Extinguisher = null;
 
 	private StringBuilder key = new StringBuilder(); // current extinguisher
-
 	public static JList<Object> partsList = new JList<Object>();
-
 	public static TooltipButton printProtokolButton = null;
-
 	private int SELECTED_ROW = -1; // current user selected row
-
-//	public String DB_PROTOKOL_NUMBER = null;
-
 	private String PDF_PROTOKOL_NUMBER = null;
 
-	//public static BevelLabel protokolNumberLabel = null;
 
 	public View() {
-
-
-
 		JPanel panel = new JPanel();
 		panel.setBorder(BorderFactory.createLineBorder(Color.black));
 

@@ -48,8 +48,7 @@ public class NewExtinguisherWindow extends MainPanel {
 	private int CURRENT_ROW = -1;
 	private String SERVICE_NUMBER = null;
 
-	private String PROTOKOL_NUMBER = null;// slujebna stoinost v
-	// nachaloto
+	private String PROTOKOL_NUMBER = null;
 	public static int[] barcod_digits = null;
 	public static int[] allDigits = null;
 	public static final GenerateSO genSO = new GenerateSO();
@@ -420,13 +419,10 @@ public class NewExtinguisherWindow extends MainPanel {
 					@Override
 					protected Object doInBackground() throws Exception {
 						// TODO Auto-generated method stub
-                        try {
-							int protNumberAsInt = Integer.parseInt(PROTOKOL_NUMBER);
-							SwingUtilities.invokeLater(new RunInvoice(
-									String.format("%07d", protNumberAsInt - 1), null));
-						} catch (Exception e) {
-							ErrorDialog.showErrorMessage(e.getMessage());
-						}
+
+						SwingUtilities.invokeLater(new RunInvoice(
+									PROTOKOL_NUMBER, null));
+
 
 						return null;
 					}
@@ -505,7 +501,7 @@ public class NewExtinguisherWindow extends MainPanel {
 		float labelHeight = (int) (southPanel.getPreferredSize().getHeight() * 0.8);
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
 
-		sallerLabel.setTitle(Enums.Operator.name() +  ": ");
+		sallerLabel.setTitle("Оператор : ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);
