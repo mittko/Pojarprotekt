@@ -6,7 +6,6 @@ import http.RequestCallback2;
 import http.client.GetClientService;
 import http.sklad.GetArtikulService;
 import invoice.sklad.SkladArtiklulPanel;
-import invoice.workers.GetDiscountWorker;
 import models.ArtikulModel;
 import models.Firm;
 import mydate.MyGetDate;

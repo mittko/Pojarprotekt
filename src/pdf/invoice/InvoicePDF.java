@@ -46,19 +46,16 @@ public class InvoicePDF extends PdfCreator {
 									int startIndex, int endIndex, String saller) {
 
 
-		/*
-		 * for(int i = 0;i < clientInfo.size();i++) {
-		 * System.out.printf("clientInfo.get(%d) = %s\n",i,clientInfo.get(i)); }
-		 */
 
-			name = firm.getFirm(); // name or firm
+
+			name = firm.getFirm() != null ? firm.getFirm() : "";
 			String TEL = "";
 
-				city = firm.getCity(); // 1 -> city
-				address = firm.getAddress();// 2 -> address
-				String registraciaDDS = extractOnlyDigit(firm.getEik());// 3
+				city = firm.getCity() != null ? firm.getCity() : "";
+				address = firm.getAddress() != null ? firm.getAddress() : "";;
+				String registraciaDDS = extractOnlyDigit(firm.getEik() != null ? firm.getEik() : "");
 
-				String isVatRegistered = firm.getVat_registration();															// ->
+				String isVatRegistered = firm.getVat_registration() != null ? firm.getVat_registration() : "";;															// ->
 				if(isVatRegistered.equals("да")) {
 					DDS = "BG" + registraciaDDS;
 				} else {
@@ -66,14 +63,14 @@ public class InvoicePDF extends PdfCreator {
 				}
 				EIK =  registraciaDDS;
 
-				MOL = firm.getMol();// name (MOL)
+				MOL = firm.getMol() != null ? firm.getMol() : "";;
 				// 5 -> tel of firm
 				// 6 -> email
-				TEL = firm.getTelPerson();// 7 -> person
+				TEL = firm.getTelPerson() != null ? firm.getTelPerson() : "";
 				// 8 -> tel of person
-				BANK = firm.getBank(); // bank
-				BIC = firm.getBic(); // Bic
-				IBAN = firm.getIban(); // iban
+				BANK = firm.getBank() != null ? firm.getBank() : "";; // bank
+				BIC = firm.getBic() != null ? firm.getBic(): "";; // Bic
+				IBAN = firm.getIban() != null ? firm.getIban() : "";; // iban
 				// 11 -> discount
 
 		// Rectangle rect = new Rectangle(210,297);

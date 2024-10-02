@@ -1,17 +1,11 @@
 package invoice.workers;
 
-import db.AcquittanceDB.AcquittanceChildDB;
-import db.AcquittanceDB.AcquittanceNumber;
-import db.AcquittanceDB.AcuittanceParentDB;
-import db.Invoice.InvoiceNumber;
 import http.RequestCallback2;
 import http.invoice.ProformService;
 import invoice.PrintInvoiceDialog;
 import models.AcquittanceModel;
 import models.AcquittanceModels;
 import run.JDialoger;
-import utils.BevelLabel;
-import utils.MainPanel;
 import utils.MyMath;
 
 import javax.swing.*;
@@ -21,7 +15,7 @@ import java.util.ArrayList;
 
 import static utils.MainPanel.*;
 
-public class SaveInAcquittanceWorker {
+public class SaveInAcquittance {
 
 	private final DefaultTableModel dftm;
 
@@ -33,9 +27,9 @@ public class SaveInAcquittanceWorker {
 
 
 
-	public SaveInAcquittanceWorker(DefaultTableModel dftm,
-			double value, String saller, String client, String date,
-			 JDialog jd) {
+	public SaveInAcquittance(DefaultTableModel dftm,
+							 double value, String saller, String client, String date,
+							 JDialog jd) {
 		this.dftm = dftm;
 		this.value = value;
 		this.saller = saller;

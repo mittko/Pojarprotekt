@@ -1,12 +1,10 @@
 package invoice;
 
 import exceptions.DBException;
-import invoice.fiskal.CreateBonFPrint;
 import invoice.workers.*;
 import invoice.invoicewindow.ArtikulTab;
 import invoice.invoicewindow.SearchFromProformTab;
 import invoice.invoicewindow.SearchFromProtokolTab;
-import mydate.MyGetDate;
 import utils.BevelLabel;
 import utils.MainPanel;
 import utils.MyMath;
@@ -16,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Vector;
 
 public class SaveInInvoiceDBDialog extends MainPanel {
@@ -250,7 +247,7 @@ public class SaveInInvoiceDBDialog extends MainPanel {
 
 
 
-						SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
+						SaveInAcquittance saveInAcquittance = new SaveInAcquittance(
 								copyOriginTableModel,
 								MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 								// по старо му sum/1.2 without ДДС

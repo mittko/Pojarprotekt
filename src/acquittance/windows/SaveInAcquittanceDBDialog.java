@@ -1,8 +1,6 @@
 package acquittance.windows;
 
-import exceptions.DBException;
-import invoice.workers.DecreaseArtikulQuantityWorker;
-import invoice.workers.SaveInAcquittanceWorker;
+import invoice.workers.SaveInAcquittance;
 import invoice.invoicewindow.SearchFromProformTab;
 import invoice.invoicewindow.SearchFromProtokolTab;
 import utils.BevelLabel;
@@ -90,7 +88,7 @@ public class SaveInAcquittanceDBDialog extends MainPanel {
 						jd.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 
-							SaveInAcquittanceWorker saveInAcquittance = new SaveInAcquittanceWorker(
+							SaveInAcquittance saveInAcquittance = new SaveInAcquittance(
 									copyOriginTableModel,
 									MyMath.round(Double.parseDouble(sum) / 1.2f, 2),
 									// without ДДС sum/1.2 по старо му

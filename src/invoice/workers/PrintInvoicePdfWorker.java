@@ -19,7 +19,6 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 	private final String invoiceNumber;
 	private final String currentClient;
 	private final String datePdf;
-	// private double danOsnova;
 	private final String payment;
 	boolean isCreated = false;
 
@@ -30,8 +29,8 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 
 
 	public PrintInvoicePdfWorker(Firm firm, DefaultTableModel dftm, String currentClient,
-			String invoiceNumber, String datePdf, double danOsnova,
-			String payment, PrintService ps, JDialog jd) {
+								 String invoiceNumber, String datePdf, double danOsnova,
+								 String payment, PrintService ps, JDialog jd) {
 		this.firm = firm;
 		this.dftm = dftm;
 		this.currentClient = currentClient;
@@ -50,59 +49,44 @@ public class PrintInvoicePdfWorker extends SwingWorker {
 	protected Object doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
-		try {
-			// get client info
 
-			// timeStamp = GetDate.getTimeStamp();
+		// get client info
 
-			String[] ORIGINAL = { "ОРИГИНАЛ", "", "" };
+		// timeStamp = GetDate.getTimeStamp();
 
-			String timeStamps[] = { MyGetDate.getTimeStamp() + "a",
-					MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
-			int[] copies = { 1, 2 };
+		String[] ORIGINAL = { "ОРИГИНАЛ", "", "" };
 
-			for (int i = 0; i < 2; i++) {
-				InvoicePDF pdf = new InvoicePDF();
-				DefaultTableModel mergedTableModel = mergeArtikuls(dftm);
-				isCreated = pdf.createInvoicePDF(firm, invoiceNumber,
-						timeStamps[i], datePdf, payment, mergedTableModel,
-						MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
-						ORIGINAL[i], 0, mergedTableModel.getRowCount(),
-						MainPanel.personName);
+		String timeStamps[] = { MyGetDate.getTimeStamp() + "a",
+				MyGetDate.getTimeStamp() + "b", MyGetDate.getTimeStamp() + "c" };
+		int[] copies = { 1, 2 };
+
+		for (int i = 0; i < 2; i++) {
+			InvoicePDF pdf = new InvoicePDF();
+			DefaultTableModel mergedTableModel = mergeArtikuls(dftm);
+			isCreated = pdf.createInvoicePDF(firm, invoiceNumber,
+					timeStamps[i], datePdf, payment, mergedTableModel,
+					MainPanel.INVOICE_PDF_PATH + "\\Фактура-", "ФАКТУРА",
+					ORIGINAL[i], 0, mergedTableModel.getRowCount(),
+					MainPanel.personName);
 
 
+			// update invoice number
+			System.out.println("IS CREATED = " + isCreated);
+			if (isCreated) {
 
-				// update invoice number
-				if (isCreated) {
-
-					 OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
-					 "\\Фактура-"
-					 + timeStamps[0] + "-" + invoiceNumber + ".pdf");
+				OpenPDFDocument.pdfRunner(MainPanel.INVOICE_PDF_PATH +
+						"\\Фактура-"
+						+ timeStamps[0] + "-" + invoiceNumber + ".pdf");
 
 //					PrintWithoutOpenPdf.printWithoutDialog(
 //							MainPanel.INVOICE_PDF_PATH, "\\Фактура-"
 //									+ timeStamps[i] + "-" + invoiceNumber
 //									+ ".pdf", ps, copies[i]);
 
-				}
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Грешка при създаването на документа!");
 			}
-
-		} finally {
-			SwingUtilities.invokeLater(new Runnable() {
-
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-
-					if (!isCreated) {
-						JOptionPane.showMessageDialog(null,
-								"Грешка при създаването на документа!");
-					} else {
-						// jd.dispose(); //?????????????
-
-					}
-				}
-			});
 		}
 
 		return null;

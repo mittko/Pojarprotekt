@@ -9,7 +9,6 @@ import invoice.fiskal.CreateBonFPrint;
 import invoice.renderers.CustomTableCellRenderer;
 import invoice.SaveInInvoiceDBDialog;
 import invoice.sklad.SkladArtiklulPanel;
-import invoice.workers.GetDiscountWorker;
 import invoice.workers.SellWithFiskalBonWorker;
 import models.ArtikulModel;
 import models.Firm;
@@ -92,7 +91,8 @@ public class ArtikulTab extends MainPanel {
 											discountField.setText(discount);
 											choiceDiscountButton.setDefaultIcon();
 
-											String registrationVat = firm.getVat_registration();
+											String registrationVat = firm.getVat_registration() != null
+													? firm.getVat_registration() : "";
 
 											registrationVatCheckBox.setSelected(
 													registrationVat.equals("да"));

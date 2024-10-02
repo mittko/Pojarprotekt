@@ -181,9 +181,6 @@ public class Shop_SkladExtinuisher extends MainPanel {
 		scrollPane.setPreferredSize(new Dimension((this.WIDTH - 50),
 				this.HEIGHT / 2));
 
-		// scrollPane.setRowHeaderView(rowTable); //****
-		// scrollPane.setCorner(JScrollPane.UPPER_LEFT_CORNER,//****
-		// rowTable.getTableHeader());//****
 
 		centerPanel.add(scrollPane);
 
@@ -196,7 +193,7 @@ public class Shop_SkladExtinuisher extends MainPanel {
 						MainPanel.getFontSize() + 10);
 			}
 		};
-		// searchField.setPreferredSize(new Dimension(20,35));
+
 		searchField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent ke) {

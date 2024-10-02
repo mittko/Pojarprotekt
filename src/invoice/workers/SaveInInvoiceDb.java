@@ -17,8 +17,6 @@ import static utils.MainPanel.INVOICE_PARENT;
 
 public class SaveInInvoiceDb {
 
-	private int parent = 0;
-	private int child = 0;
 	private JDialog jd = null;
 	private String payment = null;
 	private String discount = null;
