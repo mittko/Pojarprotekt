@@ -27,12 +27,14 @@ public class GetArtikulService extends ServiceAPI {
                 if(response.isSuccessful()) {
                     callback.callback(response.body());
                 } else {
+                    callback.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<List<ArtikulModel>> call, Throwable throwable) {
+                   callback.callback(null);
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

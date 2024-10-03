@@ -223,6 +223,8 @@ public class SearchFromProtokolTab extends MainPanel {
 				service.getArtikuls(frame.isGrey(),false, new RequestCallback() {
 					@Override
 					public <T> void callback(List<T> objects) {
+						jd.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
 						finalFrame.loadArtikuls((ArrayList<ArtikulModel>) objects);
 					}
 				});
@@ -298,11 +300,11 @@ public class SearchFromProtokolTab extends MainPanel {
 					return;
 				}
 
-				if (protokolNumber.isEmpty()) {
-					JOptionPane.showMessageDialog(null,
-							"Липсва номер на Протокол");
-					return;
-				}
+//				if (protokolNumber.isEmpty()) {
+//					JOptionPane.showMessageDialog(null,
+//							"Липсва номер на Протокол");
+//					return;
+//				}
 
 				if(!isGrey) {
 					SaveInInvoiceDBDialog save = new SaveInInvoiceDBDialog(
@@ -495,7 +497,7 @@ public class SearchFromProtokolTab extends MainPanel {
 
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
 
-		sallerLabel.setTitle(Enums.Operator.name() + ": ");
+		sallerLabel.setTitle("Оператор: ");
 		sallerLabel.setName(personName);
 
 		BevelLabel sumLabel = new BevelLabel(labelHeight);

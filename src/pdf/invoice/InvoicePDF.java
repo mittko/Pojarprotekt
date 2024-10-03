@@ -84,7 +84,7 @@ public class InvoicePDF extends PdfCreator {
 		clientInfoCell.addElement(new Phrase("Град: " + city, arial10));
 		clientInfoCell.addElement(new Phrase("Адрес: " + address, arial10));
 		clientInfoCell.addElement(new Phrase("ЕИК: " + EIK, arial10));
-		clientInfoCell.addElement(new Phrase("DDS No: " + DDS, arial10));
+		clientInfoCell.addElement(new Phrase("ДДС \u2116 " + DDS, arial10));
 		clientInfoCell.addElement(new Phrase("Мол: " + MOL, arial10));
 		clientInfoCell.addElement(new Phrase(
 				("Банка: " + (BANK.equals("-") ? "" : BANK)), arial10));
@@ -102,7 +102,7 @@ public class InvoicePDF extends PdfCreator {
 				+ MainPanel.SALLER_ADDRESS, arial10));
 		sailerInfoCell.addElement(new Phrase("ЕИК: " + MainPanel.SALLER_EIK,
 				arial10));
-		sailerInfoCell.addElement(new Phrase("DDS \u2116 BG"
+		sailerInfoCell.addElement(new Phrase("ДДС \u2116 BG"
 				+ MainPanel.SALLER_EIK, arial10));
 		sailerInfoCell.addElement(new Phrase("Мол: " + MainPanel.SALLER_MOL,
 				arial10));
@@ -308,7 +308,7 @@ public class InvoicePDF extends PdfCreator {
 		PdfPCell one = new PdfPCell(new Phrase("Основание за нулева ставка:",
 				arial10));
 		PdfPCell two = new PdfPCell(new Phrase(
-				"Основание за не начисляване на DDS:", arial10));
+				"Основание за не начисляване на ДДС:", arial10));
 		PdfPCell three = new PdfPCell(new Phrase(
 				"Обст. определящи стоката ново ПС:", arial10));
 
@@ -323,7 +323,7 @@ public class InvoicePDF extends PdfCreator {
 		leftDDSTable.addCell(new Phrase("Данъчна основа: "
 				+ String.format(Locale.ROOT, "%.2f",
 						MyMath.round(danOsnova / 1.2, 2)), arial10));
-		leftDDSTable.addCell(new Phrase("Данъчна ставка (DDS): 20%", arial10));
+		leftDDSTable.addCell(new Phrase("Данъчна ставка (ДДС): 20%", arial10));
 		leftDDSTable.addCell(new Phrase("Размер на данъка: "
 				+ String.format(Locale.ROOT, "%.2f", danak), arial10));
 

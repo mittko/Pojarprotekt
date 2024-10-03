@@ -38,21 +38,21 @@ public class AcquittancePDFromInvoice extends PdfCreator {
 
 		this.date = date;
 
-			name = firm.getFirm(); // name or firm
+			name = firm.getFirm() != null ? firm.getFirm() : "";
 			String TEL = "";
 
-				city = firm.getCity(); // 1 -> city
-				address = firm.getAddress();// 2 -> address
-				EIK = extractOnlyDigit(firm.getEik());// 3 -> EIK
-				MOL = firm.getMol();// name (MOL)
+				city = firm.getCity() != null ? firm.getCity() : "";
+				address = firm.getAddress() != null ? firm.getAddress() : "";
+				EIK = extractOnlyDigit(firm.getEik() != null ? firm.getEik() : "");
+				MOL = firm.getMol() != null ? firm.getMol() : "";
 				// 5 -> tel of firm
 				// 6 -> email
 				// 7 -> person
 				// 8 -> tel of person
-				TEL = firm.getTelPerson();// tel
-				BANK = firm.getBank(); // bank
-				BIC = firm.getBic(); // Bic
-				IBAN = firm.getIban(); // iban
+				TEL = firm.getTelPerson() != null ? firm.getTelPerson() : "";
+				BANK = firm.getBank() != null ? firm.getBank() : "";
+				BIC = firm.getBic() != null ? firm.getBic() : "";
+				IBAN = firm.getIban() != null ? firm.getIban() : "";
 				// 12 -> discount
 
 		// set document

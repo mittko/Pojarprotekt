@@ -380,7 +380,7 @@ public class GreyArtikulTab extends MainPanel {
 
 		BevelLabel sallerLabel = new BevelLabel(labelHeight);
 
-		sallerLabel.setTitle(Enums.Operator.name()   + ": ");
+		sallerLabel.setTitle("Оператор: ");
 		sallerLabel.setName(personName);
 
 		BevelLabel dateLabel = new BevelLabel(labelHeight);
