@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Main-Class: run.Main
 Class-Path: derbyclient.jar itext-pdfa-5.5.1.jar itextpdf-5.5.1.jar itex
- t-xtra-5.5.1.jar pdf-renderer-1.0.5.jar jxl.jar
+ t-xtra-5.5.1.jar pdf-renderer-1.0.5.jar jxl.jar converter-gson-2.9.0.ja
+ r gson-2.8.5.jar okhttp-3.14.9.jar okio-1.17.2.jar retrofit-2.9.0.jar
 

@@ -7,7 +7,7 @@
     <libelement value="file://$MODULE_DIR$/../workspacePojarprotekt (Intelij)/itextpdf-5.5.1.jar" />
     <libelement value="file://$MODULE_DIR$/../workspacePojarprotekt (Intelij)/pdf-renderer-1.0.5.jar" />
     <libelement value="file://$MODULE_DIR$/../workspacePojarprotekt (Intelij)/derbyclient.jar" />
-    <libelement value="file://$MODULE_DIR$/../workspacePojarprotekt (Intelij)/RXTXcomm.jar" />
+    <libelement value="file://$MODULE_DIR$/../workspacePojarprotekt (Intelij)/converter-gson-2.9.0.jar" />
     <src_description expected_position="0">
       <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
       <src_folder value="file://$MODULE_DIR$" expected_position="1" />
@@ -29,9 +29,10 @@
     <orderEntry type="library" name="jxl" level="project" />
     <orderEntry type="library" name="pdf-renderer-1.0.5" level="project" />
     <orderEntry type="library" name="derby" level="project" />
-    <orderEntry type="library" name="google.code.gson" level="project" />
-    <orderEntry type="library" name="squareup.retrofit2.retrofit" level="project" />
-    <orderEntry type="library" name="squareup.retrofit2.converter.gson" level="project" />
-    <orderEntry type="library" name="squareup.okhttp3.okhttp.urlconnection" level="project" />
+    <orderEntry type="library" name="converter-gson-2.9.0" level="project" />
+    <orderEntry type="library" name="gson-2.8.5" level="project" />
+    <orderEntry type="library" name="okhttp-3.14.9" level="project" />
+    <orderEntry type="library" name="okio-1.17.2" level="project" />
+    <orderEntry type="library" name="retrofit-2.9.0" level="project" />
   </component>
 </module>

@@ -10,6 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="D:/workspacePojarprotekt (Intelij)/itextpdf-5.5.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="D:/workspacePojarprotekt (Intelij)/pdf-renderer-1.0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="D:/workspacePojarprotekt (Intelij)/derbyclient.jar"/>
-	<classpathentry exported="true" kind="lib" path="D:/workspacePojarprotekt (Intelij)/RXTXcomm.jar"/>
+	<classpathentry exported="true" kind="lib" path="D:/workspacePojarprotekt (Intelij)/converter-gson-2.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
