@@ -1,5 +1,7 @@
 package enterdialog;
 
+import admin.team.AddUserDialog;
+import admin.team.TeamTable;
 import calendar.GeneralTechnicalReview;
 import exceptions.ErrorDialog;
 import exceptions.InOutException;
@@ -13,6 +15,7 @@ import models.LoginRes;
 import models.User;
 import net.GetCurrentIP;
 import run.DeleteFiles;
+import run.JDialoger;
 import run.JustFrame;
 import utils.LoadIcon;
 import utils.MainPanel;
@@ -99,6 +102,33 @@ public class PasswordDialog extends MainPanel {
 		gbc5.insets = new Insets(2, 5, 2, 5);
 
 		basePanel.add(button, gbc5);
+
+		GridBagConstraints gbc6 = new GridBagConstraints();
+		gbc6.gridx = 2;
+		gbc6.gridy = 0;
+		gbc6.insets = new Insets(2,5,2,5);
+
+
+		TooltipButton createUserButton = new TooltipButton();// (setIcons(enterImage));
+		createUserButton.setToolTipText(getHTML_Text("Регистрирай нов потребител"));
+		createUserButton.setPreferredSize(new Dimension((int) (field.getPreferredSize()
+				.getWidth() * 0.1),
+				(int) (field.getPreferredSize().getHeight())));
+
+		createUserButton.setAutoSizedIcon(createUserButton, new LoadIcon().setIcons(clientsImage));
+        createUserButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				AddUserDialog addUser = new AddUserDialog();
+				final JDialoger jDialog = new JDialoger();
+				jDialog.setContentPane(addUser);
+				jDialog.setTitle("Добави нов потребител");
+				jDialog.setResizable(false);
+				jDialog.Show();
+			}
+		});
+		basePanel.add(createUserButton,gbc6);
+
 
 		button.addActionListener(new ActionListener() {
 

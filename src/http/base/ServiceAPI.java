@@ -12,6 +12,9 @@ public class ServiceAPI {
 
     private Retrofit retrofit;
 
+    private final String testUrl = "http://localhost:1526";
+    private final String prodUrl = "http://78.142.42.215:1526";
+
     public Retrofit getRetrofit(){
         if(retrofit == null) {
 
@@ -25,7 +28,7 @@ public class ServiceAPI {
 
             OkHttpClient okHttpClient = builder.build();
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://78.142.42.215:1526")
+                    .baseUrl(testUrl)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
