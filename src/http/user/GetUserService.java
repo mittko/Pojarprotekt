@@ -82,7 +82,7 @@ public class GetUserService extends ServiceAPI {
     }
 
     public void createUser(User user, RequestCallback2 callback) {
-        getService().createUser(user,ACCESS_TOKEN).enqueue(new Callback<Integer>() {
+        getService().createUser(user).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
                 if(response.isSuccessful()) {

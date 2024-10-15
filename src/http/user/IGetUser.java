@@ -21,7 +21,7 @@ public interface IGetUser {
     Call<List<User>> getUsers(@Header("Authorization") String accessToken);
 
     @POST("/create_user")
-    Call<Integer> createUser(@Body User user,@Header("Authorization") String accessToken);
+    Call<Integer> createUser(@Body User user);
 
     @DELETE("/delete_user/{user}")
     Call<Integer> deleteUser(@Path("user") String user,@Header("Authorization") String accessToken);
