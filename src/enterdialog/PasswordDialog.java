@@ -281,79 +281,7 @@ public class PasswordDialog extends MainPanel {
 
 			}
 		});
-//				userService.getUser(field.getText(), new RequestCallback2() {
-//					@Override
-//					public <T> void callback(T t) {
-//
-//						frame.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-//
-//						User user = (User) t;
-//
-//						if (!field.getText().equals(user.getUsser())) {
-//							ErrorDialog.showErrorMessage("Грешно потребителско име!");
-//							return;
-//						} else {
-//							String password = new String(
-//									enterPassword.getPassword());
-//							if (!password.equals(user.getPassword())) {
-//								ErrorDialog.showErrorMessage("Грешно въведена парола!");
-//								return;
-//							}
-//						}
-//
-//						frame.dispose();
-//
-//
-//						// variable init
-//						personName = user.getUsser();
-//
-//						ACCESS_MENU[0] = user.getService_Order().equals("yes");
-//						ACCESS_MENU[1] = user.getWorking_Book().equals("yes");
-//						ACCESS_MENU[2] = user.getInvoice().equals("yes");
-//						ACCESS_MENU[3] = user.getReports().equals("yes");
-//						ACCESS_MENU[4] = user.getNew_Ext().equals("yes");
-//						ACCESS_MENU[5] = user.getHidden_Menu().equals("yes");
-//						ACCESS_MENU[6] = user.getAcquittance().equals("yes");
-//
-//						tr = new GeneralTechnicalReview();
-//						enterFrame = new JustFrame();
-//						enterFrame.setResizable(false);
-//						enterFrame.setFrameLocationOnTheCenter();
-//						enterFrame.addWindowListener(new WindowAdapter() {
-//							@Override
-//							public void windowClosing(WindowEvent we) {
-//								int yes_no = JOptionPane.showOptionDialog(
-//										null, "Изход", "ПОЖАРПРОТЕКТ",
-//										JOptionPane.YES_NO_OPTION,
-//										JOptionPane.QUESTION_MESSAGE, null,
-//										new String[] { "Да", "Не" }, // this
-//										// is
-//										// the
-//										// array
-//										"default");
-//
-//								if (yes_no == 0) {
-//
-//									DeleteFiles df = new DeleteFiles();
-//									df.removeTmpFile();
-//
-//									enterFrame
-//											.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//								} else {
-//									enterFrame
-//											.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-//								}
-//							}
-//						});
-//						enterFrame.add(tr);
-//						enterFrame.setSize(tr.WIDTH, tr.HEIGHT - 50);
-//						enterFrame.pack();
-//						tr.loadData();
-//
-//						loadSallerData();
-//					}
-//				});
+
 
 
 	}
@@ -366,17 +294,17 @@ public class PasswordDialog extends MainPanel {
 			public <T> void callback(T t) {
 				Firm firm = (Firm) t;
 				if(firm != null) {
-					SALLER_NAME = firm.getFirm();
-					SALLER_CITY = firm.getCity();
-					SALLER_ADDRESS = firm.getAddress();
-					SALLER_EIK = firm.getEik();
-					SALLER_MOL = firm.getMol();
-					SALLER_E_MAIL = firm.getEmail();
-					SALLER_PERSON_CONTACT = firm.getPerson();
-					SALLER_PERSON_TELEFON = firm.getTelPerson();
-					SALLER_BANK = firm.getBank();
-					SALLER_BIC = firm.getBic();
-					SALLER_IBAN = firm.getIban();
+					SALLER_NAME = firm.getFirm() != null ? firm.getFirm() : "";
+					SALLER_CITY = firm.getCity() != null ? firm.getCity() : "";
+					SALLER_ADDRESS = firm.getAddress() != null ? firm.getAddress() : "";
+					SALLER_EIK = firm.getEik() != null ? firm.getEik() : "";
+					SALLER_MOL = firm.getMol() != null ? firm.getMol() : "";
+					SALLER_E_MAIL = firm.getEmail() != null ? firm.getEmail() : "";
+					SALLER_PERSON_CONTACT = firm.getPerson() != null ? firm.getPerson() : "";
+					SALLER_PERSON_TELEFON = firm.getTelPerson() != null ? firm.getTelPerson() : "";
+					SALLER_BANK = firm.getBank() != null ? firm.getBank() : "";
+					SALLER_BIC = firm.getBic() != null ? firm.getBic() : "";
+					SALLER_IBAN = firm.getIban() != null ? firm.getIban() : "";
 				}
 			}
 		});

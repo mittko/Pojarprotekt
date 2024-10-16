@@ -231,12 +231,12 @@ public class ProtokolSearchWorker {
 				}
 				if (!mapInfo.containsKey(key)) {
 
-					if (price != 0) {
+				//	if (price != 0) {
 						Info info = new Info(parts[p], "брой", 1, MyMath.round(
 								price, 2), doubleDiscount,
 								kontragent, invoiceByKontragent);
 						mapInfo.put(key, info);
-					}
+				//	}
 				} else {
 					Info info2 = mapInfo.get(key);
 					info2.myarka = "броя";

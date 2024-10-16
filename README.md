@@ -10,7 +10,14 @@ itext-pdfa-5.5.1.jar / used to create pdf documents / \
 itext-xtra-5.5.1.jar  / used to create pdf documents / \
 itextpdf-5.5.1.jar  / used to create pdf documents / \
 jxl.jar / used to create and load xls data sheet / \
-pdf-renderer-1.0.5.jar / used to render pdf documents / 
+pdf-renderer-1.0.5.jar / used to render pdf documents /
+
+// dependence needed for http request (retrofit)
+converter-gson-2.9.0.jar
+gson-2.8.5.jar
+okhttp-3.14.9.jar
+okio-1.17.2.jar
+retrofit-2.9.0.jar
 
 located in the root folder on the projects, for
 use of runnable jar file (to create runnable jar file click Build->Build Artifacts->Rebuild)
@@ -18,6 +25,7 @@ and from Project Settings select Artifacts and choose Output directory where wil
 
 And imported from IDE -> Files -> Project Setting -> Libraries -> click on the plus button 
 and added to project, to use from Intelij project.
+
 
 to start network derby database set derby *.jar files to CLASSPATH on your computer
 Right Click on Computer , click Properties , click Advanced System Settings , click Environment Variables , 
