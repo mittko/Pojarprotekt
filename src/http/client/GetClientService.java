@@ -25,12 +25,14 @@ public class GetClientService extends ServiceAPI {
                 if(response.isSuccessful()) {
                     requestCallback2.callback(response.body());
                 } else {
+                    requestCallback2.callback(null);
                     ErrorDialog.showHttpError(response);
                 }
             }
 
             @Override
             public void onFailure(Call<Firm> call, Throwable throwable) {
+                   requestCallback2.callback(null);
                    ErrorDialog.showErrorMessage(throwable.getMessage());
             }
         });

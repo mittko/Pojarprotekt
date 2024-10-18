@@ -28,7 +28,7 @@ public class ServiceAPI {
 
             OkHttpClient okHttpClient = builder.build();
             retrofit = new Retrofit.Builder()
-                    .baseUrl(testUrl)
+                    .baseUrl(prodUrl)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
